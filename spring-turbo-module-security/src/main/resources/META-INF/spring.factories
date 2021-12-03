@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    spring.turbo.module.security.SpringBootAutoConfiguration
+org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
+    spring.turbo.module.security.HttpSecurityDSL
