@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
+import spring.turbo.bean.Payload;
 import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.func.RowPredicate;
 import spring.turbo.module.excel.func.RowPredicateFactories;
@@ -48,8 +49,11 @@ public final class ExcelWalker {
     }
 
     public void walk() {
+        final Payload payload = Payload.newInstance();
+
         InputStream inputStream = null;
         Workbook wb = null;
+
         try {
             inputStream = resource.getInputStream();
 
@@ -66,9 +70,10 @@ public final class ExcelWalker {
 
             for (Sheet sheet : wb) {
                 if (sheetPredicate.test(sheet)) {
+                    interceptor.onSheet(wb, sheet, payload);
                     for (Row row : sheet) {
                         if (rowPredicate.test(sheet, row)) {
-                            interceptor.onRow(wb, sheet, row);
+                            interceptor.onRow(wb, sheet, row, payload);
                         }
                     }
                 }
@@ -96,7 +101,7 @@ public final class ExcelWalker {
         private ExcelType type = ExcelType.XSSF;
         private SheetPredicate sheetPredicate = SheetPredicateFactories.alwaysTrue();
         private RowPredicate rowPredicate = RowPredicateFactories.alwaysTrue();
-        private ExcelWalkerInterceptor interceptor = NullExcelWalkerInterceptor.getInstance();
+        private ExcelWalkerInterceptor interceptor = ExcelWalkerInterceptor.getDefault();
 
         private Builder() {
             super();

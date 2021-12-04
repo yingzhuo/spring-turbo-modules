@@ -6,28 +6,4 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel;
-
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import spring.turbo.bean.Payload;
-
-/**
- * @author 应卓
- * @since 1.0.0
- */
-public interface ExcelWalkerInterceptor {
-
-    public static ExcelWalkerInterceptor getDefault() {
-        return new ExcelWalkerInterceptor() {
-        };
-    }
-
-    public default void onSheet(Workbook workbook, Sheet sheet, Payload payload) {
-    }
-
-    public default void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
-    }
-
-}
+package spring.turbo.module.excel.reader;
