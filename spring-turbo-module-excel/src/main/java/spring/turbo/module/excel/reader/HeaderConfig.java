@@ -10,6 +10,7 @@ package spring.turbo.module.excel.reader;
 
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
+import spring.turbo.lang.Mutable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
+@Mutable
 public final class HeaderConfig implements Serializable {
 
     private final List<Pair<String, Integer>> sheetNameConfig = new ArrayList<>();
@@ -27,12 +29,12 @@ public final class HeaderConfig implements Serializable {
     private final List<Tuple<String, Integer, String[]>> sheetNameFixedHeader = new ArrayList<>();
     private final List<Tuple<Integer, Integer, String[]>> sheetIndexFixedHeader = new ArrayList<>();
 
-    public static HeaderConfig newInstance() {
-        return new HeaderConfig();
-    }
-
     private HeaderConfig() {
         super();
+    }
+
+    public static HeaderConfig newInstance() {
+        return new HeaderConfig();
     }
 
     public HeaderConfig bySheetName(String sheetName, int rowIndex) {

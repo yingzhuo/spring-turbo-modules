@@ -11,9 +11,11 @@ package spring.turbo.module.excel.func;
 import org.apache.poi.ss.usermodel.Sheet;
 import spring.turbo.util.Asserts;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author 应卓
@@ -47,25 +49,18 @@ public final class SheetPredicateFactories {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public static SheetPredicate ofName(final String sheetName) {
-        Asserts.hasText(sheetName);
-        return sheet -> {
-            try {
-                return sheetName.equals(sheet.getSheetName());
-            } catch (Exception e) {
-                return false;
-            }
-        };
+    public static SheetPredicate ofName(final String... sheetNames) {
+        Asserts.notEmpty(sheetNames);
+        Asserts.noNullElements(sheetNames);
+        return sheet -> Stream.of(sheetNames).anyMatch(name -> sheet.getSheetName().equals(name));
     }
 
-    public static SheetPredicate ofIndex(final int index) {
-        Asserts.isTrue(index >= 0);
+    public static SheetPredicate ofIndex(final Integer... indexes) {
+        Asserts.notEmpty(indexes);
+        Asserts.noNullElements(indexes);
         return sheet -> {
-            try {
-                return sheet.getWorkbook().getSheetAt(index).equals(sheet);
-            } catch (Exception e) {
-                return false;
-            }
+            int i = sheet.getWorkbook().getSheetIndex(sheet);
+            return Arrays.asList(indexes).contains(i);
         };
     }
 

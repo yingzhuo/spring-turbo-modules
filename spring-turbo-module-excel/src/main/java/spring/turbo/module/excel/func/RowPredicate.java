@@ -18,6 +18,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 @FunctionalInterface
 public interface RowPredicate {
 
-    public boolean test(Sheet sheet, Row cells);
+    public boolean test(Sheet sheet, Row row);
 
 }

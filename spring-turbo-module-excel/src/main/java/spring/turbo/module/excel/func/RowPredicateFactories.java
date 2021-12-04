@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import spring.turbo.util.Asserts;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,17 +35,25 @@ public final class RowPredicateFactories {
         return (sheet, cells) -> false;
     }
 
-    public static RowPredicate any(RowPredicate... predicates) {
+    public static RowPredicate any(final RowPredicate... predicates) {
         Asserts.notEmpty(predicates);
         Asserts.noNullElements(predicates);
         return new Any(predicates);
     }
 
-    public static RowPredicate all(RowPredicate... predicates) {
+    public static RowPredicate all(final RowPredicate... predicates) {
         Asserts.notEmpty(predicates);
         Asserts.noNullElements(predicates);
         return new All(predicates);
     }
+
+    public static RowPredicate ofIndex(final Integer... indexes) {
+        Asserts.notEmpty(indexes);
+        Asserts.noNullElements(indexes);
+        return (sheet, row) -> Arrays.asList(indexes).contains(row.getRowNum());
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     private static class Any implements RowPredicate {
 
