@@ -19,12 +19,11 @@ import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
 import spring.turbo.module.excel.ExcelWalkerInterceptor;
 import spring.turbo.module.excel.TextParser;
+import spring.turbo.module.excel.func.RowPredicate;
+import spring.turbo.module.excel.func.RowPredicateFactories;
 import spring.turbo.util.Asserts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author 应卓
@@ -36,6 +35,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
     private final AliasConfig aliasConfig;
     private final TextParser textParser;
     private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
+    private RowPredicate excludeRowPredicate = RowPredicateFactories.alwaysFalse();
 
     public AbstractReadingExcelWalkerInterceptor(@NonNull HeaderConfig headerConfig) {
         this(headerConfig, null);
@@ -168,6 +168,10 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
 
     @Override
     public final void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
+        if (excludeRowPredicate.test(sheet, row)) {
+            return;
+        }
+
         String sheetName = sheet.getSheetName();
         int rowIndex = row.getRowNum();
 
@@ -195,6 +199,10 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
             data.add(textParser.toString(cell));
         }
         return data.toArray(new String[0]);
+    }
+
+    public void setExcludeRowPredicate(RowPredicate excludeRowPredicate) {
+        this.excludeRowPredicate = Optional.ofNullable(excludeRowPredicate).orElse(RowPredicateFactories.alwaysFalse());
     }
 
 }
