@@ -68,6 +68,8 @@ public final class ExcelWalker {
                     throw new AssertionError();
             }
 
+            interceptor.onWorkbook(wb, payload);
+
             for (Sheet sheet : wb) {
                 if (sheetPredicate.test(sheet)) {
                     interceptor.onSheet(wb, sheet, payload);

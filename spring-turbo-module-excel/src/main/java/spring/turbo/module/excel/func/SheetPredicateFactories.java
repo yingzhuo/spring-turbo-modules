@@ -45,6 +45,32 @@ public final class SheetPredicateFactories {
         return new All(predicates);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public static SheetPredicate ofName(final String sheetName) {
+        Asserts.hasText(sheetName);
+        return sheet -> {
+            try {
+                return sheetName.equals(sheet.getSheetName());
+            } catch (Exception e) {
+                return false;
+            }
+        };
+    }
+
+    public static SheetPredicate ofIndex(final int index) {
+        Asserts.isTrue(index >= 0);
+        return sheet -> {
+            try {
+                return sheet.getWorkbook().getSheetAt(index).equals(sheet);
+            } catch (Exception e) {
+                return false;
+            }
+        };
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     private static class Any implements SheetPredicate {
 
         private final List<SheetPredicate> predicates = new LinkedList<>();

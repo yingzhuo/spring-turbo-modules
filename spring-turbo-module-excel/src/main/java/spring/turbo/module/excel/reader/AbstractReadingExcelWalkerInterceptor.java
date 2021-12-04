@@ -14,7 +14,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import spring.turbo.bean.Pair;
 import spring.turbo.bean.Payload;
 import spring.turbo.module.excel.ExcelWalkerInterceptor;
 import spring.turbo.module.excel.TextParser;
@@ -22,7 +21,6 @@ import spring.turbo.util.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -31,82 +29,54 @@ import java.util.Optional;
  */
 public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalkerInterceptor {
 
-    private final Headers headers;
+    private final HeaderConfig headerConfig;
     private final TextParser textParser;
 
-    public AbstractReadingExcelWalkerInterceptor(Headers headers) {
-        this(headers, null);
+    public AbstractReadingExcelWalkerInterceptor(HeaderConfig headerConfig) {
+        this(headerConfig, null);
     }
 
-    public AbstractReadingExcelWalkerInterceptor(@NonNull Headers headers, @Nullable TextParser textParser) {
-        Asserts.notNull(headers);
-        this.headers = headers;
+    public AbstractReadingExcelWalkerInterceptor(@NonNull HeaderConfig headerConfig, @Nullable TextParser textParser) {
+        Asserts.notNull(headerConfig);
+        this.headerConfig = headerConfig;
         this.textParser = textParser != null ? textParser : TextParser.getDefault();
     }
 
     @Override
-    public final void onSheet(Workbook workbook, Sheet sheet, Payload payload) {
-        if (headers.isEmpty()) {
-            return;
-        }
-
-        Map<String, Pair<Integer, String[]>> table = headers.getConfigTable();
-        for (String name : table.keySet()) {
-            if (sheet.getSheetName().equals(name)) {
-                Pair<Integer, String[]> pair = table.get(name);
-                Optional<String[]> headerOption = getHeader(sheet, pair.getA());
-                if (headerOption.isPresent()) {
-                    Pair<Integer, String[]> newPair = Pair.of(pair.getA(), headerOption.get());
-                    table.put(name, newPair);
-                } else {
-                    String msg = String.format("cannot parse header for sheet %s", name);
-                    throw new IllegalArgumentException(msg);
-                }
-                break;
-            }
-        }
-
-        doOnSheet(workbook, sheet, payload);
+    public final void onWorkbook(Workbook workbook, Payload payload) {
+        headerConfig.initialize(workbook, textParser);
+        this.doOnWorkbook(workbook, payload);
     }
 
-    protected void doOnSheet(Workbook workbook, Sheet sheet, Payload payload) {
-        // 可以被覆盖
+    protected void doOnWorkbook(Workbook workbook, Payload payload) {
+        // Noop
     }
 
     @Override
     public final void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
-        if (headers.isEmpty()) {
+        if (headerConfig.isEmpty()) {
             return;
         }
+
         final String currentSheetName = sheet.getSheetName();
         final int currentRowIndex = row.getRowNum();
 
-        Map<String, Pair<Integer, String[]>> table = headers.getConfigTable();
-        String[] header = table.get(currentSheetName).getB();
-        if (!table.containsKey(currentSheetName)) {
+        if (!headerConfig.isContent(currentSheetName, currentRowIndex)) {
             return;
         }
 
-        if (currentRowIndex <= table.get(currentSheetName).getA()) {
-            return;
-        }
-
+        String[] header = headerConfig.getHeader(currentSheetName);
         String[] data = getRowData(row, header).orElse(null);
+
+        if (data == null) {
+            return;
+        }
 
         doOnRow(currentSheetName, currentRowIndex, header, data);
     }
 
     protected void doOnRow(String sheetName, int rowIndex, String[] header, String[] rowData) {
         // 可以被覆盖
-    }
-
-    private Optional<String[]> getHeader(Sheet sheet, int rowNumber) {
-        Row row = sheet.getRow(rowNumber);
-        List<String> header = new ArrayList<>();
-        for (Cell cell : row) {
-            header.add(textParser.toString(cell));
-        }
-        return Optional.of(header.toArray(new String[0]));
     }
 
     private Optional<String[]> getRowData(Row row, String[] header) {

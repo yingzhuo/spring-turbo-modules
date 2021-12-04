@@ -24,10 +24,16 @@ public interface ExcelWalkerInterceptor {
         };
     }
 
+    public default void onWorkbook(Workbook workbook, Payload payload) {
+        // Noop
+    }
+
     public default void onSheet(Workbook workbook, Sheet sheet, Payload payload) {
+        // Noop
     }
 
     public default void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
+        // Noop
     }
 
 }
