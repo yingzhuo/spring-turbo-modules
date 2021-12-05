@@ -18,22 +18,22 @@ import java.text.SimpleDateFormat;
  * @author 应卓
  * @since 1.0.0
  */
-public class DefaultTextParser implements TextParser {
+public class DefaultCellParser implements CellParser {
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
     private final DateFormat dateFormat;
 
-    public DefaultTextParser() {
+    public DefaultCellParser() {
         this(DEFAULT_DATE_FORMAT_PATTERN);
     }
 
-    public DefaultTextParser(String dateFormatPattern) {
+    public DefaultCellParser(String dateFormatPattern) {
         this.dateFormat = new SimpleDateFormat(dateFormatPattern);
     }
 
     @Override
-    public String toString(Cell cell) {
+    public String convert(Cell cell) {
         if (cell == null) {
             return null;
         }

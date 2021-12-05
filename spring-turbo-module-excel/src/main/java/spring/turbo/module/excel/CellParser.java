@@ -9,18 +9,18 @@
 package spring.turbo.module.excel;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.lang.Nullable;
 
 /**
+ * 从cell中解析出文本
+ *
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface TextParser {
+public interface CellParser {
 
-    public static TextParser getDefault() {
-        return new DefaultTextParser();
-    }
-
-    public String toString(Cell cell);
+    @Nullable
+    public String convert(@Nullable Cell cell);
 
 }

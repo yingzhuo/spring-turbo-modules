@@ -15,8 +15,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
+import spring.turbo.module.excel.CellParser;
+import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelWalkerInterceptor;
-import spring.turbo.module.excel.TextParser;
 import spring.turbo.module.excel.func.RowPredicate;
 import spring.turbo.module.excel.func.RowPredicateFactories;
 import spring.turbo.util.Asserts;
@@ -33,10 +34,10 @@ import java.util.Map;
 public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalkerInterceptor {
 
     private final HeaderConfig headerConfig;
-    private AliasConfig aliasConfig = AliasConfig.newInstance();
-    private TextParser textParser = TextParser.getDefault();
-    private RowPredicate excludeRowPredicate = RowPredicateFactories.alwaysFalse();
     private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
+    private AliasConfig aliasConfig = AliasConfig.newInstance();
+    private CellParser cellParser = new DefaultCellParser();
+    private RowPredicate excludeRowPredicate = RowPredicateFactories.alwaysFalse();
 
     public AbstractReadingExcelWalkerInterceptor(HeaderConfig headerConfig) {
         Asserts.notNull(headerConfig);
@@ -102,7 +103,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
                     int firstCellNum = row.getFirstCellNum();
                     final List<String> data = new ArrayList<>();
                     for (Cell cell : row) {
-                        data.add(textParser.toString(cell));
+                        data.add(cellParser.convert(cell));
                     }
                     HeaderInfo headerInfo = new HeaderInfo();
                     headerInfo.setSheetName(sheet.getSheetName());
@@ -126,7 +127,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
                     int firstCellNum = row.getFirstCellNum();
                     final List<String> data = new ArrayList<>();
                     for (Cell cell : row) {
-                        data.add(textParser.toString(cell));
+                        data.add(cellParser.convert(cell));
                     }
                     HeaderInfo headerInfo = new HeaderInfo();
                     headerInfo.setSheetName(sheetName);
@@ -187,7 +188,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         List<String> data = new ArrayList<>();
         for (int i = firstCellIndex; i < headerSize + firstCellIndex; i++) {
             Cell cell = row.getCell(i);
-            data.add(textParser.toString(cell));
+            data.add(cellParser.convert(cell));
         }
         return data.toArray(new String[0]);
     }
@@ -197,9 +198,9 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         this.aliasConfig = aliasConfig;
     }
 
-    public void setTextParser(TextParser textParser) {
-        Asserts.notNull(textParser);
-        this.textParser = textParser;
+    public void setCellParser(CellParser cellParser) {
+        Asserts.notNull(cellParser);
+        this.cellParser = cellParser;
     }
 
     public void setExcludeRowPredicate(RowPredicate excludeRowPredicate) {

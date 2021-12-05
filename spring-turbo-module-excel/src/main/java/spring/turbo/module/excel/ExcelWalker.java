@@ -15,7 +15,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
 import spring.turbo.bean.Payload;
-import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.func.RowPredicate;
 import spring.turbo.module.excel.func.RowPredicateFactories;
 import spring.turbo.module.excel.func.SheetPredicate;
@@ -31,7 +30,6 @@ import java.io.UncheckedIOException;
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
 public final class ExcelWalker {
 
     private Resource resource;
