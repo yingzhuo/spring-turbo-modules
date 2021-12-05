@@ -10,8 +10,6 @@ package spring.turbo.module.excel;
 
 import org.apache.poi.ss.usermodel.Cell;
 
-import java.util.Optional;
-
 /**
  * @author 应卓
  * @since 1.0.0
@@ -20,7 +18,7 @@ import java.util.Optional;
 public interface TextParser {
 
     public static TextParser getDefault() {
-        return c -> Optional.ofNullable(c).map(Object::toString).orElse(null);
+        return new DefaultTextParser();
     }
 
     public String toString(Cell cell);

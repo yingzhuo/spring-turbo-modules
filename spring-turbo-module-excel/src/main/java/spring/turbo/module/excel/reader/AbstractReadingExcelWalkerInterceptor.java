@@ -12,8 +12,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
@@ -23,7 +21,10 @@ import spring.turbo.module.excel.func.RowPredicate;
 import spring.turbo.module.excel.func.RowPredicateFactories;
 import spring.turbo.util.Asserts;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 应卓
@@ -32,24 +33,14 @@ import java.util.*;
 public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalkerInterceptor {
 
     private final HeaderConfig headerConfig;
-    private final AliasConfig aliasConfig;
-    private final TextParser textParser;
-    private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
+    private AliasConfig aliasConfig = AliasConfig.newInstance();
+    private TextParser textParser = TextParser.getDefault();
     private RowPredicate excludeRowPredicate = RowPredicateFactories.alwaysFalse();
+    private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
 
-    public AbstractReadingExcelWalkerInterceptor(@NonNull HeaderConfig headerConfig) {
-        this(headerConfig, null);
-    }
-
-    public AbstractReadingExcelWalkerInterceptor(@NonNull HeaderConfig headerConfig, @Nullable AliasConfig aliasConfig) {
-        this(headerConfig, aliasConfig, null);
-    }
-
-    public AbstractReadingExcelWalkerInterceptor(@NonNull HeaderConfig headerConfig, @Nullable AliasConfig aliasConfig, @Nullable TextParser textParser) {
+    public AbstractReadingExcelWalkerInterceptor(HeaderConfig headerConfig) {
         Asserts.notNull(headerConfig);
         this.headerConfig = headerConfig;
-        this.aliasConfig = aliasConfig;
-        this.textParser = textParser != null ? textParser : TextParser.getDefault();
     }
 
     @Override
@@ -201,8 +192,19 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         return data.toArray(new String[0]);
     }
 
+    public void setAliasConfig(AliasConfig aliasConfig) {
+        Asserts.notNull(aliasConfig);
+        this.aliasConfig = aliasConfig;
+    }
+
+    public void setTextParser(TextParser textParser) {
+        Asserts.notNull(textParser);
+        this.textParser = textParser;
+    }
+
     public void setExcludeRowPredicate(RowPredicate excludeRowPredicate) {
-        this.excludeRowPredicate = Optional.ofNullable(excludeRowPredicate).orElse(RowPredicateFactories.alwaysFalse());
+        Asserts.notNull(excludeRowPredicate);
+        this.excludeRowPredicate = excludeRowPredicate;
     }
 
 }
