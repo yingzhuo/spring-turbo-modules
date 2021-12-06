@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.captcha.google.background;
 
-
 import spring.turbo.module.captcha.google.color.ColorFactory;
 import spring.turbo.module.captcha.google.color.SingleColorFactory;
 

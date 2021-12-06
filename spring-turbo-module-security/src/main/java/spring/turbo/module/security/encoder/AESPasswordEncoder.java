@@ -10,6 +10,7 @@ package spring.turbo.module.security.encoder;
 
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.AES;
 
 import java.util.Objects;
@@ -25,10 +26,13 @@ public class AESPasswordEncoder implements PasswordEncoder {
     private final AES aes;
 
     public AESPasswordEncoder(@NonNull AES aes) {
+        Asserts.notNull(aes);
         this.aes = aes;
     }
 
     public AESPasswordEncoder(@NonNull String password, @NonNull String salt) {
+        Asserts.hasText(password);
+        Asserts.hasText(salt);
         this.aes = AES.builder()
                 .passwordAndSalt(password, salt)
                 .build();

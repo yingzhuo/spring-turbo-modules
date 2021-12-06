@@ -13,9 +13,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.util.Assert;
 import spring.turbo.io.ResourceOption;
 import spring.turbo.io.ResourceOptions;
+import spring.turbo.util.Asserts;
 
 import java.nio.charset.Charset;
 
@@ -46,6 +46,11 @@ public class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, Ini
         return RoleHierarchy.class;
     }
 
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+
     public void setText(Resource textResource) {
         this.text = ResourceOptions.builder()
                 .add(textResource)
@@ -58,8 +63,8 @@ public class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, Ini
 
     @Override
     public void afterPropertiesSet() {
-        Assert.state(text != null && text.isPresent(), "text not set or not exists");
-        Assert.state(charset != null, "charset not set");
+        Asserts.state(text != null && text.isPresent());
+        Asserts.state(charset != null);
     }
 
 }

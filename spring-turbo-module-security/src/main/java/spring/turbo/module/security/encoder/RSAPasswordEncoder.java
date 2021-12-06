@@ -9,7 +9,7 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.Assert;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.RSA;
 
 import java.util.Objects;
@@ -23,7 +23,7 @@ public class RSAPasswordEncoder implements PasswordEncoder {
     private final RSA rsa;
 
     public RSAPasswordEncoder(RSA rsa) {
-        Assert.notNull(rsa, "rsa is null");
+        Asserts.notNull(rsa);
         this.rsa = rsa;
     }
 

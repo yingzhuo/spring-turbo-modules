@@ -42,4 +42,3 @@ public abstract class AbstractTransformImageOp extends AbstractImageOp {
     }
 
 }
-
