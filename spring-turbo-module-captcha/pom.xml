@@ -18,10 +18,16 @@
             <artifactId>spring-turbo</artifactId>
         </dependency>
 
+        <!-- spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- springframework -->
@@ -43,13 +49,6 @@
             <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- lombok (for test) -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
 </project>

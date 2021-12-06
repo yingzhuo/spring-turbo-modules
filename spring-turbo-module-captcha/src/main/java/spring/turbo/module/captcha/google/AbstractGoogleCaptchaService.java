@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.captcha.google;
 
+import spring.turbo.module.captcha.Captcha;
 import spring.turbo.module.captcha.CaptchaService;
 import spring.turbo.module.captcha.google.background.BackgroundFactory;
 import spring.turbo.module.captcha.google.color.ColorFactory;
@@ -99,12 +100,13 @@ public abstract class AbstractGoogleCaptchaService implements CaptchaService {
     }
 
     @Override
-    public BufferedImage getCaptcha() {
+    public Captcha create() {
         BufferedImage bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         backgroundFactory.fillBackground(bufImage);
         String word = wordFactory.getNextWord();
         textRenderer.draw(word, bufImage, fontFactory, colorFactory);
-        return filterFactory.apply(bufImage);
+        BufferedImage image = filterFactory.apply(bufImage);
+        return new Captcha(word, image);
     }
 
 }
