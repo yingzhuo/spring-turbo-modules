@@ -9,17 +9,18 @@
 package spring.turbo.module.captcha.intergration;
 
 import spring.turbo.integration.ModuleNameProvider;
-import spring.turbo.integration.Modules;
+
+import static spring.turbo.integration.Modules.SPRING_TURBO_CAPTCHA;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public class ModuleNameProviderImpl implements ModuleNameProvider {
+public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return Modules.SPRING_TURBO_CAPTCHA.getModuleName();
+        return SPRING_TURBO_CAPTCHA.getName();
     }
 
 }

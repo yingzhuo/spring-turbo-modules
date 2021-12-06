@@ -20,7 +20,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_WEBMVC.getModuleName();
+        return SPRING_TURBO_WEBMVC.getName();
     }
 
 }

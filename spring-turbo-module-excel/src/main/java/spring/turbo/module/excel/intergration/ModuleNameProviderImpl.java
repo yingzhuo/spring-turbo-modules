@@ -9,7 +9,8 @@
 package spring.turbo.module.excel.intergration;
 
 import spring.turbo.integration.ModuleNameProvider;
-import spring.turbo.integration.Modules;
+
+import static spring.turbo.integration.Modules.SPRING_TURBO_EXCEL;
 
 /**
  * @author 应卓
@@ -19,7 +20,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return Modules.SPRING_TURBO_EXCEL.getModuleName();
+        return SPRING_TURBO_EXCEL.getName();
     }
 
 }

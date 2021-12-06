@@ -20,7 +20,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_SECURITY_JWT.getModuleName();
+        return SPRING_TURBO_SECURITY_JWT.getName();
     }
 
 }
