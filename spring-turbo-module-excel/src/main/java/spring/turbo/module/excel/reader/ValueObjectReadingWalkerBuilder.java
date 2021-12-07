@@ -46,6 +46,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private final AliasConfig aliasConfig = AliasConfig.newInstance();
     private ConversionService conversionService;
     private CellParser cellParser = new DefaultCellParser();
+    private boolean skipAllNullData = true;
     private Consumer<Context<T>> onSuccessConsumer = t -> {
     };
     private Consumer<Context<T>> onErrorConsumer = t -> {
@@ -207,6 +208,11 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
+    public ValueObjectReadingWalkerBuilder<T> skipAllNullData(boolean skipAllNullData) {
+        this.skipAllNullData = skipAllNullData;
+        return this;
+    }
+
     public ExcelWalker build(ExcelType type, Resource excel) {
         Asserts.notNull(type);
         Asserts.notNull(excel);
@@ -221,12 +227,25 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                 }
             }
 
+            private boolean allNull(String[] array) {
+                if (array == null) return true;
+                for (String x : array) {
+                    if (x != null) return false;
+                }
+                return true;
+            }
+
             @Override
             protected void doOnRow(Workbook workbook, Sheet sheet, Row row, Payload payload, String[] header, String[] rowData) {
-
                 T vo = valueObjectSupplier.get();
-                if (vo == null) return;
 
+                if (vo == null) {
+                    return;
+                }
+
+                if (skipAllNullData && allNull(rowData)) {
+                    return;
+                }
 
                 final DataBinding dataBinding = DataBinding.<T>newInstance()
                         .valueObject(vo)
