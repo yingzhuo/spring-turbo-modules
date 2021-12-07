@@ -11,8 +11,6 @@ package spring.turbo.module.security.user;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
-import spring.turbo.util.crypto.Keys;
-import spring.turbo.util.crypto.PasswordAndSalt;
 
 import java.util.Collection;
 import java.util.Date;
@@ -36,8 +34,6 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
     private final String phoneNumber;
     private final Date dateOfBirth;
     private final String bioInfo;
-    private final PasswordAndSalt cryptoPasswordAndSalt;
-    private final Keys cryptoKeyPair;
     private final Attributes attributes;
 
     UserDetailsPlusImpl(UserDetails delegate,
@@ -50,8 +46,6 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
                         String phoneNumber,
                         Date dateOfBirth,
                         String bioInfo,
-                        PasswordAndSalt cryptoPasswordAndSalt,
-                        Keys cryptoKeyPair,
                         Attributes attributes) {
         this.delegate = Objects.requireNonNull(delegate);
         this.id = id;
@@ -63,8 +57,6 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.bioInfo = bioInfo;
-        this.cryptoPasswordAndSalt = cryptoPasswordAndSalt;
-        this.cryptoKeyPair = cryptoKeyPair;
         this.attributes = Optional.ofNullable(attributes).orElse(Attributes.newInstance());
     }
 
@@ -151,16 +143,6 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
     @Override
     public boolean isEnabled() {
         return delegate.isEnabled();
-    }
-
-    @Override
-    public PasswordAndSalt getCryptoPasswordAndSalt() {
-        return cryptoPasswordAndSalt;
-    }
-
-    @Override
-    public <T extends Keys> T getCryptoKeyPair() {
-        return (T) cryptoKeyPair;
     }
 
 }

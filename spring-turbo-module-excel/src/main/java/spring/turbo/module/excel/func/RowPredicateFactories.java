@@ -12,10 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import spring.turbo.util.Asserts;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 应卓
@@ -35,6 +32,29 @@ public final class RowPredicateFactories {
         return (sheet, cells) -> false;
     }
 
+    public static RowPredicate not(final RowPredicate p) {
+        Asserts.notNull(p);
+        return (sheet, row) -> !p.test(sheet, row);
+    }
+
+    public static RowPredicate or(final RowPredicate p1, final RowPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return any(p1, p2);
+    }
+
+    public static RowPredicate and(final RowPredicate p1, final RowPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return all(p1, p2);
+    }
+
+    public static RowPredicate xor(final RowPredicate p1, final RowPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return (sheet, row) -> p1.test(sheet, row) ^ p2.test(sheet, row);
+    }
+
     public static RowPredicate any(final RowPredicate... predicates) {
         Asserts.notEmpty(predicates);
         Asserts.noNullElements(predicates);
@@ -47,10 +67,40 @@ public final class RowPredicateFactories {
         return new All(predicates);
     }
 
-    public static RowPredicate ofIndex(final Integer... indexes) {
-        Asserts.notEmpty(indexes);
+    public static RowPredicate indexInSet(final String sheetName, Integer... indexes) {
+        Asserts.hasText(sheetName);
+        Asserts.notNull(indexes);
         Asserts.noNullElements(indexes);
-        return (sheet, row) -> Arrays.asList(indexes).contains(row.getRowNum());
+
+        final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
+        return (sheet, row) -> sheetName.equals(sheet.getSheetName()) && set.contains(row.getRowNum());
+    }
+
+    public static RowPredicate indexInSet(final int sheetIndex, Integer... indexes) {
+        Asserts.isTrue(sheetIndex >= 0);
+        Asserts.notNull(indexes);
+        Asserts.noNullElements(indexes);
+
+        final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
+        return (sheet, row) -> sheetIndex == sheet.getWorkbook().getSheetIndex(sheet) && set.contains(row.getRowNum());
+    }
+
+    public static RowPredicate indexInRange(final String sheetName, final int minInclude, final int maxExclude) {
+        Asserts.hasText(sheetName);
+        Asserts.isTrue(minInclude <= maxExclude);
+        return (sheet, row) -> {
+            int rowIndex = row.getRowNum();
+            return sheetName.equals(sheet.getSheetName()) && rowIndex >= minInclude && rowIndex < maxExclude;
+        };
+    }
+
+    public static RowPredicate indexInRange(final int sheetIndex, final int minInclude, final int maxExclude) {
+        Asserts.isTrue(sheetIndex >= 0);
+        Asserts.isTrue(minInclude <= maxExclude);
+        return (sheet, row) -> {
+            int rowIndex = row.getRowNum();
+            return sheetIndex == sheet.getWorkbook().getSheetIndex(sheet) && rowIndex >= minInclude && rowIndex < maxExclude;
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------------------

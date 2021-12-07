@@ -10,8 +10,6 @@ package spring.turbo.module.security.user;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
-import spring.turbo.util.crypto.Keys;
-import spring.turbo.util.crypto.PasswordAndSalt;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -43,10 +41,6 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     public Date getDateOfBirth();
 
     public String getBiography();
-
-    public PasswordAndSalt getCryptoPasswordAndSalt();
-
-    public <T extends Keys> T getCryptoKeyPair();
 
     public Attributes getAttributes();
 

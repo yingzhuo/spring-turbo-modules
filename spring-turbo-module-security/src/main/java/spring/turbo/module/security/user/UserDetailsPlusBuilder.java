@@ -12,8 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
-import spring.turbo.util.crypto.Keys;
-import spring.turbo.util.crypto.PasswordAndSalt;
 
 import java.util.Collection;
 import java.util.Date;
@@ -38,8 +36,6 @@ public final class UserDetailsPlusBuilder {
     private String phoneNumber;
     private Date dateOfBirth;
     private String biography;
-    private PasswordAndSalt cryptoPasswordAndSalt;
-    private Keys cryptoKeyPair;
     private boolean pwdFlag = false;
 
     UserDetailsPlusBuilder() {
@@ -151,16 +147,6 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
-    public UserDetailsPlusBuilder cryptoPasswordAndSalt(PasswordAndSalt passwordAndSalt) {
-        this.cryptoPasswordAndSalt = passwordAndSalt;
-        return this;
-    }
-
-    public UserDetailsPlusBuilder cryptoKeyPair(Keys cryptoKeyPair) {
-        this.cryptoKeyPair = cryptoKeyPair;
-        return this;
-    }
-
     public UserDetailsPlusBuilder putAttribute(String key, Object value) {
         this.attributes.add(key, value);
         return this;
@@ -181,8 +167,6 @@ public final class UserDetailsPlusBuilder {
                 this.phoneNumber,
                 this.dateOfBirth,
                 this.biography,
-                this.cryptoPasswordAndSalt,
-                this.cryptoKeyPair,
                 this.attributes
         );
     }

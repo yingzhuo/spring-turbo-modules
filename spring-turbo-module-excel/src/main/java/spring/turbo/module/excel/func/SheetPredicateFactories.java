@@ -35,13 +35,36 @@ public final class SheetPredicateFactories {
         return sheet -> false;
     }
 
-    public static SheetPredicate any(SheetPredicate... predicates) {
+    public static SheetPredicate not(final SheetPredicate p) {
+        Asserts.notNull(p);
+        return sheet -> !p.test(sheet);
+    }
+
+    public static SheetPredicate or(final SheetPredicate p1, final SheetPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return any(p1, p2);
+    }
+
+    public static SheetPredicate and(final SheetPredicate p1, final SheetPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return all(p1, p2);
+    }
+
+    public static SheetPredicate xor(final SheetPredicate p1, final SheetPredicate p2) {
+        Asserts.notNull(p1);
+        Asserts.notNull(p2);
+        return sheet -> p1.test(sheet) ^ p2.test(sheet);
+    }
+
+    public static SheetPredicate any(final SheetPredicate... predicates) {
         Asserts.notEmpty(predicates);
         Asserts.noNullElements(predicates);
         return new Any(predicates);
     }
 
-    public static SheetPredicate all(SheetPredicate... predicates) {
+    public static SheetPredicate all(final SheetPredicate... predicates) {
         Asserts.notEmpty(predicates);
         Asserts.noNullElements(predicates);
         return new All(predicates);

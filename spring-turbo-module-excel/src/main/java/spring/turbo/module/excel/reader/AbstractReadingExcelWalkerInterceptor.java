@@ -175,12 +175,12 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
                 return;
             }
 
-            String[] data = getRowData(row, info.getData().length, info.getFirstCellIndex());
-            doOnRow(sheetName, row.getRowNum(), info.getData(), data);
+            final String[] data = getRowData(row, info.getData().length, info.getFirstCellIndex());
+            doOnRow(workbook, sheet, row, payload, info.getData(), data);
         }
     }
 
-    protected void doOnRow(String sheetName, int rowIndex, String[] header, String[] rowData) {
+    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, Payload payload, String[] header, String[] rowData) {
         // 可以被覆盖
     }
 
