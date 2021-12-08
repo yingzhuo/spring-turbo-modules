@@ -16,11 +16,12 @@ import java.text.SimpleDateFormat;
 
 /**
  * @author 应卓
+ * @see org.springframework.format.annotation.DateTimeFormat.ISO#DATE_TIME
  * @since 1.0.0
  */
 public class DefaultCellParser implements CellParser {
 
-    public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"; // ISO DateTime
 
     private final DateFormat dateFormat;
 

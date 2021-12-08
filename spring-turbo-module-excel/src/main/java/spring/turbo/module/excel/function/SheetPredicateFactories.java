@@ -78,6 +78,11 @@ public final class SheetPredicateFactories {
         return sheet -> Stream.of(sheetNames).anyMatch(name -> sheet.getSheetName().equals(name));
     }
 
+    public static SheetPredicate ofNamePattern(final String regex) {
+        Asserts.hasText(regex);
+        return sheet -> sheet.getSheetName().matches(regex);
+    }
+
     public static SheetPredicate ofIndex(final Integer... indexes) {
         Asserts.notEmpty(indexes);
         Asserts.noNullElements(indexes);

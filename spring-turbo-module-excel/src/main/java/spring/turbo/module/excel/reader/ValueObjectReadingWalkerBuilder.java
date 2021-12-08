@@ -47,14 +47,14 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private final List<RowPredicate> interceptorExcludeRowPredicate = new LinkedList<>();
     private final HeaderConfig headerConfig = HeaderConfig.newInstance();
     private final AliasConfig aliasConfig = AliasConfig.newInstance();
+    private Supplier<Payload> payloadSupplier = Payload::newInstance;
     private ConversionService conversionService;
     private CellParser cellParser = new DefaultCellParser();
     private boolean skipAllNullData = true;
-    private Consumer<SuccessContext<T>> onSuccessConsumer = t -> {
+    private Consumer<SuccessContext<T>> onSuccessConsumer = ctx -> {
     };
-    private Consumer<ErrorContext> onErrorConsumer = t -> {
+    private Consumer<ErrorContext> onErrorConsumer = ctx -> {
     };
-    private Supplier<Payload> payloadSupplier = Payload::newInstance;
 
     private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier, Class<T> valueObjectType) {
         Asserts.notNull(valueObjectSupplier);
@@ -81,7 +81,12 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> readSheet(String... sheetNames) {
+    public ValueObjectReadingWalkerBuilder<T> onlyReadSheetPattern(String regex) {
+        this.walkIncludeSheetPredicates.add(SheetPredicateFactories.ofNamePattern(regex));
+        return this;
+    }
+
+    public ValueObjectReadingWalkerBuilder<T> onlyReadSheet(String... sheetNames) {
         if (sheetNames != null) {
             for (String sheetName : sheetNames) {
                 if (sheetName != null) {
@@ -92,7 +97,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> readSheet(int... sheetIndexes) {
+    public ValueObjectReadingWalkerBuilder<T> onlyReadSheet(int... sheetIndexes) {
         if (sheetIndexes != null) {
             for (int sheetIndex : sheetIndexes) {
                 if (sheetIndex >= 0) {
@@ -181,6 +186,10 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         this.aliasConfig.add(from5, to5);
         this.aliasConfig.add(from6, to6);
         return this;
+    }
+
+    public ValueObjectReadingWalkerBuilder<T> payload(Payload payload) {
+        return payloadSupplier(() -> payload);
     }
 
     public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<Payload> payloadSupplier) {
