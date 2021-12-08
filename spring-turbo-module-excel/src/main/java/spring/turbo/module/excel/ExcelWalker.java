@@ -15,10 +15,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
 import spring.turbo.bean.Payload;
-import spring.turbo.module.excel.func.RowPredicate;
-import spring.turbo.module.excel.func.RowPredicateFactories;
-import spring.turbo.module.excel.func.SheetPredicate;
-import spring.turbo.module.excel.func.SheetPredicateFactories;
+import spring.turbo.module.excel.function.RowPredicate;
+import spring.turbo.module.excel.function.RowPredicateFactories;
+import spring.turbo.module.excel.function.SheetPredicate;
+import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.util.Asserts;
 
 import java.io.Closeable;

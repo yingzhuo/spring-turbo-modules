@@ -18,8 +18,8 @@ import spring.turbo.bean.Tuple;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelWalkerInterceptor;
-import spring.turbo.module.excel.func.RowPredicate;
-import spring.turbo.module.excel.func.RowPredicateFactories;
+import spring.turbo.module.excel.function.RowPredicate;
+import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.util.Asserts;
 
 import java.util.ArrayList;
