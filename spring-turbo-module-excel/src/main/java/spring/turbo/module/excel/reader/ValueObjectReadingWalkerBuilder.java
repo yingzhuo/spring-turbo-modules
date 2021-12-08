@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel;
+package spring.turbo.module.excel.reader;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -19,14 +19,14 @@ import org.springframework.validation.Validator;
 import spring.turbo.bean.Payload;
 import spring.turbo.bean.valueobject.DataBinding;
 import spring.turbo.bean.valueobject.NamedArray;
+import spring.turbo.bean.valueobject.ReflectionObjectSupplier;
+import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.lang.Immutable;
+import spring.turbo.module.excel.*;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
-import spring.turbo.module.excel.reader.AbstractReadingExcelWalkerInterceptor;
-import spring.turbo.module.excel.reader.AliasConfig;
-import spring.turbo.module.excel.reader.HeaderConfig;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -40,6 +40,7 @@ import java.util.function.Supplier;
  */
 public final class ValueObjectReadingWalkerBuilder<T> {
 
+    private final Class<T> valueObjectType;
     private final Supplier<T> valueObjectSupplier;
     private final List<Validator> validators = new LinkedList<>();
     private final List<SheetPredicate> walkIncludeSheetPredicates = new LinkedList<>();
@@ -53,14 +54,18 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     };
     private Consumer<ErrorContext> onErrorConsumer = t -> {
     };
+    private Supplier<Payload> payloadSupplier = Payload::newInstance;
 
-    private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier) {
+    private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier, Class<T> valueObjectType) {
+        Asserts.notNull(valueObjectSupplier);
+        Asserts.notNull(valueObjectType);
+
         this.valueObjectSupplier = valueObjectSupplier;
+        this.valueObjectType = valueObjectType;
     }
 
-    public static <T> ValueObjectReadingWalkerBuilder<T> newInstance(Supplier<T> supplier) {
-        Asserts.notNull(supplier);
-        return new ValueObjectReadingWalkerBuilder<>(supplier);
+    public static <T> ValueObjectReadingWalkerBuilder<T> newInstance(Class<T> valueObjectType) {
+        return new ValueObjectReadingWalkerBuilder<>(ReflectionObjectSupplier.of(valueObjectType), valueObjectType);
     }
 
     public ValueObjectReadingWalkerBuilder<T> conversionService(ConversionService conversionService) {
@@ -178,6 +183,12 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
+    public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<Payload> payloadSupplier) {
+        Asserts.notNull(payloadSupplier);
+        this.payloadSupplier = payloadSupplier;
+        return this;
+    }
+
     public ValueObjectReadingWalkerBuilder<T> sheetHeader(String sheetName, int rowIndex) {
         this.headerConfig.bySheetName(sheetName, rowIndex);
         return this;
@@ -222,6 +233,8 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     public ExcelWalker build(ExcelType type, Resource excel) {
         Asserts.notNull(type);
         Asserts.notNull(excel);
+
+        mergeAliases();
 
         final ExcelWalkerInterceptor interceptor = new AbstractReadingExcelWalkerInterceptor(this.headerConfig) {
 
@@ -268,15 +281,16 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                 final BindingResult bindingResult = dataBinding.bind();
 
                 if (bindingResult.hasErrors()) {
-                    onErrorConsumer.accept(new ErrorContext(excel, workbook, sheet, row, bindingResult));
+                    onErrorConsumer.accept(new ErrorContext(payload, excel, workbook, sheet, row, bindingResult));
                 } else {
-                    onSuccessConsumer.accept(new SuccessContext<>(excel, workbook, sheet, row, vo));
+                    onSuccessConsumer.accept(new SuccessContext<>(payload, excel, workbook, sheet, row, vo));
                 }
             }
         };
 
         ExcelWalker.Builder builder = ExcelWalker.builder()
                 .type(type)
+                .payloadSupplier(payloadSupplier)
                 .interceptor(interceptor);
 
         if (!walkIncludeSheetPredicates.isEmpty()) {
@@ -288,18 +302,29 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return builder.build(excel);
     }
 
+    private void mergeAliases() {
+        final Map<String, String> aliases = ValueObjectUtils.getAliases(this.valueObjectType);
+        this.aliasConfig.putAll(aliases);
+    }
+
     @Immutable
     private static abstract class AbstractContext implements Serializable {
+        private final Payload payload;
         private final Resource resource;
         private final Workbook workbook;
         private final Sheet sheet;
         private final Row row;
 
-        public AbstractContext(Resource resource, Workbook workbook, Sheet sheet, Row row) {
+        public AbstractContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row) {
+            this.payload = payload;
             this.resource = resource;
             this.workbook = workbook;
             this.sheet = sheet;
             this.row = row;
+        }
+
+        public Payload getPayload() {
+            return payload;
         }
 
         public Resource getResource() {
@@ -323,8 +348,8 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     public static class SuccessContext<T> extends AbstractContext {
         private final T objectValue;
 
-        public SuccessContext(Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
-            super(resource, workbook, sheet, row);
+        public SuccessContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
+            super(payload, resource, workbook, sheet, row);
             this.objectValue = objectValue;
         }
 
@@ -337,8 +362,8 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     public static class ErrorContext extends AbstractContext {
         private final BindingResult bindingResult;
 
-        public ErrorContext(Resource resource, Workbook workbook, Sheet sheet, Row row, BindingResult bindingResult) {
-            super(resource, workbook, sheet, row);
+        public ErrorContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, BindingResult bindingResult) {
+            super(payload, resource, workbook, sheet, row);
             this.bindingResult = bindingResult;
         }
 

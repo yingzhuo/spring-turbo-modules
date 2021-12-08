@@ -25,6 +25,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * @author 应卓
@@ -37,6 +39,7 @@ public final class ExcelWalker {
     private SheetPredicate sheetPredicate;
     private RowPredicate rowPredicate;
     private ExcelWalkerInterceptor interceptor;
+    private Supplier<Payload> payloadSupplier;
 
     private ExcelWalker() {
         super();
@@ -47,7 +50,7 @@ public final class ExcelWalker {
     }
 
     public void walk() {
-        final Payload payload = Payload.newInstance();
+        final Payload payload = Optional.ofNullable(payloadSupplier.get()).orElseGet(Payload::newInstance);
 
         InputStream inputStream = null;
         Workbook wb = null;
@@ -102,6 +105,7 @@ public final class ExcelWalker {
         private SheetPredicate sheetPredicate = SheetPredicateFactories.alwaysTrue();
         private RowPredicate rowPredicate = RowPredicateFactories.alwaysTrue();
         private ExcelWalkerInterceptor interceptor = ExcelWalkerInterceptor.getDefault();
+        private Supplier<Payload> payloadSupplier = Payload::newInstance;
 
         private Builder() {
             super();
@@ -133,6 +137,12 @@ public final class ExcelWalker {
             return this;
         }
 
+        public Builder payloadSupplier(Supplier<Payload> payloadSupplier) {
+            Asserts.notNull(payloadSupplier);
+            this.payloadSupplier = payloadSupplier;
+            return this;
+        }
+
         public ExcelWalker build(Resource resource) {
             Asserts.notNull(resource);
 
@@ -142,6 +152,7 @@ public final class ExcelWalker {
             w.sheetPredicate = this.sheetPredicate;
             w.rowPredicate = this.rowPredicate;
             w.interceptor = this.interceptor;
+            w.payloadSupplier = payloadSupplier;
             return w;
         }
     }
