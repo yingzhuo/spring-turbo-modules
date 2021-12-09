@@ -14,10 +14,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
-import spring.turbo.module.excel.CellParser;
-import spring.turbo.module.excel.DefaultCellParser;
-import spring.turbo.module.excel.ExcelWalkerInterceptor;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.*;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.util.Asserts;
@@ -176,11 +173,21 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
             }
 
             final String[] data = getRowData(row, info.getData().length, info.getFirstCellIndex());
-            doOnRow(workbook, sheet, row, payload, info.getData(), data);
+
+            try {
+                doOnRow(workbook, sheet, row, payload, info.getData(), data);
+            } catch (Throwable e) {
+                ExitPolicy exitPolicy = onThrowable(workbook, sheet, row, payload, e);
+                if (exitPolicy == ExitPolicy.CONTINUE) {
+                    // 吞掉这个异常
+                } else {
+                    throw new AbortError();
+                }
+            }
         }
     }
 
-    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) {
+    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) throws Throwable {
         // 可以被覆盖
     }
 

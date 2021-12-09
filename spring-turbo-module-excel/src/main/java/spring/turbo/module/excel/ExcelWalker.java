@@ -49,6 +49,14 @@ public final class ExcelWalker {
     }
 
     public void walk() {
+        try {
+            doWalk();
+        } catch (AbortError e) {
+            // nop
+        }
+    }
+
+    private void doWalk() {
         final WalkingPayload WalkingPayload = Optional.ofNullable(payloadSupplier.get()).orElse(null);
 
         InputStream inputStream = null;

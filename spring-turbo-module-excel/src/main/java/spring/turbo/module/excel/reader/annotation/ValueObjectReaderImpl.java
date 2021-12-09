@@ -72,6 +72,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
                 .validators(springContext.getBean(Validator.class).orElseGet(NullValidator::new))
                 .onSuccess(listener::onSuccess)
                 .onError(listener::onError)
+                .onThrowable(listener::onThrowable)
                 .cellParser(cellParser);
 
         if (!holder.includeSheetIndexes.isEmpty()) {

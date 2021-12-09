@@ -20,17 +20,19 @@ import spring.turbo.bean.valueobject.DataBinding;
 import spring.turbo.bean.valueobject.NamedArray;
 import spring.turbo.bean.valueobject.ReflectionObjectSupplier;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
-import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.*;
+import spring.turbo.module.excel.context.ErrorContext;
+import spring.turbo.module.excel.context.SuccessContext;
+import spring.turbo.module.excel.context.ThrowableContext;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.util.Asserts;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -54,6 +56,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     };
     private Consumer<ErrorContext<T>> onErrorConsumer = ctx -> {
     };
+    private Function<ThrowableContext, ExitPolicy> onThrowableFunction = ctx -> ExitPolicy.CONTINUE;
 
     private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier, Class<T> valueObjectType) {
         Asserts.notNull(valueObjectSupplier);
@@ -229,6 +232,12 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
+    public ValueObjectReadingWalkerBuilder<T> onThrowable(Function<ThrowableContext, ExitPolicy> function) {
+        Asserts.notNull(function);
+        this.onThrowableFunction = function;
+        return this;
+    }
+
     public ValueObjectReadingWalkerBuilder<T> skipAllNullData(boolean skipAllNullData) {
         this.skipAllNullData = skipAllNullData;
         return this;
@@ -294,6 +303,11 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                     onSuccessConsumer.accept(new SuccessContext<>(payload, excel, workbook, sheet, row, vo));
                 }
             }
+
+            @Override
+            public ExitPolicy onThrowable(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, Throwable throwable) {
+                return onThrowableFunction.apply(new ThrowableContext(payload, excel, workbook, sheet, row, throwable));
+            }
         };
 
         ExcelWalker.Builder builder = ExcelWalker.builder()
@@ -313,70 +327,6 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private void mergeAliases() {
         final Map<String, String> aliases = ValueObjectUtils.getAliases(this.valueObjectType);
         this.aliasConfig.putAll(aliases);
-    }
-
-    @Immutable
-    private static abstract class AbstractContext<T> implements Serializable {
-        private final WalkingPayload payload;
-        private final Resource resource;
-        private final Workbook workbook;
-        private final Sheet sheet;
-        private final Row row;
-        private final T objectValue;
-
-        public AbstractContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
-            this.payload = payload;
-            this.resource = resource;
-            this.workbook = workbook;
-            this.sheet = sheet;
-            this.row = row;
-            this.objectValue = objectValue;
-        }
-
-        public WalkingPayload getPayload() {
-            return payload;
-        }
-
-        public Resource getResource() {
-            return resource;
-        }
-
-        public Workbook getWorkbook() {
-            return workbook;
-        }
-
-        public Sheet getSheet() {
-            return sheet;
-        }
-
-        public Row getRow() {
-            return row;
-        }
-
-        public T getObjectValue() {
-            return objectValue;
-        }
-    }
-
-    @Immutable
-    public static class SuccessContext<T> extends AbstractContext<T> {
-        public SuccessContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
-            super(payload, resource, workbook, sheet, row, objectValue);
-        }
-    }
-
-    @Immutable
-    public static class ErrorContext<T> extends AbstractContext<T> {
-        private final BindingResult bindingResult;
-
-        public ErrorContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
-            super(payload, resource, workbook, sheet, row, valueObject);
-            this.bindingResult = bindingResult;
-        }
-
-        public BindingResult getBindingResult() {
-            return bindingResult;
-        }
     }
 
 }
