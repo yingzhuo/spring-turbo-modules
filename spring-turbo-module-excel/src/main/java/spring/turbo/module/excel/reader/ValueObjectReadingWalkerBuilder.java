@@ -43,7 +43,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private final Class<T> valueObjectType;
     private final Supplier<T> valueObjectSupplier;
     private final List<Validator> validators = new LinkedList<>();
-    private final List<SheetPredicate> walkIncludeSheetPredicates = new LinkedList<>();
+    private final List<SheetPredicate> walkerIncludeSheetPredicates = new LinkedList<>();
     private final List<RowPredicate> interceptorExcludeRowPredicate = new LinkedList<>();
     private final HeaderConfig headerConfig = HeaderConfig.newInstance();
     private final AliasConfig aliasConfig = AliasConfig.newInstance();
@@ -82,7 +82,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     }
 
     public ValueObjectReadingWalkerBuilder<T> onlyReadSheetPattern(String regex) {
-        this.walkIncludeSheetPredicates.add(SheetPredicateFactories.ofNamePattern(regex));
+        this.walkerIncludeSheetPredicates.add(SheetPredicateFactories.ofNamePattern(regex));
         return this;
     }
 
@@ -90,18 +90,18 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         if (sheetNames != null) {
             for (String sheetName : sheetNames) {
                 if (sheetName != null) {
-                    this.walkIncludeSheetPredicates.add(SheetPredicateFactories.ofName(sheetName));
+                    this.walkerIncludeSheetPredicates.add(SheetPredicateFactories.ofName(sheetName));
                 }
             }
         }
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> onlyReadSheet(int... sheetIndexes) {
+    public ValueObjectReadingWalkerBuilder<T> onlyReadSheet(Integer... sheetIndexes) {
         if (sheetIndexes != null) {
             for (int sheetIndex : sheetIndexes) {
                 if (sheetIndex >= 0) {
-                    this.walkIncludeSheetPredicates.add(SheetPredicateFactories.ofIndex(sheetIndex));
+                    this.walkerIncludeSheetPredicates.add(SheetPredicateFactories.ofIndex(sheetIndex));
                 }
             }
         }
@@ -302,8 +302,8 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                 .payloadSupplier(payloadSupplier)
                 .interceptor(interceptor);
 
-        if (!walkIncludeSheetPredicates.isEmpty()) {
-            builder.sheetPredicates(walkIncludeSheetPredicates.toArray(new SheetPredicate[0]));
+        if (!walkerIncludeSheetPredicates.isEmpty()) {
+            builder.sheetPredicates(walkerIncludeSheetPredicates.toArray(new SheetPredicate[0]));
         } else {
             builder.sheetPredicates(SheetPredicateFactories.alwaysTrue());
         }
