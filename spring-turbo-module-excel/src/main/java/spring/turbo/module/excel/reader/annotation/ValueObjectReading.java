@@ -10,6 +10,7 @@ package spring.turbo.module.excel.reader.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
+import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
@@ -22,7 +23,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Component
 public @interface ValueObjectReading {
 
@@ -36,6 +37,8 @@ public @interface ValueObjectReading {
     public ExcelType excelType() default ExcelType.XSSF;
 
     public Header[] headers();
+
+    public Alias[] aliases() default {};
 
     public int[] includeSheetIndex() default {};
 

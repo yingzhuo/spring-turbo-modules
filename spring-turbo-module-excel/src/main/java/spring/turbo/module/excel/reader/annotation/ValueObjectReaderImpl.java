@@ -18,12 +18,14 @@ import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
+import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.core.SpringContext;
 import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
+import spring.turbo.module.excel.reader.AliasConfig;
 import spring.turbo.module.excel.reader.HeaderConfig;
 import spring.turbo.module.excel.reader.ValueObjectReadingWalkerBuilder;
 import spring.turbo.util.StringFormatter;
@@ -37,10 +39,10 @@ import java.util.*;
 @SuppressWarnings({"rawtypes", "unchecked"})
 class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
 
-    private SpringContext springContext;
     private final List<ValueObjectListener> listeners;
     private final Map<String, ConfigHolder> configMap = new HashMap<>();
     private final Map<String, ValueObjectListener<?>> listenerMap = new HashMap<>();
+    private SpringContext springContext;
 
 
     public ValueObjectReaderImpl(List<ValueObjectListener> listeners) {
@@ -89,6 +91,11 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             builder.excludeRowInRange(tuple.getA(), tuple.getB(), tuple.getC());
         }
 
+        for (String from : holder.aliasConfig.keySet()) {
+            String to = holder.aliasConfig.get(from);
+            builder.alias(from, to);
+        }
+
         builder.build(holder.excelType, resource)
                 .walk();
     }
@@ -109,6 +116,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
 
             this.setIncludeSheetIndexes(holder, annotation);
             this.setHeader(holder, annotation);
+            this.setAlias(holder, annotation);
             this.setExcludeRowSets(holder, annotation);
             this.setExcludeRowRanges(holder, annotation);
 
@@ -126,6 +134,12 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
     private void setHeader(ConfigHolder holder, ValueObjectReading annotation) {
         for (Header sub : annotation.headers()) {
             holder.headerConfig.bySheetIndex(sub.sheetIndex(), sub.rowIndex());
+        }
+    }
+
+    private void setAlias(ConfigHolder holder, ValueObjectReading annotation) {
+        for (Alias sub : annotation.aliases()) {
+            holder.aliasConfig.add(sub.from(), sub.to());
         }
     }
 
@@ -156,16 +170,21 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         this.springContext = springContext;
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     private static class ConfigHolder {
-        private String discriminatorValue;
-        private ExcelType excelType;
         private final Set<Integer> includeSheetIndexes = new HashSet<>();
         private final HeaderConfig headerConfig = HeaderConfig.newInstance();
+        private final AliasConfig aliasConfig = AliasConfig.newInstance();
         private final Set<Pair<Integer, Set<Integer>>> excludeRowSets = new HashSet<>();
         private final Set<Tuple<Integer, Integer, Integer>> excludeRowRanges = new HashSet<>();
+        private String discriminatorValue;
+        private ExcelType excelType;
         private Class<?> valueObjectType;
         private Class<? extends CellParser> cellParserType;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     private static class NullValidator implements Validator {
 
@@ -179,4 +198,5 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             // nop
         }
     }
+
 }

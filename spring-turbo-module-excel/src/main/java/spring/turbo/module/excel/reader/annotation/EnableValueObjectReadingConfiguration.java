@@ -32,7 +32,6 @@ class EnableValueObjectReadingConfiguration {
     }
 
     private static class BrokenValueObjectReader implements ValueObjectReader {
-        @Override
         public void startReading(ExcelDiscriminator discriminator, Resource resource, Payload payload) {
             throw new UnsupportedOperationException("ValueObjectListener not registered");
         }
