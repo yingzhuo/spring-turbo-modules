@@ -44,13 +44,12 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
     private final Map<String, ValueObjectListener<?>> listenerMap = new HashMap<>();
     private SpringContext springContext;
 
-
-    public ValueObjectReaderImpl(List<ValueObjectListener> listeners) {
+    ValueObjectReaderImpl(List<ValueObjectListener> listeners) {
         this.listeners = listeners;
     }
 
     @Override
-    public void startReading(ExcelDiscriminator discriminator, Resource resource, Payload payload) {
+    public void read(ExcelDiscriminator discriminator, Resource resource, Payload payload) {
 
         if (!configMap.containsKey(discriminator.getDiscriminatorValue())) {
             String msg = StringFormatter.format("cannot find configuration for {}", discriminator.getDiscriminatorValue());

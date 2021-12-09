@@ -53,7 +53,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private boolean skipAllNullData = true;
     private Consumer<SuccessContext<T>> onSuccessConsumer = ctx -> {
     };
-    private Consumer<ErrorContext> onErrorConsumer = ctx -> {
+    private Consumer<ErrorContext<T>> onErrorConsumer = ctx -> {
     };
 
     private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier, Class<T> valueObjectType) {
@@ -224,7 +224,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> onError(Consumer<ErrorContext> consumer) {
+    public ValueObjectReadingWalkerBuilder<T> onError(Consumer<ErrorContext<T>> consumer) {
         Asserts.notNull(consumer);
         this.onErrorConsumer = consumer;
         return this;
@@ -290,7 +290,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                 final BindingResult bindingResult = dataBinding.bind();
 
                 if (bindingResult.hasErrors()) {
-                    onErrorConsumer.accept(new ErrorContext(payload, excel, workbook, sheet, row, bindingResult));
+                    onErrorConsumer.accept(new ErrorContext<>(payload, excel, workbook, sheet, row, vo, bindingResult));
                 } else {
                     onSuccessConsumer.accept(new SuccessContext<>(payload, excel, workbook, sheet, row, vo));
                 }
@@ -317,19 +317,21 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     }
 
     @Immutable
-    private static abstract class AbstractContext implements Serializable {
+    private static abstract class AbstractContext<T> implements Serializable {
         private final Payload payload;
         private final Resource resource;
         private final Workbook workbook;
         private final Sheet sheet;
         private final Row row;
+        private final T objectValue;
 
-        public AbstractContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row) {
+        public AbstractContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
             this.payload = payload;
             this.resource = resource;
             this.workbook = workbook;
             this.sheet = sheet;
             this.row = row;
+            this.objectValue = objectValue;
         }
 
         public Payload getPayload() {
@@ -351,16 +353,6 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         public Row getRow() {
             return row;
         }
-    }
-
-    @Immutable
-    public static class SuccessContext<T> extends AbstractContext {
-        private final T objectValue;
-
-        public SuccessContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
-            super(payload, resource, workbook, sheet, row);
-            this.objectValue = objectValue;
-        }
 
         public T getObjectValue() {
             return objectValue;
@@ -368,11 +360,18 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     }
 
     @Immutable
-    public static class ErrorContext extends AbstractContext {
+    public static class SuccessContext<T> extends AbstractContext<T> {
+        public SuccessContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
+            super(payload, resource, workbook, sheet, row, objectValue);
+        }
+    }
+
+    @Immutable
+    public static class ErrorContext<T> extends AbstractContext<T> {
         private final BindingResult bindingResult;
 
-        public ErrorContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, BindingResult bindingResult) {
-            super(payload, resource, workbook, sheet, row);
+        public ErrorContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
+            super(payload, resource, workbook, sheet, row, valueObject);
             this.bindingResult = bindingResult;
         }
 

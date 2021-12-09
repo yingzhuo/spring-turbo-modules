@@ -14,6 +14,7 @@ import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
+import spring.turbo.util.StringPool;
 
 import java.lang.annotation.*;
 
@@ -28,7 +29,7 @@ import java.lang.annotation.*;
 public @interface ValueObjectReading {
 
     @AliasFor(annotation = Component.class, attribute = "value")
-    public String value() default "";
+    public String value() default StringPool.EMPTY;
 
     public String discriminatorValue();
 

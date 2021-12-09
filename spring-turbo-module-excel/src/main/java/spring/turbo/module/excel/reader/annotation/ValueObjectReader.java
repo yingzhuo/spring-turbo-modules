@@ -18,6 +18,6 @@ import spring.turbo.bean.Payload;
 @FunctionalInterface
 public interface ValueObjectReader {
 
-    public void startReading(ExcelDiscriminator discriminator, Resource resource, Payload payload);
+    public void read(ExcelDiscriminator discriminator, Resource resource, Payload payload);
 
 }

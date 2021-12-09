@@ -20,7 +20,7 @@ public interface ValueObjectListener<T> {
     public default void onSuccess(SuccessContext<T> context) {
     }
 
-    public default void onError(ErrorContext context) {
+    public default void onError(ErrorContext<T> context) {
     }
 
 }
