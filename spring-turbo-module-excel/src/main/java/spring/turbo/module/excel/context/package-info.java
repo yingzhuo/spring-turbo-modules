@@ -6,19 +6,4 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
-
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
-
-/**
- * @author 应卓
- * @since 1.0.0
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Import(EnableValueObjectReadingConfiguration.class)
-public @interface EnableValueObjectReading {
-}
+package spring.turbo.module.excel.context;
