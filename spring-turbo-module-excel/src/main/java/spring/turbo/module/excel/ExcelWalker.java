@@ -14,7 +14,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
-import spring.turbo.bean.Payload;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
@@ -39,7 +38,7 @@ public final class ExcelWalker {
     private SheetPredicate sheetPredicate;
     private RowPredicate rowPredicate;
     private ExcelWalkerInterceptor interceptor;
-    private Supplier<Payload> payloadSupplier;
+    private Supplier<WalkingPayload> payloadSupplier;
 
     private ExcelWalker() {
         super();
@@ -50,7 +49,7 @@ public final class ExcelWalker {
     }
 
     public void walk() {
-        final Payload payload = Optional.ofNullable(payloadSupplier.get()).orElseGet(Payload::newInstance);
+        final WalkingPayload WalkingPayload = Optional.ofNullable(payloadSupplier.get()).orElse(null);
 
         InputStream inputStream = null;
         Workbook wb = null;
@@ -69,14 +68,14 @@ public final class ExcelWalker {
                     throw new AssertionError();
             }
 
-            interceptor.onWorkbook(wb, payload);
+            interceptor.onWorkbook(wb, WalkingPayload);
 
             for (Sheet sheet : wb) {
                 if (sheetPredicate.test(sheet)) {
-                    interceptor.onSheet(wb, sheet, payload);
+                    interceptor.onSheet(wb, sheet, WalkingPayload);
                     for (Row row : sheet) {
                         if (rowPredicate.test(sheet, row)) {
-                            interceptor.onRow(wb, sheet, row, payload);
+                            interceptor.onRow(wb, sheet, row, WalkingPayload);
                         }
                     }
                 }
@@ -105,7 +104,7 @@ public final class ExcelWalker {
         private SheetPredicate sheetPredicate = SheetPredicateFactories.alwaysTrue();
         private RowPredicate rowPredicate = RowPredicateFactories.alwaysTrue();
         private ExcelWalkerInterceptor interceptor = ExcelWalkerInterceptor.getDefault();
-        private Supplier<Payload> payloadSupplier = Payload::newInstance;
+        private Supplier<WalkingPayload> payloadSupplier = WalkingPayload::newInstance;
 
         private Builder() {
             super();
@@ -137,7 +136,7 @@ public final class ExcelWalker {
             return this;
         }
 
-        public Builder payloadSupplier(Supplier<Payload> payloadSupplier) {
+        public Builder payloadSupplier(Supplier<WalkingPayload> payloadSupplier) {
             Asserts.notNull(payloadSupplier);
             this.payloadSupplier = payloadSupplier;
             return this;

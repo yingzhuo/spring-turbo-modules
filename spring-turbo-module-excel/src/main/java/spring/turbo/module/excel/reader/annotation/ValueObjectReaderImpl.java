@@ -16,7 +16,6 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
-import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
@@ -25,6 +24,7 @@ import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
+import spring.turbo.module.excel.WalkingPayload;
 import spring.turbo.module.excel.reader.AliasConfig;
 import spring.turbo.module.excel.reader.HeaderConfig;
 import spring.turbo.module.excel.reader.ValueObjectReadingWalkerBuilder;
@@ -49,7 +49,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
     }
 
     @Override
-    public void read(ExcelDiscriminator discriminator, Resource resource, Payload payload) {
+    public void read(ExcelDiscriminator discriminator, Resource resource, WalkingPayload payload) {
 
         if (!configMap.containsKey(discriminator.getDiscriminatorValue())) {
             String msg = StringFormatter.format("cannot find configuration for {}", discriminator.getDiscriminatorValue());
@@ -67,7 +67,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
 
         ValueObjectReadingWalkerBuilder<?> builder = ValueObjectReadingWalkerBuilder
                 .newInstance(holder.valueObjectType)
-                .payload(Optional.ofNullable(payload).orElseGet(Payload::newInstance))
+                .payload(Optional.ofNullable(payload).orElseGet(WalkingPayload::newInstance))
                 .conversionService(springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new))
                 .validators(springContext.getBean(Validator.class).orElseGet(NullValidator::new))
                 .onSuccess(listener::onSuccess)

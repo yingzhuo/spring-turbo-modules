@@ -13,11 +13,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import spring.turbo.bean.Pair;
-import spring.turbo.bean.Payload;
 import spring.turbo.bean.Tuple;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelWalkerInterceptor;
+import spring.turbo.module.excel.WalkingPayload;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.util.Asserts;
@@ -45,7 +45,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
     }
 
     @Override
-    public final void onWorkbook(Workbook workbook, Payload payload) {
+    public final void onWorkbook(Workbook workbook, WalkingPayload payload) {
 
         for (Tuple<Integer, Integer, String[]> tuple : headerConfig.getSheetIndexFixedHeader()) {
             final int sheetIndex = tuple.getA();
@@ -143,7 +143,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         this.doOnWorkbook(workbook, payload);
     }
 
-    protected void doOnWorkbook(Workbook workbook, Payload payload) {
+    protected void doOnWorkbook(Workbook workbook, WalkingPayload payload) {
         // Noop
     }
 
@@ -159,7 +159,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
     }
 
     @Override
-    public final void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
+    public final void onRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload) {
         if (excludeRowPredicate.test(sheet, row)) {
             return;
         }
@@ -180,7 +180,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         }
     }
 
-    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, Payload payload, String[] header, String[] rowData) {
+    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) {
         // 可以被覆盖
     }
 

@@ -11,7 +11,6 @@ package spring.turbo.module.excel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import spring.turbo.bean.Payload;
 
 /**
  * @author 应卓
@@ -24,15 +23,15 @@ public interface ExcelWalkerInterceptor {
         };
     }
 
-    public default void onWorkbook(Workbook workbook, Payload payload) {
+    public default void onWorkbook(Workbook workbook, WalkingPayload payload) {
         // Noop
     }
 
-    public default void onSheet(Workbook workbook, Sheet sheet, Payload payload) {
+    public default void onSheet(Workbook workbook, Sheet sheet, WalkingPayload payload) {
         // Noop
     }
 
-    public default void onRow(Workbook workbook, Sheet sheet, Row row, Payload payload) {
+    public default void onRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload) {
         // Noop
     }
 

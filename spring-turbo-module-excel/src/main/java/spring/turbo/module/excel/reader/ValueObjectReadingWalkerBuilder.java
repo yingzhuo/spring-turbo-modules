@@ -16,7 +16,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import spring.turbo.bean.Payload;
 import spring.turbo.bean.valueobject.DataBinding;
 import spring.turbo.bean.valueobject.NamedArray;
 import spring.turbo.bean.valueobject.ReflectionObjectSupplier;
@@ -47,7 +46,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private final List<RowPredicate> interceptorExcludeRowPredicate = new LinkedList<>();
     private final HeaderConfig headerConfig = HeaderConfig.newInstance();
     private final AliasConfig aliasConfig = AliasConfig.newInstance();
-    private Supplier<Payload> payloadSupplier = Payload::newInstance;
+    private Supplier<WalkingPayload> payloadSupplier = WalkingPayload::newInstance;
     private ConversionService conversionService;
     private CellParser cellParser = new DefaultCellParser();
     private boolean skipAllNullData = true;
@@ -188,11 +187,11 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> payload(Payload payload) {
+    public ValueObjectReadingWalkerBuilder<T> payload(WalkingPayload payload) {
         return payloadSupplier(() -> payload);
     }
 
-    public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<Payload> payloadSupplier) {
+    public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<WalkingPayload> payloadSupplier) {
         Asserts.notNull(payloadSupplier);
         this.payloadSupplier = payloadSupplier;
         return this;
@@ -264,7 +263,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
             }
 
             @Override
-            protected void doOnRow(Workbook workbook, Sheet sheet, Row row, Payload payload, String[] header, String[] rowData) {
+            protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) {
                 T vo = valueObjectSupplier.get();
 
                 if (vo == null) {
@@ -318,14 +317,14 @@ public final class ValueObjectReadingWalkerBuilder<T> {
 
     @Immutable
     private static abstract class AbstractContext<T> implements Serializable {
-        private final Payload payload;
+        private final WalkingPayload payload;
         private final Resource resource;
         private final Workbook workbook;
         private final Sheet sheet;
         private final Row row;
         private final T objectValue;
 
-        public AbstractContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
+        public AbstractContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
             this.payload = payload;
             this.resource = resource;
             this.workbook = workbook;
@@ -334,7 +333,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
             this.objectValue = objectValue;
         }
 
-        public Payload getPayload() {
+        public WalkingPayload getPayload() {
             return payload;
         }
 
@@ -361,7 +360,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
 
     @Immutable
     public static class SuccessContext<T> extends AbstractContext<T> {
-        public SuccessContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
+        public SuccessContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T objectValue) {
             super(payload, resource, workbook, sheet, row, objectValue);
         }
     }
@@ -370,7 +369,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     public static class ErrorContext<T> extends AbstractContext<T> {
         private final BindingResult bindingResult;
 
-        public ErrorContext(Payload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
+        public ErrorContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
             super(payload, resource, workbook, sheet, row, valueObject);
             this.bindingResult = bindingResult;
         }
