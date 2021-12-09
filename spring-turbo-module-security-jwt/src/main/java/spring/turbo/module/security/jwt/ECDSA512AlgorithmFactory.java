@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
  * @author 应卓
  * @since 1.0.0
  */
-public final class ECDSA512AlgorithmFactory extends ECDSAAlgorithmFactory {
+final class ECDSA512AlgorithmFactory extends ECDSAAlgorithmFactory {
 
     private final String publicKey;
     private final String privateKey;

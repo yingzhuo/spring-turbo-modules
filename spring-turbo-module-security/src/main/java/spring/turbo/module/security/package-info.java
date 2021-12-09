@@ -49,13 +49,19 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
                 }
             }
 
-            final FilterConfiguration.BeforeOrAfter beforeOrAfter = configuration.beforeOrAfter();
+            final FilterConfiguration.Position beforeOrAfter = configuration.position();
             final Class<Filter> position = configuration.positionInChain();
 
-            if (beforeOrAfter == FilterConfiguration.BeforeOrAfter.BEFORE) {
-                http.addFilterBefore(filter, position);
-            } else {
-                http.addFilterAfter(filter, position);
+            switch (beforeOrAfter) {
+                case BEFORE:
+                    http.addFilterBefore(filter, position);
+                    break;
+                case AFTER:
+                    http.addFilterAfter(filter, position);
+                case AT:
+                    http.addFilterAt(filter, position);
+                default:
+                    throw new AssertionError();
             }
         }
     }

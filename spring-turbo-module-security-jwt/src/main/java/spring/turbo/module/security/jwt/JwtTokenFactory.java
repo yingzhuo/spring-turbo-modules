@@ -8,16 +8,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import com.auth0.jwt.JWTCreator;
-import spring.turbo.bean.Customizer;
+import org.springframework.lang.NonNull;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public interface JwtCustomizer extends Customizer<JWTCreator.Builder> {
+@FunctionalInterface
+public interface JwtTokenFactory {
 
-    @Override
-    public JWTCreator.Builder customize(JWTCreator.Builder builder);
+    @NonNull
+    public String create(@NonNull JwtTokenMetadata metadata);
 
 }

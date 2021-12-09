@@ -7,3 +7,16 @@
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Bean;
+
+class SpringBootAutoConfiguration {
+
+    @Bean
+    @ConditionalOnBean(value = AlgorithmFactory.class)
+    JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
+        return new JwtTokenFactoryImpl(algorithmFactory);
+    }
+
+}

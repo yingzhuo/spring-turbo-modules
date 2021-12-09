@@ -15,6 +15,14 @@ import java.util.UUID;
 /**
  * @author 应卓
  * @see AlgorithmFactory
+ * @see Algorithm
+ * @see ECDSA256AlgorithmFactory
+ * @see ECDSA256KAlgorithmFactory
+ * @see ECDSA384AlgorithmFactory
+ * @see ECDSA512AlgorithmFactory
+ * @see RSA256AlgorithmFactory
+ * @see RSA384AlgorithmFactory
+ * @see RSA512AlgorithmFactory
  * @since 1.0.0
  */
 public final class AlgorithmFactoryFactories {

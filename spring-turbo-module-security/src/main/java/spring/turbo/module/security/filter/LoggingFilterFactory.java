@@ -26,8 +26,8 @@ public interface LoggingFilterFactory extends FilterConfiguration<LoggingFilter>
     }
 
     @Override
-    public default BeforeOrAfter beforeOrAfter() {
-        return BeforeOrAfter.BEFORE;
+    public default Position position() {
+        return Position.BEFORE;
     }
 
 }

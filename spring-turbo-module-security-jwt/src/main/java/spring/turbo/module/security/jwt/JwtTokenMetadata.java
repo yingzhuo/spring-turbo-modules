@@ -138,6 +138,7 @@ public final class JwtTokenMetadata implements Serializable {
     // -----------------------------------------------------------------------------------------------------------------
 
     public static class Builder {
+
         private final Payload payloadClaims = Payload.newInstance();
         private String keyId;
         private String issuer;
@@ -149,6 +150,7 @@ public final class JwtTokenMetadata implements Serializable {
         private String jwtId;
 
         private Builder() {
+            super();
         }
 
         public Builder keyId(String keyId) {

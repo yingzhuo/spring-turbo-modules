@@ -18,10 +18,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
-import spring.turbo.module.security.authentication.AuthenticationDetailsUtils;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.AbstractServletFilter;
+import spring.turbo.webmvc.HttpRequestSnapshot;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
@@ -61,7 +61,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             spring.turbo.module.security.authentication.Authentication auth
                     = new spring.turbo.module.security.authentication.Authentication(user);
             auth.setAuthenticated(true);
-            auth.setDetails(AuthenticationDetailsUtils.createWebAuthenticationDetails(request));
+            auth.setDetails(HttpRequestSnapshot.of(request).toString());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
             rememberMeServices.loginSuccess(request, response, auth);

@@ -33,12 +33,12 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     }
 
     @NonNull
-    public default BeforeOrAfter beforeOrAfter() {
-        return BeforeOrAfter.AFTER;
+    public default Position position() {
+        return Position.AFTER;
     }
 
-    public static enum BeforeOrAfter {
-        BEFORE, AFTER;
+    public static enum Position {
+        BEFORE, AFTER, AT
     }
 
 }
