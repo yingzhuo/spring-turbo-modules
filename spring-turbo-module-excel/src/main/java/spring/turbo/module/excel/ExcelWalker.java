@@ -38,7 +38,7 @@ public final class ExcelWalker {
     private SheetPredicate sheetPredicate;
     private RowPredicate rowPredicate;
     private ExcelWalkerInterceptor interceptor;
-    private Supplier<WalkingPayload> payloadSupplier;
+    private Supplier<ProcessPayload> payloadSupplier;
 
     private ExcelWalker() {
         super();
@@ -57,7 +57,7 @@ public final class ExcelWalker {
     }
 
     private void doWalk() {
-        final WalkingPayload WalkingPayload = Optional.ofNullable(payloadSupplier.get()).orElse(null);
+        final ProcessPayload WalkingPayload = Optional.ofNullable(payloadSupplier.get()).orElse(null);
 
         InputStream inputStream = null;
         Workbook wb = null;
@@ -112,7 +112,7 @@ public final class ExcelWalker {
         private SheetPredicate sheetPredicate = SheetPredicateFactories.alwaysTrue();
         private RowPredicate rowPredicate = RowPredicateFactories.alwaysTrue();
         private ExcelWalkerInterceptor interceptor = ExcelWalkerInterceptor.getDefault();
-        private Supplier<WalkingPayload> payloadSupplier = WalkingPayload::newInstance;
+        private Supplier<ProcessPayload> payloadSupplier = ProcessPayload::newInstance;
 
         private Builder() {
             super();
@@ -144,7 +144,7 @@ public final class ExcelWalker {
             return this;
         }
 
-        public Builder payloadSupplier(Supplier<WalkingPayload> payloadSupplier) {
+        public Builder payloadSupplier(Supplier<ProcessPayload> payloadSupplier) {
             Asserts.notNull(payloadSupplier);
             this.payloadSupplier = payloadSupplier;
             return this;

@@ -9,7 +9,7 @@
 package spring.turbo.module.excel.reader.annotation;
 
 import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.ProcessPayload;
 
 /**
  * @author 应卓
@@ -19,9 +19,9 @@ import spring.turbo.module.excel.WalkingPayload;
 public interface ValueObjectReader {
 
     public default void read(ExcelDiscriminator discriminator, Resource resource) {
-        read(discriminator, resource, WalkingPayload.newInstance());
+        read(discriminator, resource, ProcessPayload.newInstance());
     }
 
-    public void read(ExcelDiscriminator discriminator, Resource resource, WalkingPayload payload);
+    public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
 
 }

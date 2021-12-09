@@ -42,7 +42,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
     }
 
     @Override
-    public final void onWorkbook(Workbook workbook, WalkingPayload payload) {
+    public final void onWorkbook(Workbook workbook, ProcessPayload payload) {
 
         for (Tuple<Integer, Integer, String[]> tuple : headerConfig.getSheetIndexFixedHeader()) {
             final int sheetIndex = tuple.getA();
@@ -140,7 +140,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         this.doOnWorkbook(workbook, payload);
     }
 
-    protected void doOnWorkbook(Workbook workbook, WalkingPayload payload) {
+    protected void doOnWorkbook(Workbook workbook, ProcessPayload payload) {
         // Noop
     }
 
@@ -156,7 +156,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
     }
 
     @Override
-    public final void onRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload) {
+    public final void onRow(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload) {
         if (excludeRowPredicate.test(sheet, row)) {
             return;
         }
@@ -187,7 +187,7 @@ public abstract class AbstractReadingExcelWalkerInterceptor implements ExcelWalk
         }
     }
 
-    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) throws Throwable {
+    protected void doOnRow(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, String[] header, String[] rowData) throws Throwable {
         // 可以被覆盖
     }
 

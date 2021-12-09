@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
 import spring.turbo.lang.Immutable;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.ProcessPayload;
 
 import java.io.Serializable;
 
@@ -24,14 +24,15 @@ import java.io.Serializable;
  */
 @Immutable
 abstract class AbstractContext<T> implements Serializable {
-    private final WalkingPayload payload;
+
+    private final ProcessPayload payload;
     private final Resource resource;
     private final Workbook workbook;
     private final Sheet sheet;
     private final Row row;
     private final T valueObject;
 
-    public AbstractContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
+    public AbstractContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
         this.payload = payload;
         this.resource = resource;
         this.workbook = workbook;
@@ -40,7 +41,7 @@ abstract class AbstractContext<T> implements Serializable {
         this.valueObject = valueObject;
     }
 
-    public WalkingPayload getPayload() {
+    public ProcessPayload getPayload() {
         return payload;
     }
 

@@ -13,7 +13,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
 import spring.turbo.lang.Immutable;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.ProcessPayload;
+
+import java.io.Serializable;
 
 /**
  * @param <T> valueObject类型
@@ -21,9 +23,9 @@ import spring.turbo.module.excel.WalkingPayload;
  * @since 1.0.0
  */
 @Immutable
-public class SuccessContext<T> extends AbstractContext<T> {
+public class SuccessContext<T> extends AbstractContext<T> implements Serializable {
 
-    public SuccessContext(WalkingPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
+    public SuccessContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
         super(payload, resource, workbook, sheet, row, valueObject);
     }
 

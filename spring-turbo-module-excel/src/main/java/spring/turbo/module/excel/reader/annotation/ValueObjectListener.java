@@ -10,8 +10,8 @@ package spring.turbo.module.excel.reader.annotation;
 
 import spring.turbo.module.excel.ExitPolicy;
 import spring.turbo.module.excel.context.ErrorContext;
+import spring.turbo.module.excel.context.InvalidDataContext;
 import spring.turbo.module.excel.context.SuccessContext;
-import spring.turbo.module.excel.context.ThrowableContext;
 
 /**
  * @author 应卓
@@ -22,10 +22,10 @@ public interface ValueObjectListener<T> {
     public default void onSuccess(SuccessContext<T> context) {
     }
 
-    public default void onError(ErrorContext<T> context) {
+    public default void onInvalidData(InvalidDataContext<T> context) {
     }
 
-    public default ExitPolicy onThrowable(ThrowableContext context) {
+    public default ExitPolicy onError(ErrorContext context) {
         return ExitPolicy.CONTINUE;
     }
 

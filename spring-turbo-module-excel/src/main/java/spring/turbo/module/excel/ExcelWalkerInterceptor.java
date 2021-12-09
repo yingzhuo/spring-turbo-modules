@@ -23,19 +23,19 @@ public interface ExcelWalkerInterceptor {
         };
     }
 
-    public default void onWorkbook(Workbook workbook, WalkingPayload payload) {
+    public default void onWorkbook(Workbook workbook, ProcessPayload payload) {
         // noop
     }
 
-    public default void onSheet(Workbook workbook, Sheet sheet, WalkingPayload payload) {
+    public default void onSheet(Workbook workbook, Sheet sheet, ProcessPayload payload) {
         // noop
     }
 
-    public default void onRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload) {
+    public default void onRow(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload) {
         // noop
     }
 
-    public default ExitPolicy onThrowable(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, Throwable throwable) {
+    public default ExitPolicy onThrowable(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Throwable throwable) {
         return ExitPolicy.CONTINUE;
     }
 

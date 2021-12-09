@@ -11,7 +11,7 @@ package spring.turbo.module.excel.reader.annotation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.util.CollectionUtils;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.ProcessPayload;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ class EnableValueObjectReadingConfiguration {
     }
 
     private static class BrokenValueObjectReader implements ValueObjectReader {
-        public void read(ExcelDiscriminator discriminator, Resource resource, WalkingPayload payload) {
+        public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
             throw new UnsupportedOperationException("ValueObjectListener not registered");
         }
     }

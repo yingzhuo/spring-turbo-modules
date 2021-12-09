@@ -12,55 +12,29 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
+import org.springframework.validation.BindingResult;
 import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.ProcessPayload;
 
 import java.io.Serializable;
 
 /**
+ * @param <T> valueObject类型
  * @author 应卓
  * @since 1.0.0
  */
 @Immutable
-public class ErrorContext implements Serializable {
+public class InvalidDataContext<T> extends AbstractContext<T> implements Serializable {
 
-    private final ProcessPayload payload;
-    private final Resource resource;
-    private final Workbook workbook;
-    private final Sheet sheet;
-    private final Row row;
-    private final Throwable throwable;
+    private final BindingResult bindingResult;
 
-    public ErrorContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, Throwable throwable) {
-        this.payload = payload;
-        this.resource = resource;
-        this.workbook = workbook;
-        this.sheet = sheet;
-        this.row = row;
-        this.throwable = throwable;
+    public InvalidDataContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
+        super(payload, resource, workbook, sheet, row, valueObject);
+        this.bindingResult = bindingResult;
     }
 
-    public ProcessPayload getPayload() {
-        return payload;
+    public BindingResult getBindingResult() {
+        return bindingResult;
     }
 
-    public Resource getResource() {
-        return resource;
-    }
-
-    public Workbook getWorkbook() {
-        return workbook;
-    }
-
-    public Sheet getSheet() {
-        return sheet;
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public Throwable getThrowable() {
-        return throwable;
-    }
 }

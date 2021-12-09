@@ -22,8 +22,8 @@ import spring.turbo.bean.valueobject.ReflectionObjectSupplier;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.module.excel.*;
 import spring.turbo.module.excel.context.ErrorContext;
+import spring.turbo.module.excel.context.InvalidDataContext;
 import spring.turbo.module.excel.context.SuccessContext;
-import spring.turbo.module.excel.context.ThrowableContext;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
@@ -48,15 +48,15 @@ public final class ValueObjectReadingWalkerBuilder<T> {
     private final List<RowPredicate> interceptorExcludeRowPredicate = new LinkedList<>();
     private final HeaderConfig headerConfig = HeaderConfig.newInstance();
     private final AliasConfig aliasConfig = AliasConfig.newInstance();
-    private Supplier<WalkingPayload> payloadSupplier = WalkingPayload::newInstance;
+    private Supplier<ProcessPayload> payloadSupplier = ProcessPayload::newInstance;
     private ConversionService conversionService;
     private CellParser cellParser = new DefaultCellParser();
     private boolean skipAllNullData = true;
     private Consumer<SuccessContext<T>> onSuccessConsumer = ctx -> {
     };
-    private Consumer<ErrorContext<T>> onErrorConsumer = ctx -> {
+    private Consumer<InvalidDataContext<T>> onInvalidDataConsumer = ctx -> {
     };
-    private Function<ThrowableContext, ExitPolicy> onThrowableFunction = ctx -> ExitPolicy.CONTINUE;
+    private Function<ErrorContext, ExitPolicy> onThrowableFunction = ctx -> ExitPolicy.CONTINUE;
 
     private ValueObjectReadingWalkerBuilder(Supplier<T> valueObjectSupplier, Class<T> valueObjectType) {
         Asserts.notNull(valueObjectSupplier);
@@ -190,11 +190,11 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> payload(WalkingPayload payload) {
+    public ValueObjectReadingWalkerBuilder<T> payload(ProcessPayload payload) {
         return payloadSupplier(() -> payload);
     }
 
-    public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<WalkingPayload> payloadSupplier) {
+    public ValueObjectReadingWalkerBuilder<T> payloadSupplier(Supplier<ProcessPayload> payloadSupplier) {
         Asserts.notNull(payloadSupplier);
         this.payloadSupplier = payloadSupplier;
         return this;
@@ -226,13 +226,13 @@ public final class ValueObjectReadingWalkerBuilder<T> {
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> onError(Consumer<ErrorContext<T>> consumer) {
+    public ValueObjectReadingWalkerBuilder<T> onInvalidData(Consumer<InvalidDataContext<T>> consumer) {
         Asserts.notNull(consumer);
-        this.onErrorConsumer = consumer;
+        this.onInvalidDataConsumer = consumer;
         return this;
     }
 
-    public ValueObjectReadingWalkerBuilder<T> onThrowable(Function<ThrowableContext, ExitPolicy> function) {
+    public ValueObjectReadingWalkerBuilder<T> onError(Function<ErrorContext, ExitPolicy> function) {
         Asserts.notNull(function);
         this.onThrowableFunction = function;
         return this;
@@ -272,7 +272,7 @@ public final class ValueObjectReadingWalkerBuilder<T> {
             }
 
             @Override
-            protected void doOnRow(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, String[] header, String[] rowData) {
+            protected void doOnRow(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, String[] header, String[] rowData) {
                 T vo = valueObjectSupplier.get();
 
                 if (vo == null) {
@@ -298,15 +298,15 @@ public final class ValueObjectReadingWalkerBuilder<T> {
                 final BindingResult bindingResult = dataBinding.bind();
 
                 if (bindingResult.hasErrors()) {
-                    onErrorConsumer.accept(new ErrorContext<>(payload, excel, workbook, sheet, row, vo, bindingResult));
+                    onInvalidDataConsumer.accept(new InvalidDataContext<>(payload, excel, workbook, sheet, row, vo, bindingResult));
                 } else {
                     onSuccessConsumer.accept(new SuccessContext<>(payload, excel, workbook, sheet, row, vo));
                 }
             }
 
             @Override
-            public ExitPolicy onThrowable(Workbook workbook, Sheet sheet, Row row, WalkingPayload payload, Throwable throwable) {
-                return onThrowableFunction.apply(new ThrowableContext(payload, excel, workbook, sheet, row, throwable));
+            public ExitPolicy onThrowable(Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Throwable throwable) {
+                return onThrowableFunction.apply(new ErrorContext(payload, excel, workbook, sheet, row, throwable));
             }
         };
 

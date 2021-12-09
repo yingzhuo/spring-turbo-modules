@@ -24,7 +24,7 @@ import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.CellParser;
 import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
-import spring.turbo.module.excel.WalkingPayload;
+import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.reader.AliasConfig;
 import spring.turbo.module.excel.reader.HeaderConfig;
 import spring.turbo.module.excel.reader.ValueObjectReadingWalkerBuilder;
@@ -49,7 +49,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
     }
 
     @Override
-    public void read(ExcelDiscriminator discriminator, Resource resource, WalkingPayload payload) {
+    public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
 
         if (!configMap.containsKey(discriminator.getDiscriminatorValue())) {
             String msg = StringFormatter.format("cannot find configuration for {}", discriminator.getDiscriminatorValue());
@@ -67,12 +67,12 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
 
         ValueObjectReadingWalkerBuilder<?> builder = ValueObjectReadingWalkerBuilder
                 .newInstance(holder.valueObjectType)
-                .payload(Optional.ofNullable(payload).orElseGet(WalkingPayload::newInstance))
+                .payload(Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance))
                 .conversionService(springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new))
                 .validators(springContext.getBean(Validator.class).orElseGet(NullValidator::new))
                 .onSuccess(listener::onSuccess)
+                .onInvalidData(listener::onInvalidData)
                 .onError(listener::onError)
-                .onThrowable(listener::onThrowable)
                 .cellParser(cellParser);
 
         if (!holder.includeSheetIndexes.isEmpty()) {
