@@ -22,17 +22,17 @@ public final class WalkingPayload
         extends LinkedMultiValueMap<String, Object>
         implements Map<String, List<Object>>, Serializable {
 
-    public static WalkingPayload newInstance() {
-        return new WalkingPayload();
-    }
+    private long handledRow = 0L;
+    private long handledRowSuccess = 0L;
+    private long handledRowError = 0L;
 
     private WalkingPayload() {
         super();
     }
 
-    private long handledRow = 0L;
-    private long handledRowSuccess = 0L;
-    private long handledRowError = 0L;
+    public static WalkingPayload newInstance() {
+        return new WalkingPayload();
+    }
 
     public long getHandledRow() {
         return handledRow;
