@@ -8,18 +8,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.context.annotation.Bean;
-import spring.turbo.module.excel.visitor.Visitor;
+import java.lang.annotation.*;
 
-import java.util.List;
+/**
+ * @author 应卓
+ * @since 1.0.0
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ExcludeRowRange {
 
-class SpringBootAutoConfiguration {
+    public int sheetIndex();
 
-    @Bean
-    @ConditionalOnBean(value = Visitor.class, annotation = ValueObjectReading.class)
-    ValueObjectReader valueObjectReader(List<Visitor> vs) {
-        return new ValueObjectReaderImpl(vs);
-    }
+    public int minInclude();
+
+    public int maxExclude();
 
 }

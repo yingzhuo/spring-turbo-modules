@@ -6,33 +6,36 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.context;
+package spring.turbo.module.excel.visitor;
 
-import lombok.Getter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
 import org.springframework.validation.BindingResult;
-import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.ProcessPayload;
-
-import java.io.Serializable;
+import spring.turbo.module.excel.reader.ExitPolicy;
 
 /**
- * @param <T> valueObject类型
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
-@Getter
-public class InvalidDataContext<T> extends AbstractContext<T> implements Serializable {
+public interface Visitor {
 
-    private final BindingResult bindingResult;
+    public default void beforeProcessing(Resource resource, Workbook workbook, ProcessPayload payload) {
+    }
 
-    public InvalidDataContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
-        super(payload, resource, workbook, sheet, row, valueObject);
-        this.bindingResult = bindingResult;
+    public default void onValidValueObject(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Object valueObject) {
+    }
+
+    public default void onInvalidValueObject(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Object vo, BindingResult bindingResult) {
+    }
+
+    public default ExitPolicy onError(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Throwable throwable) {
+        return ExitPolicy.CONTINUE;
+    }
+
+    public default void afterProcessing(Resource resource, Workbook workbook, ProcessPayload payload) {
     }
 
 }

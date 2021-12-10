@@ -6,22 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
+package spring.turbo.module.excel.reader;
 
-import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.ProcessPayload;
+import java.lang.annotation.*;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface ValueObjectReader {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Header {
 
-    public default void read(ExcelDiscriminator discriminator, Resource resource) {
-        read(discriminator, resource, ProcessPayload.newInstance());
-    }
+    public int sheetIndex();
 
-    public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
+    public int rowIndex();
 
 }

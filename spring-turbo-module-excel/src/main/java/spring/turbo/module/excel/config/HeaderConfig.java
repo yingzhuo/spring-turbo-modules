@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.config;
 
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
@@ -55,8 +55,8 @@ public final class HeaderConfig implements Serializable {
         return fixed(sheetIndex, 0, header);
     }
 
-    public HeaderConfig fixed(int sheetIndex, int firstCellIndex, String... header) {
-        sheetIndexFixedHeader.add(Tuple.of(sheetIndex, firstCellIndex, header));
+    public HeaderConfig fixed(int sheetIndex, int offset, String... header) {
+        sheetIndexFixedHeader.add(Tuple.of(sheetIndex, offset, header));
         return this;
     }
 
@@ -64,8 +64,8 @@ public final class HeaderConfig implements Serializable {
         return fixed(sheetName, 0, header);
     }
 
-    public HeaderConfig fixed(String sheetName, int firstCellIndex, String... header) {
-        sheetNameFixedHeader.add(Tuple.of(sheetName, firstCellIndex, header));
+    public HeaderConfig fixed(String sheetName, int offset, String... header) {
+        sheetNameFixedHeader.add(Tuple.of(sheetName, offset, header));
         return this;
     }
 
@@ -84,4 +84,5 @@ public final class HeaderConfig implements Serializable {
     public List<Tuple<Integer, Integer, String[]>> getSheetIndexFixedHeader() {
         return sheetIndexFixedHeader;
     }
+
 }

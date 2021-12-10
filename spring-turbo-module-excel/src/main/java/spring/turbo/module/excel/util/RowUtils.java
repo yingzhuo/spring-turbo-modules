@@ -6,33 +6,34 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.context;
+package spring.turbo.module.excel.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.core.io.Resource;
-import spring.turbo.lang.Immutable;
-import spring.turbo.module.excel.ProcessPayload;
-
-import java.io.Serializable;
+import spring.turbo.bean.Pair;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
-@AllArgsConstructor
-@Getter
-public class ErrorContext implements Serializable {
+public final class RowUtils {
 
-    private final ProcessPayload payload;
-    private final Resource resource;
-    private final Workbook workbook;
-    private final Sheet sheet;
-    private final Row row;
-    private final Throwable throwable;
+    private RowUtils() {
+        super();
+    }
+
+    public static Pair<Workbook, Sheet> getParent(Row row) {
+        Asserts.notNull(row);
+        Sheet sheet = row.getSheet();
+        Workbook workbook = sheet.getWorkbook();
+        return Pair.of(workbook, sheet);
+    }
+
+    public static int getIndex(Row row) {
+        Asserts.notNull(row);
+        return row.getRowNum();
+    }
 
 }

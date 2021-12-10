@@ -10,6 +10,7 @@ package spring.turbo.module.excel.function;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import spring.turbo.module.excel.util.SheetUtils;
 import spring.turbo.util.Asserts;
 
 import java.util.*;
@@ -73,7 +74,7 @@ public final class RowPredicateFactories {
         Asserts.noNullElements(indexes);
 
         final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
-        return (sheet, row) -> sheetName.equals(sheet.getSheetName()) && set.contains(row.getRowNum());
+        return (sheet, row) -> sheetName.equals(SheetUtils.getName(sheet)) && set.contains(row.getRowNum());
     }
 
     public static RowPredicate indexInSet(final int sheetIndex, Integer... indexes) {
@@ -82,7 +83,7 @@ public final class RowPredicateFactories {
         Asserts.noNullElements(indexes);
 
         final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
-        return (sheet, row) -> sheetIndex == sheet.getWorkbook().getSheetIndex(sheet) && set.contains(row.getRowNum());
+        return (sheet, row) -> sheetIndex == SheetUtils.getIndex(sheet) && set.contains(row.getRowNum());
     }
 
     public static RowPredicate indexInRange(final String sheetName, final int minInclude, final int maxExclude) {
@@ -90,7 +91,7 @@ public final class RowPredicateFactories {
         Asserts.isTrue(minInclude <= maxExclude);
         return (sheet, row) -> {
             int rowIndex = row.getRowNum();
-            return sheetName.equals(sheet.getSheetName()) && rowIndex >= minInclude && rowIndex < maxExclude;
+            return sheetName.equals(SheetUtils.getName(sheet)) && rowIndex >= minInclude && rowIndex < maxExclude;
         };
     }
 
@@ -99,7 +100,7 @@ public final class RowPredicateFactories {
         Asserts.isTrue(minInclude <= maxExclude);
         return (sheet, row) -> {
             int rowIndex = row.getRowNum();
-            return sheetIndex == sheet.getWorkbook().getSheetIndex(sheet) && rowIndex >= minInclude && rowIndex < maxExclude;
+            return sheetIndex == SheetUtils.getIndex(sheet) && rowIndex >= minInclude && rowIndex < maxExclude;
         };
     }
 

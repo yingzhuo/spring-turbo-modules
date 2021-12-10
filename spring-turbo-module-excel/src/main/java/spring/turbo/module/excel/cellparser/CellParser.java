@@ -6,23 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
+package spring.turbo.module.excel.cellparser;
 
-import java.lang.annotation.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.lang.Nullable;
 
 /**
+ * 从cell中解析出文本
+ *
  * @author 应卓
  * @since 1.0.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ExcludeRowRange {
+@FunctionalInterface
+public interface CellParser {
 
-    public int sheetIndex();
-
-    public int minInclude();
-
-    public int maxExclude();
+    @Nullable
+    public String convert(@Nullable Cell cell);
 
 }

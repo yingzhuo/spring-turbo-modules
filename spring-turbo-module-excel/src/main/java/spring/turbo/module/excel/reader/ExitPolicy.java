@@ -6,21 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
-
-import java.lang.annotation.*;
+package spring.turbo.module.excel.reader;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ExcludeRowSet {
+public enum ExitPolicy {
 
-    public int sheetIndex();
+    /**
+     * 退出
+     */
+    ABORT,
 
-    public int[] rowIndexes() default {};
+    /**
+     * 继续
+     */
+    CONTINUE
 
 }

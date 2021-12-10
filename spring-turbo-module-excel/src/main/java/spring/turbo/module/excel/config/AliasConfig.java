@@ -6,18 +6,34 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
+package spring.turbo.module.excel.config;
+
+import spring.turbo.lang.Mutable;
+import spring.turbo.util.Asserts;
+
+import java.io.Serializable;
+import java.util.HashMap;
 
 /**
- * Excel种类鉴别器
- *
  * @author 应卓
  * @since 1.0.0
  */
-public interface ExcelDiscriminator {
+@Mutable
+public final class AliasConfig extends HashMap<String, String> implements Serializable {
 
-    public default String getDiscriminatorValue() {
-        return this.toString();
+    private AliasConfig() {
+        super();
+    }
+
+    public static AliasConfig newInstance() {
+        return new AliasConfig();
+    }
+
+    public AliasConfig add(String from, String to) {
+        Asserts.hasText(from);
+        Asserts.hasText(to);
+        this.put(from, to);
+        return this;
     }
 
 }

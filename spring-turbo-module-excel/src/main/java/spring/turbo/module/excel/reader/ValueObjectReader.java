@@ -6,34 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.context;
+package spring.turbo.module.excel.reader;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
-import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.ProcessPayload;
 
-import java.io.Serializable;
-
 /**
- * @param <T> valueObject类型
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
-@AllArgsConstructor
-@Getter
-abstract class AbstractContext<T> implements Serializable {
+@FunctionalInterface
+public interface ValueObjectReader {
 
-    private final ProcessPayload payload;
-    private final Resource resource;
-    private final Workbook workbook;
-    private final Sheet sheet;
-    private final Row row;
-    private final T valueObject;
+    public default void read(ExcelDiscriminator discriminator, Resource resource) {
+        read(discriminator, resource, ProcessPayload.newInstance());
+    }
+
+    public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
 
 }

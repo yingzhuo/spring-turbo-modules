@@ -6,24 +6,23 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.context.annotation.Bean;
-
-import java.util.List;
+package spring.turbo.module.excel.visitor;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-class SpringBootAutoConfiguration {
+public final class NullVisitor implements Visitor {
 
-    @Bean
-    @ConditionalOnBean(value = {ValueObjectListener.class}, annotation = ValueObjectReading.class)
-    ValueObjectReader valueObjectReader(List<ValueObjectListener> listenerList) {
-        return new ValueObjectReaderImpl(listenerList);
+    private NullVisitor() {
+    }
+
+    public static NullVisitor getInstance() {
+        return SyncAvoid.INSTANCE;
+    }
+
+    private static class SyncAvoid {
+        static NullVisitor INSTANCE = new NullVisitor();
     }
 
 }

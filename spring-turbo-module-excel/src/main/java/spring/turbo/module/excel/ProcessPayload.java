@@ -11,6 +11,8 @@ package spring.turbo.module.excel;
 import org.springframework.util.LinkedMultiValueMap;
 import spring.turbo.lang.Mutable;
 
+import java.util.Optional;
+
 /**
  * @author 应卓
  * @since 1.0.0
@@ -64,6 +66,24 @@ public final class ProcessPayload extends LinkedMultiValueMap<String, Object> {
 
     public void incrErrorCount(long n) {
         this.errorCount += n;
+    }
+
+    public boolean hasInvalidData() {
+        return this.invalidDataCount > 0;
+    }
+
+    public boolean hasError() {
+        return this.errorCount > 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T findFirst(String key) {
+        return (T) super.getFirst(key);
+    }
+
+    public <T> T findFirstOrDefault(String key, T defaultValue) {
+        T o = findFirst(key);
+        return Optional.ofNullable(o).orElse(defaultValue);
     }
 
 }

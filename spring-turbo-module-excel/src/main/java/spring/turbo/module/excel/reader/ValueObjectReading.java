@@ -6,14 +6,14 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
+package spring.turbo.module.excel.reader;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 import spring.turbo.bean.valueobject.Alias;
-import spring.turbo.module.excel.CellParser;
-import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
+import spring.turbo.module.excel.cellparser.CellParser;
+import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.util.StringPool;
 
 import java.lang.annotation.*;

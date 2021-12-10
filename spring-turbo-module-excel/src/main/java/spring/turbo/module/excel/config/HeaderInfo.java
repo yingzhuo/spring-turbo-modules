@@ -6,21 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel;
+package spring.turbo.module.excel.config;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.springframework.lang.Nullable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import spring.turbo.lang.Mutable;
+
+import java.io.Serializable;
 
 /**
- * 从cell中解析出文本
- *
  * @author 应卓
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface CellParser {
+@Mutable
+@Getter
+@Setter
+@NoArgsConstructor
+public final class HeaderInfo implements Serializable {
 
-    @Nullable
-    public String convert(@Nullable Cell cell);
+    private String sheetName;
+    private int sheetIndex;
+    private int rowIndex;
+    private int firstCellIndex;
+    private String[] data;
 
 }

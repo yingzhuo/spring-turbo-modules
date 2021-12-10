@@ -6,27 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.context;
+package spring.turbo.module.excel.reader;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.core.io.Resource;
-import spring.turbo.lang.Immutable;
-import spring.turbo.module.excel.ProcessPayload;
-
-import java.io.Serializable;
+import java.lang.annotation.*;
 
 /**
- * @param <T> valueObject类型
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
-public class SuccessContext<T> extends AbstractContext<T> implements Serializable {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ExcludeRowSet {
 
-    public SuccessContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
-        super(payload, resource, workbook, sheet, row, valueObject);
-    }
+    public int sheetIndex();
+
+    public int[] rowIndexes() default {};
 
 }

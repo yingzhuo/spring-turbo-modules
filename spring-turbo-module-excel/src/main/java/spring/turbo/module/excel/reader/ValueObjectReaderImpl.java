@@ -6,28 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
+package spring.turbo.module.excel.reader;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
-import org.springframework.format.support.DefaultFormattingConversionService;
-import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.Alias;
+import spring.turbo.bean.valueobject.NullValidator;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.core.SpringContext;
 import spring.turbo.core.SpringContextAware;
-import spring.turbo.module.excel.CellParser;
-import spring.turbo.module.excel.DefaultCellParser;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
-import spring.turbo.module.excel.reader.AliasConfig;
-import spring.turbo.module.excel.reader.HeaderConfig;
-import spring.turbo.module.excel.reader.ValueObjectReadingWalkerBuilder;
+import spring.turbo.module.excel.cellparser.CellParser;
+import spring.turbo.module.excel.cellparser.DefaultCellParser;
+import spring.turbo.module.excel.config.AliasConfig;
+import spring.turbo.module.excel.config.HeaderConfig;
+import spring.turbo.module.excel.function.RowPredicateFactories;
+import spring.turbo.module.excel.function.SheetPredicateFactories;
+import spring.turbo.module.excel.visitor.Visitor;
 import spring.turbo.util.StringFormatter;
 
 import java.util.*;
@@ -36,16 +37,15 @@ import java.util.*;
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
 
-    private final List<ValueObjectListener> listeners;
+    private final List<Visitor> visitors;
     private final Map<String, ConfigHolder> configMap = new HashMap<>();
-    private final Map<String, ValueObjectListener<?>> listenerMap = new HashMap<>();
+    private final Map<String, Visitor> listenerMap = new HashMap<>();
     private SpringContext springContext;
 
-    ValueObjectReaderImpl(List<ValueObjectListener> listeners) {
-        this.listeners = listeners;
+    ValueObjectReaderImpl(List<Visitor> visitors) {
+        this.visitors = visitors;
     }
 
     @Override
@@ -56,7 +56,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             throw new IllegalArgumentException(msg);
         }
 
-        ValueObjectListener listener = listenerMap.get(discriminator.getDiscriminatorValue());
+        Visitor listener = listenerMap.get(discriminator.getDiscriminatorValue());
         ConfigHolder holder = configMap.get(discriminator.getDiscriminatorValue());
 
         CellParser cellParser = ValueObjectUtils.newInstance(holder.cellParserType).orElse(null);
@@ -64,45 +64,42 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             cellParser = new DefaultCellParser();
         }
 
-
-        ValueObjectReadingWalkerBuilder<?> builder = ValueObjectReadingWalkerBuilder
-                .newInstance(holder.valueObjectType)
-                .payload(Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance))
-                .conversionService(springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new))
-                .validators(springContext.getBean(Validator.class).orElseGet(NullValidator::new))
-                .onSuccess(listener::onSuccess)
-                .onInvalidData(listener::onInvalidData)
-                .onError(listener::onError)
-                .cellParser(cellParser);
+        WalkerBuilder builder = Walker
+                .builder(holder.valueObjectType)
+                .payload(payload)
+                .conversionService(springContext.getBean(ConversionService.class).orElse(null))
+                .validators(getValidators())
+                .cellParser(cellParser)
+                .headerConfig(holder.headerConfig)
+                .aliasConfig(holder.aliasConfig)
+                .visitor(listener);
 
         if (!holder.includeSheetIndexes.isEmpty()) {
-            builder.onlyReadSheet(holder.includeSheetIndexes.toArray(new Integer[0]));
-        }
-
-        for (Pair<Integer, Integer> pair : holder.headerConfig.getSheetIndexConfig()) {
-            builder.sheetHeader(pair.getA(), pair.getB());
+            builder.includeSheet(SheetPredicateFactories.ofIndex(holder.includeSheetIndexes.toArray(new Integer[0])));
         }
 
         for (Pair<Integer, Set<Integer>> pair : holder.excludeRowSets) {
-            builder.excludeRowInSet(pair.getA(), pair.getB().toArray(new Integer[0]));
+            builder.excludeRow(RowPredicateFactories.indexInSet(pair.getA(), pair.getB().toArray(new Integer[0])));
         }
 
         for (Tuple<Integer, Integer, Integer> tuple : holder.excludeRowRanges) {
-            builder.excludeRowInRange(tuple.getA(), tuple.getB(), tuple.getC());
-        }
-
-        for (String from : holder.aliasConfig.keySet()) {
-            String to = holder.aliasConfig.get(from);
-            builder.alias(from, to);
+            builder.excludeRow(RowPredicateFactories.indexInRange(tuple.getA(), tuple.getB(), tuple.getC()));
         }
 
         builder.build(holder.excelType, resource)
                 .walk();
     }
 
+    private List<Validator> getValidators() {
+        Validator v = springContext.getBean(Validator.class).orElseGet(NullValidator::new);
+        final List<Validator> list = new ArrayList<>();
+        list.add(v);
+        return list;
+    }
+
     @Override
     public void afterPropertiesSet() {
-        for (ValueObjectListener<?> listener : listeners) {
+        for (Visitor listener : visitors) {
             ValueObjectReading annotation = AnnotationUtils.findAnnotation(listener.getClass(), ValueObjectReading.class);
             if (annotation == null) {
                 continue;
@@ -182,21 +179,6 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         private ExcelType excelType;
         private Class<?> valueObjectType;
         private Class<? extends CellParser> cellParserType;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    private static class NullValidator implements Validator {
-
-        @Override
-        public boolean supports(Class<?> clazz) {
-            return true;
-        }
-
-        @Override
-        public void validate(Object target, Errors errors) {
-            // nop
-        }
     }
 
 }
