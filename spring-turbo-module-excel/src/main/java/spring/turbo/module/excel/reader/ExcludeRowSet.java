@@ -21,6 +21,6 @@ public @interface ExcludeRowSet {
 
     public int sheetIndex();
 
-    public int[] rowIndexes() default {};
+    public int[] rowIndexes();
 
 }

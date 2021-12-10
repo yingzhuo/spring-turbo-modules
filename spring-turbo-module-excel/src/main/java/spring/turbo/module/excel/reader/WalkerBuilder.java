@@ -40,8 +40,8 @@ import java.util.Optional;
 public final class WalkerBuilder {
 
     private final Class<?> valueObjectType;
-    private List<SheetPredicate> includeSheetPredicates = new LinkedList<>();
-    private List<RowPredicate> excludeRowPredicates = new LinkedList<>();
+    private final List<SheetPredicate> includeSheetPredicates = new LinkedList<>();
+    private final List<RowPredicate> excludeRowPredicates = new LinkedList<>();
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
     private CellParser cellParser;
@@ -137,7 +137,7 @@ public final class WalkerBuilder {
                 Optional.ofNullable(cellParser).orElseGet(DefaultCellParser::new),
                 Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance),
                 Optional.ofNullable(conversionService).orElseGet(DefaultFormattingConversionService::new),
-                Optional.ofNullable(validators).orElse(Collections.singletonList(new NullValidator())),
+                Optional.ofNullable(validators).orElse(Collections.singletonList(NullValidator.getInstance())),
                 Optional.ofNullable(visitor).orElseGet(NullVisitor::getInstance)
         );
     }

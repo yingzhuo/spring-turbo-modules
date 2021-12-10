@@ -68,7 +68,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
                 .builder(holder.valueObjectType)
                 .payload(payload)
                 .conversionService(springContext.getBean(ConversionService.class).orElse(null))
-                .validators(getValidators())
+                .validators(getValidators(holder))
                 .cellParser(cellParser)
                 .headerConfig(holder.headerConfig)
                 .aliasConfig(holder.aliasConfig)
@@ -90,16 +90,24 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
                 .walk();
     }
 
-    private List<Validator> getValidators() {
-        Validator v = springContext.getBean(Validator.class).orElseGet(NullValidator::new);
-        final List<Validator> list = new ArrayList<>();
-        list.add(v);
+    private List<Validator> getValidators(ConfigHolder holder) {
+        final List<Validator> list = new ArrayList<>(springContext.getBeanList(Validator.class));
+
+        for (Class<? extends Validator> clazz : holder.additionalValidators) {
+            list.add(ValueObjectUtils.newInstanceOrThrow(clazz));
+        }
+
+        if (list.isEmpty()) {
+            list.add(NullValidator.getInstance());
+        }
+
         return list;
     }
 
     @Override
     public void afterPropertiesSet() {
         for (Visitor listener : visitors) {
+            // double check
             ValueObjectReading annotation = AnnotationUtils.findAnnotation(listener.getClass(), ValueObjectReading.class);
             if (annotation == null) {
                 continue;
@@ -110,6 +118,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             holder.excelType = annotation.excelType();
             holder.valueObjectType = annotation.valueObjectType();
             holder.cellParserType = annotation.cellParser();
+            holder.additionalValidators = annotation.additionalValidators();
 
             this.setIncludeSheetIndexes(holder, annotation);
             this.setHeader(holder, annotation);
@@ -179,6 +188,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         private ExcelType excelType;
         private Class<?> valueObjectType;
         private Class<? extends CellParser> cellParserType;
+        private Class<? extends Validator>[] additionalValidators;
     }
 
 }

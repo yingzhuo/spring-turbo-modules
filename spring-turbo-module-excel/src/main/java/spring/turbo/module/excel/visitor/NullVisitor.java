@@ -15,6 +15,7 @@ package spring.turbo.module.excel.visitor;
 public final class NullVisitor implements Visitor {
 
     private NullVisitor() {
+        super();
     }
 
     public static NullVisitor getInstance() {
@@ -22,7 +23,7 @@ public final class NullVisitor implements Visitor {
     }
 
     private static class SyncAvoid {
-        static NullVisitor INSTANCE = new NullVisitor();
+        private final static NullVisitor INSTANCE = new NullVisitor();
     }
 
 }

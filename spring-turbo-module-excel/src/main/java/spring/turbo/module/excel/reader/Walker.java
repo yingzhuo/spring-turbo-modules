@@ -141,8 +141,7 @@ public final class Walker {
 
                     final String[] data = this.getRowData(row, header.length, headerInfo.getFirstCellIndex());
 
-                    final Object vo = ValueObjectUtils.newInstance(valueObjectType)
-                            .orElseThrow(() -> new IllegalArgumentException("cannot create value object"));
+                    final Object vo = ValueObjectUtils.newInstanceOrThrow(valueObjectType);
 
                     final BindingResult bindingResult = DataBinding.newInstance()
                             .valueObject(vo)
