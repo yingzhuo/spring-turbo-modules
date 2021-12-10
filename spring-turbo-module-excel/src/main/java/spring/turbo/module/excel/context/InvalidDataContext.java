@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.context;
 
+import lombok.Getter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,6 +25,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @Immutable
+@Getter
 public class InvalidDataContext<T> extends AbstractContext<T> implements Serializable {
 
     private final BindingResult bindingResult;
@@ -31,10 +33,6 @@ public class InvalidDataContext<T> extends AbstractContext<T> implements Seriali
     public InvalidDataContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject, BindingResult bindingResult) {
         super(payload, resource, workbook, sheet, row, valueObject);
         this.bindingResult = bindingResult;
-    }
-
-    public BindingResult getBindingResult() {
-        return bindingResult;
     }
 
 }

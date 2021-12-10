@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.context;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,6 +25,8 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @Immutable
+@AllArgsConstructor
+@Getter
 abstract class AbstractContext<T> implements Serializable {
 
     private final ProcessPayload payload;
@@ -32,36 +36,4 @@ abstract class AbstractContext<T> implements Serializable {
     private final Row row;
     private final T valueObject;
 
-    public AbstractContext(ProcessPayload payload, Resource resource, Workbook workbook, Sheet sheet, Row row, T valueObject) {
-        this.payload = payload;
-        this.resource = resource;
-        this.workbook = workbook;
-        this.sheet = sheet;
-        this.row = row;
-        this.valueObject = valueObject;
-    }
-
-    public ProcessPayload getPayload() {
-        return payload;
-    }
-
-    public Resource getResource() {
-        return resource;
-    }
-
-    public Workbook getWorkbook() {
-        return workbook;
-    }
-
-    public Sheet getSheet() {
-        return sheet;
-    }
-
-    public Row getRow() {
-        return row;
-    }
-
-    public T getValueObject() {
-        return valueObject;
-    }
 }
