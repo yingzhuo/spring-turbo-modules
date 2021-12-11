@@ -91,12 +91,14 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
     }
 
     private List<Validator> getValidators(ConfigHolder holder) {
-        final List<Validator> list = new ArrayList<>(springContext.getBeanList(Validator.class));
+        final List<Validator> list = new ArrayList<>();
+        springContext.getBean(Validator.class).ifPresent(list::add);    // 注意只要加入spring托管的primary-validator
 
         for (Class<? extends Validator> clazz : holder.additionalValidators) {
             list.add(InstanceUtils.newInstanceOrThrow(clazz));
         }
 
+        // 实在找不到合适的拉一个垫背的
         if (list.isEmpty()) {
             list.add(NullValidator.getInstance());
         }
