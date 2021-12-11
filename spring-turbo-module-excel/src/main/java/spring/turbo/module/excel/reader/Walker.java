@@ -35,6 +35,8 @@ import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
 import spring.turbo.module.excel.util.SheetUtils;
 import spring.turbo.module.excel.visitor.Visitor;
+import spring.turbo.module.excel.visitor.VisitorContext;
+import spring.turbo.util.InstanceUtils;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -105,7 +107,7 @@ public final class Walker {
                 // nop
             }
 
-            visitor.afterProcessing(resource, wb, payload);
+            visitor.afterProcessing(new VisitorContext(resource, wb), payload);
         }
     }
 
@@ -116,10 +118,10 @@ public final class Walker {
         this.betterExcludeRow(); // 微调excludeRowPredicate，使其可以跳过header行
 
         try {
-            visitor.beforeProcessing(resource, wb, payload);
+            visitor.beforeProcessing(new VisitorContext(resource, wb), payload);
         } catch (Throwable e) {
             payload.incrErrorCount();
-            if (ExitPolicy.ABORT == visitor.onError(resource, wb, null, null, payload, e)) {
+            if (ExitPolicy.ABORT == visitor.onError(new VisitorContext(resource, wb), payload, e)) {
                 throw new AbortException();
             }
         }
@@ -141,7 +143,7 @@ public final class Walker {
 
                     final String[] data = this.getRowData(row, header.length, headerInfo.getFirstCellIndex());
 
-                    final Object vo = ValueObjectUtils.newInstanceOrThrow(valueObjectType);
+                    final Object vo = InstanceUtils.newInstanceOrThrow(valueObjectType);
 
                     final BindingResult bindingResult = DataBinding.newInstance()
                             .valueObject(vo)
@@ -156,20 +158,20 @@ public final class Walker {
                     if (bindingResult.hasErrors()) {
                         try {
                             payload.incrInvalidDataCount();
-                            visitor.onInvalidValueObject(resource, wb, sh, row, payload, vo, bindingResult);
+                            visitor.onInvalidValueObject(new VisitorContext(resource, wb, sh, row), payload, vo, bindingResult);
                         } catch (Throwable e) {
                             payload.incrErrorCount();
-                            if (ExitPolicy.ABORT == visitor.onError(resource, wb, sh, row, payload, e)) {
+                            if (ExitPolicy.ABORT == visitor.onError(new VisitorContext(resource, wb, sh, row), payload, e)) {
                                 throw new AbortException();
                             }
                         }
                     } else {
                         try {
                             payload.incrSuccessCount();
-                            visitor.onValidValueObject(resource, wb, sh, row, payload, vo);
+                            visitor.onValidValueObject(new VisitorContext(resource, wb, sh, row), payload, vo);
                         } catch (Throwable e) {
                             payload.incrErrorCount();
-                            if (ExitPolicy.ABORT == visitor.onError(resource, wb, sh, row, payload, e)) {
+                            if (ExitPolicy.ABORT == visitor.onError(new VisitorContext(resource, wb, sh, row), payload, e)) {
                                 throw new AbortException();
                             }
                         }
@@ -298,7 +300,6 @@ public final class Walker {
         }
     }
 
-
     private String[] replaceWithAlias(String[] header) {
         if (this.aliasConfig == null) {
             return header;
@@ -322,4 +323,5 @@ public final class Walker {
         }
         return data.toArray(new String[0]);
     }
+
 }

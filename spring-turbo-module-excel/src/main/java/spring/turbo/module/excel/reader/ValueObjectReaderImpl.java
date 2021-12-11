@@ -17,7 +17,6 @@ import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.NullValidator;
-import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.core.SpringContext;
 import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.ExcelType;
@@ -29,6 +28,7 @@ import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.visitor.Visitor;
+import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringFormatter;
 
 import java.util.*;
@@ -59,7 +59,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         Visitor listener = listenerMap.get(discriminator.getDiscriminatorValue());
         ConfigHolder holder = configMap.get(discriminator.getDiscriminatorValue());
 
-        CellParser cellParser = ValueObjectUtils.newInstance(holder.cellParserType).orElse(null);
+        CellParser cellParser = InstanceUtils.newInstance(holder.cellParserType).orElse(null);
         if (cellParser == null) {
             cellParser = new DefaultCellParser();
         }
@@ -94,7 +94,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         final List<Validator> list = new ArrayList<>(springContext.getBeanList(Validator.class));
 
         for (Class<? extends Validator> clazz : holder.additionalValidators) {
-            list.add(ValueObjectUtils.newInstanceOrThrow(clazz));
+            list.add(InstanceUtils.newInstanceOrThrow(clazz));
         }
 
         if (list.isEmpty()) {

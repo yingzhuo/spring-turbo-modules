@@ -23,7 +23,7 @@ import spring.turbo.util.Asserts;
  */
 public final class CellUtils {
 
-    public static final CellParser PARSER = new DefaultCellParser();
+    private static final CellParser PARSER = new DefaultCellParser();
 
     private CellUtils() {
         super();

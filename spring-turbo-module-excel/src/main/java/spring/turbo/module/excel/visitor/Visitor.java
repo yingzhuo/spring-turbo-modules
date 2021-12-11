@@ -8,10 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.visitor;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.core.io.Resource;
 import org.springframework.validation.BindingResult;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.reader.ExitPolicy;
@@ -22,20 +18,20 @@ import spring.turbo.module.excel.reader.ExitPolicy;
  */
 public interface Visitor {
 
-    public default void beforeProcessing(Resource resource, Workbook workbook, ProcessPayload payload) {
+    public default void beforeProcessing(VisitorContext context, ProcessPayload payload) {
     }
 
-    public default void onValidValueObject(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Object valueObject) {
+    public default void onValidValueObject(VisitorContext context, ProcessPayload payload, Object valueObject) {
     }
 
-    public default void onInvalidValueObject(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Object vo, BindingResult bindingResult) {
+    public default void onInvalidValueObject(VisitorContext context, ProcessPayload payload, Object vo, BindingResult bindingResult) {
     }
 
-    public default ExitPolicy onError(Resource resource, Workbook workbook, Sheet sheet, Row row, ProcessPayload payload, Throwable throwable) {
+    public default ExitPolicy onError(VisitorContext context, ProcessPayload payload, Throwable throwable) {
         return ExitPolicy.CONTINUE;
     }
 
-    public default void afterProcessing(Resource resource, Workbook workbook, ProcessPayload payload) {
+    public default void afterProcessing(VisitorContext context, ProcessPayload payload) {
     }
 
 }
