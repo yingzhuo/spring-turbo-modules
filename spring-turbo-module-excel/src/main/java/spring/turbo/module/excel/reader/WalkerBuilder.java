@@ -49,6 +49,7 @@ public final class WalkerBuilder {
     private ConversionService conversionService;
     private List<Validator> validators;
     private Visitor visitor;
+    private String password;
 
     WalkerBuilder(Class<?> valueObjectType) {
         Asserts.notNull(valueObjectType);
@@ -118,6 +119,11 @@ public final class WalkerBuilder {
         return this;
     }
 
+    public WalkerBuilder password(String password) {
+        this.password = password;
+        return this;
+    }
+
     public Walker build(Resource resource) {
         return build(ExcelType.XSSF, resource);
     }
@@ -138,7 +144,8 @@ public final class WalkerBuilder {
                 Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance),
                 Optional.ofNullable(conversionService).orElseGet(DefaultFormattingConversionService::new),
                 Optional.ofNullable(validators).orElse(Collections.singletonList(NullValidator.getInstance())),
-                Optional.ofNullable(visitor).orElseGet(NullVisitor::getInstance)
+                Optional.ofNullable(visitor).orElseGet(NullVisitor::getInstance),
+                password
         );
     }
 

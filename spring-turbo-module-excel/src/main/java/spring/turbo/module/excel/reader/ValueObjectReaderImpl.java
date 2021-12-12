@@ -72,6 +72,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
                 .cellParser(cellParser)
                 .headerConfig(holder.headerConfig)
                 .aliasConfig(holder.aliasConfig)
+                .password(holder.password)
                 .visitor(listener);
 
         if (!holder.includeSheetIndexes.isEmpty()) {
@@ -121,6 +122,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
             holder.valueObjectType = annotation.valueObjectType();
             holder.cellParserType = annotation.cellParser();
             holder.additionalValidators = annotation.additionalValidators();
+            holder.password = annotation.password();
 
             this.setIncludeSheetIndexes(holder, annotation);
             this.setHeader(holder, annotation);
@@ -191,6 +193,7 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
         private Class<?> valueObjectType;
         private Class<? extends CellParser> cellParserType;
         private Class<? extends Validator>[] additionalValidators;
+        private String password;
     }
 
 }

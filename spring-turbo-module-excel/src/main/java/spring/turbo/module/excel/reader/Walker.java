@@ -8,7 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
+import org.apache.poi.UnsupportedFileFormatException;
+import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.crypt.Decryptor;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,6 +21,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
@@ -40,6 +46,7 @@ import spring.turbo.util.InstanceUtils;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,9 +70,11 @@ public final class Walker {
     private final List<Validator> validators;
     private final Visitor visitor;
     private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
+    private final String password;
     private RowPredicate excludeRowPredicate; // 不是final还需要微调
+    private POIFSFileSystem fileSystem;
 
-    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor) {
+    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password) {
         this.excelType = excelType;
         this.resource = resource;
         this.valueObjectType = valueObjectType;
@@ -78,6 +87,7 @@ public final class Walker {
         this.conversionService = conversionService;
         this.validators = validators;
         this.visitor = visitor;
+        this.password = StringUtils.hasLength(password) ? password : null;
     }
 
     public static WalkerBuilder builder(Class<?> valueObjectType) {
@@ -96,6 +106,14 @@ public final class Walker {
             if (wb != null) {
                 try {
                     wb.close();
+                } catch (IOException e) {
+                    // nop
+                }
+            }
+
+            if (fileSystem != null) {
+                try {
+                    fileSystem.close();
                 } catch (IOException e) {
                     // nop
                 }
@@ -183,13 +201,38 @@ public final class Walker {
 
     private Workbook createWorkbook() {
         try {
+            return doCreateWorkbook();
+        } catch (UnsupportedFileFormatException e) {
+            throw new IllegalArgumentException("unable to process: document is broken or encrypted");
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } catch (GeneralSecurityException e) {
+            throw new IllegalArgumentException("unable to process: document is encrypted");
+        }
+    }
+
+    private Workbook doCreateWorkbook() throws IOException, GeneralSecurityException {
+
+        if (password == null) {
             if (excelType == ExcelType.XSSF) {
                 return new XSSFWorkbook(resource.getInputStream());
             } else {
                 return new HSSFWorkbook(resource.getInputStream());
             }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } else {
+            fileSystem = new POIFSFileSystem(resource.getInputStream());
+            if (excelType == ExcelType.XSSF) {
+                EncryptionInfo info = new EncryptionInfo(fileSystem);
+                Decryptor decryptor = Decryptor.getInstance(info);
+                if (!decryptor.verifyPassword(password)) {
+                    throw new IllegalArgumentException("unable to process: wrong password");
+                }
+                return new XSSFWorkbook(decryptor.getDataStream(fileSystem));
+            } else {
+
+                Biff8EncryptionKey.setCurrentUserPassword(password);
+                return new HSSFWorkbook(fileSystem);
+            }
         }
     }
 
