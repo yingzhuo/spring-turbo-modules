@@ -9,6 +9,7 @@
 package spring.turbo.module.excel.function;
 
 import org.apache.poi.ss.usermodel.Sheet;
+import spring.turbo.module.excel.util.SheetUtils;
 import spring.turbo.util.Asserts;
 
 import java.util.Arrays;
@@ -90,6 +91,14 @@ public final class SheetPredicateFactories {
             int i = sheet.getWorkbook().getSheetIndex(sheet);
             return Arrays.asList(indexes).contains(i);
         };
+    }
+
+    public static SheetPredicate isHidden() {
+        return SheetUtils::isHidden;
+    }
+
+    public static SheetPredicate isVisitable() {
+        return SheetUtils::isVisitable;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

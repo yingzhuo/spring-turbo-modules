@@ -32,6 +32,16 @@ public final class SheetUtils {
         return sheet.getWorkbook().getSheetIndex(sheet);
     }
 
+    public static boolean isHidden(Sheet sheet) {
+        Asserts.notNull(sheet);
+        return sheet.getWorkbook().isSheetHidden(getIndex(sheet));
+    }
+
+    public static boolean isVisitable(Sheet sheet) {
+        Asserts.notNull(sheet);
+        return !isHidden(sheet);
+    }
+
     public static Workbook getParent(Sheet sheet) {
         Asserts.notNull(sheet);
         return sheet.getWorkbook();
