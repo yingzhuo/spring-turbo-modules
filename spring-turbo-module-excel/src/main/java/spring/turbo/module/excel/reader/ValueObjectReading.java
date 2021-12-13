@@ -18,6 +18,7 @@ import spring.turbo.module.excel.cellparser.DefaultCellParser;
 
 import java.lang.annotation.*;
 
+import static spring.turbo.module.excel.ExcelType.XSSF;
 import static spring.turbo.util.StringPool.EMPTY;
 
 /**
@@ -37,7 +38,7 @@ public @interface ValueObjectReading {
 
     public Class<?> valueObjectType();
 
-    public ExcelType excelType() default ExcelType.XSSF;
+    public ExcelType excelType() default XSSF;
 
     public Header[] headers();
 
@@ -54,5 +55,7 @@ public @interface ValueObjectReading {
     public Class<? extends Validator>[] additionalValidators() default {};
 
     public String password() default EMPTY;
+
+    public Class<? extends AdditionalConfiguration>[] additionalConfigurations() default {};
 
 }

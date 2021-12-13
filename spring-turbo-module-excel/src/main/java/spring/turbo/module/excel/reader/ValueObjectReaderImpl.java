@@ -25,6 +25,7 @@ import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
+import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.visitor.Visitor;
@@ -91,6 +92,17 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             builder.excludeRow(RowPredicateFactories.indexInRange(tuple.getA(), tuple.getB(), tuple.getC()));
         }
 
+        for (Class<? extends AdditionalConfiguration> additionalConfigurationType : holder.additionalConfigurations) {
+            AdditionalConfiguration additionalConfiguration = InstanceUtils.newInstanceOrThrow(additionalConfigurationType);
+            Optional.ofNullable(additionalConfiguration.excludeRows()).ifPresent(ps -> {
+                for (RowPredicate p : ps) {
+                    if (p != null) {
+                        builder.excludeRow(p);
+                    }
+                }
+            });
+        }
+
         builder.build(holder.excelType, resource)
                 .walk();
     }
@@ -127,6 +139,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             holder.cellParserType = annotation.cellParser();
             holder.additionalValidators = annotation.additionalValidators();
             holder.password = annotation.password();
+            holder.additionalConfigurations = annotation.additionalConfigurations();
 
             this.setIncludeSheetIndexes(holder, annotation);
             this.setHeader(holder, annotation);
@@ -197,6 +210,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         private Class<?> valueObjectType;
         private Class<? extends CellParser> cellParserType;
         private Class<? extends Validator>[] additionalValidators;
+        private Class<? extends AdditionalConfiguration>[] additionalConfigurations;
         private String password;
     }
 
