@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import spring.turbo.module.excel.util.RowUtils;
 import spring.turbo.module.excel.util.SheetUtils;
+import spring.turbo.util.ArrayUtils;
 import spring.turbo.util.Asserts;
 
 import java.util.*;
@@ -74,8 +75,7 @@ public final class RowPredicateFactories {
         Asserts.notNull(indexes);
         Asserts.noNullElements(indexes);
 
-        final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
-        return (sheet, row) -> sheetName.equals(SheetUtils.getName(sheet)) && set.contains(row.getRowNum());
+        return (sheet, row) -> sheetName.equals(SheetUtils.getName(sheet)) && ArrayUtils.contains(indexes, row.getRowNum());
     }
 
     public static RowPredicate indexInSet(final int sheetIndex, Integer... indexes) {
@@ -83,8 +83,7 @@ public final class RowPredicateFactories {
         Asserts.notNull(indexes);
         Asserts.noNullElements(indexes);
 
-        final Set<Integer> set = new HashSet<>(Arrays.asList(indexes));
-        return (sheet, row) -> sheetIndex == SheetUtils.getIndex(sheet) && set.contains(row.getRowNum());
+        return (sheet, row) -> sheetIndex == SheetUtils.getIndex(sheet) && ArrayUtils.contains(indexes, row.getRowNum());
     }
 
     public static RowPredicate indexInRange(final String sheetName, final int minInclude, final int maxExclude) {
