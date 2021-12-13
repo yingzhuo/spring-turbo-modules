@@ -37,7 +37,7 @@ import java.util.*;
  * @author 应卓
  * @since 1.0.0
  */
-class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
+public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
 
     private final List<Visitor> visitors;
     private final Map<String, ConfigHolder> configMap = new HashMap<>();
@@ -50,6 +50,10 @@ class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, In
 
     @Override
     public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
+
+        if (payload == null) {
+            payload = ProcessPayload.newInstance();
+        }
 
         if (!configMap.containsKey(discriminator.getDiscriminatorValue())) {
             String msg = StringFormatter.format("cannot find configuration for {}", discriminator.getDiscriminatorValue());

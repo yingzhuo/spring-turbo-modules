@@ -10,6 +10,7 @@ package spring.turbo.module.excel.function;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import spring.turbo.module.excel.util.RowUtils;
 import spring.turbo.module.excel.util.SheetUtils;
 import spring.turbo.util.Asserts;
 
@@ -102,6 +103,22 @@ public final class RowPredicateFactories {
             int rowIndex = row.getRowNum();
             return sheetIndex == SheetUtils.getIndex(sheet) && rowIndex >= minInclude && rowIndex < maxExclude;
         };
+    }
+
+    public static RowPredicate isZeroHeight() {
+        return (sheet, row) -> RowUtils.isZeroHeight(row);
+    }
+
+    public static RowPredicate isNotZeroHeight() {
+        return (sheet, row) -> RowUtils.isNotZeroHeight(row);
+    }
+
+    public static RowPredicate isFormatted() {
+        return (sheet, row) -> RowUtils.isFormatted(row);
+    }
+
+    public static RowPredicate isNotFormatted() {
+        return (sheet, row) -> RowUtils.isNotFormatted(row);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

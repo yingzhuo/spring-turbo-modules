@@ -36,4 +36,22 @@ public final class RowUtils {
         return row.getRowNum();
     }
 
+    public static boolean isZeroHeight(Row row) {
+        Asserts.notNull(row);
+        return row.getZeroHeight();
+    }
+
+    public static boolean isNotZeroHeight(Row row) {
+        return !isZeroHeight(row);
+    }
+
+    public static boolean isFormatted(Row row) {
+        Asserts.notNull(row);
+        return row.isFormatted();
+    }
+
+    public static boolean isNotFormatted(Row row) {
+        return !isFormatted(row);
+    }
+
 }
