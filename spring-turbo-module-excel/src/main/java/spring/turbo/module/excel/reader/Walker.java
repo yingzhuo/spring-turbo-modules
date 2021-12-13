@@ -71,9 +71,9 @@ public final class Walker {
     private final Visitor visitor;
     private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
     private final String password;
+    private final boolean excludeAllNullRow;
     private RowPredicate excludeRowPredicate; // 不是final还需要微调
     private POIFSFileSystem fileSystem;
-    private final boolean excludeAllNullRow;
 
     Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password, boolean excludeAllNullRow) {
         this.excelType = excelType;
