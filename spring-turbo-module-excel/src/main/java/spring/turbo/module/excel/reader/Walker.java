@@ -73,8 +73,9 @@ public final class Walker {
     private final String password;
     private RowPredicate excludeRowPredicate; // 不是final还需要微调
     private POIFSFileSystem fileSystem;
+    private final boolean excludeAllNullRow;
 
-    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password) {
+    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password, boolean excludeAllNullRow) {
         this.excelType = excelType;
         this.resource = resource;
         this.valueObjectType = valueObjectType;
@@ -88,6 +89,7 @@ public final class Walker {
         this.validators = validators;
         this.visitor = visitor;
         this.password = StringUtils.hasLength(password) ? password : null;
+        this.excludeAllNullRow = excludeAllNullRow;
     }
 
     public static WalkerBuilder builder(Class<?> valueObjectType) {
@@ -160,6 +162,9 @@ public final class Walker {
                     }
 
                     final String[] data = this.getRowData(row, header.length, headerInfo.getFirstCellIndex());
+                    if (this.excludeAllNullRow && isAllNullElements(data)) {
+                        continue;
+                    }
 
                     final Object vo = InstanceUtils.newInstanceOrThrow(valueObjectType);
 
@@ -197,6 +202,13 @@ public final class Walker {
                 }
             }
         }
+    }
+
+    private boolean isAllNullElements(String[] array) {
+        for (String s : array) {
+            if (s != null) return false;
+        }
+        return true;
     }
 
     private Workbook createWorkbook() {

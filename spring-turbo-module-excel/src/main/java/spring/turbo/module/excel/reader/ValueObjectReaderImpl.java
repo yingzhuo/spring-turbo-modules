@@ -77,6 +77,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
                 .cellParser(cellParser)
                 .headerConfig(holder.headerConfig)
                 .aliasConfig(holder.aliasConfig)
+                .excludeAllNullRow(holder.excludeAllNullRow)
                 .password(holder.password)
                 .visitor(listener);
 
@@ -140,6 +141,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             holder.additionalValidators = annotation.additionalValidators();
             holder.password = annotation.password();
             holder.additionalConfigurations = annotation.additionalConfigurations();
+            holder.excludeAllNullRow = annotation.excludeAllNullRow();
 
             this.setIncludeSheetIndexes(holder, annotation);
             this.setHeader(holder, annotation);
@@ -211,6 +213,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         private Class<? extends CellParser> cellParserType;
         private Class<? extends Validator>[] additionalValidators;
         private Class<? extends AdditionalConfiguration>[] additionalConfigurations;
+        private boolean excludeAllNullRow;
         private String password;
     }
 

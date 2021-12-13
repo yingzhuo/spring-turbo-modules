@@ -56,6 +56,8 @@ public @interface ValueObjectReading {
 
     public String password() default EMPTY;
 
+    public boolean excludeAllNullRow() default true;
+
     public Class<? extends AdditionalConfiguration>[] additionalConfigurations() default {};
 
 }
