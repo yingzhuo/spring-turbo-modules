@@ -9,7 +9,7 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.util.Assert;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -21,8 +21,8 @@ final class ECDSA256AlgorithmFactory extends ECDSAAlgorithmFactory {
     private final String privateKey;
 
     public ECDSA256AlgorithmFactory(String publicKey, String privateKey) {
-        Assert.hasText(publicKey, "publicKey is blank");
-        Assert.hasText(privateKey, "privateKey is blank");
+        Asserts.hasText(publicKey, "publicKey is blank");
+        Asserts.hasText(privateKey, "privateKey is blank");
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }

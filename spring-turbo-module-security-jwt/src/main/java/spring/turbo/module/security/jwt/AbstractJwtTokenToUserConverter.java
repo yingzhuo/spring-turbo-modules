@@ -14,11 +14,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.Verification;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.Assert;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
+import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.StringToken;
 import spring.turbo.webmvc.token.Token;
 
@@ -31,12 +32,14 @@ import java.util.Optional;
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {
 
     private final Algorithm algorithm;
+    private final ConversionService conversionService;
 
-    public AbstractJwtTokenToUserConverter(AlgorithmFactory factory) {
-        Assert.notNull(factory, "factory");
+    public AbstractJwtTokenToUserConverter(AlgorithmFactory factory, ConversionService conversionService) {
+        Asserts.notNull(factory);
         Algorithm alg = factory.create();
-        Assert.notNull(alg, "algorithm");
+        Asserts.notNull(alg);
         this.algorithm = alg;
+        this.conversionService = conversionService;
     }
 
     @Override

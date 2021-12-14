@@ -9,7 +9,7 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.util.Assert;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -21,8 +21,8 @@ final class RSA384AlgorithmFactory extends RSAAlgorithmFactory {
     private final String privateKey;
 
     public RSA384AlgorithmFactory(String publicKey, String privateKey) {
-        Assert.hasText(publicKey, "publicKey is blank");
-        Assert.hasText(privateKey, "privateKey is blank");
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }

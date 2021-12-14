@@ -31,4 +31,5 @@ public @interface CurrentUserAttributes {
 
     @AliasFor(annotation = AuthenticationPrincipal.class, attribute = "errorOnInvalidType")
     public boolean errorOnInvalidType() default false;
+
 }

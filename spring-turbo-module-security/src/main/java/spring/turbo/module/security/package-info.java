@@ -85,4 +85,5 @@ class SpringBootAutoConfiguration {
         bean.setAllowSemicolon(true);
         return bean;
     }
+
 }
