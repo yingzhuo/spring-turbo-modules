@@ -10,6 +10,7 @@ package spring.turbo.module.excel.cellparser;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.springframework.lang.Nullable;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,7 +21,7 @@ import java.text.SimpleDateFormat;
  * @see spring.turbo.format.DateTimeFormat
  * @since 1.0.0
  */
-public class DefaultCellParser implements CellParser {
+public class DefaultCellParser implements CellParser, GlobalCellParser {
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"; // ISO DateTime
 
@@ -35,7 +36,7 @@ public class DefaultCellParser implements CellParser {
     }
 
     @Override
-    public String convert(Cell cell) {
+    public String convert(@Nullable Cell cell) {
         if (cell == null) {
             return null;
         }

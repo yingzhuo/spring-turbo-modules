@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -33,6 +34,7 @@ import spring.turbo.module.excel.AbortException;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.cellparser.CellParser;
+import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.config.HeaderInfo;
@@ -47,10 +49,7 @@ import spring.turbo.util.InstanceUtils;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author 应卓
@@ -64,18 +63,19 @@ public final class Walker {
     private final SheetPredicate includeSheetPredicate;
     private final HeaderConfig headerConfig;
     private final AliasConfig aliasConfig;
-    private final CellParser cellParser;
+    private final GlobalCellParser globalCellParser;
     private final ProcessPayload payload;
     private final ConversionService conversionService;
     private final List<Validator> validators;
     private final Visitor visitor;
     private final Map<String, HeaderInfo> headerInfoMap = new HashMap<>();
+    private final List<Tuple<Integer, Integer, CellParser>> cellParsers;
     private final String password;
     private final boolean excludeAllNullRow;
     private RowPredicate excludeRowPredicate; // 不是final还需要微调
     private POIFSFileSystem fileSystem;
 
-    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, CellParser cellParser, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password, boolean excludeAllNullRow) {
+    Walker(ExcelType excelType, Resource resource, Class<?> valueObjectType, SheetPredicate includeSheetPredicate, RowPredicate excludeRowPredicate, HeaderConfig headerConfig, AliasConfig aliasConfig, GlobalCellParser cellParser, List<Tuple<Integer, Integer, CellParser>> cellParsers, ProcessPayload payload, ConversionService conversionService, List<Validator> validators, Visitor visitor, String password, boolean excludeAllNullRow) {
         this.excelType = excelType;
         this.resource = resource;
         this.valueObjectType = valueObjectType;
@@ -83,7 +83,8 @@ public final class Walker {
         this.excludeRowPredicate = excludeRowPredicate;
         this.headerConfig = headerConfig;
         this.aliasConfig = aliasConfig;
-        this.cellParser = cellParser;
+        this.globalCellParser = cellParser;
+        this.cellParsers = CollectionUtils.isEmpty(cellParsers) ? new ArrayList<>() : Collections.unmodifiableList(cellParsers);
         this.payload = payload;
         this.conversionService = conversionService;
         this.validators = validators;
@@ -317,7 +318,7 @@ public final class Walker {
                     int offset = row.getFirstCellNum();
                     final List<String> data = new ArrayList<>();
                     for (Cell cell : row) {
-                        data.add(cellParser.convert(cell));
+                        data.add(globalCellParser.convert(cell));
                     }
                     HeaderInfo headerInfo = new HeaderInfo();
                     headerInfo.setSheetName(sheet.getSheetName());
@@ -341,7 +342,7 @@ public final class Walker {
                     int offset = row.getFirstCellNum();
                     final List<String> data = new ArrayList<>();
                     for (Cell cell : row) {
-                        data.add(cellParser.convert(cell));
+                        data.add(globalCellParser.convert(cell));
                     }
                     HeaderInfo headerInfo = new HeaderInfo();
                     headerInfo.setSheetName(sheetName);
@@ -374,9 +375,18 @@ public final class Walker {
         List<String> data = new ArrayList<>();
         for (int i = firstCellIndex; i < headerSize + firstCellIndex; i++) {
             Cell cell = row.getCell(i);
-            data.add(cellParser.convert(cell));
+            data.add(getEffCellParser(SheetUtils.getIndex(cell.getSheet()), cell.getColumnIndex()).convert(cell));
         }
         return data.toArray(new String[0]);
+    }
+
+    public CellParser getEffCellParser(int sheetIndex, int columnIndex) {
+        for (Tuple<Integer, Integer, CellParser> tuple : this.cellParsers) {
+            if (tuple.getA() == sheetIndex && tuple.getB() == columnIndex) {
+                return tuple.getC();
+            }
+        }
+        return this.globalCellParser;
     }
 
 }

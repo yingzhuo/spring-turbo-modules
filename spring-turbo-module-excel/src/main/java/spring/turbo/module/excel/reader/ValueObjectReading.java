@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.module.excel.ExcelType;
-import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
+import spring.turbo.module.excel.cellparser.GlobalCellParser;
 
 import java.lang.annotation.*;
 
@@ -50,7 +50,7 @@ public @interface ValueObjectReading {
 
     public ExcludeRowRange[] excludeRowRanges() default {};
 
-    public Class<? extends CellParser> cellParser() default DefaultCellParser.class;
+    public Class<? extends GlobalCellParser> globalCellParser() default DefaultCellParser.class;
 
     public Class<? extends Validator>[] additionalValidators() default {};
 

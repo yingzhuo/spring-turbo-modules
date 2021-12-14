@@ -21,8 +21,8 @@ import spring.turbo.core.SpringContext;
 import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
-import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
+import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.function.RowPredicate;
@@ -36,6 +36,7 @@ import java.util.*;
 
 /**
  * @author 应卓
+ * @see ValueObjectReading
  * @since 1.0.0
  */
 public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
@@ -64,9 +65,9 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         Visitor listener = listenerMap.get(discriminator.getDiscriminatorValue());
         ConfigHolder holder = configMap.get(discriminator.getDiscriminatorValue());
 
-        CellParser cellParser = InstanceUtils.newInstance(holder.cellParserType).orElse(null);
-        if (cellParser == null) {
-            cellParser = new DefaultCellParser();
+        GlobalCellParser gcp = InstanceUtils.newInstance(holder.globalCellParserType).orElse(null);
+        if (gcp == null) {
+            gcp = new DefaultCellParser();
         }
 
         WalkerBuilder builder = Walker
@@ -74,7 +75,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
                 .payload(payload)
                 .conversionService(springContext.getBean(ConversionService.class).orElse(null))
                 .validators(getValidators(holder))
-                .cellParser(cellParser)
+                .globalCellParser(gcp)
                 .headerConfig(holder.headerConfig)
                 .aliasConfig(holder.aliasConfig)
                 .excludeAllNullRow(holder.excludeAllNullRow)
@@ -137,7 +138,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             holder.discriminatorValue = annotation.discriminatorValue();
             holder.excelType = annotation.excelType();
             holder.valueObjectType = annotation.valueObjectType();
-            holder.cellParserType = annotation.cellParser();
+            holder.globalCellParserType = annotation.globalCellParser();
             holder.additionalValidators = annotation.additionalValidators();
             holder.password = annotation.password();
             holder.additionalConfigurations = annotation.additionalConfigurations();
@@ -210,7 +211,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         private String discriminatorValue;
         private ExcelType excelType;
         private Class<?> valueObjectType;
-        private Class<? extends CellParser> cellParserType;
+        private Class<? extends GlobalCellParser> globalCellParserType;
         private Class<? extends Validator>[] additionalValidators;
         private Class<? extends AdditionalConfiguration>[] additionalConfigurations;
         private boolean excludeAllNullRow;

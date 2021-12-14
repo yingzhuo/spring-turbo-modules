@@ -13,11 +13,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Validator;
+import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.NullValidator;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
+import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.function.RowPredicate;
@@ -44,7 +46,8 @@ public final class WalkerBuilder {
     private final List<RowPredicate> excludeRowPredicates = new LinkedList<>();
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
-    private CellParser cellParser;
+    private GlobalCellParser globalCellParser;
+    private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
     private ProcessPayload payload;
     private ConversionService conversionService;
     private List<Validator> validators;
@@ -89,8 +92,13 @@ public final class WalkerBuilder {
         return this;
     }
 
-    public WalkerBuilder cellParser(CellParser cellParser) {
-        this.cellParser = cellParser;
+    public WalkerBuilder globalCellParser(GlobalCellParser cellParser) {
+        this.globalCellParser = cellParser;
+        return this;
+    }
+
+    public WalkerBuilder addCellParser(int sheetIndex, int columnIndex, CellParser cellParser) {
+        this.cellParsers.add(Tuple.of(sheetIndex, columnIndex, cellParser));
         return this;
     }
 
@@ -146,7 +154,8 @@ public final class WalkerBuilder {
                 CollectionUtils.isEmpty(this.excludeRowPredicates) ? RowPredicateFactories.alwaysFalse() : RowPredicateFactories.any(this.excludeRowPredicates.toArray(new RowPredicate[0])),
                 Optional.ofNullable(headerConfig).orElseGet(HeaderConfig::newInstance),
                 Optional.ofNullable(aliasConfig).orElseGet(AliasConfig::newInstance),
-                Optional.ofNullable(cellParser).orElseGet(DefaultCellParser::new),
+                Optional.ofNullable(globalCellParser).orElseGet(DefaultCellParser::new),
+                cellParsers,
                 Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance),
                 Optional.ofNullable(conversionService).orElseGet(DefaultFormattingConversionService::new),
                 Optional.ofNullable(validators).orElse(Collections.singletonList(NullValidator.getInstance())),

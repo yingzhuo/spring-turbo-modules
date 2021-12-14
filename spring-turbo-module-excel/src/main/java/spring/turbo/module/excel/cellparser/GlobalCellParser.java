@@ -12,16 +12,15 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.lang.Nullable;
 
 /**
- * 从cell中解析出文本
- *
  * @author 应卓
- * @see GlobalCellParser
+ * @see CellParser
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface CellParser {
+public interface GlobalCellParser extends CellParser {
 
     @Nullable
+    @Override
     public String convert(@Nullable Cell cell);
 
 }

@@ -9,19 +9,18 @@
 package spring.turbo.module.excel.cellparser;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.springframework.lang.Nullable;
+
+import java.util.Optional;
 
 /**
- * 从cell中解析出文本
- *
  * @author 应卓
- * @see GlobalCellParser
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface CellParser {
+public class SimpleCellParser implements CellParser, GlobalCellParser {
 
-    @Nullable
-    public String convert(@Nullable Cell cell);
+    @Override
+    public String convert(Cell cell) {
+        return Optional.ofNullable(cell).map(Cell::toString).orElse(null);
+    }
 
 }
