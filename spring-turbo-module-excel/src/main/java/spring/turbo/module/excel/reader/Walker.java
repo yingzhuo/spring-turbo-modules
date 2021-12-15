@@ -375,7 +375,11 @@ public final class Walker {
         List<String> data = new ArrayList<>();
         for (int i = firstCellIndex; i < headerSize + firstCellIndex; i++) {
             Cell cell = row.getCell(i);
-            data.add(getEffCellParser(SheetUtils.getIndex(cell.getSheet()), cell.getColumnIndex()).convert(cell));
+            if (cell != null) {
+                data.add(getEffCellParser(SheetUtils.getIndex(cell.getSheet()), cell.getColumnIndex()).convert(cell));
+            } else {
+                data.add(null);
+            }
         }
         return data.toArray(new String[0]);
     }

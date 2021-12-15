@@ -154,6 +154,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             this.setAlias(holder, annotation);
             this.setExcludeRowSets(holder, annotation);
             this.setExcludeRowRanges(holder, annotation);
+            this.setColumnCellParsers(holder, annotation);
 
             this.configMap.put(holder.discriminatorValue, holder);
             this.listenerMap.put(holder.discriminatorValue, listener);
@@ -220,11 +221,11 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         private final AliasConfig aliasConfig = AliasConfig.newInstance();
         private final Set<Pair<Integer, Set<Integer>>> excludeRowSets = new HashSet<>();
         private final Set<Tuple<Integer, Integer, Integer>> excludeRowRanges = new HashSet<>();
+        private final List<Tuple<Integer, Integer, Class<? extends CellParser>>> columnCellParsers = new ArrayList<>();
         private String discriminatorValue;
         private ExcelType excelType;
         private Class<?> valueObjectType;
         private Class<? extends GlobalCellParser> globalCellParserType;
-        private List<Tuple<Integer, Integer, Class<? extends CellParser>>> columnCellParsers = new ArrayList<>();
         private Class<? extends Validator>[] additionalValidators;
         private Class<? extends AdditionalConfiguration>[] additionalConfigurations;
         private boolean excludeAllNullRow;
