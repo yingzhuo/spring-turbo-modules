@@ -52,7 +52,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
     }
 
     @Override
-    public void read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
+    public ProcessingResult read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
 
         if (payload == null) {
             payload = ProcessPayload.newInstance();
@@ -110,7 +110,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
             builder.addCellParser(tuple.getA(), tuple.getB(), InstanceUtils.newInstanceOrThrow(tuple.getC()));
         }
 
-        builder.build(holder.excelType, resource)
+        return builder.build(holder.excelType, resource)
                 .walk();
     }
 

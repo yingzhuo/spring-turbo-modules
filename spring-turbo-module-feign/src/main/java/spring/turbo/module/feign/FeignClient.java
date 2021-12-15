@@ -6,22 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.feign;
 
-import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.ProcessPayload;
+import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface ValueObjectReader {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface FeignClient {
 
-    public default ProcessingResult read(ExcelDiscriminator discriminator, Resource resource) {
-        return read(discriminator, resource, ProcessPayload.newInstance());
-    }
-
-    public ProcessingResult read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
+    public String value() default EMPTY;
 
 }

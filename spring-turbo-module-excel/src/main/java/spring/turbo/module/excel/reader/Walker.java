@@ -97,14 +97,15 @@ public final class Walker {
         return new WalkerBuilder(valueObjectType);
     }
 
-    public void walk() {
+    public ProcessingResult walk() {
         Workbook wb = null;
 
         try {
             wb = createWorkbook();
             doWalk(wb);
         } catch (AbortException ignored) {
-            // 强行中断
+            visitor.onAborted(payload);
+            return ProcessingResult.ABORTED;
         } finally {
             if (wb != null) {
                 try {
@@ -130,6 +131,8 @@ public final class Walker {
 
             visitor.afterProcessing(new VisitorContext(resource, wb), payload);
         }
+
+        return ProcessingResult.NORMAL;
     }
 
     private void doWalk(Workbook wb) throws AbortException {
@@ -158,6 +161,10 @@ public final class Walker {
                 final String[] header = headerInfo.getData();
 
                 for (Row row : sh) {
+                    if (visitor.shouldAbort(payload)) {
+                        throw new AbortException();
+                    }
+
                     if (excludeRowPredicate.test(sh, row)) {
                         continue;
                     }

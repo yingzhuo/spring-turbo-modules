@@ -21,6 +21,10 @@ public interface Visitor {
     public default void beforeProcessing(VisitorContext context, ProcessPayload payload) {
     }
 
+    public default boolean shouldAbort(ProcessPayload payload) {
+        return false;
+    }
+
     public default void onValidValueObject(VisitorContext context, ProcessPayload payload, Object valueObject) {
     }
 
@@ -32,6 +36,9 @@ public interface Visitor {
     }
 
     public default void afterProcessing(VisitorContext context, ProcessPayload payload) {
+    }
+
+    public default void onAborted(ProcessPayload payload) {
     }
 
 }

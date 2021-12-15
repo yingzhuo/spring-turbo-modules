@@ -8,20 +8,23 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
-import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.ProcessPayload;
-
 /**
+ * Walker处理最终状态
+ *
  * @author 应卓
+ * @see Walker
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface ValueObjectReader {
+public enum ProcessingResult {
 
-    public default ProcessingResult read(ExcelDiscriminator discriminator, Resource resource) {
-        return read(discriminator, resource, ProcessPayload.newInstance());
-    }
+    /**
+     * 正常结束
+     */
+    NORMAL,
 
-    public ProcessingResult read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
+    /**
+     * 被终止
+     */
+    ABORTED
 
 }

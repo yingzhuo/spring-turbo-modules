@@ -11,6 +11,7 @@
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-excel</module>
+        <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-security</module>
