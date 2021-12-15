@@ -52,6 +52,8 @@ public @interface ValueObjectReading {
 
     public Class<? extends GlobalCellParser> globalCellParser() default DefaultCellParser.class;
 
+    public ColumnCellParser[] columnCellParsers() default {};
+
     public Class<? extends Validator>[] additionalValidators() default {};
 
     public String password() default EMPTY;

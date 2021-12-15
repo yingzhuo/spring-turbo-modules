@@ -21,6 +21,7 @@ import spring.turbo.core.SpringContext;
 import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
+import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
@@ -103,6 +104,10 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
                     }
                 }
             });
+        }
+
+        for (Tuple<Integer, Integer, Class<? extends CellParser>> tuple : holder.columnCellParsers) {
+            builder.addCellParser(tuple.getA(), tuple.getB(), InstanceUtils.newInstanceOrThrow(tuple.getC()));
         }
 
         builder.build(holder.excelType, resource)
@@ -195,6 +200,13 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         }
     }
 
+    private void setColumnCellParsers(ConfigHolder holder, ValueObjectReading annotation) {
+        for (ColumnCellParser sub : annotation.columnCellParsers()) {
+            Tuple<Integer, Integer, Class<? extends CellParser>> tuple = Tuple.of(sub.sheetIndex(), sub.columnIndex(), sub.cellParser());
+            holder.columnCellParsers.add(tuple);
+        }
+    }
+
     @Override
     public void setSpringContext(SpringContext springContext) {
         this.springContext = springContext;
@@ -212,6 +224,7 @@ public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAw
         private ExcelType excelType;
         private Class<?> valueObjectType;
         private Class<? extends GlobalCellParser> globalCellParserType;
+        private List<Tuple<Integer, Integer, Class<? extends CellParser>>> columnCellParsers = new ArrayList<>();
         private Class<? extends Validator>[] additionalValidators;
         private Class<? extends AdditionalConfiguration>[] additionalConfigurations;
         private boolean excludeAllNullRow;

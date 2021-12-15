@@ -44,10 +44,10 @@ public final class WalkerBuilder {
     private final Class<?> valueObjectType;
     private final List<SheetPredicate> includeSheetPredicates = new LinkedList<>();
     private final List<RowPredicate> excludeRowPredicates = new LinkedList<>();
+    private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
     private GlobalCellParser globalCellParser;
-    private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
     private ProcessPayload payload;
     private ConversionService conversionService;
     private List<Validator> validators;
