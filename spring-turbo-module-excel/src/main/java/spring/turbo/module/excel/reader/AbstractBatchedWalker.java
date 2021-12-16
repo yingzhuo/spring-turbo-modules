@@ -17,7 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.Resource;
 import spring.turbo.module.excel.ExcelType;
-import spring.turbo.util.CloseableUtils;
+import spring.turbo.util.CloseUtils;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -31,7 +31,7 @@ abstract class AbstractBatchedWalker {
     protected POIFSFileSystem fileSystem;
 
     protected void close() {
-        CloseableUtils.closeQuietly(fileSystem);
+        CloseUtils.closeQuietly(fileSystem);
     }
 
     public Workbook createWorkbook(ExcelType excelType, Resource resource, String password) throws IOException, GeneralSecurityException {

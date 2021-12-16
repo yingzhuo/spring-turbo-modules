@@ -81,7 +81,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
             workbook = super.createWorkbook(excelType, resource, password);
         } catch (Exception e) {
             visitor.onResourceOpeningError(resource, excelType, password, payload);
-            CloseableUtils.closeQuietly(resource);
+            CloseUtils.closeQuietly(resource);
             return ProcessingResult.RESOURCE_ERROR;
         }
         this.initHeaderInfo(workbook);
@@ -94,8 +94,8 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
             return ProcessingResult.ABORTED;
         } finally {
             super.close();
-            CloseableUtils.closeQuietly(workbook);
-            CloseableUtils.closeQuietly(resource);
+            CloseUtils.closeQuietly(workbook);
+            CloseUtils.closeQuietly(resource);
         }
     }
 
