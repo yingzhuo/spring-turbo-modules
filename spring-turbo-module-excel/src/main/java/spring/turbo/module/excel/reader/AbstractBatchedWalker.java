@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
-import org.apache.poi.UnsupportedFileFormatException;
 import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.crypt.Decryptor;
@@ -21,7 +20,6 @@ import spring.turbo.module.excel.ExcelType;
 import spring.turbo.util.CloseableUtils;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
 
 /**
@@ -36,19 +34,7 @@ abstract class AbstractBatchedWalker {
         CloseableUtils.closeQuietly(fileSystem);
     }
 
-    protected final Workbook createWorkbook(ExcelType excelType, Resource resource, String password) {
-        try {
-            return doCreateWorkbook(excelType, resource, password);
-        } catch (UnsupportedFileFormatException e) {
-            throw new IllegalArgumentException("unable to process: document is broken or encrypted");
-        } catch (GeneralSecurityException e) {
-            throw new IllegalArgumentException("unable to process: document is encrypted");
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private Workbook doCreateWorkbook(ExcelType excelType, Resource resource, String password) throws IOException, GeneralSecurityException {
+    public Workbook createWorkbook(ExcelType excelType, Resource resource, String password) throws IOException, GeneralSecurityException {
         if (password == null) {
             if (excelType == ExcelType.XSSF) {
                 return new XSSFWorkbook(resource.getInputStream());

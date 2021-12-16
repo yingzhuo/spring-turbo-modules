@@ -6,7 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.reader.annotation;
+
+import spring.turbo.module.excel.ExcelType;
 
 import java.lang.annotation.*;
 
@@ -17,11 +19,8 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Deprecated
-public @interface Header {
+public @interface Type {
 
-    public int sheetIndex();
-
-    public int rowIndex();
+    public ExcelType value() default ExcelType.XSSF;
 
 }

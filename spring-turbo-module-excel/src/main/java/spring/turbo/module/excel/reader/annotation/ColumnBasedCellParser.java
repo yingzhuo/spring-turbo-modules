@@ -6,7 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.reader.annotation;
+
+import spring.turbo.module.excel.cellparser.CellParser;
 
 import java.lang.annotation.*;
 
@@ -16,12 +18,21 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Deprecated
-public @interface Header {
+@Target({ElementType.TYPE})
+@Repeatable(ColumnBasedCellParser.List.class)
+public @interface ColumnBasedCellParser {
 
     public int sheetIndex();
 
-    public int rowIndex();
+    public int columnIndex();
+
+    public Class<? extends CellParser> type();
+
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public static @interface List {
+        public ColumnBasedCellParser[] value() default {};
+    }
 
 }

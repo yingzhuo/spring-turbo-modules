@@ -26,6 +26,11 @@ public enum ProcessingResult {
     /**
      * 被终止
      */
-    ABORTED
+    ABORTED,
+
+    /**
+     * 资源错误
+     */
+    RESOURCE_ERROR
 
 }

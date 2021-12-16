@@ -76,7 +76,14 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
     private AliasConfig aliasConfig;
 
     public ProcessingResult walk() {
-        Workbook workbook = super.createWorkbook(excelType, resource, password);
+        Workbook workbook;
+        try {
+            workbook = super.createWorkbook(excelType, resource, password);
+        } catch (Exception e) {
+            visitor.onResourceOpeningError(resource, excelType, password, payload);
+            CloseableUtils.closeQuietly(resource);
+            return ProcessingResult.RESOURCE_ERROR;
+        }
         this.initHeaderInfo(workbook);
 
         try {
@@ -135,7 +142,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
                     // 创建一个vo对象
                     T vo = valueObjectSupplier.get();
 
-                    // 完成数据绑定
+                    // 完成数据绑定和验证
                     final BindingResult bindingResult = DataBinding.newInstance()
                             .valueObject(vo)
                             .conversionService(conversionService)
@@ -466,7 +473,8 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         public BatchedWalker<T> build() {
 
             // 合并alias
-            aliasConfig.putAll(ValueObjectUtils.getAliases(valueObjectType));
+            // 反射得到的Alias优先级更高
+            this.aliasConfig.putAll(ValueObjectUtils.getAliases(valueObjectType));
 
             final BatchedWalker<T> walker = new BatchedWalker<>();
             walker.valueObjectSupplier = valueObjectSupplier;

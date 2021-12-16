@@ -6,22 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.reader.annotation;
 
-import java.lang.annotation.*;
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
+@Component
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Deprecated
-public @interface Header {
+public @interface BatchedProcessor {
 
-    public int sheetIndex();
+    @AliasFor(annotation = Component.class, attribute = "value")
+    public String value() default EMPTY;
 
-    public int rowIndex();
+    public String discriminatorValue();
 
 }

@@ -6,9 +6,11 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.reader.annotation;
 
 import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.ANNOTATION_STRING_NULL;
 
 /**
  * @author 应卓
@@ -16,12 +18,11 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Deprecated
-public @interface Header {
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface BatchSize {
 
-    public int sheetIndex();
+    public int value() default 1000;
 
-    public int rowIndex();
+    public String expression() default ANNOTATION_STRING_NULL;
 
 }
