@@ -10,36 +10,36 @@ package spring.turbo.module.excel.visitor;
 
 import org.springframework.validation.BindingResult;
 import spring.turbo.module.excel.ProcessPayload;
+import spring.turbo.module.excel.reader.Batch;
 import spring.turbo.module.excel.reader.ExitPolicy;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-@Deprecated
-public interface Visitor {
+public interface BatchedVisitor<T> {
 
-    public default void beforeProcessing(VisitorContext context, ProcessPayload payload) {
+    public default void beforeProcessing(ProcessingContext context, ProcessPayload payload) {
+    }
+
+    public default void afterProcessing(ProcessPayload payload) {
     }
 
     public default boolean shouldAbort(ProcessPayload payload) {
         return false;
     }
 
-    public default void onValidValueObject(VisitorContext context, ProcessPayload payload, Object valueObject) {
+    public default void onInvalidValueObject(ProcessingContext context, ProcessPayload payload, Object vo, BindingResult bindingResult) {
     }
 
-    public default void onInvalidValueObject(VisitorContext context, ProcessPayload payload, Object vo, BindingResult bindingResult) {
+    public default void onValidValueObject(ProcessingContext context, ProcessPayload payload, Batch<T> dataBatch) {
     }
 
-    public default ExitPolicy onError(VisitorContext context, ProcessPayload payload, Throwable throwable) {
+    public default ExitPolicy onError(ProcessingContext context, ProcessPayload payload, Throwable throwable) {
         return ExitPolicy.CONTINUE;
     }
 
-    public default void afterProcessing(VisitorContext context, ProcessPayload payload) {
-    }
-
-    public default void onAborted(ProcessPayload payload) {
+    public default void onAbort(ProcessPayload payload) {
     }
 
 }

@@ -21,6 +21,7 @@ import java.io.Serializable;
  * @since 1.0.0
  */
 @Immutable
+@Deprecated
 public final class VisitorContext implements Serializable {
 
     private final Resource resource;

@@ -14,6 +14,7 @@ import spring.turbo.module.excel.function.RowPredicate;
  * @author 应卓
  * @since 1.0.0
  */
+@Deprecated
 public interface AdditionalConfiguration {
 
     public default RowPredicate[] excludeRows() {

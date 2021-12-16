@@ -55,6 +55,7 @@ import java.util.*;
  * @author 应卓
  * @since 1.0.0
  */
+@Deprecated
 public final class Walker {
 
     private final ExcelType excelType;
@@ -391,7 +392,7 @@ public final class Walker {
         return data.toArray(new String[0]);
     }
 
-    public CellParser getEffCellParser(int sheetIndex, int columnIndex) {
+    private CellParser getEffCellParser(int sheetIndex, int columnIndex) {
         for (Tuple<Integer, Integer, CellParser> tuple : this.cellParsers) {
             if (tuple.getA() == sheetIndex && tuple.getB() == columnIndex) {
                 return tuple.getC();

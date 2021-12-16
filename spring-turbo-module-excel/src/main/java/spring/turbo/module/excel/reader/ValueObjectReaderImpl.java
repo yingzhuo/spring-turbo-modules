@@ -40,6 +40,7 @@ import java.util.*;
  * @see ValueObjectReading
  * @since 1.0.0
  */
+@Deprecated
 public class ValueObjectReaderImpl implements ValueObjectReader, SpringContextAware, InitializingBean {
 
     private final List<Visitor> visitors;

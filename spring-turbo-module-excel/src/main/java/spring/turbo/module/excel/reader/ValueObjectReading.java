@@ -29,6 +29,7 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Component
+@Deprecated
 public @interface ValueObjectReading {
 
     @AliasFor(annotation = Component.class, attribute = "value")

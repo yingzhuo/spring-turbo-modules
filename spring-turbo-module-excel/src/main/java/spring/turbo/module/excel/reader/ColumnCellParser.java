@@ -14,6 +14,8 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
+ * @see CellParser
+ * @see spring.turbo.module.excel.cellparser.GlobalCellParser
  * @since 1.0.0
  */
 @Documented

@@ -12,6 +12,7 @@ package spring.turbo.module.excel.visitor;
  * @author 应卓
  * @since 1.0.0
  */
+@Deprecated
 public final class NullVisitor implements Visitor {
 
     private NullVisitor() {
