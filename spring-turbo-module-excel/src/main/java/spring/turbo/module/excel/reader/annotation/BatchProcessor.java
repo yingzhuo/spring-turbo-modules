@@ -17,6 +17,18 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
+ * @see BatchSize
+ * @see BatchSize_JPA_Hibernate
+ * @see ColumnBasedCellParser
+ * @see GlobalCellParser
+ * @see ExcludeRowSet
+ * @see ExcludeRowRange
+ * @see IncludeSheetSet
+ * @see Header
+ * @see Password
+ * @see Type
+ * @see spring.turbo.bean.valueobject.Alias
+ * @see spring.turbo.bean.valueobject.Alias.List
  * @since 1.0.0
  */
 @Component

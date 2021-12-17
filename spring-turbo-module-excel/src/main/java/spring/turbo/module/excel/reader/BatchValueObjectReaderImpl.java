@@ -8,25 +8,27 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
-import lombok.ToString;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.lang.Nullable;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
+import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.NullValidator;
+import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.cellparser.GlobalCellParser;
+import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.reader.annotation.ExcludeRowRange;
@@ -38,6 +40,8 @@ import spring.turbo.util.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static spring.turbo.util.StringPool.ANNOTATION_STRING_NULL;
 
 /**
  * @author 应卓
@@ -77,7 +81,6 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                         .excelType(config.excelType)
                         .password(config.password)
                         .conversionService(conversionService)
-                        .addIncludeSheet(SheetPredicateFactories.ofIndex(config.includeSheetSet.toArray(new Integer[0])))
                         .setValidators(validators)
                         .globalCellParser(config.globalCellParser);
 
@@ -95,6 +98,17 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
 
         for (Tuple<Integer, Integer, CellParser> o : config.columnBasedCellParsers) {
             builder.setColumnBasedCellParser(o.getA(), o.getB(), o.getC());
+        }
+
+        if (!CollectionUtils.isEmpty(config.includeSheetSet)) {
+            builder.addIncludeSheet(SheetPredicateFactories.ofIndex(config.includeSheetSet.toArray(new Integer[0])));
+        }
+
+        if (!CollectionUtils.isEmpty(config.aliasConfig)) {
+            for (String from : config.aliasConfig.keySet()) {
+                String to = config.aliasConfig.get(from);
+                builder.setAlias(from, to);
+            }
         }
 
         return builder.build()
@@ -129,11 +143,6 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                 Config config = parseConfig(visitor);
                 if (config != null) {
                     configMap.put(config.discriminatorValue, config);
-                    System.out.println("---");
-                    System.out.println("---");
-                    System.out.println(config);
-                    System.out.println("---");
-                    System.out.println("---");
                 }
             }
         }
@@ -166,6 +175,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         config.excludeRowRanges = getExcludeRowRanges(visitorType);
         config.globalCellParser = getGlobalCellParser(visitorType);
         config.columnBasedCellParsers = getColumnBasedCellParser(visitorType);
+        config.aliasConfig = getAliasConfig(visitorType);
         return config;
     }
 
@@ -194,7 +204,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
     }
 
     private List<Pair<Integer, Integer>> getHeader(Class<?> visitorType) {
-        List<Pair<Integer, Integer>> headerConfig = new LinkedList<>();
+        List<Pair<Integer, Integer>> headerConfig = new ArrayList<>();
         Header.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Header.List.class);
 
         if (listAnnotation != null) {
@@ -289,13 +299,40 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
 
     private GlobalCellParser getGlobalCellParser(Class<?> visitorType) {
         spring.turbo.module.excel.reader.annotation.GlobalCellParser annotation =
-                AnnotationUtils.getAnnotation(visitorType, spring.turbo.module.excel.reader.annotation.GlobalCellParser.class);
+                AnnotationUtils.findAnnotation(visitorType, spring.turbo.module.excel.reader.annotation.GlobalCellParser.class);
 
         if (annotation != null) {
             return InstanceUtils.newInstanceOrThrow(annotation.type());
         } else {
             return new DefaultCellParser();
         }
+    }
+
+    private AliasConfig getAliasConfig(Class<?> visitorType) {
+        AliasConfig aliasConfig = AliasConfig.newInstance();
+
+        Alias.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Alias.List.class);
+        if (listAnnotation != null) {
+            for (Alias annotation : listAnnotation.value()) {
+                final String from = annotation.from();
+                final String to = annotation.to();
+                if (!ANNOTATION_STRING_NULL.equals(from) && !ANNOTATION_STRING_NULL.equals(to)) {
+                    aliasConfig.put(from, to);
+                }
+            }
+        } else {
+            Alias annotation = AnnotationUtils.findAnnotation(visitorType, Alias.class);
+            if (annotation != null) {
+                final String from = annotation.from();
+                final String to = annotation.to();
+                if (!ANNOTATION_STRING_NULL.equals(from) && !ANNOTATION_STRING_NULL.equals(to)) {
+                    aliasConfig.put(from, to);
+                }
+            }
+        }
+
+        // valueObjectType 指定的Alias会又walker搞定
+        return aliasConfig;
     }
 
     private List<Tuple<Integer, Integer, CellParser>> getColumnBasedCellParser(Class<?> visitorType) {
@@ -326,7 +363,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         return Collections.unmodifiableList(list);
     }
 
-    @ToString
+
     private static class Config {
         private BatchVisitor visitor;
         private String discriminatorValue;
@@ -340,6 +377,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         private List<Tuple<Integer, Integer, Integer>> excludeRowRanges;
         private GlobalCellParser globalCellParser;
         private List<Tuple<Integer, Integer, CellParser>> columnBasedCellParsers;
+        private AliasConfig aliasConfig;
     }
 
 }
