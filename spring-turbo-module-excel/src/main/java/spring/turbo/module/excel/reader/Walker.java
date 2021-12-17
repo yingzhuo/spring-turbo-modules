@@ -102,7 +102,13 @@ public final class Walker {
         Workbook wb = null;
 
         try {
-            wb = createWorkbook();
+            try {
+                wb = createWorkbook();
+            } catch (Throwable e) {
+                visitor.onResourceOpeningError(resource, excelType, password, payload);
+                return ProcessingResult.RESOURCE_ERROR;
+            }
+
             doWalk(wb);
         } catch (AbortException ignored) {
             visitor.onAborted(payload);

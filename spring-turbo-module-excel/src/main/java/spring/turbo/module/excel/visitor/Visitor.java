@@ -8,7 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.visitor;
 
+import org.springframework.core.io.Resource;
 import org.springframework.validation.BindingResult;
+import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.reader.ExitPolicy;
 
@@ -18,6 +20,9 @@ import spring.turbo.module.excel.reader.ExitPolicy;
  */
 @Deprecated
 public interface Visitor {
+
+    public default void onResourceOpeningError(Resource resource, ExcelType excelType, String password, ProcessPayload payload) {
+    }
 
     public default void beforeProcessing(VisitorContext context, ProcessPayload payload) {
     }

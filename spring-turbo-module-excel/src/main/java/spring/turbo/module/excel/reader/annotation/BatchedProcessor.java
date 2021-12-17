@@ -11,9 +11,7 @@ package spring.turbo.module.excel.reader.annotation;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
 import static spring.turbo.util.StringPool.EMPTY;
 
@@ -24,6 +22,7 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Component
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface BatchedProcessor {
 
     @AliasFor(annotation = Component.class, attribute = "value")
