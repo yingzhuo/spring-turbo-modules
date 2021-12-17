@@ -20,6 +20,10 @@ import java.lang.annotation.*;
 @Repeatable(ExcludeRowSet.List.class)
 public @interface ExcludeRowSet {
 
+    public int sheetIndex();
+
+    public int[] rowIndexes();
+
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)

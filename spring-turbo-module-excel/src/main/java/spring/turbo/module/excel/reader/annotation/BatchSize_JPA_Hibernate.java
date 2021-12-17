@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
-import spring.turbo.module.excel.ExcelType;
-
 import java.lang.annotation.*;
 
 /**
@@ -18,9 +16,10 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Type {
-
-    public ExcelType value();
-
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@BatchSize(
+        expression = "#root.getBean('environment').getProperty('spring.jpa.properties.hibernate.jdbc.batch_size')",
+        value = Integer.MIN_VALUE
+)
+public @interface BatchSize_JPA_Hibernate {
 }

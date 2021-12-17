@@ -22,7 +22,7 @@ public @interface Header {
 
     public int sheetIndex();
 
-    public int[] rowIndexes();
+    public int rowIndex();
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)

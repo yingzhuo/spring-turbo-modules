@@ -53,10 +53,7 @@ import java.util.function.Supplier;
  */
 public final class BatchedWalker<T> extends AbstractBatchedWalker {
 
-    public static <T> Builder<T> builder(Class<T> valueObjectType) {
-        return new Builder<>(valueObjectType);
-    }
-
+    private final Map<Integer, HeaderInfo> headerInfoMap = new HashMap<>();
     private ProcessPayload payload;
     private Resource resource;
     private ExcelType excelType;
@@ -71,9 +68,18 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
     private RowPredicate excludeRowPredicate;
     private GlobalCellParser globalCellParser;
     private List<Tuple<Integer, Integer, CellParser>> cellParsers;
-    private final Map<Integer, HeaderInfo> headerInfoMap = new HashMap<>();
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
+    /**
+     * 构造方法
+     */
+    private BatchedWalker() {
+        super();
+    }
+
+    public static <T> Builder<T> builder(Class<T> valueObjectType) {
+        return new Builder<>(valueObjectType);
+    }
 
     public ProcessingResult walk() {
         Workbook workbook;
@@ -206,13 +212,6 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         }
 
         visitor.afterProcessing(payload);
-    }
-
-    /**
-     * 构造方法
-     */
-    private BatchedWalker() {
-        super();
     }
 
     private String[] getRowData(Row row, int headerSize, int firstCellIndex) {
@@ -353,6 +352,8 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         private final HeaderConfig headerConfig = HeaderConfig.newInstance();
         private final List<SheetPredicate> includeSheetPredicates = new LinkedList<>();
         private final List<RowPredicate> excludeSheetPredicates = new LinkedList<>();
+        private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
+        private final List<Validator> validators = new LinkedList<>();
         private BatchedVisitor<T> visitor;
         private ProcessPayload payload;
         private int batchSize = 1000;
@@ -360,9 +361,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         private Resource resource;
         private String password;
         private GlobalCellParser globalCellParser;
-        private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
         private ConversionService conversionService;
-        private final List<Validator> validators = new LinkedList<>();
 
         private Builder(Class<T> valueObjectType) {
             Asserts.notNull(valueObjectType);

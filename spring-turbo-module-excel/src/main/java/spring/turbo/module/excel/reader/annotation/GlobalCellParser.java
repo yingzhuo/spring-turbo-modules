@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
-import spring.turbo.module.excel.ExcelType;
-
 import java.lang.annotation.*;
 
 /**
@@ -19,8 +17,8 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Type {
+public @interface GlobalCellParser {
 
-    public ExcelType value();
+    public Class<? extends spring.turbo.module.excel.cellparser.GlobalCellParser> value();
 
 }

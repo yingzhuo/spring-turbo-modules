@@ -30,4 +30,6 @@ public @interface BatchedProcessor {
 
     public String discriminatorValue();
 
+    public Class<?> valueObjectType();
+
 }
