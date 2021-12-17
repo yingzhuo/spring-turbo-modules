@@ -16,7 +16,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Repeatable(ExcludeRowSet.List.class)
 public @interface ExcludeRowSet {
 
@@ -26,7 +26,7 @@ public @interface ExcludeRowSet {
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
     public static @interface List {
         public ExcludeRowSet[] value() default {};
     }

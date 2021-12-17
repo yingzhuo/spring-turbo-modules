@@ -19,7 +19,7 @@ import spring.turbo.module.excel.reader.ExitPolicy;
  * @author 应卓
  * @since 1.0.0
  */
-public interface BatchedVisitor<T> {
+public interface BatchVisitor<T> {
 
     public default void onResourceOpeningError(Resource resource, ExcelType excelType, String password, ProcessPayload payload) {
     }
@@ -27,7 +27,7 @@ public interface BatchedVisitor<T> {
     public default void beforeProcessing(ProcessingContext context, ProcessPayload payload) {
     }
 
-    public default void afterProcessing(ProcessPayload payload) {
+    public default void afterProcessed(ProcessPayload payload) {
     }
 
     public default boolean shouldAbort(ProcessPayload payload) {
@@ -37,7 +37,7 @@ public interface BatchedVisitor<T> {
     public default void onInvalidValueObject(ProcessingContext context, ProcessPayload payload, Object vo, BindingResult bindingResult) {
     }
 
-    public default void onValidValueObject(ProcessingContext context, ProcessPayload payload, Batch<T> dataBatch) {
+    public default void onValidValueObject(ProcessingContext context, ProcessPayload payload, Batch<T> batch) {
     }
 
     public default ExitPolicy onError(ProcessingContext context, ProcessPayload payload, Throwable throwable) {

@@ -13,7 +13,7 @@ package spring.turbo.module.excel.reader;
  *
  * @author 应卓
  * @see Walker
- * @see BatchedWalker
+ * @see BatchWalker
  * @since 1.0.0
  */
 public enum ProcessingResult {

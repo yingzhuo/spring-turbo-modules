@@ -22,7 +22,7 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
-public final class Batch<T> implements Serializable, Iterable<T> {
+public final class Batch<T> implements Iterable<T>, Serializable {
 
     private final int maxSize;
     private final ThreadLocal<List<T>> threadLocal;

@@ -18,7 +18,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Repeatable(ColumnBasedCellParser.List.class)
 public @interface ColumnBasedCellParser {
 
@@ -30,7 +30,7 @@ public @interface ColumnBasedCellParser {
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
     public static @interface List {
         public ColumnBasedCellParser[] value() default {};
     }

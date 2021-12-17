@@ -22,8 +22,8 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Component
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface BatchedProcessor {
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface BatchProcessor {
 
     @AliasFor(annotation = Component.class, attribute = "value")
     public String value() default EMPTY;

@@ -32,35 +32,50 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Deprecated
 public @interface ValueObjectReading {
 
+    @Deprecated
     @AliasFor(annotation = Component.class, attribute = "value")
     public String value() default EMPTY;
 
+    @Deprecated
     public String discriminatorValue();
 
+    @Deprecated
     public Class<?> valueObjectType();
 
+    @Deprecated
     public ExcelType excelType() default XSSF;
 
+    @Deprecated
     public Header[] headers();
 
+    @Deprecated
     public Alias[] aliases() default {};
 
+    @Deprecated
     public int[] includeSheetIndex() default {};
 
+    @Deprecated
     public ExcludeRowSet[] excludeRowSets() default {};
 
+    @Deprecated
     public ExcludeRowRange[] excludeRowRanges() default {};
 
+    @Deprecated
     public Class<? extends GlobalCellParser> globalCellParser() default DefaultCellParser.class;
 
+    @Deprecated
     public ColumnCellParser[] columnCellParsers() default {};
 
+    @Deprecated
     public Class<? extends Validator>[] additionalValidators() default {};
 
+    @Deprecated
     public String password() default EMPTY;
 
+    @Deprecated
     public boolean excludeAllNullRow() default true;
 
+    @Deprecated
     public Class<? extends AdditionalConfiguration>[] additionalConfigurations() default {};
 
 }

@@ -14,24 +14,27 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
+import spring.turbo.bean.valueobject.NullValidator;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.cellparser.GlobalCellParser;
+import spring.turbo.module.excel.function.RowPredicateFactories;
+import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.reader.annotation.ExcludeRowRange;
 import spring.turbo.module.excel.reader.annotation.ExcludeRowSet;
 import spring.turbo.module.excel.reader.annotation.Header;
 import spring.turbo.module.excel.reader.annotation.*;
-import spring.turbo.module.excel.visitor.BatchedVisitor;
-import spring.turbo.util.Asserts;
-import spring.turbo.util.ExpressionUtils;
-import spring.turbo.util.StringFormatter;
-import spring.turbo.util.StringUtils;
+import spring.turbo.module.excel.visitor.BatchVisitor;
+import spring.turbo.util.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,16 +43,19 @@ import java.util.stream.Collectors;
  * @author 应卓
  * @since 1.0.0
  */
-class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, InitializingBean, ApplicationContextAware {
+@SuppressWarnings("unchecked")
+class BatchValueObjectReaderImpl implements BatchValueObjectReader, InitializingBean, ApplicationContextAware {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
-    private final List<BatchedVisitor<?>> visitors;
+    private final List<BatchVisitor<?>> visitors;
     private final Map<String, Config> configMap = new HashMap<>();
 
     private ApplicationContext applicationContext;
+    private ConversionService conversionService;
+    private Validator[] validators;
 
-    public BatchedValueObjectReaderImpl(List<BatchedVisitor<?>> visitors) {
+    public BatchValueObjectReaderImpl(List<BatchVisitor<?>> visitors) {
         this.visitors = visitors;
     }
 
@@ -59,46 +65,89 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
 
         final String discriminatorValue = discriminator.getDiscriminatorValue();
 
-        return ProcessingResult.ABORTED;
+        Config config = Optional.ofNullable(configMap.get(discriminatorValue))
+                .orElseThrow(() -> new IllegalArgumentException(StringFormatter.format("visitor not found. discriminatorValue: {}", discriminator)));
+
+        final BatchWalker.Builder builder =
+                BatchWalker.builder(config.valueObjectType)
+                        .visitor(config.visitor)
+                        .resource(resource)
+                        .payload(payload)
+                        .batchSize(config.batchSize)
+                        .excelType(config.excelType)
+                        .password(config.password)
+                        .conversionService(conversionService)
+                        .addIncludeSheet(SheetPredicateFactories.ofIndex(config.includeSheetSet.toArray(new Integer[0])))
+                        .setValidators(validators)
+                        .globalCellParser(config.globalCellParser);
+
+        for (Pair<Integer, Integer> o : config.headers) {
+            builder.setHeader(o.getA(), o.getB());
+        }
+
+        for (Pair<Integer, Set<Integer>> o : config.excludeRowSets) {
+            builder.addExcludeRow(RowPredicateFactories.indexInSet(o.getA(), o.getB().toArray(new Integer[0])));
+        }
+
+        for (Tuple<Integer, Integer, Integer> o : config.excludeRowRanges) {
+            builder.addExcludeRow(RowPredicateFactories.indexInRange(o.getA(), o.getB(), o.getC()));
+        }
+
+        for (Tuple<Integer, Integer, CellParser> o : config.columnBasedCellParsers) {
+            builder.setColumnBasedCellParser(o.getA(), o.getB(), o.getC());
+        }
+
+        return builder.build()
+                .walk();
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+
+        try {
+            this.conversionService = applicationContext.getBean(ConversionService.class);
+        } catch (BeansException e) {
+            this.conversionService = new DefaultFormattingConversionService();
+        }
+
+        final List<Validator> validators = new ArrayList<>();
+
+        try {
+            validators.add(applicationContext.getBean(Validator.class));
+        } catch (BeansException e) {
+            validators.add(NullValidator.getInstance());
+        }
+
+        this.validators = validators.toArray(new Validator[0]);
     }
 
     @Override
     public void afterPropertiesSet() {
-        for (BatchedVisitor<?> visitor : visitors) {
+        for (BatchVisitor<?> visitor : visitors) {
             if (visitor != null) {
                 Config config = parseConfig(visitor);
                 if (config != null) {
                     configMap.put(config.discriminatorValue, config);
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
+                    System.out.println("---");
+                    System.out.println("---");
                     System.out.println(config);
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
-                    System.out.println("------");
+                    System.out.println("---");
+                    System.out.println("---");
                 }
             }
         }
     }
 
-    private Config parseConfig(@Nullable BatchedVisitor<?> visitor) {
+    private Config parseConfig(@Nullable BatchVisitor<?> visitor) {
         if (visitor == null) {
             return null;
         }
 
         final Class<?> visitorType = visitor.getClass();
 
-        final BatchedProcessor primaryAnnotation =
-                AnnotationUtils.findAnnotation(visitorType, BatchedProcessor.class);
+        final BatchProcessor primaryAnnotation =
+                AnnotationUtils.findAnnotation(visitorType, BatchProcessor.class);
 
         if (primaryAnnotation == null) {
             return null;
@@ -115,8 +164,8 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
         config.excelType = getExcelType(visitorType);
         config.excludeRowSets = getExcludeRowSets(visitorType);
         config.excludeRowRanges = getExcludeRowRanges(visitorType);
-        config.globalCellParserType = getGlobalCellParserType(visitorType);
-        config.columnBasedCellParserTypes = getColumnBasedCellParserTypes(visitorType);
+        config.globalCellParser = getGlobalCellParser(visitorType);
+        config.columnBasedCellParsers = getColumnBasedCellParser(visitorType);
         return config;
     }
 
@@ -238,19 +287,19 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
         return Collections.unmodifiableList(list);
     }
 
-    private Class<? extends GlobalCellParser> getGlobalCellParserType(Class<?> visitorType) {
+    private GlobalCellParser getGlobalCellParser(Class<?> visitorType) {
         spring.turbo.module.excel.reader.annotation.GlobalCellParser annotation =
                 AnnotationUtils.getAnnotation(visitorType, spring.turbo.module.excel.reader.annotation.GlobalCellParser.class);
 
         if (annotation != null) {
-            return annotation.value();
+            return InstanceUtils.newInstanceOrThrow(annotation.type());
         } else {
-            return DefaultCellParser.class;
+            return new DefaultCellParser();
         }
     }
 
-    private List<Tuple<Integer, Integer, Class<? extends CellParser>>> getColumnBasedCellParserTypes(Class<?> visitorType) {
-        List<Tuple<Integer, Integer, Class<? extends CellParser>>> list = new ArrayList<>();
+    private List<Tuple<Integer, Integer, CellParser>> getColumnBasedCellParser(Class<?> visitorType) {
+        List<Tuple<Integer, Integer, CellParser>> list = new ArrayList<>();
         ColumnBasedCellParser.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, ColumnBasedCellParser.List.class);
         if (listAnnotation != null) {
             for (ColumnBasedCellParser annotation : listAnnotation.value()) {
@@ -258,7 +307,7 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
                         Tuple.of(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
-                                annotation.type()
+                                InstanceUtils.newInstanceOrThrow(annotation.type())
                         )
                 );
             }
@@ -269,7 +318,7 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
                         Tuple.of(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
-                                annotation.type()
+                                InstanceUtils.newInstanceOrThrow(annotation.type())
                         )
                 );
             }
@@ -279,7 +328,7 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
 
     @ToString
     private static class Config {
-        private BatchedVisitor<?> visitor;
+        private BatchVisitor visitor;
         private String discriminatorValue;
         private Class<?> valueObjectType;
         private int batchSize;
@@ -289,8 +338,8 @@ class BatchedValueObjectReaderImpl implements BatchedValueObjectReader, Initiali
         private ExcelType excelType;
         private List<Pair<Integer, Set<Integer>>> excludeRowSets;
         private List<Tuple<Integer, Integer, Integer>> excludeRowRanges;
-        private Class<? extends GlobalCellParser> globalCellParserType;
-        private List<Tuple<Integer, Integer, Class<? extends CellParser>>> columnBasedCellParserTypes;
+        private GlobalCellParser globalCellParser;
+        private List<Tuple<Integer, Integer, CellParser>> columnBasedCellParsers;
     }
 
 }

@@ -16,7 +16,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Repeatable(IncludeSheetSet.List.class)
 public @interface IncludeSheetSet {
 

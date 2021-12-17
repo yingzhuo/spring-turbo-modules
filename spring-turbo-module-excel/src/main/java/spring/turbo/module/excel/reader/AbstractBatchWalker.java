@@ -26,7 +26,7 @@ import java.security.GeneralSecurityException;
  * @author 应卓
  * @since 1.0.0
  */
-abstract class AbstractBatchedWalker {
+abstract class AbstractBatchWalker {
 
     protected POIFSFileSystem fileSystem;
 

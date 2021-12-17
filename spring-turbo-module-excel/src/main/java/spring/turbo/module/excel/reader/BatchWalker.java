@@ -37,8 +37,8 @@ import spring.turbo.module.excel.function.SheetPredicate;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.util.RowUtils;
 import spring.turbo.module.excel.util.SheetUtils;
-import spring.turbo.module.excel.visitor.BatchedVisitor;
-import spring.turbo.module.excel.visitor.NullBatchedVisitor;
+import spring.turbo.module.excel.visitor.BatchVisitor;
+import spring.turbo.module.excel.visitor.NullBatchVisitor;
 import spring.turbo.module.excel.visitor.ProcessingContext;
 import spring.turbo.util.*;
 
@@ -51,16 +51,15 @@ import java.util.function.Supplier;
  * @author 应卓
  * @since 1.0.0
  */
-public final class BatchedWalker<T> extends AbstractBatchedWalker {
+public final class BatchWalker<T> extends AbstractBatchWalker {
 
     private final Map<Integer, HeaderInfo> headerInfoMap = new HashMap<>();
     private ProcessPayload payload;
     private Resource resource;
     private ExcelType excelType;
     private String password;
-    private int batchSize;
     private Batch<T> dataBatch;
-    private BatchedVisitor<T> visitor;
+    private BatchVisitor<T> visitor;
     private Supplier<T> valueObjectSupplier;
     private ConversionService conversionService;
     private List<Validator> validators;
@@ -70,10 +69,11 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
     private List<Tuple<Integer, Integer, CellParser>> cellParsers;
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
+
     /**
      * 构造方法
      */
-    private BatchedWalker() {
+    private BatchWalker() {
         super();
     }
 
@@ -122,6 +122,11 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
                 final String[] headerArray = headerInfo.getData();
 
                 for (Row row : sheet) {
+
+                    // 开始处理一个新sheet也需要判断是否中断
+                    if (visitor.shouldAbort(payload)) {
+                        throw new AbortException();
+                    }
 
                     final int rowIndex = RowUtils.getIndex(row);
 
@@ -211,7 +216,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
             }
         }
 
-        visitor.afterProcessing(payload);
+        visitor.afterProcessed(payload);
     }
 
     private String[] getRowData(Row row, int headerSize, int firstCellIndex) {
@@ -354,7 +359,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         private final List<RowPredicate> excludeSheetPredicates = new LinkedList<>();
         private final List<Tuple<Integer, Integer, CellParser>> cellParsers = new LinkedList<>();
         private final List<Validator> validators = new LinkedList<>();
-        private BatchedVisitor<T> visitor;
+        private BatchVisitor<T> visitor;
         private ProcessPayload payload;
         private int batchSize = 1000;
         private ExcelType excelType;
@@ -407,12 +412,12 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
             return this;
         }
 
-        public Builder<T> visitor(BatchedVisitor<T> visitor) {
+        public Builder<T> visitor(BatchVisitor<T> visitor) {
             this.visitor = visitor;
             return this;
         }
 
-        public Builder<T> visitor(Class<? extends BatchedVisitor<T>> visitorType) {
+        public Builder<T> visitor(Class<? extends BatchVisitor<T>> visitorType) {
             this.visitor = InstanceUtils.newInstanceOrThrow(visitorType);
             return this;
         }
@@ -469,15 +474,13 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
         }
 
 
-        public BatchedWalker<T> build() {
-
+        public BatchWalker<T> build() {
             // 合并alias
             // 反射得到的Alias优先级更高
             this.aliasConfig.putAll(ValueObjectUtils.getAliases(valueObjectType));
 
-            final BatchedWalker<T> walker = new BatchedWalker<>();
+            final BatchWalker<T> walker = new BatchWalker<>();
             walker.valueObjectSupplier = valueObjectSupplier;
-            walker.batchSize = batchSize;
             walker.dataBatch = new Batch<>(batchSize);
             walker.payload = Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance);
             walker.excelType = Optional.ofNullable(excelType).orElse(ExcelType.XSSF);
@@ -493,7 +496,7 @@ public final class BatchedWalker<T> extends AbstractBatchedWalker {
                     SheetPredicateFactories.alwaysTrue() : SheetPredicateFactories.any(includeSheetPredicates.toArray(new SheetPredicate[0]));
             walker.excludeRowPredicate = CollectionUtils.isEmpty(excludeSheetPredicates) ?
                     RowPredicateFactories.alwaysFalse() : RowPredicateFactories.any(excludeSheetPredicates.toArray(new RowPredicate[0]));
-            walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchedVisitor::new);
+            walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchVisitor::new);
 
             return walker;
         }

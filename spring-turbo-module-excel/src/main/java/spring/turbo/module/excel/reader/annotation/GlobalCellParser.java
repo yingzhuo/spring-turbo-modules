@@ -19,6 +19,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 public @interface GlobalCellParser {
 
-    public Class<? extends spring.turbo.module.excel.cellparser.GlobalCellParser> value();
+    public Class<? extends spring.turbo.module.excel.cellparser.GlobalCellParser> type();
 
 }

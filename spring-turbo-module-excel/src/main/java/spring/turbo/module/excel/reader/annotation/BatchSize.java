@@ -21,7 +21,7 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface BatchSize {
 
-    public int value() default 1000;
+    public int value();
 
     public String expression() default EMPTY;
 

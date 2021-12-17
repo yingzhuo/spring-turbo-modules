@@ -16,7 +16,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Repeatable(ExcludeRowRange.List.class)
 public @interface ExcludeRowRange {
 
@@ -28,7 +28,7 @@ public @interface ExcludeRowRange {
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
     public static @interface List {
         public ExcludeRowRange[] value() default {};
     }

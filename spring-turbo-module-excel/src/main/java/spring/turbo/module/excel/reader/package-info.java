@@ -10,8 +10,8 @@ package spring.turbo.module.excel.reader;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
-import spring.turbo.module.excel.reader.annotation.BatchedProcessor;
-import spring.turbo.module.excel.visitor.BatchedVisitor;
+import spring.turbo.module.excel.reader.annotation.BatchProcessor;
+import spring.turbo.module.excel.visitor.BatchVisitor;
 import spring.turbo.module.excel.visitor.Visitor;
 
 import java.util.List;
@@ -29,9 +29,9 @@ class SpringBootAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(value = BatchedVisitor.class, annotation = BatchedProcessor.class)
-    BatchedValueObjectReader batchedValueObjectReader(List<BatchedVisitor<?>> vs) {
-        return new BatchedValueObjectReaderImpl(vs);
+    @ConditionalOnBean(value = BatchVisitor.class, annotation = BatchProcessor.class)
+    BatchValueObjectReader batchValueObjectReader(List<BatchVisitor<?>> vs) {
+        return new BatchValueObjectReaderImpl(vs);
     }
 
 }
