@@ -8,10 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
@@ -23,6 +21,8 @@ import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.NullValidator;
 import spring.turbo.core.AnnotationUtils;
+import spring.turbo.core.SpringContext;
+import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
 import spring.turbo.module.excel.cellparser.CellParser;
@@ -48,7 +48,7 @@ import static spring.turbo.util.StringPool.ANNOTATION_STRING_NULL;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-class BatchValueObjectReaderImpl implements BatchValueObjectReader, InitializingBean, ApplicationContextAware {
+class BatchValueObjectReaderImpl implements BatchValueObjectReader, InitializingBean, SpringContextAware {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
@@ -57,7 +57,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
 
     private ApplicationContext applicationContext;
     private ConversionService conversionService;
-    private Validator[] validators;
+    private Validator primaryValidator;
 
     public BatchValueObjectReaderImpl(List<BatchVisitor<?>> visitors) {
         this.visitors = visitors;
@@ -81,7 +81,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                         .excelType(config.excelType)
                         .password(config.password)
                         .conversionService(conversionService)
-                        .setValidators(validators)
+                        .setValidators(primaryValidator)
                         .globalCellParser(config.globalCellParser);
 
         for (Pair<Integer, Integer> o : config.headers) {
@@ -111,29 +111,19 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
             }
         }
 
+        if (!CollectionUtils.isEmpty(config.additionalValidators)) {
+            config.additionalValidators.forEach(builder::setValidators);
+        }
+
         return builder.build()
                 .walk();
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-
-        try {
-            this.conversionService = applicationContext.getBean(ConversionService.class);
-        } catch (BeansException e) {
-            this.conversionService = new DefaultFormattingConversionService();
-        }
-
-        final List<Validator> validators = new ArrayList<>();
-
-        try {
-            validators.add(applicationContext.getBean(Validator.class));
-        } catch (BeansException e) {
-            validators.add(NullValidator.getInstance());
-        }
-
-        this.validators = validators.toArray(new Validator[0]);
+    public void setSpringContext(SpringContext springContext) {
+        this.applicationContext = springContext.getApplicationContext();
+        this.conversionService = springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new);
+        this.primaryValidator = springContext.getBean(Validator.class).orElseGet(NullValidator::getInstance);
     }
 
     @Override
@@ -176,6 +166,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         config.globalCellParser = getGlobalCellParser(visitorType);
         config.columnBasedCellParsers = getColumnBasedCellParser(visitorType);
         config.aliasConfig = getAliasConfig(visitorType);
+        config.additionalValidators = getAdditionalValidators(visitorType);
         return config;
     }
 
@@ -363,6 +354,16 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         return Collections.unmodifiableList(list);
     }
 
+    private List<Validator> getAdditionalValidators(Class<?> visitorType) {
+        AdditionalValidators annotation = AnnotationUtils.findAnnotation(visitorType, AdditionalValidators.class);
+        if (annotation != null && !ArrayUtils.isNullOrEmpty(annotation.value())) {
+            return Arrays.stream(annotation.value())
+                    .map(InstanceUtils::newInstanceOrThrow)
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
+
 
     private static class Config {
         private BatchVisitor visitor;
@@ -378,6 +379,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         private GlobalCellParser globalCellParser;
         private List<Tuple<Integer, Integer, CellParser>> columnBasedCellParsers;
         private AliasConfig aliasConfig;
+        private List<Validator> additionalValidators;
     }
 
 }

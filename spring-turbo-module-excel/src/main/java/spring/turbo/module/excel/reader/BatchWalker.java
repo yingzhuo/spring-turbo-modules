@@ -25,6 +25,7 @@ import spring.turbo.bean.valueobject.*;
 import spring.turbo.module.excel.AbortException;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
+import spring.turbo.module.excel.batch.Batch;
 import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.cellparser.GlobalCellParser;

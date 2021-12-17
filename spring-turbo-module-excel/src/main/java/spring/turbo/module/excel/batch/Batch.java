@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.batch;
 
 import spring.turbo.util.Asserts;
 
@@ -14,6 +14,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * 一个批次的数据 (单个线程有效)
@@ -38,6 +41,14 @@ public final class Batch<T> implements Iterable<T>, Serializable {
             throw new IllegalArgumentException("batch is full");
         }
         threadLocal.get().add(element);
+    }
+
+    public void addAll(final List<T> elements) {
+        if (elements != null) {
+            for (T element : elements) {
+                add(element);
+            }
+        }
     }
 
     public int size() {
@@ -71,6 +82,20 @@ public final class Batch<T> implements Iterable<T>, Serializable {
     @Override
     public Iterator<T> iterator() {
         return threadLocal.get().iterator();
+    }
+
+    public Batch<T> filter(Predicate<T> predicate) {
+        final List<T> xs = threadLocal.get().stream().filter(predicate).collect(Collectors.toList());
+        final Batch<T> newBatch = new Batch<>(this.maxSize);
+        newBatch.addAll(xs);
+        return newBatch;
+    }
+
+    public <U> Batch<U> map(Function<T, U> function) {
+        final List<U> xs = threadLocal.get().stream().map(function).collect(Collectors.toList());
+        final Batch<U> newBatch = new Batch<>(this.maxSize);
+        newBatch.addAll(xs);
+        return newBatch;
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.validation.BindingResult;
 import spring.turbo.module.excel.ExcelType;
 import spring.turbo.module.excel.ProcessPayload;
-import spring.turbo.module.excel.reader.Batch;
+import spring.turbo.module.excel.batch.Batch;
 import spring.turbo.module.excel.reader.ExitPolicy;
 
 /**
