@@ -20,9 +20,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Import({
-        EnableFeignClientsConfiguration.class
-})
+@Import(EnableFeignClientsConfiguration.class)
 public @interface EnableFeignClients {
 
     @AliasFor("basePackages")

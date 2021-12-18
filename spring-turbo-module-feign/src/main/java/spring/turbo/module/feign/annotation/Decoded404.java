@@ -6,11 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.feign;
+package spring.turbo.module.feign.annotation;
 
 import java.lang.annotation.*;
-
-import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
@@ -18,11 +16,6 @@ import static spring.turbo.util.StringPool.EMPTY;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface FeignClient {
-
-    public String value() default EMPTY;
-
-    public String url();
-
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface Decoded404 {
 }
