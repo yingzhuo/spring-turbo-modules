@@ -55,6 +55,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
     private final List<BatchVisitor<?>> visitors;
     private final Map<String, Config> configMap = new HashMap<>();
 
+    private InstanceCache instanceCache;
     private ApplicationContext applicationContext;
     private ConversionService conversionService;
     private Validator primaryValidator;
@@ -104,6 +105,10 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
             builder.addIncludeSheet(SheetPredicateFactories.ofIndex(config.includeSheetSet.toArray(new Integer[0])));
         }
 
+        if (StringUtils.isNotBlank(config.includeSheetPattern)) {
+            builder.addIncludeSheet(SheetPredicateFactories.ofNamePattern(config.includeSheetPattern));
+        }
+
         if (!CollectionUtils.isEmpty(config.aliasConfig)) {
             for (String from : config.aliasConfig.keySet()) {
                 String to = config.aliasConfig.get(from);
@@ -115,8 +120,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
             config.additionalValidators.forEach(builder::setValidators);
         }
 
-        return builder.build()
-                .walk();
+        return builder.build().walk();
     }
 
     @Override
@@ -124,6 +128,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         this.applicationContext = springContext.getApplicationContext();
         this.conversionService = springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new);
         this.primaryValidator = springContext.getBean(Validator.class).orElseGet(NullValidator::getInstance);
+        this.instanceCache = InstanceCache.newInstance(springContext.getApplicationContext());
     }
 
     @Override
@@ -159,6 +164,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         config.batchSize = getBatchSize(visitorType);
         config.headers = getHeader(visitorType);
         config.includeSheetSet = getIncludeSheetSet(visitorType);
+        config.includeSheetPattern = getIncludeSheetPattern(visitorType);
         config.password = getPassword(visitorType);
         config.excelType = getExcelType(visitorType);
         config.excludeRowSets = getExcludeRowSets(visitorType);
@@ -219,6 +225,11 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
             Set<Integer> set = Arrays.stream(annotation.sheetIndexes()).boxed().collect(Collectors.toSet());
             return Collections.unmodifiableSet(set);
         }
+    }
+
+    private String getIncludeSheetPattern(Class<?> visitorType) {
+        IncludeSheetPattern annotation = AnnotationUtils.findAnnotation(visitorType, IncludeSheetPattern.class);
+        return annotation != null ? annotation.value() : null;
     }
 
     private String getPassword(Class<?> visitorType) {
@@ -293,7 +304,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                 AnnotationUtils.findAnnotation(visitorType, spring.turbo.module.excel.reader.annotation.GlobalCellParser.class);
 
         if (annotation != null) {
-            return InstanceUtils.newInstanceOrThrow(annotation.type());
+            return instanceCache.findOrCreate(annotation.type());
         } else {
             return new DefaultCellParser();
         }
@@ -335,7 +346,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                         Tuple.of(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
-                                InstanceUtils.newInstanceOrThrow(annotation.type())
+                                instanceCache.findOrCreate(annotation.type())
                         )
                 );
             }
@@ -346,7 +357,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
                         Tuple.of(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
-                                InstanceUtils.newInstanceOrThrow(annotation.type())
+                                instanceCache.findOrCreate(annotation.type())
                         )
                 );
             }
@@ -358,10 +369,10 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         AdditionalValidators annotation = AnnotationUtils.findAnnotation(visitorType, AdditionalValidators.class);
         if (annotation != null && !ArrayUtils.isNullOrEmpty(annotation.value())) {
             return Arrays.stream(annotation.value())
-                    .map(InstanceUtils::newInstanceOrThrow)
+                    .map(type -> (Validator) instanceCache.findOrCreate(type))
                     .collect(Collectors.toList());
         }
-        return null;
+        return Collections.emptyList();
     }
 
 
@@ -372,6 +383,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         private int batchSize;
         private List<Pair<Integer, Integer>> headers;
         private Set<Integer> includeSheetSet;
+        private String includeSheetPattern;
         private String password;
         private ExcelType excelType;
         private List<Pair<Integer, Set<Integer>>> excludeRowSets;

@@ -9,8 +9,11 @@
 package spring.turbo.module.feign;
 
 import feign.slf4j.Slf4jLogger;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartFactoryBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import spring.turbo.core.AnnotationUtils;
@@ -19,7 +22,7 @@ import spring.turbo.module.feign.annotation.Customizer;
 import spring.turbo.module.feign.annotation.extras.Decoded404;
 import spring.turbo.module.feign.annotation.extras.Slf4j;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.InstanceUtils;
+import spring.turbo.util.InstanceCache;
 
 import java.util.Optional;
 
@@ -29,11 +32,12 @@ import static feign.Feign.Builder;
  * @author 应卓
  * @since 1.0.0
  */
-class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, EnvironmentAware {
+class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, ApplicationContextAware, EnvironmentAware {
 
     private Class<?> clientType; // setter
     private String url; // setter
     private Environment environment; // 回调
+    private InstanceCache instanceCache; // 回调
 
     // 本类必须有public默认构造
     public FeignClientFactoryBean() {
@@ -66,7 +70,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Envi
     private void customizer(final Builder builder, final Class<?> clientType) {
         Customizer annotation = AnnotationUtils.findAnnotation(clientType, Customizer.class);
         if (annotation != null && annotation.value() != null) {
-            BuilderCustomizer bean = InstanceUtils.newInstanceOrThrow(annotation.value());
+            BuilderCustomizer bean = instanceCache.findOrCreate(annotation.value());
             bean.customize(builder);
         }
     }
@@ -87,6 +91,11 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Envi
         Asserts.notNull(environment);
         Asserts.notNull(url);
         this.url = environment.resolvePlaceholders(url);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.instanceCache = InstanceCache.newInstance(applicationContext);
     }
 
     @Override
