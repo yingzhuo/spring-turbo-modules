@@ -14,8 +14,8 @@ import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import spring.turbo.core.AnnotationUtils;
-import spring.turbo.module.feign.annotation.Decoded404;
-import spring.turbo.module.feign.annotation.Slf4j;
+import spring.turbo.module.feign.annotation.extras.Decoded404;
+import spring.turbo.module.feign.annotation.extras.Slf4j;
 import spring.turbo.util.Asserts;
 
 import java.util.Optional;

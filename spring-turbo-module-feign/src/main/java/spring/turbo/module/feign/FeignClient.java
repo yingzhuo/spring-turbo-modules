@@ -8,12 +8,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import spring.turbo.module.feign.annotation.extras.Decoded404;
+import spring.turbo.module.feign.annotation.extras.Slf4j;
+
 import java.lang.annotation.*;
 
 import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
+ * @see Slf4j
+ * @see Decoded404
  * @since 1.0.0
  */
 @Documented
