@@ -14,9 +14,12 @@ import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import spring.turbo.core.AnnotationUtils;
+import spring.turbo.module.feign.annotation.BuilderCustomizer;
+import spring.turbo.module.feign.annotation.Customizer;
 import spring.turbo.module.feign.annotation.extras.Decoded404;
 import spring.turbo.module.feign.annotation.extras.Slf4j;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.InstanceUtils;
 
 import java.util.Optional;
 
@@ -42,21 +45,30 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Envi
         Builder builder = new Builder();
         decoded404(builder, clientType);
         slf4j(builder, clientType);
+        customizer(builder, clientType);
         return builder.target(clientType, url);
     }
 
-    private void decoded404(Builder builder, Class<?> clientType) {
+    private void decoded404(final Builder builder, final Class<?> clientType) {
         if (AnnotationUtils.findAnnotation(clientType, Decoded404.class) != null) {
             builder.decode404();
         }
     }
 
-    private void slf4j(Builder builder, Class<?> clientType) {
+    private void slf4j(final Builder builder, final Class<?> clientType) {
         Optional.ofNullable(AnnotationUtils.findAnnotation(clientType, Slf4j.class))
                 .ifPresent(a -> {
-                    builder.logger(new Slf4jLogger());
+                    builder.logger(new Slf4jLogger(clientType));
                     builder.logLevel(a.level());
                 });
+    }
+
+    private void customizer(final Builder builder, final Class<?> clientType) {
+        Customizer annotation = AnnotationUtils.findAnnotation(clientType, Customizer.class);
+        if (annotation != null && annotation.value() != null) {
+            BuilderCustomizer bean = InstanceUtils.newInstanceOrThrow(annotation.value());
+            bean.customize(builder);
+        }
     }
 
     @Override
