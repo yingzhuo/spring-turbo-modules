@@ -11,7 +11,7 @@ package spring.turbo.module.security.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.util.Assert;
+import spring.turbo.util.Asserts;
 
 import java.util.Date;
 import java.util.Optional;
@@ -26,9 +26,9 @@ class JwtTokenFactoryImpl implements JwtTokenFactory {
     private final Algorithm algorithm;
 
     public JwtTokenFactoryImpl(AlgorithmFactory algorithmFactory) {
-        Assert.notNull(algorithmFactory, "algorithmFactory is null");
+        Asserts.notNull(algorithmFactory);
         Algorithm alg = algorithmFactory.create();
-        Assert.notNull(alg, "algorithm is null");
+        Asserts.notNull(alg);
         this.algorithm = alg;
     }
 
