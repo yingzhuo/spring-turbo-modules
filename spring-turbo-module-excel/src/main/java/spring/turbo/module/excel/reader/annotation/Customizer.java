@@ -8,43 +8,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
-import org.springframework.core.annotation.AliasFor;
-import org.springframework.stereotype.Component;
+import spring.turbo.module.excel.reader.BuilderCustomizer;
 
 import java.lang.annotation.*;
 
-import static spring.turbo.util.StringPool.EMPTY;
-
 /**
  * @author 应卓
- * @see BatchSize
- * @see BatchSize_JPA_Hibernate
- * @see ColumnBasedCellParser
- * @see GlobalCellParser
- * @see ExcludeRowSet
- * @see ExcludeRowRange
- * @see IncludeSheetSet
- * @see IncludeSheetPattern
- * @see Header
- * @see Password
- * @see Type
- * @see spring.turbo.bean.valueobject.Alias
- * @see spring.turbo.bean.valueobject.Alias.List
- * @see AdditionalValidators
- * @see Customizer
  * @since 1.0.0
  */
-@Component
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface BatchProcessor {
+public @interface Customizer {
 
-    @AliasFor(annotation = Component.class, attribute = "value")
-    public String value() default EMPTY;
-
-    public String discriminatorValue();
-
-    public Class<?> valueObjectType();
+    public Class<? extends BuilderCustomizer> value();
 
 }

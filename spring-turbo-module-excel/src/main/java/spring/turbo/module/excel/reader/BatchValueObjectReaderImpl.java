@@ -73,7 +73,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         Config config = Optional.ofNullable(configMap.get(discriminatorValue))
                 .orElseThrow(() -> new IllegalArgumentException(StringFormatter.format("visitor not found. discriminatorValue: {}", discriminator)));
 
-        final BatchWalker.Builder builder =
+        BatchWalker.Builder builder =
                 BatchWalker.builder(config.valueObjectType)
                         .visitor(config.visitor)
                         .resource(resource)
@@ -118,6 +118,10 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
 
         if (!CollectionUtils.isEmpty(config.additionalValidators)) {
             config.additionalValidators.forEach(builder::setValidators);
+        }
+
+        if (config.builderCustomizer != null) {
+            builder = config.builderCustomizer.customize(builder);
         }
 
         return builder.build().walk();
@@ -173,6 +177,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         config.columnBasedCellParsers = getColumnBasedCellParser(visitorType);
         config.aliasConfig = getAliasConfig(visitorType);
         config.additionalValidators = getAdditionalValidators(visitorType);
+        config.builderCustomizer = getBuilderCustomizer(visitorType);
         return config;
     }
 
@@ -375,6 +380,11 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         return Collections.emptyList();
     }
 
+    private BuilderCustomizer getBuilderCustomizer(Class<?> visitorType) {
+        Customizer customizer = AnnotationUtils.findAnnotation(visitorType, Customizer.class);
+        return customizer != null ? instanceCache.findOrCreate(customizer.value()) : null;
+    }
+
 
     private static class Config {
         private BatchVisitor visitor;
@@ -392,6 +402,7 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
         private List<Tuple<Integer, Integer, CellParser>> columnBasedCellParsers;
         private AliasConfig aliasConfig;
         private List<Validator> additionalValidators;
+        private BuilderCustomizer builderCustomizer;
     }
 
 }
