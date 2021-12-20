@@ -8,8 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel;
 
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import spring.turbo.lang.Mutable;
+import spring.turbo.util.Asserts;
 
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ import java.util.Optional;
  * @since 1.0.0
  */
 @Mutable
+@SuppressWarnings("unchecked")
 public final class ProcessPayload extends LinkedMultiValueMap<String, Object> {
 
     private long successCount = 0L;
@@ -76,14 +80,22 @@ public final class ProcessPayload extends LinkedMultiValueMap<String, Object> {
         return this.errorCount > 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @Nullable
     public <T> T findFirst(String key) {
         return (T) super.getFirst(key);
     }
 
+    @Nullable
     public <T> T findFirstOrDefault(String key, T defaultValue) {
         T o = findFirst(key);
         return Optional.ofNullable(o).orElse(defaultValue);
+    }
+
+    @NonNull
+    public <T> T findRequired(String key) {
+        final T obj = findFirst(key);
+        Asserts.notNull(obj);
+        return obj;
     }
 
 }

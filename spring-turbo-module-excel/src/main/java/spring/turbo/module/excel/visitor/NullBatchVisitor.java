@@ -12,5 +12,20 @@ package spring.turbo.module.excel.visitor;
  * @author 应卓
  * @since 1.0.0
  */
-public class NullBatchVisitor<T> implements BatchVisitor<T> {
+@SuppressWarnings("unchecked")
+public final class NullBatchVisitor<T> implements BatchVisitor<T> {
+
+    public static <T> NullBatchVisitor<T> getInstance() {
+        return SyncAvoid.INSTANCE;
+    }
+
+    private NullBatchVisitor() {
+        super();
+    }
+
+    // 延迟加载
+    private static class SyncAvoid {
+        public static final NullBatchVisitor INSTANCE = new NullBatchVisitor();
+    }
+
 }

@@ -510,7 +510,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                     SheetPredicateFactories.alwaysTrue() : SheetPredicateFactories.any(includeSheetPredicates.toArray(new SheetPredicate[0]));
             walker.excludeRowPredicate = CollectionUtils.isEmpty(excludeSheetPredicates) ?
                     RowPredicateFactories.alwaysFalse() : RowPredicateFactories.any(excludeSheetPredicates.toArray(new RowPredicate[0]));
-            walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchVisitor::new);
+            walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchVisitor::getInstance);
 
             return walker;
         }
