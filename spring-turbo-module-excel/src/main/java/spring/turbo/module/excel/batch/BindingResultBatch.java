@@ -6,21 +6,18 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.excel.batch;
 
-import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.ProcessPayload;
+import org.springframework.boot.context.properties.bind.BindResult;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public interface BatchValueObjectReader {
+public class BindingResultBatch extends Batch<BindResult> {
 
-    public default ProcessingResult read(ExcelDiscriminator discriminator, Resource resource) {
-        return read(discriminator, resource, ProcessPayload.newInstance());
+    public BindingResultBatch(int maxSize) {
+        super(maxSize);
     }
-
-    public ProcessingResult read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
 
 }

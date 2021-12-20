@@ -30,8 +30,8 @@ class SpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(value = BatchVisitor.class, annotation = BatchProcessor.class)
-    BatchValueObjectReader batchValueObjectReader(List<BatchVisitor<?>> vs) {
-        return new BatchValueObjectReaderImpl(vs);
+    BatchValueObjectReadingTrigger batchValueObjectReadingTrigger(List<BatchVisitor<?>> vs) {
+        return new BatchValueObjectReadingTriggerImpl(vs);
     }
 
 }

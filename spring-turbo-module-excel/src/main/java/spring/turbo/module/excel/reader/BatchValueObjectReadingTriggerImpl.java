@@ -48,7 +48,7 @@ import static spring.turbo.util.StringPool.ANNOTATION_STRING_NULL;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-class BatchValueObjectReaderImpl implements BatchValueObjectReader, InitializingBean, SpringContextAware {
+class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigger, InitializingBean, SpringContextAware {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
@@ -60,12 +60,12 @@ class BatchValueObjectReaderImpl implements BatchValueObjectReader, Initializing
     private ConversionService conversionService;
     private Validator primaryValidator;
 
-    public BatchValueObjectReaderImpl(List<BatchVisitor<?>> visitors) {
+    public BatchValueObjectReadingTriggerImpl(List<BatchVisitor<?>> visitors) {
         this.visitors = visitors;
     }
 
     @Override
-    public ProcessingResult read(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
+    public ProcessingResult fire(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
         Asserts.notNull(discriminator);
 
         final String discriminatorValue = discriminator.getDiscriminatorValue();
