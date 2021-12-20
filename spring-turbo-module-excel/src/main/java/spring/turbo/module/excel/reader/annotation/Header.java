@@ -16,7 +16,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Repeatable(Header.List.class)
 public @interface Header {
 
@@ -26,7 +26,7 @@ public @interface Header {
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
     public static @interface List {
         public Header[] value() default {};
     }

@@ -17,8 +17,20 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface GlobalCellParser {
+@Repeatable(Headerless.List.class)
+public @interface Headerless {
 
-    public Class<? extends spring.turbo.module.excel.cellparser.GlobalCellParser> type();
+    public int sheetIndex();
+
+    public int offset() default 0;
+
+    public String[] fixed();
+
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+    public static @interface List {
+        public Headerless[] value() default {};
+    }
 
 }

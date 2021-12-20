@@ -89,6 +89,10 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
             builder.setHeader(o.getA(), o.getB());
         }
 
+        for (Tuple<Integer, Integer, String[]> o : config.headerlessList) {
+            builder.setFixedHeader(o.getA(), o.getB(), o.getC());
+        }
+
         for (Pair<Integer, Set<Integer>> o : config.excludeRowSets) {
             builder.addExcludeRow(RowPredicateFactories.indexInSet(o.getA(), o.getB().toArray(new Integer[0])));
         }
@@ -167,6 +171,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         config.valueObjectType = primaryAnnotation.valueObjectType();
         config.batchSize = getBatchSize(visitorType);
         config.headers = getHeader(visitorType);
+        config.headerlessList = getHeaderlessList(visitorType);
         config.includeSheetSet = getIncludeSheetSet(visitorType);
         config.includeSheetPattern = getIncludeSheetPattern(visitorType);
         config.password = getPassword(visitorType);
@@ -220,6 +225,28 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
             }
         }
         return headerConfig;
+    }
+
+    private List<Tuple<Integer, Integer, String[]>> getHeaderlessList(Class<?> visitorType) {
+        final List<Tuple<Integer, Integer, String[]>> headerlessConfig = new ArrayList<>();
+        Headerless.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Headerless.List.class);
+
+        if (listAnnotation != null) {
+            for (Headerless annotation : listAnnotation.value()) {
+                headerlessConfig.add(
+                        Tuple.of(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
+                );
+            }
+        } else {
+            Headerless annotation = AnnotationUtils.findAnnotation(visitorType, Headerless.class);
+            if (annotation != null) {
+                headerlessConfig.add(
+                        Tuple.of(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
+                );
+            }
+        }
+
+        return Collections.unmodifiableList(headerlessConfig);
     }
 
     private Set<Integer> getIncludeSheetSet(Class<?> visitorType) {
@@ -392,6 +419,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         private Class<?> valueObjectType;
         private int batchSize;
         private List<Pair<Integer, Integer>> headers;
+        private List<Tuple<Integer, Integer, String[]>> headerlessList;
         private Set<Integer> includeSheetSet;
         private String includeSheetPattern;
         private String password;

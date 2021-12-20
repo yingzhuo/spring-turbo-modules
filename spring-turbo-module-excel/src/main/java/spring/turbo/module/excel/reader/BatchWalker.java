@@ -398,6 +398,16 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             return this;
         }
 
+        public Builder<T> setFixedHeader(int sheetIndex, String... header) {
+            this.headerConfig.fixed(sheetIndex, header);
+            return this;
+        }
+
+        public Builder<T> setFixedHeader(int sheetIndex, int offset, String... header) {
+            this.headerConfig.fixed(sheetIndex, offset, header);
+            return this;
+        }
+
         public Builder<T> addIncludeSheet(SheetPredicate... predicates) {
             if (predicates != null) {
                 for (SheetPredicate predicate : predicates) {

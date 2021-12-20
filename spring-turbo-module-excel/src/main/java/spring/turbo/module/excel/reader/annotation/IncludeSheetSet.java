@@ -24,7 +24,7 @@ public @interface IncludeSheetSet {
 
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
+    @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
     public static @interface List {
         public IncludeSheetSet[] value() default {};
     }
