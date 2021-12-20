@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import feign.codec.Decoder;
+import feign.codec.Encoder;
 import feign.slf4j.Slf4jLogger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,10 +19,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import spring.turbo.core.AnnotationUtils;
-import spring.turbo.module.feign.annotation.BuilderCustomizer;
-import spring.turbo.module.feign.annotation.Customizer;
-import spring.turbo.module.feign.annotation.extras.Decoded404;
-import spring.turbo.module.feign.annotation.extras.Slf4j;
+import spring.turbo.module.feign.annotation.*;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceCache;
 
@@ -49,6 +48,8 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         Builder builder = new Builder();
         decoded404(builder, clientType);
         slf4j(builder, clientType);
+        encoderAndDecoder(builder, clientType);
+        errorDecoder(builder, clientType);
         customizer(builder, clientType);
         return builder.target(clientType, url);
     }
@@ -65,6 +66,23 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
                     builder.logger(new Slf4jLogger(clientType));
                     builder.logLevel(a.level());
                 });
+    }
+
+    private void encoderAndDecoder(final Builder builder, final Class<?> clientType) {
+        EncoderAndDecoder annotation = AnnotationUtils.findAnnotation(clientType, EncoderAndDecoder.class);
+        if (annotation != null) {
+            Encoder encoder = instanceCache.findOrCreate(annotation.encoderType());
+            Decoder decoder = instanceCache.findOrCreate(annotation.decoderType());
+            builder.encoder(encoder);
+            builder.decoder(decoder);
+        }
+    }
+
+    private void errorDecoder(final Builder builder, final Class<?> clientType) {
+        ErrorDecoder annotation = AnnotationUtils.findAnnotation(clientType, ErrorDecoder.class);
+        if (annotation != null) {
+            builder.errorDecoder(instanceCache.findOrCreate(annotation.type()));
+        }
     }
 
     private void customizer(final Builder builder, final Class<?> clientType) {

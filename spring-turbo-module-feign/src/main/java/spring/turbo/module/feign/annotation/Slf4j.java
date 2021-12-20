@@ -6,9 +6,11 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.feign.annotation.extras;
+package spring.turbo.module.feign.annotation;
 
 import java.lang.annotation.*;
+
+import static feign.Logger.Level;
 
 /**
  * @author 应卓
@@ -17,5 +19,8 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface Decoded404 {
+public @interface Slf4j {
+
+    public Level level() default Level.FULL;
+
 }

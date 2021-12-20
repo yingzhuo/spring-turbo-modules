@@ -6,30 +6,35 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.feign;
+package spring.turbo.module.feign.utils;
 
-import spring.turbo.module.feign.annotation.*;
+import spring.turbo.util.StringPool;
 
-import java.lang.annotation.*;
-
-import static spring.turbo.util.StringPool.EMPTY;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author 应卓
- * @see Slf4j
- * @see Decoded404
- * @see EncoderAndDecoder
- * @see ErrorDecoder
- * @see Customizer
+ * @see feign.QueryMap
  * @since 1.0.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface FeignClient {
+public final class ParamsMap extends LinkedHashMap<String, Object> implements Map<String, Object> {
 
-    public String value() default EMPTY;
+    private ParamsMap() {
+        super();
+    }
 
-    public String url();
+    public static ParamsMap newInstance() {
+        return new ParamsMap();
+    }
+
+    public ParamsMap add(String name, Object value) {
+        this.put(name, value);
+        return this;
+    }
+
+    public ParamsMap addEmpty(String name) {
+        return add(name, StringPool.EMPTY);
+    }
 
 }
