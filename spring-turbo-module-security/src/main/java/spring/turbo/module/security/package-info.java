@@ -58,8 +58,10 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
                     break;
                 case AFTER:
                     http.addFilterAfter(filter, position);
+                    break;
                 case AT:
                     http.addFilterAt(filter, position);
+                    break;
                 default:
                     throw new AssertionError();
             }
