@@ -10,17 +10,19 @@ package spring.turbo.module.security.user;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 
 import java.lang.annotation.*;
 
 /**
  * @author 应卓
+ * @see SecurityContext#getAuthentication()
  * @since 1.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
-@CurrentSecurityContext(expression = "authentication.details")
+@CurrentSecurityContext(expression = "authentication")
 public @interface CurrentAuthentication {
 
     @AliasFor(annotation = CurrentSecurityContext.class, attribute = "errorOnInvalidType")
