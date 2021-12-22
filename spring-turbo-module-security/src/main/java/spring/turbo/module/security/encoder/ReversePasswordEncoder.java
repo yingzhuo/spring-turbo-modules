@@ -9,6 +9,7 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.turbo.util.StringUtils;
 
 import java.util.Objects;
 
@@ -32,14 +33,17 @@ public class ReversePasswordEncoder implements PasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return new StringBuilder(rawPassword.toString())
-                .reverse()
-                .toString();
+        return StringUtils.reverse(rawPassword.toString());
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return Objects.equals(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return true; // 返回true比较谦虚
     }
 
 }
