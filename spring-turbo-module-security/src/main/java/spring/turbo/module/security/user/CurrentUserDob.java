@@ -22,7 +22,6 @@ import java.lang.annotation.*;
  * @see AuthenticationPrincipalArgumentResolver
  * @since 1.0.0
  */
-@Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})

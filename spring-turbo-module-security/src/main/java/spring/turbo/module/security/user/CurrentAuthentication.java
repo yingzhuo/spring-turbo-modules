@@ -9,26 +9,21 @@
 package spring.turbo.module.security.user;
 
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 
 import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @see UserDetails
- * @see UserDetailsPlus
- * @see AuthenticationPrincipalArgumentResolver
  * @since 1.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
-@AuthenticationPrincipal(expression = "#root.gender")
-public @interface CurrentUserGender {
+@CurrentSecurityContext(expression = "authentication.details")
+public @interface CurrentAuthentication {
 
-    @AliasFor(annotation = AuthenticationPrincipal.class, attribute = "errorOnInvalidType")
+    @AliasFor(annotation = CurrentSecurityContext.class, attribute = "errorOnInvalidType")
     public boolean errorOnInvalidType() default false;
 
 }
