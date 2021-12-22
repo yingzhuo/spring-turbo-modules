@@ -6,36 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.feign;
-
-import spring.turbo.module.feign.annotation.*;
+package spring.turbo.module.feign.annotation;
 
 import java.lang.annotation.*;
-
-import static spring.turbo.util.StringPool.EMPTY;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 应卓
- * @see Slf4j
- * @see EncoderAndDecoder
- * @see ErrorDecoder
- * @see QueryMapEncoder
- * @see Decoded404
- * @see Client
- * @see Contract
- * @see Capabilities
- * @see Options
- * @see DoNotCloseAfterDecode
- * @see Customizer
+ * @see feign.Request.Options
  * @since 1.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface FeignClient {
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface Options {
 
-    public String value() default EMPTY;
+    public long connectTimeout() default 2;
 
-    public String url();
+    public TimeUnit connectTimeoutUnit() default TimeUnit.SECONDS;
+
+    public long readTimeout() default 5;
+
+    public TimeUnit readTimeoutUnit() default TimeUnit.SECONDS;
+
+    public boolean followRedirects() default false;
 
 }

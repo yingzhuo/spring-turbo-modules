@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import feign.Request;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.slf4j.Slf4jLogger;
@@ -52,6 +53,10 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         errorDecoder(builder, clientType);
         queryMapEncoder(builder, clientType);
         client(builder, clientType);
+        contract(builder, clientType);
+        capabilities(builder, clientType);
+        options(builder, clientType);
+        doNotCloseAfterDecode(builder, clientType);
         customizer(builder, clientType);
         return builder.target(clientType, url);
     }
@@ -98,6 +103,45 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         QueryMapEncoder annotation = AnnotationUtils.findAnnotation(clientType, QueryMapEncoder.class);
         if (annotation != null) {
             builder.queryMapEncoder(instanceCache.findOrCreate(annotation.type()));
+        }
+    }
+
+    private void contract(final Builder builder, final Class<?> clientType) {
+        Contract annotation = AnnotationUtils.findAnnotation(clientType, Contract.class);
+        if (annotation != null) {
+            builder.contract(instanceCache.findOrCreate(annotation.type()));
+        }
+    }
+
+    private void capabilities(final Builder builder, final Class<?> clientType) {
+        Capabilities annotation = AnnotationUtils.findAnnotation(clientType, Capabilities.class);
+        if (annotation != null) {
+            for (Class<? extends feign.Capability> type : annotation.types()) {
+                if (type != null) {
+                    builder.addCapability(instanceCache.findOrCreate(type));
+                }
+            }
+        }
+    }
+
+    private void options(final Builder builder, final Class<?> clientType) {
+        Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
+        if (annotation != null) {
+            Request.Options op = new Request.Options(
+                    annotation.connectTimeout(),
+                    annotation.connectTimeoutUnit(),
+                    annotation.readTimeout(),
+                    annotation.readTimeoutUnit(),
+                    annotation.followRedirects()
+            );
+            builder.options(op);
+        }
+    }
+
+    private void doNotCloseAfterDecode(final Builder builder, final Class<?> clientType) {
+        DoNotCloseAfterDecode annotation = AnnotationUtils.findAnnotation(clientType, DoNotCloseAfterDecode.class);
+        if (annotation != null) {
+            builder.doNotCloseAfterDecode();
         }
     }
 
