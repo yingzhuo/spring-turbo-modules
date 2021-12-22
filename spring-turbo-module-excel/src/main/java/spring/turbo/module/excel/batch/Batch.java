@@ -14,9 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 一个批次的数据 (单个线程有效)
@@ -79,23 +77,13 @@ public class Batch<T> implements Iterable<T>, Serializable {
         threadLocal.get().clear();
     }
 
+    public Stream<T> stream() {
+        return threadLocal.get().stream();
+    }
+
     @Override
     public Iterator<T> iterator() {
         return threadLocal.get().iterator();
-    }
-
-    public Batch<T> filter(Predicate<T> predicate) {
-        final List<T> xs = threadLocal.get().stream().filter(predicate).collect(Collectors.toList());
-        final Batch<T> newBatch = new Batch<>(this.maxSize);
-        newBatch.addAll(xs);
-        return newBatch;
-    }
-
-    public <U> Batch<U> map(Function<T, U> function) {
-        final List<U> xs = threadLocal.get().stream().map(function).collect(Collectors.toList());
-        final Batch<U> newBatch = new Batch<>(this.maxSize);
-        newBatch.addAll(xs);
-        return newBatch;
     }
 
 }

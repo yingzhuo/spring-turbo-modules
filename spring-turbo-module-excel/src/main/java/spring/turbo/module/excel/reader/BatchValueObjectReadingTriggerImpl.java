@@ -55,7 +55,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
     private InstanceCache instanceCache;
     private ApplicationContext applicationContext;
     private ConversionService conversionService;
-    private Validator primaryValidator;
+    private Validator injectedValidator;
 
     public BatchValueObjectReadingTriggerImpl(List<BatchVisitor<?>> visitors) {
         this.visitors = visitors;
@@ -79,8 +79,12 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
                         .excelType(config.excelType)
                         .password(config.password)
                         .conversionService(conversionService)
-                        .setValidators(primaryValidator)
                         .globalCellParser(config.globalCellParser);
+
+        // 要注意注入的validator无法对应valueObject的类型
+        if (injectedValidator != null && injectedValidator.supports(config.valueObjectType)) {
+            builder.setValidators(injectedValidator);
+        }
 
         for (Pair<Integer, Integer> o : config.headers) {
             builder.setHeader(o.getA(), o.getB());
@@ -132,7 +136,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
     public void setSpringContext(SpringContext springContext) {
         this.applicationContext = springContext.getApplicationContext();
         this.conversionService = springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new);
-        this.primaryValidator = springContext.getBean(Validator.class).orElseGet(NullValidator::getInstance);
+        this.injectedValidator = springContext.getBean(Validator.class).orElseGet(NullValidator::getInstance);
         this.instanceCache = InstanceCache.newInstance(springContext.getApplicationContext());
     }
 
