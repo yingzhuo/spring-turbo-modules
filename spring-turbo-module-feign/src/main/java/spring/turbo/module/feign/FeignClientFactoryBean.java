@@ -12,7 +12,6 @@ import feign.Request;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
-import feign.slf4j.Slf4jLogger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.SmartFactoryBean;
@@ -26,9 +25,8 @@ import spring.turbo.module.feign.annotation.*;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceCache;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import static feign.Feign.Builder;
 
@@ -52,7 +50,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     public Object getObject() {
         Builder builder = new Builder();
         decoded404(builder, clientType);
-        slf4j(builder, clientType);
+        logging(builder, clientType);
         encoderAndDecoder(builder, clientType);
         errorDecoder(builder, clientType);
         queryMapEncoder(builder, clientType);
@@ -72,12 +70,12 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void slf4j(final Builder builder, final Class<?> clientType) {
-        Optional.ofNullable(AnnotationUtils.findAnnotation(clientType, Slf4j.class))
-                .ifPresent(a -> {
-                    builder.logger(new Slf4jLogger(clientType));
-                    builder.logLevel(a.level());
-                });
+    protected void logging(final Builder builder, final Class<?> clientType) {
+        Logging annotation = AnnotationUtils.findAnnotation(clientType, Logging.class);
+        if (annotation != null) {
+            builder.logger(instanceCache.findOrCreate(annotation.type()));
+            builder.logLevel(annotation.level());
+        }
     }
 
     protected void encoderAndDecoder(final Builder builder, final Class<?> clientType) {
@@ -132,14 +130,14 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     protected void options(final Builder builder, final Class<?> clientType) {
         Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
         if (annotation != null) {
-            Request.Options op = new Request.Options(
+            Request.Options ops = new Request.Options(
                     annotation.connectTimeout(),
                     annotation.connectTimeoutUnit(),
                     annotation.readTimeout(),
                     annotation.readTimeoutUnit(),
                     annotation.followRedirects()
             );
-            builder.options(op);
+            builder.options(ops);
         }
     }
 
@@ -153,7 +151,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     protected void requestInterceptors(final Builder builder, final Class<?> clientType) {
         RequestInterceptors annotation = AnnotationUtils.findAnnotation(clientType, RequestInterceptors.class);
         if (annotation != null) {
-            List<RequestInterceptor> interceptors = new ArrayList<>();
+            List<RequestInterceptor> interceptors = new LinkedList<>();
             for (Class<? extends feign.RequestInterceptor> type : annotation.types()) {
                 if (type != null) {
                     interceptors.add(instanceCache.findOrCreate(type));

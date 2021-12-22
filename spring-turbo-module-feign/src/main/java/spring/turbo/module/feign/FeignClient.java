@@ -16,7 +16,7 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- * @see Slf4j
+ * @see Logging
  * @see EncoderAndDecoder
  * @see ErrorDecoder
  * @see QueryMapEncoder

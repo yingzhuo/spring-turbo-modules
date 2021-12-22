@@ -8,9 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign.annotation;
 
-import java.lang.annotation.*;
+import feign.Logger;
 
-import static feign.Logger.Level;
+import java.lang.annotation.*;
 
 /**
  * @author 应卓
@@ -19,8 +19,10 @@ import static feign.Logger.Level;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface Slf4j {
+public @interface Logging {
 
-    public Level level() default Level.FULL;
+    public Logger.Level level() default Logger.Level.FULL;
+
+    public Class<? extends feign.Logger> type();
 
 }
