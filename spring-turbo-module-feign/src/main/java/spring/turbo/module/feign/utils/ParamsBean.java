@@ -8,27 +8,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign.utils;
 
+import spring.turbo.util.StringPool;
+
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author 应卓
- * @see feign.Headers
+ * @see feign.QueryMap
  * @since 1.0.0
  */
-public final class HeaderMap extends LinkedHashMap<String, Object> implements Map<String, Object> {
+public final class ParamsBean extends LinkedHashMap<String, Object> {
 
-    private HeaderMap() {
+    private ParamsBean() {
         super();
     }
 
-    public static HeaderMap newInstance() {
-        return new HeaderMap();
+    public static ParamsBean newInstance() {
+        return new ParamsBean();
     }
 
-    public HeaderMap add(String name, Object value) {
+    public ParamsBean add(String name, Object value) {
         this.put(name, value);
         return this;
+    }
+
+    public ParamsBean addEmpty(String name) {
+        return add(name, StringPool.EMPTY);
     }
 
 }
