@@ -22,6 +22,7 @@ import org.springframework.core.OrderComparator;
 import org.springframework.core.env.Environment;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.feign.annotation.*;
+import spring.turbo.module.feign.retryer.RetryerImpl;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceCache;
 
@@ -49,18 +50,19 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     @Override
     public Object getObject() {
         Builder builder = new Builder();
-        decoded404(builder, clientType);
-        logging(builder, clientType);
-        encoderAndDecoder(builder, clientType);
-        errorDecoder(builder, clientType);
-        queryMapEncoder(builder, clientType);
-        client(builder, clientType);
-        contract(builder, clientType);
-        capabilities(builder, clientType);
-        options(builder, clientType);
-        doNotCloseAfterDecode(builder, clientType);
-        requestInterceptors(builder, clientType);
-        customizer(builder, clientType);
+        this.decoded404(builder, clientType);
+        this.logging(builder, clientType);
+        this.encoderAndDecoder(builder, clientType);
+        this.errorDecoder(builder, clientType);
+        this.queryMapEncoder(builder, clientType);
+        this.client(builder, clientType);
+        this.contract(builder, clientType);
+        this.capabilities(builder, clientType);
+        this.options(builder, clientType);
+        this.doNotCloseAfterDecode(builder, clientType);
+        this.requestInterceptors(builder, clientType);
+        this.retryer(builder, clientType);
+        this.customizer(builder, clientType);
         return builder.target(clientType, url);
     }
 
@@ -159,6 +161,19 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
             }
             OrderComparator.sort(interceptors);
             builder.requestInterceptors(interceptors);
+        }
+    }
+
+    protected void retryer(final Builder builder, final Class<?> clientType) {
+        Retryer annotation = AnnotationUtils.findAnnotation(clientType, Retryer.class);
+        if (annotation != null) {
+            builder.retryer(new RetryerImpl(
+                    annotation.periodInMillis(),
+                    annotation.maxPeriodInMillis(),
+                    annotation.maxAttempts()
+            ));
+        } else {
+            builder.retryer(feign.Retryer.NEVER_RETRY);
         }
     }
 
