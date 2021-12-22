@@ -8,18 +8,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign.annotation;
 
-import feign.Feign.Builder;
-import spring.turbo.bean.Customizer;
+import java.lang.annotation.*;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public interface BuilderCustomizer extends Customizer<Builder> {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface Client {
 
-    @Override
-    public default Builder customize(Builder builder) {
-        return builder;
-    }
+    public Class<? extends feign.Client> type();
 
 }

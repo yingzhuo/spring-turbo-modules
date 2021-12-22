@@ -50,6 +50,8 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         slf4j(builder, clientType);
         encoderAndDecoder(builder, clientType);
         errorDecoder(builder, clientType);
+        queryMapEncoder(builder, clientType);
+        client(builder, clientType);
         customizer(builder, clientType);
         return builder.target(clientType, url);
     }
@@ -82,6 +84,20 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         ErrorDecoder annotation = AnnotationUtils.findAnnotation(clientType, ErrorDecoder.class);
         if (annotation != null) {
             builder.errorDecoder(instanceCache.findOrCreate(annotation.type()));
+        }
+    }
+
+    private void client(final Builder builder, final Class<?> clientType) {
+        Client annotation = AnnotationUtils.findAnnotation(clientType, Client.class);
+        if (annotation != null) {
+            builder.client(instanceCache.findOrCreate(annotation.type()));
+        }
+    }
+
+    private void queryMapEncoder(final Builder builder, final Class<?> clientType) {
+        QueryMapEncoder annotation = AnnotationUtils.findAnnotation(clientType, QueryMapEncoder.class);
+        if (annotation != null) {
+            builder.queryMapEncoder(instanceCache.findOrCreate(annotation.type()));
         }
     }
 

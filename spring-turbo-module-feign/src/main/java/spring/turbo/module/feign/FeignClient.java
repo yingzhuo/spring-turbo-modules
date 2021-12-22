@@ -20,6 +20,8 @@ import static spring.turbo.util.StringPool.EMPTY;
  * @see Decoded404
  * @see EncoderAndDecoder
  * @see ErrorDecoder
+ * @see QueryMapEncoder
+ * @see Client
  * @see Customizer
  * @since 1.0.0
  */
