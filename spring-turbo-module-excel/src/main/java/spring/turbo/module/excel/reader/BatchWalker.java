@@ -177,7 +177,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                 throw e;
                             } else {
                                 payload.incrErrorCount(1);
-                                if (ExitPolicy.ABORT == visitor.onError(new ProcessingContext(resource, workbook, sheet, row), payload, e)) {
+                                if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                     throw new AbortException();
                                 }
                             }
@@ -192,7 +192,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                     throw e;
                                 } else {
                                     payload.incrErrorCount(1);
-                                    if (ExitPolicy.ABORT == visitor.onError(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
+                                    if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                         throw new AbortException();
                                     }
                                 }
@@ -211,7 +211,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                     if (e instanceof AbortException) {
                         throw e;
                     } else {
-                        if (ExitPolicy.ABORT == visitor.onError(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
+                        if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                             throw new AbortException();
                         }
                     }
@@ -221,6 +221,14 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
         }
 
         visitor.afterProcessed(payload);
+    }
+
+    private ExitPolicy onErrorSafe(ProcessingContext ctx, ProcessPayload payload, Throwable e) {
+        try {
+            return visitor.onError(ctx, payload, e);
+        } catch (Throwable ignored) {
+            return ExitPolicy.ABORT;
+        }
     }
 
     private String[] getRowData(Row row, int headerSize, int firstCellIndex) {
