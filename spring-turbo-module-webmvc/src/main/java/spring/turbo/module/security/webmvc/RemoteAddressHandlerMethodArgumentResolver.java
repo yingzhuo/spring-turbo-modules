@@ -9,6 +9,7 @@
 package spring.turbo.module.security.webmvc;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -34,6 +35,7 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
     }
 
     @Override
+    @Nullable
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
