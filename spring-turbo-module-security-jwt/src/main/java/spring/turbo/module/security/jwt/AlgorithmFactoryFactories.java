@@ -10,8 +10,6 @@ package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
 
-import java.util.UUID;
-
 /**
  * @author 应卓
  * @see AlgorithmFactory
@@ -36,7 +34,7 @@ public final class AlgorithmFactoryFactories {
     }
 
     public static AlgorithmFactory random() {
-        return () -> Algorithm.HMAC384(UUID.randomUUID().toString());
+        return new RandomAlgorithmFactory();
     }
 
     public static AlgorithmFactory hmac256(final String secret) {

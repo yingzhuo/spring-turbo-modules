@@ -8,19 +8,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.context.annotation.Bean;
+import com.auth0.jwt.algorithms.Algorithm;
+import spring.turbo.util.RandomStringUtils;
+import spring.turbo.util.RandomUtils;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.1
  */
-class SpringBootAutoConfiguration {
+class RandomAlgorithmFactory implements AlgorithmFactory {
 
-    @Bean
-    @ConditionalOnBean(value = AlgorithmFactory.class)
-    JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
-        return new JwtTokenFactoryImpl(algorithmFactory);
+    RandomAlgorithmFactory() {
+        super();
+    }
+
+    @Override
+    public Algorithm create() {
+        final String uuid = RandomStringUtils.randomUUID(RandomUtils.nextBoolean());
+        final int n = RandomUtils.nextInt(0, 3);
+        switch (n) {
+            case 0:
+                return Algorithm.HMAC256(uuid);
+            case 1:
+                return Algorithm.HMAC384(uuid);
+            default:
+                return Algorithm.HMAC512(uuid);
+        }
     }
 
 }
