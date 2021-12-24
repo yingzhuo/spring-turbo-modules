@@ -6,21 +6,15 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader.annotation;
-
-import spring.turbo.module.excel.reader.BuilderCustomizer;
-
-import java.lang.annotation.*;
+package spring.turbo.module.excel.filter;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.1
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface Customizer {
+@FunctionalInterface
+public interface ValueObjectFilter<T> {
 
-    public Class<? extends BuilderCustomizer> type();
+    public boolean filter(T data);
 
 }

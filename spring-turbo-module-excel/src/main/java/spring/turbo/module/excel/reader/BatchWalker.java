@@ -35,6 +35,7 @@ import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.config.HeaderInfo;
+import spring.turbo.module.excel.filter.ValueObjectFilter;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
@@ -73,6 +74,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
     private List<Tuple<Integer, Integer, CellParser>> cellParsers;
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
+    private ValueObjectFilter<T> valueObjectFilter; // since 1.0.1
 
     /**
      * 构造方法
@@ -167,6 +169,13 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                     .addObjects(dataArray)
                                     .build())
                             .bind();
+
+                    // valueObjectFilter 过滤数据
+                    // 不区分vo对象是不是有绑定错误
+                    // since 1.0.1
+                    if (valueObjectFilter != null && !valueObjectFilter.filter(vo)) {
+                        continue;
+                    }
 
                     if (bindingResult.hasErrors()) {
                         try {
@@ -379,6 +388,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
         private String password;
         private GlobalCellParser globalCellParser;
         private ConversionService conversionService;
+        private ValueObjectFilter<T> valueObjectFilter; // since 1.0.1
 
         private Builder(Class<T> valueObjectType) {
             Asserts.notNull(valueObjectType);
@@ -495,6 +505,11 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             return this;
         }
 
+        public Builder<T> valueObjectFilter(ValueObjectFilter<T> filter) {
+            this.valueObjectFilter = filter;
+            return this;
+        }
+
 
         public BatchWalker<T> build() {
             // 合并alias
@@ -519,6 +534,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             walker.excludeRowPredicate = CollectionUtils.isEmpty(excludeSheetPredicates) ?
                     RowPredicateFactories.alwaysFalse() : RowPredicateFactories.any(excludeSheetPredicates.toArray(new RowPredicate[0]));
             walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchVisitor::getInstance);
+            walker.valueObjectFilter = valueObjectFilter;
 
             return walker;
         }

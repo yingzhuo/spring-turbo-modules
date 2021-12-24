@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
@@ -29,6 +30,7 @@ import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
+import spring.turbo.module.excel.filter.ValueObjectFilter;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicateFactories;
 import spring.turbo.module.excel.reader.annotation.*;
@@ -79,7 +81,8 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
                         .excelType(config.excelType)
                         .password(config.password)
                         .conversionService(conversionService)
-                        .globalCellParser(config.globalCellParser);
+                        .globalCellParser(config.globalCellParser)
+                        .valueObjectFilter(config.valueObjectFilter);
 
         // 要注意注入的validator无法对应valueObject的类型
         if (injectedValidator != null && injectedValidator.supports(config.valueObjectType)) {
@@ -183,6 +186,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         config.columnBasedCellParsers = getColumnBasedCellParser(visitorType);
         config.aliasConfig = getAliasConfig(visitorType);
         config.additionalValidators = getAdditionalValidators(visitorType);
+        config.valueObjectFilter = getValueObjectFilter(visitorType);
         config.builderCustomizer = getBuilderCustomizer(visitorType);
         return config;
     }
@@ -408,9 +412,18 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         return Collections.emptyList();
     }
 
+    @Nullable
+    private ValueObjectFilter getValueObjectFilter(Class<?> visitorType) {
+        Filter annotation = AnnotationUtils.findAnnotation(visitorType, Filter.class);
+        if (annotation != null) {
+            return instanceCache.findOrCreate(annotation.type());
+        }
+        return null;
+    }
+
     private BuilderCustomizer getBuilderCustomizer(Class<?> visitorType) {
         Customizer customizer = AnnotationUtils.findAnnotation(visitorType, Customizer.class);
-        return customizer != null ? instanceCache.findOrCreate(customizer.value()) : null;
+        return customizer != null ? instanceCache.findOrCreate(customizer.type()) : null;
     }
 
 
@@ -431,6 +444,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         private List<Tuple<Integer, Integer, CellParser>> columnBasedCellParsers;
         private AliasConfig aliasConfig;
         private List<Validator> additionalValidators;
+        private ValueObjectFilter valueObjectFilter;
         private BuilderCustomizer builderCustomizer;
     }
 

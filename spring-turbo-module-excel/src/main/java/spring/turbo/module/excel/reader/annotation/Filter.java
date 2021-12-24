@@ -8,19 +8,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
-import spring.turbo.module.excel.reader.BuilderCustomizer;
+import spring.turbo.module.excel.filter.ValueObjectFilter;
 
 import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-public @interface Customizer {
+public @interface Filter {
 
-    public Class<? extends BuilderCustomizer> type();
+    public Class<? extends ValueObjectFilter> type();
 
 }
