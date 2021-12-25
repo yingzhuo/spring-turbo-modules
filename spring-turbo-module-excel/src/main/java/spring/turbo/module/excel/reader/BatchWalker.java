@@ -56,7 +56,7 @@ import java.util.function.Supplier;
  * @author 应卓
  * @since 1.0.0
  */
-public final class BatchWalker<T> extends AbstractBatchWalker {
+public final class BatchWalker<T> {
 
     private final Map<Integer, HeaderInfo> headerInfoMap = new HashMap<>();
     private ProcessPayload payload;
@@ -89,8 +89,11 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
 
     public ProcessingResult walk() {
         Workbook workbook;
+        WorkbookAndFileSystem workbookAndFileSystem;
+
         try {
-            workbook = super.createWorkbook(excelType, resource, password);
+            workbookAndFileSystem = WorkbookResourceUtils.createWorkbook(excelType, resource, password);
+            workbook = workbookAndFileSystem.getWorkbook();
         } catch (Exception e) {
             visitor.onResourceOpeningError(resource, excelType, password, payload);
             CloseUtils.closeQuietly(resource);
@@ -105,8 +108,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             visitor.onAbort(payload);
             return ProcessingResult.ABORTED;
         } finally {
-            super.close();
-            CloseUtils.closeQuietly(workbook);
+            CloseUtils.closeQuietly(workbookAndFileSystem);
             CloseUtils.closeQuietly(resource);
         }
     }
