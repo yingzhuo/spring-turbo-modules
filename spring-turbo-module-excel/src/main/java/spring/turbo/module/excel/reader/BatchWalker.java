@@ -178,21 +178,21 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                     }
 
                     if (bindingResult.hasErrors()) {
+                        payload.incrInvalidDataCount(); // 调整计数器
                         try {
-                            payload.incrInvalidDataCount(1);    // 调整计数器
                             visitor.onInvalidValueObject(new ProcessingContext(resource, workbook, sheet, row), payload, vo, bindingResult);
                         } catch (Throwable e) {
                             if (e instanceof AbortException) {
                                 throw e;
                             } else {
-                                payload.incrErrorCount(1);
+                                payload.incrErrorCount(); // 调整计数器
                                 if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                     throw new AbortException();
                                 }
                             }
                         }
                     } else {
-                        payload.incrSuccessCount(1);
+                        payload.incrSuccessCount();
                         if (dataBatch.isFull()) {
                             try {
                                 visitor.onValidValueObject(new ProcessingContext(resource, workbook, sheet, null), payload, dataBatch);
@@ -200,7 +200,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                 if (e instanceof AbortException) {
                                     throw e;
                                 } else {
-                                    payload.incrErrorCount(1);
+                                    payload.incrErrorCount();
                                     if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                         throw new AbortException();
                                     }
@@ -220,6 +220,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                     if (e instanceof AbortException) {
                         throw e;
                     } else {
+                        payload.incrErrorCount();
                         if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                             throw new AbortException();
                         }
