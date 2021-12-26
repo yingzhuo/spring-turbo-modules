@@ -12,6 +12,8 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
+ * @see java.time.Duration
+ * @see spring.turbo.util.DurationParseUtils
  * @since 1.0.0
  */
 @Documented
@@ -19,9 +21,9 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Retryer {
 
-    public long periodInMillis() default 100L;
+    public String period() default "100ms";
 
-    public long maxPeriodInMillis() default 1000L;
+    public String maxPeriod() default "1000ms";
 
     public int maxAttempts() default 5;
 

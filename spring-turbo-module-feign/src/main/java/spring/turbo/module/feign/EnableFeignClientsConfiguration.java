@@ -19,6 +19,9 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.core.type.classreading.MetadataReader;
+import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
@@ -30,8 +33,6 @@ import spring.turbo.util.StringUtils;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import static spring.turbo.bean.TypeFilterFactories.*;
 
 /**
  * @author 应卓
@@ -82,6 +83,7 @@ class EnableFeignClientsConfiguration implements
 
         String beanName = primaryAnnotation.value();
         if (StringUtils.isBlank(beanName)) {
+            // 没有指定bean，则生成一个
             beanName = beanNameGenerator.generateBeanName(beanDefinition, registry);
         }
         registry.registerBeanDefinition(beanName, beanDefinition);
@@ -97,7 +99,7 @@ class EnableFeignClientsConfiguration implements
 
     @NonNull
     private Set<String> getBasePackages(@NonNull AnnotationMetadata importingClassMetadata) {
-        Set<String> set = new HashSet<>();
+        final Set<String> set = new HashSet<>();
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
         );
@@ -118,14 +120,22 @@ class EnableFeignClientsConfiguration implements
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
-                .includeFilter(
-                        and(
-                                annotation(FeignClient.class),
-                                isInterface()
-                        )
-                )
+                .includeFilter(new IncludeTypeFilter())
                 .build()
                 .scan(basePackages);
+    }
+
+    /**
+     * @author 应卓
+     * @since 1.0.1
+     */
+    private static class IncludeTypeFilter implements TypeFilter {
+        @Override
+        public boolean match(MetadataReader reader, MetadataReaderFactory readerFactory) {
+            final boolean condition1 = reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName());
+            final boolean condition2 = reader.getClassMetadata().isInterface();
+            return condition1 && condition2;
+        }
     }
 
 }

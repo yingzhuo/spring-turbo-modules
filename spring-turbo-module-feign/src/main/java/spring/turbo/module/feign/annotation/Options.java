@@ -9,11 +9,12 @@
 package spring.turbo.module.feign.annotation;
 
 import java.lang.annotation.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 应卓
  * @see feign.Request.Options
+ * @see java.time.Duration
+ * @see spring.turbo.util.DurationParseUtils
  * @since 1.0.0
  */
 @Documented
@@ -21,13 +22,9 @@ import java.util.concurrent.TimeUnit;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Options {
 
-    public long connectTimeout() default 2;
+    public String connectTimeout() default "2000ms";
 
-    public TimeUnit connectTimeoutUnit() default TimeUnit.SECONDS;
-
-    public long readTimeout() default 5;
-
-    public TimeUnit readTimeoutUnit() default TimeUnit.SECONDS;
+    public String readTimeout() default "5000ms";
 
     public boolean followRedirects() default false;
 

@@ -24,10 +24,12 @@ import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.feign.annotation.*;
 import spring.turbo.module.feign.retryer.RetryerImpl;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.DurationParseUtils;
 import spring.turbo.util.InstanceCache;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static feign.Feign.Builder;
 
@@ -133,10 +135,10 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
         if (annotation != null) {
             Request.Options ops = new Request.Options(
-                    annotation.connectTimeout(),
-                    annotation.connectTimeoutUnit(),
-                    annotation.readTimeout(),
-                    annotation.readTimeoutUnit(),
+                    DurationParseUtils.parse(annotation.connectTimeout()).toMillis(),
+                    TimeUnit.MILLISECONDS,
+                    DurationParseUtils.parse(annotation.readTimeout()).toMillis(),
+                    TimeUnit.MILLISECONDS,
                     annotation.followRedirects()
             );
             builder.options(ops);
@@ -168,8 +170,8 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         Retryer annotation = AnnotationUtils.findAnnotation(clientType, Retryer.class);
         if (annotation != null) {
             builder.retryer(new RetryerImpl(
-                    annotation.periodInMillis(),
-                    annotation.maxPeriodInMillis(),
+                    DurationParseUtils.parse(annotation.period()).toMillis(),
+                    DurationParseUtils.parse(annotation.maxPeriod()).toMillis(),
                     annotation.maxAttempts()
             ));
         } else {
