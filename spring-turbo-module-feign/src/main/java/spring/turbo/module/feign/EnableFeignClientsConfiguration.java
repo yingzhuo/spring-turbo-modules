@@ -23,10 +23,9 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.NonNull;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.ClassPathScanner;
-import spring.turbo.bean.ScannedResult;
+import spring.turbo.bean.ScannedResultSet;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.util.StringUtils;
 
@@ -49,8 +48,12 @@ class EnableFeignClientsConfiguration implements
 
         final Set<String> basePackages = getBasePackages(importingClassMetadata);
 
-        for (ScannedResult scannedResult : scanClassPath(basePackages)) {
-            registerFeignClient(registry, importBeanNameGenerator, scannedResult);
+        if (CollectionUtils.isEmpty(basePackages)) {
+            return;
+        }
+
+        for (Class<?> feignClientType : scanClassPath(basePackages).toClassSet()) {
+            registerFeignClient(registry, importBeanNameGenerator, feignClientType);
         }
     }
 
@@ -64,11 +67,8 @@ class EnableFeignClientsConfiguration implements
         this.resourceLoader = resourceLoader;
     }
 
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ScannedResult scannedResult) {
-        final String feignClientTypeString = scannedResult.getClassName();
-        final Class<?> feignClientType = loadClass(feignClientTypeString);
-
-        FeignClient primaryAnnotation = AnnotationUtils.findAnnotation(feignClientType, FeignClient.class);
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, Class<?> feignClientType) {
+        final FeignClient primaryAnnotation = AnnotationUtils.findAnnotation(feignClientType, FeignClient.class);
         if (primaryAnnotation == null) {
             return;
         }
@@ -83,18 +83,10 @@ class EnableFeignClientsConfiguration implements
 
         String beanName = primaryAnnotation.value();
         if (StringUtils.isBlank(beanName)) {
-            // 没有指定bean，则生成一个
+            // 没有指定beanName，则生成一个
             beanName = beanNameGenerator.generateBeanName(beanDefinition, registry);
         }
         registry.registerBeanDefinition(beanName, beanDefinition);
-    }
-
-    private Class<?> loadClass(String classString) {
-        try {
-            return ClassUtils.forName(classString, ClassUtils.getDefaultClassLoader());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
     }
 
     @NonNull
@@ -112,11 +104,7 @@ class EnableFeignClientsConfiguration implements
         return Collections.unmodifiableSet(set);
     }
 
-    private Set<ScannedResult> scanClassPath(@NonNull Set<String> basePackages) {
-        if (basePackages.isEmpty()) {
-            return Collections.emptySet();
-        }
-
+    private ScannedResultSet scanClassPath(@NonNull Set<String> basePackages) {
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
