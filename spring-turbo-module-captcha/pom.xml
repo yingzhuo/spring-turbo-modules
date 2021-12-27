@@ -12,10 +12,15 @@
     <artifactId>spring-turbo-module-captcha</artifactId>
 
     <dependencies>
-        <!-- spring-turbo -->
+        <!-- spring-turbo & modules -->
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yingzhuo</groupId>
+            <artifactId>spring-turbo-module-webmvc</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- spring-boot -->

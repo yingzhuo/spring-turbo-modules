@@ -99,11 +99,16 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- spring-turbo -->
+            <!-- spring-turbo & modules -->
             <dependency>
                 <groupId>com.github.yingzhuo</groupId>
                 <artifactId>spring-turbo</artifactId>
                 <version>${spring.turbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>spring-turbo-module-webmvc</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- spring-boot -->
