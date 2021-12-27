@@ -6,16 +6,21 @@
     <parent>
         <groupId>com.github.yingzhuo</groupId>
         <artifactId>spring-turbo-modules</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-turbo-module-captcha</artifactId>
 
     <dependencies>
-        <!-- spring-turbo -->
+        <!-- spring-turbo & modules -->
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yingzhuo</groupId>
+            <artifactId>spring-turbo-module-webmvc</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- spring-boot -->
@@ -37,24 +42,33 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- springframework -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- hutool -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
             <scope>provided</scope>
         </dependency>
 

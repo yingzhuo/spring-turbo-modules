@@ -16,6 +16,7 @@ import java.util.Objects;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.webmvc.entity.ImageResponseEntity
  * @since 1.0.0
  */
 @Immutable

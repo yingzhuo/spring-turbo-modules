@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.util.StringUtils;
 
 import java.util.Objects;
@@ -19,7 +18,7 @@ import java.util.Objects;
  * @see PasswordEncoderFactories
  * @since 1.0.0
  */
-public class ReversePasswordEncoder implements PasswordEncoder {
+public class ReversePasswordEncoder implements NamedPasswordEncoder {
 
     public static final ReversePasswordEncoder INSTANCE = new ReversePasswordEncoder();
 
@@ -29,6 +28,11 @@ public class ReversePasswordEncoder implements PasswordEncoder {
 
     public static ReversePasswordEncoder getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public String getName() {
+        return "reverse";
     }
 
     @Override
@@ -43,7 +47,7 @@ public class ReversePasswordEncoder implements PasswordEncoder {
 
     @Override
     public boolean upgradeEncoding(String encodedPassword) {
-        return true; // 返回true比较谦虚
+        return true;
     }
 
 }

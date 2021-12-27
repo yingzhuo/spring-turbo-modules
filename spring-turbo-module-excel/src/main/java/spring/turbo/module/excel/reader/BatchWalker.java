@@ -35,6 +35,7 @@ import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.config.HeaderInfo;
+import spring.turbo.module.excel.filter.ValueObjectFilter;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
@@ -55,7 +56,7 @@ import java.util.function.Supplier;
  * @author 应卓
  * @since 1.0.0
  */
-public final class BatchWalker<T> extends AbstractBatchWalker {
+public final class BatchWalker<T> {
 
     private final Map<Integer, HeaderInfo> headerInfoMap = new HashMap<>();
     private ProcessPayload payload;
@@ -73,6 +74,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
     private List<Tuple<Integer, Integer, CellParser>> cellParsers;
     private HeaderConfig headerConfig;
     private AliasConfig aliasConfig;
+    private ValueObjectFilter<T> valueObjectFilter; // since 1.0.1
 
     /**
      * 构造方法
@@ -87,8 +89,11 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
 
     public ProcessingResult walk() {
         Workbook workbook;
+        WorkbookAndFileSystem workbookAndFileSystem;
+
         try {
-            workbook = super.createWorkbook(excelType, resource, password);
+            workbookAndFileSystem = WorkbookResourceUtils.createWorkbook(excelType, resource, password);
+            workbook = workbookAndFileSystem.getWorkbook();
         } catch (Exception e) {
             visitor.onResourceOpeningError(resource, excelType, password, payload);
             CloseUtils.closeQuietly(resource);
@@ -103,8 +108,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             visitor.onAbort(payload);
             return ProcessingResult.ABORTED;
         } finally {
-            super.close();
-            CloseUtils.closeQuietly(workbook);
+            CloseUtils.closeQuietly(workbookAndFileSystem);
             CloseUtils.closeQuietly(resource);
         }
     }
@@ -168,22 +172,29 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                     .build())
                             .bind();
 
+                    // valueObjectFilter 过滤数据
+                    // 不区分vo对象是不是有绑定错误
+                    // since 1.0.1
+                    if (valueObjectFilter != null && !valueObjectFilter.filter(vo)) {
+                        continue;
+                    }
+
                     if (bindingResult.hasErrors()) {
+                        payload.incrInvalidDataCount(); // 调整计数器
                         try {
-                            payload.incrInvalidDataCount(1);    // 调整计数器
                             visitor.onInvalidValueObject(new ProcessingContext(resource, workbook, sheet, row), payload, vo, bindingResult);
                         } catch (Throwable e) {
                             if (e instanceof AbortException) {
                                 throw e;
                             } else {
-                                payload.incrErrorCount(1);
+                                payload.incrErrorCount(); // 调整计数器
                                 if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                     throw new AbortException();
                                 }
                             }
                         }
                     } else {
-                        payload.incrSuccessCount(1);
+                        payload.incrSuccessCount();
                         if (dataBatch.isFull()) {
                             try {
                                 visitor.onValidValueObject(new ProcessingContext(resource, workbook, sheet, null), payload, dataBatch);
@@ -191,7 +202,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                                 if (e instanceof AbortException) {
                                     throw e;
                                 } else {
-                                    payload.incrErrorCount(1);
+                                    payload.incrErrorCount();
                                     if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                                         throw new AbortException();
                                     }
@@ -211,6 +222,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
                     if (e instanceof AbortException) {
                         throw e;
                     } else {
+                        payload.incrErrorCount();
                         if (ExitPolicy.ABORT == this.onErrorSafe(new ProcessingContext(resource, workbook, sheet, null), payload, e)) {
                             throw new AbortException();
                         }
@@ -379,6 +391,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
         private String password;
         private GlobalCellParser globalCellParser;
         private ConversionService conversionService;
+        private ValueObjectFilter<T> valueObjectFilter; // since 1.0.1
 
         private Builder(Class<T> valueObjectType) {
             Asserts.notNull(valueObjectType);
@@ -495,6 +508,11 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             return this;
         }
 
+        public Builder<T> valueObjectFilter(ValueObjectFilter<T> filter) {
+            this.valueObjectFilter = filter;
+            return this;
+        }
+
 
         public BatchWalker<T> build() {
             // 合并alias
@@ -519,6 +537,7 @@ public final class BatchWalker<T> extends AbstractBatchWalker {
             walker.excludeRowPredicate = CollectionUtils.isEmpty(excludeSheetPredicates) ?
                     RowPredicateFactories.alwaysFalse() : RowPredicateFactories.any(excludeSheetPredicates.toArray(new RowPredicate[0]));
             walker.visitor = Optional.ofNullable(visitor).orElseGet(NullBatchVisitor::getInstance);
+            walker.valueObjectFilter = valueObjectFilter;
 
             return walker;
         }

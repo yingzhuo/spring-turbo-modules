@@ -7,7 +7,7 @@
 
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-excel</module>
@@ -15,6 +15,7 @@
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-security</module>
+        <module>spring-turbo-module-security-hutool</module>
         <module>spring-turbo-module-security-jwt</module>
         <module>spring-turbo-module-webmvc</module>
     </modules>
@@ -89,20 +90,27 @@
 
         <java.version>1.8</java.version>
 
+        <spring.turbo.version>1.0.1-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.6.2</spring.boot.version>
         <spring.version>5.3.14</spring.version>
         <spring.security.version>5.6.1</spring.security.version>
         <slf4j.version>1.7.32</slf4j.version>
         <feign.version>11.8</feign.version>
+        <hutool.version>5.7.18</hutool.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- spring-turbo -->
+            <!-- spring-turbo & modules -->
             <dependency>
                 <groupId>com.github.yingzhuo</groupId>
                 <artifactId>spring-turbo</artifactId>
-                <version>1.0.0</version>
+                <version>${spring.turbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>spring-turbo-module-webmvc</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- spring-boot -->
@@ -312,6 +320,30 @@
                 <groupId>io.github.openfeign</groupId>
                 <artifactId>feign-core</artifactId>
                 <version>${feign.version}</version>
+            </dependency>
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- bouncycastle -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>1.70</version>
             </dependency>
 
             <!-- slf4j -->

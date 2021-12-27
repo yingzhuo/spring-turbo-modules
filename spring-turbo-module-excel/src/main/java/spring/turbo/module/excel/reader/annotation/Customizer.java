@@ -21,6 +21,6 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Customizer {
 
-    public Class<? extends BuilderCustomizer> value();
+    public Class<? extends BuilderCustomizer> type();
 
 }

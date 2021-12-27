@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.bind.BindResult;
  * @author 应卓
  * @since 1.0.0
  */
-public class BindingResultBatch extends Batch<BindResult> {
+public final class BindingResultBatch extends Batch<BindResult> {
 
     public BindingResultBatch(int maxSize) {
         super(maxSize);

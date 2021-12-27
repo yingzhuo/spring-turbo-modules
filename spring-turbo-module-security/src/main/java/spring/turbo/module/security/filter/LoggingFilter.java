@@ -8,27 +8,36 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.util.Assert;
+import org.springframework.lang.Nullable;
+import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import static spring.turbo.util.StringPool.HYPHEN_X_80;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
 public class LoggingFilter extends AbstractServletFilter {
 
+    private static final Logger DEFAULT_LOGGER = new Logger(LoggingFilter.class, LogLevel.DEBUG);
+
     private final Logger log;
 
-    public LoggingFilter(Logger logger) {
-        Assert.notNull(logger, "logger is null");
-        this.log = logger;
+    // since 1.0.1
+    public LoggingFilter() {
+        this(null);
+    }
+
+    public LoggingFilter(@Nullable Logger logger) {
+        this.log = Optional.ofNullable(logger).orElse(DEFAULT_LOGGER);
     }
 
     @Override

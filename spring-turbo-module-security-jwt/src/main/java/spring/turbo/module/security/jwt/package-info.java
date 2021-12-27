@@ -11,6 +11,10 @@ package spring.turbo.module.security.jwt;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * @author 应卓
+ * @since 1.0.0
+ */
 class SpringBootAutoConfiguration {
 
     @Bean

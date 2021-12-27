@@ -9,6 +9,7 @@
 package spring.turbo.module.security.webmvc.util;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -42,13 +43,13 @@ public final class ServletUtils {
         return request;
     }
 
-    @NonNull
+    @Nullable
     public static HttpServletResponse getResponse() {
         final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getResponse();
     }
 
-    @NonNull
+    @Nullable
     public static HttpServletResponse getUnwrappedResponse() {
         HttpServletResponse response = getResponse();
 

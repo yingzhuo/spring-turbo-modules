@@ -19,6 +19,7 @@ import java.util.Objects;
 /**
  * @author 应卓
  * @see Captcha
+ * @see spring.turbo.module.security.webmvc.entity.ImageResponseEntity
  * @since 1.0.0
  */
 public final class EncodedCaptcha implements Serializable {
