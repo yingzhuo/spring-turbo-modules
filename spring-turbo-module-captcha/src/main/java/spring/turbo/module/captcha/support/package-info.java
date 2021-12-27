@@ -25,9 +25,17 @@ class SpringBootAutoConfiguration {
         return new SimpleAccessKeyGenerator();
     }
 
+}
+
+/**
+ * @author 应卓
+ * @since 1.0.1
+ */
+@ConditionalOnBean(type = "org.springframework.data.redis.core.StringRedisTemplate")
+class SpringBootAutoConfigurationDependsOnSpringDataRedis {
+
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnBean(type = "org.springframework.data.redis.core.StringRedisTemplate")
     CaptchaDao captchaDao(StringRedisTemplate template) {
         return new RedisCaptchaDao(template);
     }
