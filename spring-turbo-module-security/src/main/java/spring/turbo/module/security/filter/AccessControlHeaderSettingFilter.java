@@ -22,6 +22,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AccessControlHeaderSettingFilter extends AbstractServletFilter {
 
+    public AccessControlHeaderSettingFilter() {
+        super();
+    }
+
     @Override
     protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
