@@ -32,6 +32,11 @@ public class ReversePasswordEncoder implements NamedPasswordEncoder {
     }
 
     @Override
+    public String getName() {
+        return "reverse";
+    }
+
+    @Override
     public String encode(CharSequence rawPassword) {
         return StringUtils.reverse(rawPassword.toString());
     }
@@ -43,12 +48,7 @@ public class ReversePasswordEncoder implements NamedPasswordEncoder {
 
     @Override
     public boolean upgradeEncoding(String encodedPassword) {
-        return true; // 返回true比较谦虚
-    }
-
-    @Override
-    public String getName() {
-        return "reverse";
+        return true;
     }
 
 }

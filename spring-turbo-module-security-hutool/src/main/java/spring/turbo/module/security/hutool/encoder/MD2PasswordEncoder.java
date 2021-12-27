@@ -11,9 +11,12 @@ package spring.turbo.module.security.hutool.encoder;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import spring.turbo.module.security.NamedPasswordEncoder;
+import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
  * @author 应卓
+ * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
+ * @see PasswordEncoderFactories
  * @since 1.0.1
  */
 public class MD2PasswordEncoder implements NamedPasswordEncoder {
