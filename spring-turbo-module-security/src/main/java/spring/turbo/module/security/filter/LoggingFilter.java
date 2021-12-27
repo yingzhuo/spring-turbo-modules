@@ -22,6 +22,7 @@ import static spring.turbo.util.StringPool.HYPHEN_X_80;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
 public class LoggingFilter extends AbstractServletFilter {

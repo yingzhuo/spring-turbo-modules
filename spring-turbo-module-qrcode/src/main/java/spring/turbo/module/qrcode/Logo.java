@@ -48,6 +48,7 @@ public final class Logo implements Serializable {
         private boolean compress = true;
 
         private Builder() {
+            super();
         }
 
         public Builder image(Image image) {
@@ -84,16 +85,6 @@ public final class Logo implements Serializable {
         public Builder image(File file) {
             try {
                 this.image = ImageIO.read(file);
-                return this;
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        }
-
-        public Builder image(byte[] bytes) {
-            try {
-                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-                this.image = ImageIO.read(bais);
                 return this;
             } catch (IOException e) {
                 throw new UncheckedIOException(e);

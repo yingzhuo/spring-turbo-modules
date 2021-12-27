@@ -32,6 +32,7 @@ import java.io.IOException;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
 public class TokenAuthenticationFilter extends AbstractServletFilter {
