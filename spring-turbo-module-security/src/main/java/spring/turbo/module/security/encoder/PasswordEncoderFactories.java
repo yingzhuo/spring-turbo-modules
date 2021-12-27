@@ -13,8 +13,6 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import spring.turbo.module.security.NamedPasswordEncoder;
-import spring.turbo.module.security.NamedPasswordEncoderProvider;
 import spring.turbo.util.ServiceLoaderUtils;
 
 import java.util.Collection;

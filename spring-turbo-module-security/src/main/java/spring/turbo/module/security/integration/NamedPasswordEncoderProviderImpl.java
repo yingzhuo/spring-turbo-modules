@@ -8,8 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.integration;
 
-import spring.turbo.module.security.NamedPasswordEncoder;
-import spring.turbo.module.security.NamedPasswordEncoderProvider;
+import spring.turbo.module.security.encoder.NamedPasswordEncoder;
+import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
 import spring.turbo.module.security.encoder.ReversePasswordEncoder;
 
 import java.util.ArrayList;

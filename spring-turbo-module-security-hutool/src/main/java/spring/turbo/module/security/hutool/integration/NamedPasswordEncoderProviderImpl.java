@@ -8,9 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.hutool.integration;
 
-import spring.turbo.module.security.NamedPasswordEncoder;
-import spring.turbo.module.security.NamedPasswordEncoderProvider;
+import spring.turbo.module.security.encoder.NamedPasswordEncoder;
+import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
 import spring.turbo.module.security.hutool.encoder.MD2PasswordEncoder;
+import spring.turbo.module.security.hutool.encoder.SHA384PasswordEncoder;
+import spring.turbo.module.security.hutool.encoder.SHA512PasswordEncoder;
 import spring.turbo.module.security.hutool.encoder.SM3PasswordEncoder;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderPro
         final List<NamedPasswordEncoder> list = new ArrayList<>();
         list.add(new MD2PasswordEncoder());
         list.add(new SM3PasswordEncoder());
+        list.add(new SHA384PasswordEncoder());
+        list.add(new SHA512PasswordEncoder());
         return Collections.unmodifiableCollection(list);
     }
 

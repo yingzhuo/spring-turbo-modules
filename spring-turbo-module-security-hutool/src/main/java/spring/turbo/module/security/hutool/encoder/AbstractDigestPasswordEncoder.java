@@ -8,30 +8,33 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.hutool.encoder;
 
-import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.crypto.digest.Digester;
-import spring.turbo.module.security.encoder.PasswordEncoderFactories;
+import spring.turbo.module.security.encoder.NamedPasswordEncoder;
+import spring.turbo.util.Asserts;
 
 /**
- * 国密算法
- *
  * @author 应卓
- * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
- * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class SM3PasswordEncoder extends AbstractDigestPasswordEncoder {
+public abstract class AbstractDigestPasswordEncoder implements NamedPasswordEncoder {
 
-    private static final String SM3 = "SM3";
+    private final String name;
 
-    public SM3PasswordEncoder() {
-        super(SM3);
+    public AbstractDigestPasswordEncoder(String name) {
+        Asserts.hasText(name);
+        this.name = name;
     }
 
     @Override
-    public String encode(CharSequence rawPassword) {
-        final Digester digester = DigestUtil.digester(SM3);
-        return digester.digestHex(rawPassword.toString());
+    public final String getName() {
+        return this.name;
+    }
+
+    @Override
+    public abstract String encode(CharSequence rawPassword);
+
+    @Override
+    public final boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return encode(rawPassword).equals(encodedPassword);
     }
 
 }

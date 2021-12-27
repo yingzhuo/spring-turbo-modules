@@ -10,7 +10,6 @@ package spring.turbo.module.security.hutool.encoder;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
-import spring.turbo.module.security.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
@@ -19,22 +18,16 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class MD2PasswordEncoder implements NamedPasswordEncoder {
+public class MD2PasswordEncoder extends AbstractDigestPasswordEncoder {
 
-    @Override
-    public String getName() {
-        return "MD2";
+    public MD2PasswordEncoder() {
+        super(DigestAlgorithm.MD2.getValue());
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
-        final Digester digester = new Digester(DigestAlgorithm.MD5);
+        final Digester digester = new Digester(DigestAlgorithm.MD2);
         return digester.digestHex(rawPassword.toString());
-    }
-
-    @Override
-    public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return encode(rawPassword).equals(encodedPassword);
     }
 
 }

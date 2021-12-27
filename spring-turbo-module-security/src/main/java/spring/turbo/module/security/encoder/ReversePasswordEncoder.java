@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
-import spring.turbo.module.security.NamedPasswordEncoder;
 import spring.turbo.util.StringUtils;
 
 import java.util.Objects;
