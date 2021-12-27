@@ -6,49 +6,32 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.encoder;
+package spring.turbo.module.security.hutool.encoder;
 
+import cn.hutool.crypto.digest.DigestUtil;
+import cn.hutool.crypto.digest.Digester;
 import spring.turbo.module.security.NamedPasswordEncoder;
-import spring.turbo.util.StringUtils;
-
-import java.util.Objects;
 
 /**
  * @author 应卓
- * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
- * @see PasswordEncoderFactories
- * @since 1.0.0
+ * @since 1.0.1
  */
-public class ReversePasswordEncoder implements NamedPasswordEncoder {
+public class SM3PasswordEncoder implements NamedPasswordEncoder {
 
-    public static final ReversePasswordEncoder INSTANCE = new ReversePasswordEncoder();
-
-    private ReversePasswordEncoder() {
-        super();
-    }
-
-    public static ReversePasswordEncoder getInstance() {
-        return INSTANCE;
+    @Override
+    public String getName() {
+        return "SM3";
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return StringUtils.reverse(rawPassword.toString());
+        final Digester digester = DigestUtil.digester("sm3");
+        return digester.digestHex(rawPassword.toString());
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return Objects.equals(rawPassword, encodedPassword);
-    }
-
-    @Override
-    public boolean upgradeEncoding(String encodedPassword) {
-        return true; // 返回true比较谦虚
-    }
-
-    @Override
-    public String getName() {
-        return "reverse";
+        return encode(rawPassword).equals(encodedPassword);
     }
 
 }
