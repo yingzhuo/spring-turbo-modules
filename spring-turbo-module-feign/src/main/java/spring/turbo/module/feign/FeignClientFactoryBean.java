@@ -14,12 +14,12 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.env.Environment;
+import spring.turbo.bean.AbstractFactoryBean;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.feign.annotation.*;
 import spring.turbo.module.feign.retryer.RetryerImpl;
@@ -37,9 +37,9 @@ import static feign.Feign.Builder;
  * @author 应卓
  * @since 1.0.0
  */
-class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, ApplicationContextAware, EnvironmentAware {
+class FeignClientFactoryBean extends AbstractFactoryBean
+        implements InitializingBean, ApplicationContextAware, EnvironmentAware {
 
-    private Class<?> clientType; // setter
     private String url; // setter
     private Environment environment; // 回调
     private InstanceCache instanceCache; // 回调
@@ -52,20 +52,20 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     @Override
     public Object getObject() {
         Builder builder = new Builder();
-        this.decoded404(builder, clientType);
-        this.logging(builder, clientType);
-        this.encoderAndDecoder(builder, clientType);
-        this.errorDecoder(builder, clientType);
-        this.queryMapEncoder(builder, clientType);
-        this.client(builder, clientType);
-        this.contract(builder, clientType);
-        this.capabilities(builder, clientType);
-        this.options(builder, clientType);
-        this.doNotCloseAfterDecode(builder, clientType);
-        this.requestInterceptors(builder, clientType);
-        this.retryer(builder, clientType);
-        this.customizer(builder, clientType);
-        return builder.target(clientType, url);
+        this.decoded404(builder, classDefinitionResolvable.getBeanClass());
+        this.logging(builder, classDefinitionResolvable.getBeanClass());
+        this.encoderAndDecoder(builder, classDefinitionResolvable.getBeanClass());
+        this.errorDecoder(builder, classDefinitionResolvable.getBeanClass());
+        this.queryMapEncoder(builder, classDefinitionResolvable.getBeanClass());
+        this.client(builder, classDefinitionResolvable.getBeanClass());
+        this.contract(builder, classDefinitionResolvable.getBeanClass());
+        this.capabilities(builder, classDefinitionResolvable.getBeanClass());
+        this.options(builder, classDefinitionResolvable.getBeanClass());
+        this.doNotCloseAfterDecode(builder, classDefinitionResolvable.getBeanClass());
+        this.requestInterceptors(builder, classDefinitionResolvable.getBeanClass());
+        this.retryer(builder, classDefinitionResolvable.getBeanClass());
+        this.customizer(builder, classDefinitionResolvable.getBeanClass());
+        return builder.target(classDefinitionResolvable.getBeanClass(), url);
     }
 
     private void decoded404(final Builder builder, final Class<?> clientType) {
@@ -188,28 +188,8 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     }
 
     @Override
-    public Class<?> getObjectType() {
-        return clientType;
-    }
-
-    @Override
-    public boolean isEagerInit() {
-        return true;
-    }
-
-    @Override
-    public boolean isPrototype() {
-        return false;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return true;
-    }
-
-    @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(clientType);
+        Asserts.notNull(classDefinitionResolvable);
         Asserts.notNull(environment);
         Asserts.notNull(url);
         this.url = environment.resolvePlaceholders(url);
@@ -223,14 +203,6 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-    }
-
-    public Class<?> getClientType() {
-        return clientType;
-    }
-
-    public void setClientType(Class<?> clientType) {
-        this.clientType = clientType;
     }
 
     public void setUrl(String url) {

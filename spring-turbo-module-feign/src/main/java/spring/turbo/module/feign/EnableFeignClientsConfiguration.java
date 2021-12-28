@@ -26,7 +26,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.ClassDefinition;
 import spring.turbo.bean.ClassPathScanner;
-import spring.turbo.core.AnnotationUtils;
 import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
@@ -57,7 +56,7 @@ class EnableFeignClientsConfiguration implements
             registerFeignClient(
                     registry,
                     beanNameGenerator,
-                    definition.getBeanClass()
+                    definition
             );
         }
     }
@@ -72,20 +71,21 @@ class EnableFeignClientsConfiguration implements
         this.resourceLoader = resourceLoader;
     }
 
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, Class<?> feignClientType) {
-        final FeignClient primaryAnnotation = AnnotationUtils.findAnnotation(feignClientType, FeignClient.class);
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDefinition classDefinition) {
+        final FeignClient primaryAnnotation = classDefinition.findAnnotation(FeignClient.class);
         if (primaryAnnotation == null) {
             return;
         }
 
         final AbstractBeanDefinition factoryBeanDefinition =
                 BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class)
-                        .addPropertyValue("clientType", feignClientType)
+                        .addPropertyValue("classDefinition", classDefinition)
                         .addPropertyValue("url", primaryAnnotation.url())
                         .getBeanDefinition();
 
         factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
         factoryBeanDefinition.setResourceDescription("spring-turbo-module-feign :)"); // 彩蛋
+        factoryBeanDefinition.setAbstract(false);
 
         String beanName = primaryAnnotation.value();
         if (StringUtils.isBlank(beanName)) {
