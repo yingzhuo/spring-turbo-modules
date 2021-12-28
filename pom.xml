@@ -94,8 +94,9 @@
         <spring.boot.version>2.6.2</spring.boot.version>
         <spring.version>5.3.14</spring.version>
         <spring.security.version>5.6.1</spring.security.version>
-        <slf4j.version>1.7.32</slf4j.version>
         <feign.version>11.8</feign.version>
+        <resilience4j.version>1.7.1</resilience4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <hutool.version>5.7.18</hutool.version>
     </properties>
 
@@ -347,6 +348,20 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-captcha</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- resilience4j -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-all</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+
+            <!-- vavr -->
+            <dependency>
+                <groupId>io.vavr</groupId>
+                <artifactId>vavr</artifactId>
+                <version>0.10.4</version>
             </dependency>
 
             <!-- bouncycastle -->
