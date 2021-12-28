@@ -24,15 +24,14 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
+import spring.turbo.bean.ClassDefinition;
 import spring.turbo.bean.ClassPathScanner;
-import spring.turbo.bean.ScannedResult;
-import spring.turbo.bean.ScannedResultSet;
 import spring.turbo.core.AnnotationUtils;
-import spring.turbo.util.ClassUtils;
 import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,11 +53,11 @@ class EnableFeignClientsConfiguration implements
             return;
         }
 
-        for (ScannedResult sr : scanClassPath(basePackages)) {
+        for (ClassDefinition definition : scanClasspath(basePackages)) {
             registerFeignClient(
                     registry,
                     beanNameGenerator,
-                    ClassUtils.forNameOrThrow(sr.getClassName())
+                    definition.getBeanClass()
             );
         }
     }
@@ -86,6 +85,7 @@ class EnableFeignClientsConfiguration implements
                         .getBeanDefinition();
 
         factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
+        factoryBeanDefinition.setResourceDescription("spring-turbo-module-feign :)"); // 彩蛋
 
         String beanName = primaryAnnotation.value();
         if (StringUtils.isBlank(beanName)) {
@@ -110,7 +110,7 @@ class EnableFeignClientsConfiguration implements
         return Collections.unmodifiableSet(set);
     }
 
-    private ScannedResultSet scanClassPath(@NonNull Set<String> basePackages) {
+    private List<ClassDefinition> scanClasspath(@NonNull Set<String> basePackages) {
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
