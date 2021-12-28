@@ -20,7 +20,11 @@
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo-module-security</artifactId>
-            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yingzhuo</groupId>
+            <artifactId>spring-turbo-module-security-jwt</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- spring-boot -->
