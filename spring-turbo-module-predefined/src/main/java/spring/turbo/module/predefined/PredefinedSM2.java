@@ -11,18 +11,16 @@ package spring.turbo.module.predefined;
 import spring.turbo.bean.Pair;
 import spring.turbo.io.ResourceOptions;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.crypto.DSA;
-import spring.turbo.util.crypto.DSAKeys;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.2
  */
-public final class PredefinedDSA {
+public final class PredefinedSM2 {
 
-    private PredefinedDSA() {
+    private PredefinedSM2() {
         super();
     }
 
@@ -30,18 +28,11 @@ public final class PredefinedDSA {
         Asserts.isTrue(i >= 0 && i <= 9, "i must be in range [0,10)");
 
         final String a = ResourceOptions
-                .fromCommaSeparatedLocations(String.format("classpath:dsa/dsa.public.%d.txt", i)).toString(UTF_8);
+                .fromCommaSeparatedLocations(String.format("classpath:sm2/sm2.public.%d.txt", i)).toString(UTF_8);
         final String b = ResourceOptions
-                .fromCommaSeparatedLocations(String.format("classpath:dsa/dsa.private.%d.txt", i)).toString(UTF_8);
+                .fromCommaSeparatedLocations(String.format("classpath:sm2/sm2.private.%d.txt", i)).toString(UTF_8);
 
         return Pair.of(a, b);
-    }
-
-    public static DSA createCrypto(int i) {
-        final Pair<String, String> ks = loadKeys(i);
-        return DSA.builder()
-                .keyPair(DSAKeys.fromString(ks.getA(), ks.getB()))
-                .build();
     }
 
 }

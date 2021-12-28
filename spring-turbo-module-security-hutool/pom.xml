@@ -59,6 +59,13 @@
             <artifactId>bcprov-jdk15to18</artifactId>
         </dependency>
 
+        <!-- java-jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>

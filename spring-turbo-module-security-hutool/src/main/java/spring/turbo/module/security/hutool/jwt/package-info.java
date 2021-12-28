@@ -6,22 +6,4 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt;
-
-import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.lang.NonNull;
-import spring.turbo.bean.Factory;
-
-/**
- * @author 应卓
- * @see AlgorithmFactoryFactories
- * @since 1.0.0
- */
-@FunctionalInterface
-public interface AlgorithmFactory extends Factory<Algorithm> {
-
-    @NonNull
-    @Override
-    public Algorithm create();
-
-}
+package spring.turbo.module.security.hutool.jwt;

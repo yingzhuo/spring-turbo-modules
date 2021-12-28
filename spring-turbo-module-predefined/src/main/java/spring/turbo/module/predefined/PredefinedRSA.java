@@ -8,9 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.predefined;
 
-import org.springframework.util.Assert;
 import spring.turbo.bean.Pair;
 import spring.turbo.io.ResourceOptions;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.RSA;
 import spring.turbo.util.crypto.RSAKeys;
 
@@ -27,7 +27,7 @@ public final class PredefinedRSA {
     }
 
     public static Pair<String, String> loadKeys(int i) {
-        Assert.isTrue(i >= 0 && i <= 9, "i must be in range [1,10)");
+        Asserts.isTrue(i >= 0 && i <= 9, "i must be in range [0,10)");
 
         final String a = ResourceOptions
                 .fromCommaSeparatedLocations(String.format("classpath:rsa/rsa.public.%d.txt", i)).toString(UTF_8);
