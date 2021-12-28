@@ -68,13 +68,13 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         return builder.target(clientType, url);
     }
 
-    protected void decoded404(final Builder builder, final Class<?> clientType) {
+    private void decoded404(final Builder builder, final Class<?> clientType) {
         if (AnnotationUtils.findAnnotation(clientType, Decoded404.class) != null) {
             builder.decode404();
         }
     }
 
-    protected void logging(final Builder builder, final Class<?> clientType) {
+    private void logging(final Builder builder, final Class<?> clientType) {
         Logging annotation = AnnotationUtils.findAnnotation(clientType, Logging.class);
         if (annotation != null) {
             builder.logger(instanceCache.findOrCreate(annotation.type()));
@@ -82,7 +82,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void encoderAndDecoder(final Builder builder, final Class<?> clientType) {
+    private void encoderAndDecoder(final Builder builder, final Class<?> clientType) {
         EncoderAndDecoder annotation = AnnotationUtils.findAnnotation(clientType, EncoderAndDecoder.class);
         if (annotation != null) {
             Encoder encoder = instanceCache.findOrCreate(annotation.encoderType());
@@ -92,35 +92,35 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void errorDecoder(final Builder builder, final Class<?> clientType) {
+    private void errorDecoder(final Builder builder, final Class<?> clientType) {
         ErrorDecoder annotation = AnnotationUtils.findAnnotation(clientType, ErrorDecoder.class);
         if (annotation != null) {
             builder.errorDecoder(instanceCache.findOrCreate(annotation.type()));
         }
     }
 
-    protected void client(final Builder builder, final Class<?> clientType) {
+    private void client(final Builder builder, final Class<?> clientType) {
         Client annotation = AnnotationUtils.findAnnotation(clientType, Client.class);
         if (annotation != null) {
             builder.client(instanceCache.findOrCreate(annotation.type()));
         }
     }
 
-    protected void queryMapEncoder(final Builder builder, final Class<?> clientType) {
+    private void queryMapEncoder(final Builder builder, final Class<?> clientType) {
         QueryMapEncoder annotation = AnnotationUtils.findAnnotation(clientType, QueryMapEncoder.class);
         if (annotation != null) {
             builder.queryMapEncoder(instanceCache.findOrCreate(annotation.type()));
         }
     }
 
-    protected void contract(final Builder builder, final Class<?> clientType) {
+    private void contract(final Builder builder, final Class<?> clientType) {
         Contract annotation = AnnotationUtils.findAnnotation(clientType, Contract.class);
         if (annotation != null) {
             builder.contract(instanceCache.findOrCreate(annotation.type()));
         }
     }
 
-    protected void capabilities(final Builder builder, final Class<?> clientType) {
+    private void capabilities(final Builder builder, final Class<?> clientType) {
         Capabilities annotation = AnnotationUtils.findAnnotation(clientType, Capabilities.class);
         if (annotation != null) {
             for (Class<? extends feign.Capability> type : annotation.types()) {
@@ -131,7 +131,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void options(final Builder builder, final Class<?> clientType) {
+    private void options(final Builder builder, final Class<?> clientType) {
         Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
         if (annotation != null) {
             Request.Options ops = new Request.Options(
@@ -145,14 +145,14 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void doNotCloseAfterDecode(final Builder builder, final Class<?> clientType) {
+    private void doNotCloseAfterDecode(final Builder builder, final Class<?> clientType) {
         DoNotCloseAfterDecode annotation = AnnotationUtils.findAnnotation(clientType, DoNotCloseAfterDecode.class);
         if (annotation != null) {
             builder.doNotCloseAfterDecode();
         }
     }
 
-    protected void requestInterceptors(final Builder builder, final Class<?> clientType) {
+    private void requestInterceptors(final Builder builder, final Class<?> clientType) {
         RequestInterceptors annotation = AnnotationUtils.findAnnotation(clientType, RequestInterceptors.class);
         if (annotation != null) {
             List<RequestInterceptor> interceptors = new LinkedList<>();
@@ -166,7 +166,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void retryer(final Builder builder, final Class<?> clientType) {
+    private void retryer(final Builder builder, final Class<?> clientType) {
         Retryer annotation = AnnotationUtils.findAnnotation(clientType, Retryer.class);
         if (annotation != null) {
             builder.retryer(new RetryerImpl(
@@ -179,7 +179,7 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
         }
     }
 
-    protected void customizer(final Builder builder, final Class<?> clientType) {
+    private void customizer(final Builder builder, final Class<?> clientType) {
         Customizer annotation = AnnotationUtils.findAnnotation(clientType, Customizer.class);
         if (annotation != null && annotation.value() != null) {
             BuilderCustomizer bean = instanceCache.findOrCreate(annotation.value());
@@ -194,6 +194,16 @@ class FeignClientFactoryBean implements SmartFactoryBean, InitializingBean, Appl
 
     @Override
     public boolean isEagerInit() {
+        return true;
+    }
+
+    @Override
+    public boolean isPrototype() {
+        return false;
+    }
+
+    @Override
+    public boolean isSingleton() {
         return true;
     }
 

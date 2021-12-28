@@ -25,8 +25,10 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.ClassPathScanner;
+import spring.turbo.bean.ScannedResult;
 import spring.turbo.bean.ScannedResultSet;
 import spring.turbo.core.AnnotationUtils;
+import spring.turbo.util.ClassUtils;
 import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
@@ -44,7 +46,7 @@ class EnableFeignClientsConfiguration implements
     private ResourceLoader resourceLoader;
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
 
         final Set<String> basePackages = getBasePackages(importingClassMetadata);
 
@@ -52,8 +54,12 @@ class EnableFeignClientsConfiguration implements
             return;
         }
 
-        for (Class<?> feignClientType : scanClassPath(basePackages).toClassSet()) {
-            registerFeignClient(registry, importBeanNameGenerator, feignClientType);
+        for (ScannedResult sr : scanClassPath(basePackages)) {
+            registerFeignClient(
+                    registry,
+                    beanNameGenerator,
+                    ClassUtils.forNameOrThrow(sr.getClassName())
+            );
         }
     }
 
@@ -73,20 +79,20 @@ class EnableFeignClientsConfiguration implements
             return;
         }
 
-        final AbstractBeanDefinition beanDefinition =
+        final AbstractBeanDefinition factoryBeanDefinition =
                 BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class)
                         .addPropertyValue("clientType", feignClientType)
                         .addPropertyValue("url", primaryAnnotation.url())
                         .getBeanDefinition();
 
-        beanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
+        factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
 
         String beanName = primaryAnnotation.value();
         if (StringUtils.isBlank(beanName)) {
             // 没有指定beanName，则生成一个
-            beanName = beanNameGenerator.generateBeanName(beanDefinition, registry);
+            beanName = beanNameGenerator.generateBeanName(factoryBeanDefinition, registry);
         }
-        registry.registerBeanDefinition(beanName, beanDefinition);
+        registry.registerBeanDefinition(beanName, factoryBeanDefinition);
     }
 
     @NonNull
