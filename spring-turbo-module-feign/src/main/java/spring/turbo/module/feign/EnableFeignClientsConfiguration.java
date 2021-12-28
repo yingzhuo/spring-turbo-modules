@@ -84,6 +84,7 @@ class EnableFeignClientsConfiguration implements
                         .getBeanDefinition();
 
         factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
+        factoryBeanDefinition.setPrimary(classDefinition.isPrimary());
         factoryBeanDefinition.setResourceDescription("spring-turbo-module-feign :)"); // 彩蛋
         factoryBeanDefinition.setAbstract(false);
 
