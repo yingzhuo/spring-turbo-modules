@@ -8,33 +8,41 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.hutool.encoder;
 
-import spring.turbo.module.security.encoder.NamedPasswordEncoder;
+import cn.hutool.core.codec.Morse;
+import org.springframework.lang.NonNull;
+import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
 import spring.turbo.util.Asserts;
 
+import static spring.turbo.util.CharPool.*;
+
 /**
+ * 莫斯密电码
+ *
  * @author 应卓
- * @since 1.0.1
+ * @since 1.0.2
  */
-public abstract class AbstractDigestPasswordEncoder implements NamedPasswordEncoder {
+public final class MorsePasswordEncoder extends AbstractNamedPasswordEncoder {
 
-    private final String name;
+    private final Morse morse;
 
-    public AbstractDigestPasswordEncoder(String name) {
-        Asserts.hasText(name);
-        this.name = name;
+    public MorsePasswordEncoder() {
+        this(new Morse(DOT, HYPHEN, SLASH));
+    }
+
+    public MorsePasswordEncoder(@NonNull Morse morse) {
+        super("morse");
+        Asserts.notNull(morse);
+        this.morse = morse;
     }
 
     @Override
-    public final String getName() {
-        return this.name;
+    public String encode(CharSequence rawPassword) {
+        return morse.encode(rawPassword.toString());
     }
 
     @Override
-    public abstract String encode(CharSequence rawPassword);
-
-    @Override
-    public final boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return encode(rawPassword).equals(encodedPassword);
+    public boolean upgradeEncoding(String encodedPassword) {
+        return true;
     }
 
 }

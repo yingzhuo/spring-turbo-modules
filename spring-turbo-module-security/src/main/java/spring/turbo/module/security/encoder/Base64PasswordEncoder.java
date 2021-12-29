@@ -21,12 +21,12 @@ public final class Base64PasswordEncoder implements PasswordEncoder {
 
     private static final Base64PasswordEncoder INSTANCE = new Base64PasswordEncoder();
 
-    public static Base64PasswordEncoder getInstance() {
-        return INSTANCE;
-    }
-
     private Base64PasswordEncoder() {
         super();
+    }
+
+    public static Base64PasswordEncoder getInstance() {
+        return INSTANCE;
     }
 
     @Override
