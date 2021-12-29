@@ -37,4 +37,9 @@ public class RSAPasswordEncoder implements PasswordEncoder {
         return Objects.equals(rawPassword.toString(), rsa.decryptByPublicKey(encodedPassword));
     }
 
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return false;
+    }
+
 }

@@ -20,6 +20,10 @@ import spring.turbo.bean.Named;
  */
 public interface NamedPasswordEncoder extends PasswordEncoder, Named {
 
+    public static NamedPasswordEncoder of(@NonNull String name, @NonNull PasswordEncoder passwordEncoder) {
+        return new DelegatingNamedPasswordEncoder(name, passwordEncoder);
+    }
+
     @NonNull
     @Override
     public String getName();

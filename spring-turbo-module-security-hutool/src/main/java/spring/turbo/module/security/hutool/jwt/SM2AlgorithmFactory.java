@@ -9,25 +9,28 @@
 package spring.turbo.module.security.hutool.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import org.springframework.lang.NonNull;
+import spring.turbo.module.security.jwt.AlgorithmFactory;
 
 /**
+ * 国密算法签名JWT
+ *
  * @author 应卓
  * @since 1.0.2
  */
-public abstract class AbstractAlgorithm extends Algorithm {
+public class SM2AlgorithmFactory implements AlgorithmFactory {
 
-    private static final byte JWT_PART_SEPARATOR = (byte) 46;
+    private final String publicKey;
+    private final String privateKey;
 
-    public AbstractAlgorithm(String name, String description) {
-        super(name, description);
+    public SM2AlgorithmFactory(@NonNull String publicKey, @NonNull String privateKey) {
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
     }
 
-    protected final byte[] combineSignByte(byte[] headerBytes, byte[] payloadBytes) {
-        // header + payload
-        byte[] hash = new byte[headerBytes.length + payloadBytes.length + 1];
-        System.arraycopy(headerBytes, 0, hash, 0, headerBytes.length);
-        hash[headerBytes.length] = JWT_PART_SEPARATOR;
-        System.arraycopy(payloadBytes, 0, hash, headerBytes.length + 1, payloadBytes.length);
-        return hash;
+    @Override
+    public Algorithm create() {
+        return new SM2Algorithm(publicKey, privateKey);
     }
+
 }

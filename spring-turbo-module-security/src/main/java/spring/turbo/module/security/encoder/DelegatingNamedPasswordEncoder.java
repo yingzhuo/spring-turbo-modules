@@ -8,46 +8,44 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
-import spring.turbo.util.StringUtils;
-
-import java.util.Objects;
+import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
- * @see PasswordEncoderFactories
- * @since 1.0.0
+ * @since 1.0.2
  */
-public class ReversePasswordEncoder implements NamedPasswordEncoder {
+public class DelegatingNamedPasswordEncoder implements NamedPasswordEncoder {
 
-    public static final ReversePasswordEncoder INSTANCE = new ReversePasswordEncoder();
+    private final String name;
+    private final PasswordEncoder passwordEncoder;
 
-    private ReversePasswordEncoder() {
-        super();
-    }
-
-    public static ReversePasswordEncoder getInstance() {
-        return INSTANCE;
+    public DelegatingNamedPasswordEncoder(@NonNull String name, @NonNull PasswordEncoder passwordEncoder) {
+        Asserts.hasText(name);
+        Asserts.notNull(passwordEncoder);
+        this.name = name;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public String getName() {
-        return "reverse";
+        return this.name;
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return StringUtils.reverse(rawPassword.toString());
+        return this.passwordEncoder.encode(rawPassword);
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return Objects.equals(rawPassword, encodedPassword);
+        return this.passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     @Override
     public boolean upgradeEncoding(String encodedPassword) {
-        return true;
+        return this.passwordEncoder.upgradeEncoding(encodedPassword);
     }
 
 }

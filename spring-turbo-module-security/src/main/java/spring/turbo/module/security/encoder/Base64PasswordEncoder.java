@@ -9,43 +9,39 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.util.Asserts;
-import spring.turbo.util.crypto.TripleDES;
+import spring.turbo.util.crypto.Base64;
 
 /**
+ * 仅仅能用于测试，不可使用在生产环境
+ *
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.2
  */
-public class TripleDESPasswordEncoder implements PasswordEncoder {
+public final class Base64PasswordEncoder implements PasswordEncoder {
 
-    private final TripleDES des;
+    private static final Base64PasswordEncoder INSTANCE = new Base64PasswordEncoder();
 
-    public TripleDESPasswordEncoder(TripleDES des) {
-        Asserts.notNull(des);
-        this.des = des;
+    public static Base64PasswordEncoder getInstance() {
+        return INSTANCE;
     }
 
-    public TripleDESPasswordEncoder(String password, String salt) {
-        this(
-                TripleDES.builder()
-                        .passwordAndSalt(password, salt)
-                        .build()
-        );
+    private Base64PasswordEncoder() {
+        super();
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return des.encrypt(rawPassword.toString());
+        return Base64.toString(rawPassword.toString().getBytes());
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return des.decrypt(encodedPassword).contentEquals(rawPassword);
+        return encode(rawPassword).equals(encodedPassword);
     }
 
     @Override
     public boolean upgradeEncoding(String encodedPassword) {
-        return false;
+        return true;
     }
 
 }
