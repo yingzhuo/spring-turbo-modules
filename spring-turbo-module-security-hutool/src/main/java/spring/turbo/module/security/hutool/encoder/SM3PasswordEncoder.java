@@ -10,6 +10,7 @@ package spring.turbo.module.security.hutool.encoder;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
+import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
@@ -20,7 +21,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class SM3PasswordEncoder extends AbstractDigestPasswordEncoder {
+public class SM3PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     private static final String SM3 = "SM3";
 
@@ -32,6 +33,11 @@ public class SM3PasswordEncoder extends AbstractDigestPasswordEncoder {
     public String encode(CharSequence rawPassword) {
         final Digester digester = DigestUtil.digester(SM3);
         return digester.digestHex(rawPassword.toString());
+    }
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return false;
     }
 
 }

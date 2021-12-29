@@ -10,6 +10,7 @@ package spring.turbo.module.security.hutool.encoder;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
@@ -18,7 +19,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class SHA512PasswordEncoder extends AbstractDigestPasswordEncoder {
+public class SHA512PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     public SHA512PasswordEncoder() {
         super("SHA-512");
@@ -28,6 +29,11 @@ public class SHA512PasswordEncoder extends AbstractDigestPasswordEncoder {
     public String encode(CharSequence rawPassword) {
         final Digester digester = new Digester(DigestAlgorithm.SHA512);
         return digester.digestHex(rawPassword.toString());
+    }
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return false;
     }
 
 }
