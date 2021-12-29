@@ -18,7 +18,7 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.Base64;
 
 /**
- * 国密签名算法
+ * 国密算法签名JWT
  *
  * @author 应卓
  * @since 1.0.2

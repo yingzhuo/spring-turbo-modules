@@ -13,6 +13,8 @@ import org.springframework.lang.NonNull;
 import spring.turbo.module.security.jwt.AlgorithmFactory;
 
 /**
+ * 国密算法签名JWT
+ *
  * @author 应卓
  * @since 1.0.2
  */
