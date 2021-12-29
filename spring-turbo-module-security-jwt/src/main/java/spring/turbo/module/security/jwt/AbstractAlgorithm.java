@@ -12,11 +12,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import spring.turbo.util.CharPool;
 
+import java.io.Serializable;
+
 /**
  * @author 应卓
  * @since 1.0.2
  */
-public abstract class AbstractAlgorithm extends Algorithm {
+public abstract class AbstractAlgorithm extends Algorithm implements Serializable {
 
     private static final byte JWT_PART_SEPARATOR = (byte) CharPool.DOT;
 
