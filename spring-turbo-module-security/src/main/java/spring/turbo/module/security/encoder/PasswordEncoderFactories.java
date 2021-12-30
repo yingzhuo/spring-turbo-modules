@@ -9,10 +9,12 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.ServiceLoaderUtils;
+import spring.turbo.util.StringUtils;
 
 import java.util.*;
 
@@ -28,15 +30,24 @@ public final class PasswordEncoderFactories {
 
     @NonNull
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder() {
-        return createDelegatingPasswordEncoder("bcrypt");
+        return createDelegatingPasswordEncoder("bcrypt", "noop");
     }
 
     @NonNull
-    @SuppressWarnings("deprecation")
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(@NonNull String encodingId) {
+        return createDelegatingPasswordEncoder(encodingId, "noop");
+    }
+
+    @NonNull
+    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(@NonNull String encodingId, @Nullable String defaultPasswordEncoderForMatches) {
+        Asserts.hasText(encodingId);
         final Map<String, PasswordEncoder> encoders = loadFromModules();
         final DelegatingPasswordEncoder encoder = new DelegatingPasswordEncoder(encodingId, encoders);
-        encoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
+
+        if (StringUtils.isNotBlank(defaultPasswordEncoderForMatches)) {
+            encoder.setDefaultPasswordEncoderForMatches(encoders.get(defaultPasswordEncoderForMatches));
+        }
+
         return encoder;
     }
 
