@@ -36,7 +36,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         return new Builder();
     }
 
-    public static class Builder {
+    public final static class Builder {
 
         private HttpStatus status = HttpStatus.OK;
         private byte[] content;

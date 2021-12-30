@@ -13,12 +13,12 @@ import org.springframework.lang.NonNull;
 import spring.turbo.module.security.jwt.AlgorithmFactory;
 
 /**
- * 国密算法签名JWT
+ * 国密算法 (SM2)
  *
  * @author 应卓
  * @since 1.0.2
  */
-public class SM2AlgorithmFactory implements AlgorithmFactory {
+public final class SM2AlgorithmFactory implements AlgorithmFactory {
 
     private final String publicKey;
     private final String privateKey;

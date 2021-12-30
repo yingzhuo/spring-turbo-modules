@@ -14,14 +14,14 @@ import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
- * 国密算法
+ * 国密算法 (SM3)
  *
  * @author 应卓
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class SM3PasswordEncoder extends AbstractNamedPasswordEncoder {
+public final class SM3PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     private static final String SM3 = "SM3";
 
