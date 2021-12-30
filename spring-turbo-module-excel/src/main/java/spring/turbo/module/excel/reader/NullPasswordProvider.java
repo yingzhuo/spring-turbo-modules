@@ -9,6 +9,7 @@
 package spring.turbo.module.excel.reader;
 
 import org.springframework.core.io.Resource;
+import spring.turbo.module.excel.ProcessPayload;
 
 /**
  * @author 应卓
@@ -16,13 +17,12 @@ import org.springframework.core.io.Resource;
  */
 public final class NullPasswordProvider implements PasswordProvider {
 
-    // 此类非常特殊，即不可以被集成，也不可被创建
-    private NullPasswordProvider() {
+    public NullPasswordProvider() {
         super();
     }
 
     @Override
-    public String getPassword(ExcelDiscriminator discriminator, Resource resource) {
+    public String getPassword(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
         return null;
     }
 
