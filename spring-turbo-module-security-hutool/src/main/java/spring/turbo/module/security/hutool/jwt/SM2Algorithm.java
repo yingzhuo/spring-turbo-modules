@@ -38,9 +38,9 @@ public final class SM2Algorithm extends AbstractAlgorithm {
 
     @Override
     public void verify(DecodedJWT jwt) throws SignatureVerificationException {
-        final byte[] signatureBytes = Base64.toBytes(jwt.getSignature());
-        final byte[] dataBytes = super.combineHeaderAndPayload(jwt);
         try {
+            final byte[] signatureBytes = Base64.toBytes(jwt.getSignature());
+            final byte[] dataBytes = super.combineHeaderAndPayload(jwt);
             boolean success = sm2.verify(dataBytes, signatureBytes);
             if (!success) {
                 throw new SignatureVerificationException(this);
