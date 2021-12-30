@@ -6,28 +6,25 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.filter;
+package spring.turbo.module.security.event;
 
+import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import spring.turbo.module.security.filter.TokenAuthenticationFilter;
-import spring.turbo.webmvc.token.TokenResolver;
 
 /**
+ * 签名被篡改或签名算法不匹配时，此事件将被{@link TokenAuthenticationFilter}传播
+ *
  * @author 应卓
- * @since 1.0.1
+ * @see TokenAuthenticationFilter
+ * @see spring.turbo.module.security.exception.InvalidSignatureException
+ * @since 1.0.4
  */
-public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
+public class InvalidSignatureFailureEvent extends AbstractAuthenticationFailureEvent {
 
-    private static final TokenResolver DEFAULT_TOKEN_RESOLVER;
-
-    static {
-        DEFAULT_TOKEN_RESOLVER =
-                TokenResolver.builder()
-                        .bearerToken()
-                        .build();
-    }
-
-    public JwtTokenAuthenticationFilter() {
-        super.setTokenResolver(DEFAULT_TOKEN_RESOLVER);
+    public InvalidSignatureFailureEvent(Authentication authentication, AuthenticationException exception) {
+        super(authentication, exception);
     }
 
 }

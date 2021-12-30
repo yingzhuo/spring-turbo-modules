@@ -6,28 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.filter;
+package spring.turbo.module.security.exception;
 
-import spring.turbo.module.security.filter.TokenAuthenticationFilter;
-import spring.turbo.webmvc.token.TokenResolver;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author 应卓
- * @since 1.0.1
+ * @since 1.0.4
  */
-public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
+public abstract class SignatureException extends AuthenticationException {
 
-    private static final TokenResolver DEFAULT_TOKEN_RESOLVER;
-
-    static {
-        DEFAULT_TOKEN_RESOLVER =
-                TokenResolver.builder()
-                        .bearerToken()
-                        .build();
+    public SignatureException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
-    public JwtTokenAuthenticationFilter() {
-        super.setTokenResolver(DEFAULT_TOKEN_RESOLVER);
+    public SignatureException(String msg) {
+        super(msg);
     }
 
 }

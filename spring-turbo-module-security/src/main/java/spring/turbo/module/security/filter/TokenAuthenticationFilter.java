@@ -8,14 +8,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.NullRememberMeServices;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
@@ -37,10 +38,15 @@ import java.io.IOException;
  */
 public class TokenAuthenticationFilter extends AbstractServletFilter {
 
-    private TokenResolver tokenResolver;
-    private TokenToUserConverter tokenToUserConverter;
-    private RememberMeServices rememberMeServices;
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private TokenResolver tokenResolver; // non-null
+    private TokenToUserConverter tokenToUserConverter; // non-null
+    private RememberMeServices rememberMeServices; // nullable
+    private AuthenticationEventPublisher authenticationEventPublisher;  // nullable
+    private AuthenticationEntryPoint authenticationEntryPoint;  // nullable
+
+    public TokenAuthenticationFilter() {
+        super();
+    }
 
     @Override
     protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,14 +65,23 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
                 return true;
             }
 
-            spring.turbo.module.security.authentication.Authentication auth
+            final spring.turbo.module.security.authentication.Authentication auth
                     = new spring.turbo.module.security.authentication.Authentication(user);
             auth.setAuthenticated(true);
             auth.setDetails(HttpRequestSnapshot.of(request).toString());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
-            rememberMeServices.loginSuccess(request, response, auth);
+
+            if (this.rememberMeServices != null) {
+                rememberMeServices.loginSuccess(request, response, auth);
+            }
+
             onSuccessfulAuthentication(request, response, auth);
+
+            if (this.authenticationEventPublisher != null) {
+                authenticationEventPublisher.publishAuthenticationSuccess(auth);
+            }
+
         } catch (AuthenticationException e) {
             SecurityContextHolder.clearContext();
 
@@ -75,6 +90,10 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             }
 
             onUnsuccessfulAuthentication(request, response, e);
+
+            if (this.authenticationEventPublisher != null) {
+                authenticationEventPublisher.publishAuthenticationFailure(e, null);
+            }
 
             if (authenticationEntryPoint != null) {
                 authenticationEntryPoint.commence(request, response, e);
@@ -88,13 +107,8 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-
         Asserts.notNull(tokenResolver);
         Asserts.notNull(tokenToUserConverter);
-
-        if (rememberMeServices == null) {
-            rememberMeServices = new NullRememberMeServices();
-        }
     }
 
     protected final boolean authenticationIsRequired() {
@@ -113,12 +127,14 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         // nop
     }
 
-    public void setTokenResolver(TokenResolver tokenResolver) {
+    public void setTokenResolver(@NonNull TokenResolver tokenResolver) {
+        Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 
-    public void setTokenToAuthenticationConverter(TokenToUserConverter tokenToUserConverter) {
-        this.tokenToUserConverter = tokenToUserConverter;
+    public void setTokenToUserConverter(@NonNull TokenToUserConverter converter) {
+        Asserts.notNull(converter);
+        this.tokenToUserConverter = converter;
     }
 
     public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
@@ -127,6 +143,10 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
 
     public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    public void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
+        this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
 }
