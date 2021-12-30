@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 import org.springframework.validation.Validator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
@@ -92,7 +93,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
             builder.password(config.password);
         } else {
             if (config.passwordProvider != null) {
-                builder.password(config.passwordProvider.getPassword(discriminator, resource));
+                builder.password(config.passwordProvider.getPassword(discriminator, resource, payload));
             }
         }
 
@@ -213,11 +214,11 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
             if (obj == null) {
                 throw new ClassCastException(StringFormatter.format("cannot cast null to int"));
             }
-            if (obj instanceof Integer) {
-                return (int) obj;
+            if (obj instanceof Number) {
+                return ((Number) obj).intValue();
             }
             if (obj instanceof String) {
-                return Integer.parseInt((String) obj);
+                return NumberUtils.parseNumber((String) obj, Integer.class);
             }
             throw new ClassCastException(StringFormatter.format("cannot cast {} to int", obj.getClass()));
         }

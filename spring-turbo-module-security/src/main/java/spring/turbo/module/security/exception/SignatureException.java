@@ -6,24 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.security.exception;
 
-import org.springframework.core.io.Resource;
-import spring.turbo.module.excel.ProcessPayload;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author 应卓
  * @since 1.0.4
  */
-public final class NullPasswordProvider implements PasswordProvider {
+public abstract class SignatureException extends AuthenticationException {
 
-    public NullPasswordProvider() {
-        super();
+    public SignatureException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
-    @Override
-    public String getPassword(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload) {
-        return null;
+    public SignatureException(String msg) {
+        super(msg);
     }
 
 }

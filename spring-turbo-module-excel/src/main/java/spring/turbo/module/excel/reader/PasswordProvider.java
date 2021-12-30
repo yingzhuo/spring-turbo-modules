@@ -10,6 +10,7 @@ package spring.turbo.module.excel.reader;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
+import spring.turbo.module.excel.ProcessPayload;
 
 /**
  * @author 应卓
@@ -20,6 +21,6 @@ import org.springframework.lang.Nullable;
 public interface PasswordProvider {
 
     @Nullable
-    public String getPassword(ExcelDiscriminator discriminator, Resource resource);
+    public String getPassword(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
 
 }
