@@ -78,7 +78,6 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
                         .payload(payload)
                         .batchSize(config.batchSize)
                         .excelType(config.excelType)
-                        .password(config.password)
                         .conversionService(conversionService)
                         .globalCellParser(config.globalCellParser)
                         .valueObjectFilter(config.valueObjectFilter);
@@ -86,6 +85,15 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         // 要注意注入的validator无法对应valueObject的类型
         if (injectedValidator != null && injectedValidator.supports(config.valueObjectType)) {
             builder.setValidators(injectedValidator);
+        }
+
+        // 设置打开excel文档的密码
+        if (StringUtils.isNotBlank(config.password)) {
+            builder.password(config.password);
+        } else {
+            if (config.passwordProvider != null) {
+                builder.password(config.passwordProvider.getPassword(discriminator, resource));
+            }
         }
 
         for (Pair<Integer, Integer> o : config.headers) {
@@ -178,6 +186,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         config.includeSheetSet = getIncludeSheetSet(visitorType);
         config.includeSheetPattern = getIncludeSheetPattern(visitorType);
         config.password = getPassword(visitorType);
+        config.passwordProvider = getPasswordProvider(visitorType);
         config.excelType = getExcelType(visitorType);
         config.excludeRowSets = getExcludeRowSets(visitorType);
         config.excludeRowRanges = getExcludeRowRanges(visitorType);
@@ -263,11 +272,13 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         }
     }
 
+    @Nullable
     private String getIncludeSheetPattern(Class<?> visitorType) {
         IncludeSheetPattern annotation = AnnotationUtils.findAnnotation(visitorType, IncludeSheetPattern.class);
         return annotation != null ? annotation.value() : null;
     }
 
+    @Nullable
     private String getPassword(Class<?> visitorType) {
         Password annotation = AnnotationUtils.findAnnotation(visitorType, Password.class);
         if (annotation == null) {
@@ -275,6 +286,21 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         } else {
             final String pwd = annotation.value();
             return StringUtils.isEmpty(pwd) ? null : pwd;
+        }
+    }
+
+    @Nullable
+    private PasswordProvider getPasswordProvider(Class<?> visitorType) {
+        Password annotation = AnnotationUtils.findAnnotation(visitorType, Password.class);
+        if (annotation == null) {
+            return null;
+        } else {
+            Class<? extends PasswordProvider> providerType = annotation.provider();
+            if (providerType == NullPasswordProvider.class) {
+                return null;
+            } else {
+                return instanceCache.findOrCreate(providerType);
+            }
         }
     }
 
@@ -436,6 +462,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         private Set<Integer> includeSheetSet;
         private String includeSheetPattern;
         private String password;
+        private PasswordProvider passwordProvider;
         private ExcelType excelType;
         private List<Pair<Integer, Set<Integer>>> excludeRowSets;
         private List<Tuple<Integer, Integer, Integer>> excludeRowRanges;

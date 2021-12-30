@@ -19,7 +19,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class MD2PasswordEncoder extends AbstractNamedPasswordEncoder {
+public final class MD2PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     public MD2PasswordEncoder() {
         super(DigestAlgorithm.MD2.getValue());

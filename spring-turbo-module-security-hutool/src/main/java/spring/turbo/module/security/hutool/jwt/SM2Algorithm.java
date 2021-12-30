@@ -18,12 +18,12 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.Base64;
 
 /**
- * 国密算法签名JWT
+ * 国密算法 (SM2)
  *
  * @author 应卓
  * @since 1.0.2
  */
-public class SM2Algorithm extends AbstractAlgorithm {
+public final class SM2Algorithm extends AbstractAlgorithm {
 
     private final static String SM2 = "SM2";
 

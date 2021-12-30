@@ -19,7 +19,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see PasswordEncoderFactories
  * @since 1.0.1
  */
-public class SHA512PasswordEncoder extends AbstractNamedPasswordEncoder {
+public final class SHA512PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     public SHA512PasswordEncoder() {
         super("SHA-512");

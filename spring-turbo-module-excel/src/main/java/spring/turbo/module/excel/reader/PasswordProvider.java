@@ -6,31 +6,20 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.hutool.jwt;
+package spring.turbo.module.excel.reader;
 
-import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.lang.NonNull;
-import spring.turbo.module.security.jwt.AlgorithmFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 
 /**
- * 国密算法 (SM2)
- *
  * @author 应卓
- * @since 1.0.2
+ * @see spring.turbo.module.excel.reader.annotation.Password
+ * @since 1.0.4
  */
-public final class SM2AlgorithmFactory implements AlgorithmFactory {
+@FunctionalInterface
+public interface PasswordProvider {
 
-    private final String publicKey;
-    private final String privateKey;
-
-    public SM2AlgorithmFactory(@NonNull String publicKey, @NonNull String privateKey) {
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
-    }
-
-    @Override
-    public Algorithm create() {
-        return new SM2Algorithm(publicKey, privateKey);
-    }
+    @Nullable
+    public String getPassword(ExcelDiscriminator discriminator, Resource resource);
 
 }
