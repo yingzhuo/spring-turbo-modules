@@ -8,7 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
+import spring.turbo.module.excel.reader.NullPasswordProvider;
+import spring.turbo.module.excel.reader.PasswordProvider;
+
 import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * Excel文档密码
@@ -21,6 +26,19 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Password {
 
-    public String value();
+    /**
+     * 指定密码
+     *
+     * @return 密码
+     */
+    public String value() default EMPTY;
+
+    /**
+     * 指定密码生成器
+     *
+     * @return 密码生成器类型
+     * @since 1.0.4
+     */
+    public Class<? extends PasswordProvider> provider() default NullPasswordProvider.class;
 
 }
