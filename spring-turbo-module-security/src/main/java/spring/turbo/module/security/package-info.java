@@ -9,11 +9,10 @@
 package spring.turbo.module.security;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
@@ -99,17 +98,15 @@ class SpringBootAutoConfiguration {
     }
 
     // since 1.0.4
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnBean(ApplicationEventPublisher.class)
-    public AuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher publisher) {
-        final Map<Class<? extends AuthenticationException>, Class<? extends AbstractAuthenticationFailureEvent>> mappings =
-                new HashMap<>();
-        mappings.put(InvalidSignatureException.class, InvalidSignatureFailureEvent.class);
+    @Autowired(required = false)
+    void configAuthenticationEventPublisher(AuthenticationEventPublisher authenticationEventPublisher) {
+        if (authenticationEventPublisher instanceof DefaultAuthenticationEventPublisher) {
+            final Map<Class<? extends AuthenticationException>, Class<? extends AbstractAuthenticationFailureEvent>> mappings =
+                    new HashMap<>();
+            mappings.put(InvalidSignatureException.class, InvalidSignatureFailureEvent.class);
 
-        final DefaultAuthenticationEventPublisher bean = new DefaultAuthenticationEventPublisher(publisher);
-        bean.setAdditionalExceptionMappings(mappings);
-        return bean;
+            ((DefaultAuthenticationEventPublisher) authenticationEventPublisher).setAdditionalExceptionMappings(mappings);
+        }
     }
 
 }

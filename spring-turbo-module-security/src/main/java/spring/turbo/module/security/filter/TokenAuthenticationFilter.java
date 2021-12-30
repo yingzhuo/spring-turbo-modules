@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
+import spring.turbo.module.security.authentication.EmptyAuthentication;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.AbstractServletFilter;
@@ -92,7 +93,9 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             onUnsuccessfulAuthentication(request, response, e);
 
             if (this.authenticationEventPublisher != null) {
-                authenticationEventPublisher.publishAuthenticationFailure(e, null);
+                // 注意第二参数如果传null会导致spring-security不能顺利new出event对象
+                // 因此拉一个垫背的
+                authenticationEventPublisher.publishAuthenticationFailure(e, EmptyAuthentication.newInstance());
             }
 
             if (authenticationEntryPoint != null) {
