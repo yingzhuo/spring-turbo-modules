@@ -11,13 +11,16 @@ package spring.turbo.module.excel.function;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.util.function.BiPredicate;
+
 /**
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface RowPredicate {
+public interface RowPredicate extends BiPredicate<Sheet, Row> {
 
+    @Override
     public boolean test(Sheet sheet, Row row);
 
 }

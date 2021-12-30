@@ -22,7 +22,7 @@
     <packaging>pom</packaging>
 
     <url>https://github.com/yingzhuo/spring-turbo</url>
-    <description>spring-turbo</description>
+    <description>spring-turbo-modules</description>
 
     <scm>
         <tag>master</tag>

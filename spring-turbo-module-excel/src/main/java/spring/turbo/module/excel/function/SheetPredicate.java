@@ -10,13 +10,16 @@ package spring.turbo.module.excel.function;
 
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.util.function.Predicate;
+
 /**
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface SheetPredicate {
+public interface SheetPredicate extends Predicate<Sheet> {
 
+    @Override
     public boolean test(Sheet sheet);
 
 }

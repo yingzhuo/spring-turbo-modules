@@ -20,10 +20,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.EmptyAuthentication;
+import spring.turbo.module.security.authentication.RequestDetailsBuilder;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.AbstractServletFilter;
-import spring.turbo.webmvc.HttpRequestSnapshot;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
@@ -44,6 +44,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     private RememberMeServices rememberMeServices; // nullable
     private AuthenticationEventPublisher authenticationEventPublisher;  // nullable
     private AuthenticationEntryPoint authenticationEntryPoint;  // nullable
+    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.DEFAULT; // nullable
 
     public TokenAuthenticationFilter() {
         super();
@@ -69,7 +70,10 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             final spring.turbo.module.security.authentication.Authentication auth
                     = new spring.turbo.module.security.authentication.Authentication(user);
             auth.setAuthenticated(true);
-            auth.setDetails(HttpRequestSnapshot.of(request).toString());
+
+            if (requestDetailsBuilder != null) {
+                auth.setDetails(requestDetailsBuilder.getDetails(request));
+            }
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -152,4 +156,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
+    public void setRequestDetailsBuilder(@Nullable RequestDetailsBuilder requestDetailsBuilder) {
+        this.requestDetailsBuilder = requestDetailsBuilder;
+    }
 }
