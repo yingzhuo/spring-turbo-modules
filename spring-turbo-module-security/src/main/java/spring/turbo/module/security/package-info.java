@@ -23,8 +23,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import spring.turbo.core.SpringContext;
-import spring.turbo.module.security.event.InvalidSignatureFailureEvent;
-import spring.turbo.module.security.exception.InvalidSignatureException;
+import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
+import spring.turbo.module.security.exception.MaliciousRequestException;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * SpringSecurity的DSL 用于配置附加的Filter
+ *
  * @author 应卓
  * @since 1.0.0
  */
@@ -89,6 +91,12 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
  */
 class SpringBootAutoConfiguration {
 
+    /**
+     * 自定义HttpFirewall
+     *
+     * @return HttpFireWall实例
+     * @see HttpFirewall
+     */
     @Bean
     @ConditionalOnMissingBean
     HttpFirewall httpFirewall() {
@@ -97,15 +105,21 @@ class SpringBootAutoConfiguration {
         return bean;
     }
 
-    // since 1.0.4
+    /**
+     * 重新设置认证错误事件发布器
+     *
+     * @param authenticationEventPublisher 认证错误事件发布器
+     * @since 1.0.4
+     */
     @Autowired(required = false)
     void configAuthenticationEventPublisher(AuthenticationEventPublisher authenticationEventPublisher) {
         if (authenticationEventPublisher instanceof DefaultAuthenticationEventPublisher) {
+            final DefaultAuthenticationEventPublisher publisher = (DefaultAuthenticationEventPublisher) authenticationEventPublisher;
+
             final Map<Class<? extends AuthenticationException>, Class<? extends AbstractAuthenticationFailureEvent>> mappings =
                     new HashMap<>();
-            mappings.put(InvalidSignatureException.class, InvalidSignatureFailureEvent.class);
-
-            ((DefaultAuthenticationEventPublisher) authenticationEventPublisher).setAdditionalExceptionMappings(mappings);
+            mappings.put(MaliciousRequestException.class, MaliciousRequestFailureEvent.class);
+            publisher.setAdditionalExceptionMappings(mappings);
         }
     }
 

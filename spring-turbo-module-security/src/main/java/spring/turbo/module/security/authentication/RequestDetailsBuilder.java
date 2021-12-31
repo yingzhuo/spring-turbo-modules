@@ -8,32 +8,23 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication;
 
-import spring.turbo.lang.Mutable;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.context.request.ServletWebRequest;
+import spring.turbo.webmvc.HttpRequestSnapshot;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author 应卓
  * @since 1.0.4
  */
-@Mutable
-public final class EmptyAuthentication extends Authentication {
+@FunctionalInterface
+public interface RequestDetailsBuilder {
 
-    public static EmptyAuthentication newInstance() {
-        return new EmptyAuthentication();
-    }
+    public static final RequestDetailsBuilder DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request);
+    public static final RequestDetailsBuilder SNAPSHOT = request -> HttpRequestSnapshot.of(request).toString();
+    public static final RequestDetailsBuilder DESCRIPTION = request -> new ServletWebRequest(request).getDescription(true);
 
-    private EmptyAuthentication() {
-        super(null);
-        super.setAuthenticated(false);
-    }
-
-    @Override
-    public String getName() {
-        return "null";
-    }
-
-    @Override
-    public Object getDetails() {
-        return null;
-    }
+    public Object getDetails(HttpServletRequest request);
 
 }

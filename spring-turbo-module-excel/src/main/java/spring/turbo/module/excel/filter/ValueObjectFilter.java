@@ -8,13 +8,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.filter;
 
+import java.util.function.Predicate;
+
 /**
  * @author 应卓
  * @since 1.0.1
  */
 @FunctionalInterface
-public interface ValueObjectFilter<T> {
+public interface ValueObjectFilter<T> extends Predicate<T> {
 
     public boolean filter(T data);
+
+    @Override
+    public default boolean test(T data) {
+        return filter(data);
+    }
 
 }

@@ -11,19 +11,14 @@ package spring.turbo.module.security.event;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import spring.turbo.module.security.filter.TokenAuthenticationFilter;
 
 /**
- * 签名被篡改或签名算法不匹配时，此事件将被{@link TokenAuthenticationFilter}传播
- *
  * @author 应卓
- * @see TokenAuthenticationFilter
- * @see spring.turbo.module.security.exception.InvalidSignatureException
  * @since 1.0.4
  */
-public class InvalidSignatureFailureEvent extends AbstractAuthenticationFailureEvent {
+public class MaliciousRequestFailureEvent extends AbstractAuthenticationFailureEvent {
 
-    public InvalidSignatureFailureEvent(Authentication authentication, AuthenticationException exception) {
+    public MaliciousRequestFailureEvent(Authentication authentication, AuthenticationException exception) {
         super(authentication, exception);
     }
 
