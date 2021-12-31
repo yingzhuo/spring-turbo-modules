@@ -13,7 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 /**
+ * 恶意请求事件
+ *
  * @author 应卓
+ * @see spring.turbo.module.security.exception.MaliciousRequestException
+ * @see MaliciousRequestFailureEventUtils
  * @since 1.0.4
  */
 public class MaliciousRequestFailureEvent extends AbstractAuthenticationFailureEvent {
