@@ -8,14 +8,22 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.exception;
 
+import org.springframework.security.core.AuthenticationException;
+
 /**
+ * 恶意的请求
+ *
  * @author 应卓
  * @since 1.0.4
  */
-public class InvalidSignatureException extends SignatureException {
+public class MaliciousRequestException extends AuthenticationException {
 
-    public InvalidSignatureException(String msg) {
+    public MaliciousRequestException(String msg) {
         super(msg);
+    }
+
+    public MaliciousRequestException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
 }

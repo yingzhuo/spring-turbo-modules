@@ -23,8 +23,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import spring.turbo.core.SpringContext;
-import spring.turbo.module.security.event.InvalidSignatureFailureEvent;
-import spring.turbo.module.security.exception.InvalidSignatureException;
+import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
+import spring.turbo.module.security.exception.MaliciousRequestException;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -98,12 +98,13 @@ class SpringBootAutoConfiguration {
     }
 
     // since 1.0.4
+    // 配置映射关系
     @Autowired(required = false)
     void configAuthenticationEventPublisher(AuthenticationEventPublisher authenticationEventPublisher) {
         if (authenticationEventPublisher instanceof DefaultAuthenticationEventPublisher) {
             final Map<Class<? extends AuthenticationException>, Class<? extends AbstractAuthenticationFailureEvent>> mappings =
                     new HashMap<>();
-            mappings.put(InvalidSignatureException.class, InvalidSignatureFailureEvent.class);
+            mappings.put(MaliciousRequestException.class, MaliciousRequestFailureEvent.class);
 
             ((DefaultAuthenticationEventPublisher) authenticationEventPublisher).setAdditionalExceptionMappings(mappings);
         }

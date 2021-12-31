@@ -16,7 +16,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.AuthenticationException;
-import spring.turbo.module.security.exception.InvalidSignatureException;
+import spring.turbo.module.security.exception.MaliciousRequestException;
 
 /**
  * 内部工具，完成JWT相关异常转换
@@ -37,12 +37,12 @@ final class VerificationExceptionTransformer {
             return new CredentialsExpiredException(e.getMessage());
         }
         if (e instanceof AlgorithmMismatchException) {
-            // 签名算法不匹配
-            throw new InvalidSignatureException(e.getMessage());
+            // 签名算法不匹配 (疑似恶意请求)
+            throw new MaliciousRequestException(e.getMessage());
         }
         if (e instanceof SignatureVerificationException) {
-            // 签名被篡改
-            throw new InvalidSignatureException(e.getMessage());
+            // 签名被篡改 (疑似恶意请求)
+            throw new MaliciousRequestException(e.getMessage());
         }
         return new BadCredentialsException(e.getMessage());
     }
