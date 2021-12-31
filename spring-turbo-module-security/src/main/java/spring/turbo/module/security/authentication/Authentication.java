@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.Optional;
 
 /**
+ * 认证对象
+ *
  * @author 应卓
  * @since 1.0.0
  */

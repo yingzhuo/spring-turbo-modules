@@ -11,7 +11,7 @@ package spring.turbo.module.security.exception;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * 恶意的请求
+ * 恶意的http请求
  *
  * @author 应卓
  * @since 1.0.4

@@ -8,22 +8,29 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication;
 
+import org.springframework.lang.Nullable;
+import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.lang.Mutable;
 
 /**
+ * 空认证对象，仅仅用于占位和携带请求
+ *
  * @author 应卓
  * @since 1.0.4
  */
 @Mutable
-public final class EmptyAuthentication extends Authentication {
+public final class RequestAuthentication extends Authentication {
 
-    private EmptyAuthentication() {
+    public final ServletWebRequest servletWebRequest;
+
+    private RequestAuthentication(@Nullable ServletWebRequest servletWebRequest) {
         super(null);
         super.setAuthenticated(false);
+        this.servletWebRequest = servletWebRequest;
     }
 
-    public static EmptyAuthentication newInstance() {
-        return new EmptyAuthentication();
+    public static RequestAuthentication newInstance(@Nullable ServletWebRequest servletWebRequest) {
+        return new RequestAuthentication(servletWebRequest);
     }
 
     @Override
@@ -34,6 +41,11 @@ public final class EmptyAuthentication extends Authentication {
     @Override
     public Object getDetails() {
         return null;
+    }
+
+    @Nullable
+    public ServletWebRequest getServletWebRequest() {
+        return servletWebRequest;
     }
 
 }
