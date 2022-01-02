@@ -16,6 +16,8 @@ import spring.turbo.util.StringUtils;
 import static spring.turbo.util.StringPool.EMPTY;
 
 /**
+ * {@link AccessKeyGenerator}的默认实现
+ *
  * @author 应卓
  * @since 1.0.1
  */

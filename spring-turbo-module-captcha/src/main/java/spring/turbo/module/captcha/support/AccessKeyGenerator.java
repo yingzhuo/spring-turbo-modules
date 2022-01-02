@@ -15,6 +15,10 @@ package spring.turbo.module.captcha.support;
 @FunctionalInterface
 public interface AccessKeyGenerator {
 
+    public static AccessKeyGenerator getDefault() {
+        return new SimpleAccessKeyGenerator();
+    }
+
     public String generate();
 
 }
