@@ -11,7 +11,7 @@ package spring.turbo.module.captcha.google.word;
 import java.util.Random;
 
 /**
- * @author Piotr Piastucki
+ * @author 应卓
  * @since 1.0.0
  */
 public class RandomWordFactory implements WordFactory {
@@ -40,8 +40,8 @@ public class RandomWordFactory implements WordFactory {
 
     @Override
     public String getNextWord() {
-        Random rnd = new Random();
-        final StringBuffer sb = new StringBuffer();
+        final Random rnd = new Random();
+        final StringBuilder sb = new StringBuilder();
         int l = minLength + (maxLength > minLength ? rnd.nextInt(maxLength - minLength) : 0);
         for (int i = 0; i < l; i++) {
             int j = rnd.nextInt(characters.length());
