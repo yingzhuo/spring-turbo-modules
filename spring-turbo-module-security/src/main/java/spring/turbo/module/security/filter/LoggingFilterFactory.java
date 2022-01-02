@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.core.Ordered;
 import spring.turbo.module.security.FilterConfiguration;
 
 /**
@@ -21,11 +20,6 @@ public interface LoggingFilterFactory extends FilterConfiguration<LoggingFilter>
     @Override
     public default Position position() {
         return Position.BEFORE;
-    }
-
-    @Override
-    default int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
     }
 
 }

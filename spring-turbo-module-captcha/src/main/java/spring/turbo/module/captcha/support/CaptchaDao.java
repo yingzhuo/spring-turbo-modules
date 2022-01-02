@@ -26,7 +26,7 @@ public interface CaptchaDao {
 
     public void save(@NonNull String accessKey, @NonNull String captchaWord, @Nullable Duration ttl);
 
-    public Optional<String> find(@NonNull String access);
+    public Optional<String> find(@NonNull String accessKey);
 
     public void delete(@NonNull String accessKey);
 

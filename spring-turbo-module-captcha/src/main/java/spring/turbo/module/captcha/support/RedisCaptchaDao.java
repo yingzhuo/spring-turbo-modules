@@ -16,6 +16,8 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
+ * {@link CaptchaDao}的Redis相关实现
+ *
  * @author 应卓
  * @since 1.0.1
  */
@@ -29,7 +31,10 @@ public class RedisCaptchaDao implements CaptchaDao {
     }
 
     @Override
-    public void save(String accessKey, String captchaWord, Duration ttl) {
+    public void save(@NonNull String accessKey, @NonNull String captchaWord, Duration ttl) {
+        Asserts.hasText(accessKey);
+        Asserts.hasText(captchaWord);
+
         if (ttl == null) {
             redisTemplate.opsForValue().set(accessKey, captchaWord);
         } else {
@@ -38,12 +43,15 @@ public class RedisCaptchaDao implements CaptchaDao {
     }
 
     @Override
-    public Optional<String> find(String access) {
-        return Optional.ofNullable(redisTemplate.opsForValue().get(access));
+    public Optional<String> find(@NonNull String accessKey) {
+        Asserts.hasText(accessKey);
+
+        return Optional.ofNullable(redisTemplate.opsForValue().get(accessKey));
     }
 
     @Override
-    public void delete(String accessKey) {
+    public void delete(@NonNull String accessKey) {
+        Asserts.hasText(accessKey);
         redisTemplate.delete(accessKey);
     }
 

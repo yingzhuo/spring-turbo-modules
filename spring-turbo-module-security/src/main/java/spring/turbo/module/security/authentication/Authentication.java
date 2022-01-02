@@ -14,17 +14,17 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Mutable;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * 认证对象
  *
  * @author 应卓
+ * @see org.springframework.security.core.Authentication
  * @since 1.0.0
  */
 @Mutable
-public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication, Serializable {
+public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
 
     private final UserDetails userDetails;
 

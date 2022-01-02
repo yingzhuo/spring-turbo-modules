@@ -12,6 +12,7 @@ import java.util.Random;
 
 /**
  * @author Piotr Piastucki
+ * @author 应卓
  * @since 1.0.0
  */
 public class AdaptiveRandomWordFactory extends RandomWordFactory {
@@ -19,8 +20,10 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
     protected String wideCharacters;
 
     public AdaptiveRandomWordFactory() {
-        characters = "absdegkmnopwx23456789";
-        wideCharacters = "mw";
+        this.characters = "absdegkmnopwx23456789";
+        this.wideCharacters = "mw";
+        this.minLength = 6;
+        this.maxLength = 6;
     }
 
     public void setWideCharacters(String wideCharacters) {
@@ -29,9 +32,9 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
 
     @Override
     public String getNextWord() {
-        Random rnd = new Random();
-        StringBuilder sb = new StringBuilder();
-        StringBuilder chars = new StringBuilder(characters);
+        final Random rnd = new Random();
+        final StringBuilder sb = new StringBuilder();
+        final StringBuilder chars = new StringBuilder(characters);
         int l = minLength + (maxLength > minLength ? rnd.nextInt(maxLength - minLength) : 0);
         for (int i = 0; i < l; i++) {
             int j = rnd.nextInt(chars.length());
