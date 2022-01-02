@@ -8,10 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.core.Ordered;
 import spring.turbo.module.security.FilterConfiguration;
-
-import javax.servlet.Filter;
 
 /**
  * @author 应卓
@@ -21,13 +19,13 @@ import javax.servlet.Filter;
 public interface LoggingFilterFactory extends FilterConfiguration<LoggingFilter> {
 
     @Override
-    public default Class<? extends Filter> positionInChain() {
-        return BasicAuthenticationFilter.class;
+    public default Position position() {
+        return Position.BEFORE;
     }
 
     @Override
-    public default Position position() {
-        return Position.BEFORE;
+    default int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 
 }
