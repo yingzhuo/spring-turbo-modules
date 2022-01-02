@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security;
 
+import org.springframework.core.Ordered;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -21,7 +22,7 @@ import javax.servlet.Filter;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface FilterConfiguration<T extends Filter> extends Factory<T> {
+public interface FilterConfiguration<T extends Filter> extends Factory<T>, Ordered {
 
     @Nullable
     @Override
@@ -39,6 +40,11 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
 
     public static enum Position {
         BEFORE, AFTER, AT
+    }
+
+    @Override
+    public default int getOrder() {
+        return 0;
     }
 
 }

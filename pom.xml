@@ -7,7 +7,7 @@
 
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-excel</module>
@@ -90,7 +90,7 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.0.4</spring.turbo.version>
+        <spring.turbo.version>1.0.5-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.6.2</spring.boot.version>
         <spring.version>5.3.14</spring.version>
         <spring.security.version>5.6.1</spring.security.version>
@@ -234,6 +234,12 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
@@ -247,6 +253,18 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
