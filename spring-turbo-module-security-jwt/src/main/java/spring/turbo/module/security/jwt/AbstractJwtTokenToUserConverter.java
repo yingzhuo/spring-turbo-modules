@@ -14,11 +14,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.Verification;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.token.StringToken;
 import spring.turbo.webmvc.token.Token;
 
 import java.util.Optional;
@@ -43,14 +43,16 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
         this.algorithm = algorithm;
     }
 
+    @Nullable
     @Override
     public final UserDetails convert(Token token) throws AuthenticationException {
-        if (!(token instanceof StringToken)) {
+
+        if (token == null) {
             return null;
         }
 
         try {
-            final String rawToken = ((StringToken) token).getContent();
+            final String rawToken = token.asString();
             final Verification verification = JWT.require(algorithm);
             final JWTVerifier verifier = verification.build();
             DecodedJWT jwt = verifier.verify(rawToken);
