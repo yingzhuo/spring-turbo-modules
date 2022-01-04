@@ -42,12 +42,16 @@ public class LoggingFilter extends AbstractServletFilter {
 
     @Override
     protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) {
-        log.log(HYPHEN_X_80);
-        HttpRequestSnapshot.of(request)
-                .getLines()
-                .forEach(log::log);
-        log.log(HYPHEN_X_80);
-        return true;
+        try {
+            log.log(HYPHEN_X_80);
+            HttpRequestSnapshot.of(request)
+                    .getLines()
+                    .forEach(log::log);
+            log.log(HYPHEN_X_80);
+            return true;
+        } catch (Throwable e) {
+            return true;
+        }
     }
 
 }

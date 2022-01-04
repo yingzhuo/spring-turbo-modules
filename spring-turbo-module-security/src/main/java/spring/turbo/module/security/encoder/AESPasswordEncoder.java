@@ -30,14 +30,6 @@ public class AESPasswordEncoder implements PasswordEncoder {
         this.aes = aes;
     }
 
-    public AESPasswordEncoder(@NonNull String password, @NonNull String salt) {
-        Asserts.hasText(password);
-        Asserts.hasText(salt);
-        this.aes = AES.builder()
-                .passwordAndSalt(password, salt)
-                .build();
-    }
-
     @Override
     public String encode(CharSequence rawPassword) {
         return aes.encrypt(rawPassword.toString());
@@ -46,6 +38,11 @@ public class AESPasswordEncoder implements PasswordEncoder {
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return Objects.equals(rawPassword.toString(), aes.decrypt(encodedPassword));
+    }
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return false;
     }
 
 }

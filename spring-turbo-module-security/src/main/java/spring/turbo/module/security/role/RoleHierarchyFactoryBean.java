@@ -11,6 +11,7 @@ package spring.turbo.module.security.role;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import spring.turbo.io.ResourceOption;
@@ -25,7 +26,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author 应卓
  * @since 1.0.0
  */
-public class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, InitializingBean {
+public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, InitializingBean {
 
     private ResourceOption text;
     private Charset charset = UTF_8;
@@ -51,13 +52,15 @@ public class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, Ini
         return true;
     }
 
-    public void setText(Resource textResource) {
+    public void setText(@NonNull Resource textResource) {
+        Asserts.notNull(textResource);
         this.text = ResourceOptions.builder()
                 .add(textResource)
                 .build();
     }
 
-    public void setCharset(Charset charset) {
+    public void setCharset(@NonNull Charset charset) {
+        Asserts.notNull(charset);
         this.charset = charset;
     }
 

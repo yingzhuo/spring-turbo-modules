@@ -10,6 +10,7 @@ package spring.turbo.module.security.filter;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import spring.turbo.webmvc.AbstractServletFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class AccessControlHeaderSettingFilter extends AbstractServletFilter {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
         if (HttpMethod.OPTIONS.toString().equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(200);
+            response.setStatus(HttpStatus.OK.value());
         }
 
         return true;

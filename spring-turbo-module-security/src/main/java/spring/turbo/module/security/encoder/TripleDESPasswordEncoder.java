@@ -25,14 +25,6 @@ public class TripleDESPasswordEncoder implements PasswordEncoder {
         this.des = des;
     }
 
-    public TripleDESPasswordEncoder(String password, String salt) {
-        this(
-                TripleDES.builder()
-                        .passwordAndSalt(password, salt)
-                        .build()
-        );
-    }
-
     @Override
     public String encode(CharSequence rawPassword) {
         return des.encrypt(rawPassword.toString());

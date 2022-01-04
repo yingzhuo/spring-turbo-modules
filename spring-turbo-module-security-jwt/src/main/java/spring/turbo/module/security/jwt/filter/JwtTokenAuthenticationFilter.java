@@ -9,7 +9,7 @@
 package spring.turbo.module.security.jwt.filter;
 
 import spring.turbo.module.security.filter.TokenAuthenticationFilter;
-import spring.turbo.webmvc.token.TokenResolver;
+import spring.turbo.webmvc.token.BearerTokenResolver;
 
 /**
  * @author 应卓
@@ -17,17 +17,8 @@ import spring.turbo.webmvc.token.TokenResolver;
  */
 public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
-    private static final TokenResolver DEFAULT_TOKEN_RESOLVER;
-
-    static {
-        DEFAULT_TOKEN_RESOLVER =
-                TokenResolver.builder()
-                        .bearerToken()
-                        .build();
-    }
-
     public JwtTokenAuthenticationFilter() {
-        super.setTokenResolver(DEFAULT_TOKEN_RESOLVER);
+        super.setTokenResolver(new BearerTokenResolver());
     }
 
 }
