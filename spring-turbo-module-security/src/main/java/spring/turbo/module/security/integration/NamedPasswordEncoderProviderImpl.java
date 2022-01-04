@@ -21,6 +21,7 @@ import java.util.Collection;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.encoder.PasswordEncoderFactories
  * @since 1.0.1
  */
 @SuppressWarnings("deprecation")

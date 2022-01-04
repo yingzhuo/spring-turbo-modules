@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.event;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,7 +23,7 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class MaliciousRequestFailureEvent extends AbstractAuthenticationFailureEvent {
 
-    public MaliciousRequestFailureEvent(Authentication authentication, AuthenticationException exception) {
+    public MaliciousRequestFailureEvent(@NonNull Authentication authentication, @NonNull AuthenticationException exception) {
         super(authentication, exception);
     }
 
