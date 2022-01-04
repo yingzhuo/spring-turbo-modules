@@ -107,6 +107,10 @@ public final class BatchWalker<T> {
         } catch (AbortException e) {
             visitor.onAbort(payload);
             return ProcessingResult.ABORTED;
+        } catch (Throwable throwable) {
+            // 返回值无法处理也无需处理
+            visitor.onError(new ProcessingContext(resource, workbook, null, null), payload, throwable);
+            return ProcessingResult.ABORTED;
         } finally {
             CloseUtils.closeQuietly(workbookAndFileSystem);
             CloseUtils.closeQuietly(resource);
