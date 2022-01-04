@@ -10,7 +10,7 @@ package spring.turbo.module.feign.integration;
 
 import spring.turbo.integration.ModuleNameProvider;
 
-import static spring.turbo.integration.Modules.SPRING_TURBO_EXCEL;
+import static spring.turbo.integration.Modules.SPRING_TURBO_FEIGN;
 
 /**
  * @author 应卓
@@ -20,7 +20,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_EXCEL.getName();
+        return SPRING_TURBO_FEIGN.getName();
     }
 
 }

@@ -11,15 +11,24 @@ package spring.turbo.module.security.user;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 增强型 {@link UserDetails}
+ * <p>
+ * 为 {@link UserDetails} 增加若干方法使之更方便。
+ *
  * @author 应卓
+ * @see UserDetails
  * @since 1.0.0
  */
-public interface UserDetailsPlus extends UserDetails, Serializable {
+public interface UserDetailsPlus extends UserDetails {
 
+    /**
+     * 获取创建器
+     *
+     * @return 创建器实例
+     */
     public static UserDetailsPlusBuilder builder() {
         return new UserDetailsPlusBuilder();
     }
