@@ -13,11 +13,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Mutable;
+import spring.turbo.module.security.util.AuthorityUtils;
 
 import java.util.Optional;
 
 /**
- * 认证对象
+ * 认证对象，本类是 {@link org.springframework.security.core.Authentication} 的实现
  *
  * @author 应卓
  * @see org.springframework.security.core.Authentication
@@ -28,12 +29,12 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
 
     private final UserDetails userDetails;
 
+    public Authentication() {
+        this(null);
+    }
+
     public Authentication(@Nullable UserDetails userDetails) {
-        super(
-                Optional.ofNullable(userDetails)
-                        .map(UserDetails::getAuthorities)
-                        .orElse(null)
-        );
+        super(AuthorityUtils.getAuthorities(userDetails));
         this.userDetails = userDetails;
         super.setAuthenticated(userDetails != null);
         super.setDetails(null);
