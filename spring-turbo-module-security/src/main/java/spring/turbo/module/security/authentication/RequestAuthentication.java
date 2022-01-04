@@ -9,8 +9,13 @@
 package spring.turbo.module.security.authentication;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.lang.Mutable;
+import spring.turbo.module.security.util.AuthorityUtils;
+
+import java.util.Collection;
 
 /**
  * 空认证对象，仅仅用于占位和携带请求
@@ -19,13 +24,11 @@ import spring.turbo.lang.Mutable;
  * @since 1.0.4
  */
 @Mutable
-public final class RequestAuthentication extends Authentication {
+public final class RequestAuthentication implements Authentication {
 
     public final ServletWebRequest servletWebRequest;
 
     private RequestAuthentication(@Nullable ServletWebRequest servletWebRequest) {
-        super(null);
-        super.setAuthenticated(false);
         this.servletWebRequest = servletWebRequest;
     }
 
@@ -33,9 +36,18 @@ public final class RequestAuthentication extends Authentication {
         return new RequestAuthentication(servletWebRequest);
     }
 
+    public ServletWebRequest getServletWebRequest() {
+        return servletWebRequest;
+    }
+
     @Override
-    public String getName() {
-        return "null";
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.noAuthorities();
+    }
+
+    @Override
+    public Object getCredentials() {
+        return null;
     }
 
     @Override
@@ -43,9 +55,24 @@ public final class RequestAuthentication extends Authentication {
         return null;
     }
 
-    @Nullable
-    public ServletWebRequest getServletWebRequest() {
-        return servletWebRequest;
+    @Override
+    public Object getPrincipal() {
+        return null;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return false;
+    }
+
+    @Override
+    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("cannot set authenticated");
+    }
+
+    @Override
+    public String getName() {
+        return "no-name";
     }
 
 }

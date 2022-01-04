@@ -8,11 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.visitor;
 
-import lombok.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
+import org.springframework.lang.Nullable;
 import spring.turbo.lang.Mutable;
 
 import java.io.Serializable;
@@ -21,11 +21,6 @@ import java.io.Serializable;
  * @author 应卓
  * @since 1.0.0
  */
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Mutable
 public final class ProcessingContext implements Serializable {
 
@@ -33,5 +28,52 @@ public final class ProcessingContext implements Serializable {
     private Workbook workbook;
     private Sheet sheet;
     private Row row;
+
+    public ProcessingContext() {
+        super();
+    }
+
+    public ProcessingContext(Resource resource, Workbook workbook, Sheet sheet, Row row) {
+        this.resource = resource;
+        this.workbook = workbook;
+        this.sheet = sheet;
+        this.row = row;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public void setWorkbook(Workbook workbook) {
+        this.workbook = workbook;
+    }
+
+    public void setSheet(Sheet sheet) {
+        this.sheet = sheet;
+    }
+
+    public void setRow(Row row) {
+        this.row = row;
+    }
+
+    @Nullable
+    public Resource getResource() {
+        return resource;
+    }
+
+    @Nullable
+    public Workbook getWorkbook() {
+        return workbook;
+    }
+
+    @Nullable
+    public Sheet getSheet() {
+        return sheet;
+    }
+
+    @Nullable
+    public Row getRow() {
+        return row;
+    }
 
 }

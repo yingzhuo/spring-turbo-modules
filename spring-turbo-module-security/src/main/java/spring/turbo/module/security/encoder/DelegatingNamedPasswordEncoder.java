@@ -16,7 +16,7 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @since 1.0.2
  */
-public class DelegatingNamedPasswordEncoder implements NamedPasswordEncoder {
+class DelegatingNamedPasswordEncoder implements NamedPasswordEncoder {
 
     private final String name;
     private final PasswordEncoder passwordEncoder;

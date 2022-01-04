@@ -44,7 +44,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     private RememberMeServices rememberMeServices; // nullable
     private AuthenticationEventPublisher authenticationEventPublisher;  // nullable
     private AuthenticationEntryPoint authenticationEntryPoint;  // nullable
-    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.DEFAULT; // nullable
+    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.SNAPSHOT; // nullable
 
     public TokenAuthenticationFilter() {
         super();

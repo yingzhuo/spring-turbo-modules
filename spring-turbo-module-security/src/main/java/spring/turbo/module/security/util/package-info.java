@@ -6,19 +6,4 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.filter;
-
-import spring.turbo.module.security.filter.TokenAuthenticationFilter;
-import spring.turbo.webmvc.token.BearerTokenResolver;
-
-/**
- * @author 应卓
- * @since 1.0.1
- */
-public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
-
-    public JwtTokenAuthenticationFilter() {
-        super.setTokenResolver(new BearerTokenResolver());
-    }
-
-}
+package spring.turbo.module.security.util;
