@@ -9,9 +9,9 @@
 package spring.turbo.module.security.user;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
+import spring.turbo.module.security.util.AuthorityUtils;
 
 import java.util.Collection;
 import java.util.Date;
