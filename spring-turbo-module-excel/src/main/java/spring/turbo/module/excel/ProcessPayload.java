@@ -78,6 +78,4 @@ public final class ProcessPayload extends Attributes {
         return hasError() || hasInvalidData();
     }
 
-    // TODO: 加入 带泛型的 requiredXxx方法
-
 }
