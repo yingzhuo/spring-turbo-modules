@@ -16,6 +16,8 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
+ * 获取当前 {@link UserDetails}
+ *
  * @author 应卓
  * @see UserDetails
  * @see UserDetailsPlus

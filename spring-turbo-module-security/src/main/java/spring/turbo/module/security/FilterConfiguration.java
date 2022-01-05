@@ -16,8 +16,15 @@ import spring.turbo.bean.Factory;
 import javax.servlet.Filter;
 
 /**
+ * Filter配置单元
+ * <p>
+ * 本类用来配置SpringSecurity扩展过滤器，必须把此类的实现加入 {@link org.springframework.context.ApplicationContext}。
+ *
  * @param <T> FilterType
  * @author 应卓
+ * @see spring.turbo.module.security.filter.AccessControlHeaderSettingFilter
+ * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
+ * @see spring.turbo.module.security.filter.LoggingFilter
  * @since 1.0.0
  */
 @FunctionalInterface

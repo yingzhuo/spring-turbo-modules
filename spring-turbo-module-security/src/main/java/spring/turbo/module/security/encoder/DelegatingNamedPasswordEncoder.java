@@ -13,7 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.util.Asserts;
 
 /**
+ * {@link NamedPasswordEncoder}默认实现
+ *
  * @author 应卓
+ * @see NamedPasswordEncoder
+ * @see NamedPasswordEncoderProvider
+ * @see spring.turbo.module.security.integration.NamedPasswordEncoderProviderImpl
  * @since 1.0.2
  */
 class DelegatingNamedPasswordEncoder implements NamedPasswordEncoder {
