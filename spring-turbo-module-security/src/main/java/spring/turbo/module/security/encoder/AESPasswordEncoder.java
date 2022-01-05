@@ -16,7 +16,10 @@ import spring.turbo.util.crypto.AES;
 import java.util.Objects;
 
 /**
+ * AES - PasswordEncoder
+ *
  * @author 应卓
+ * @see PasswordEncoder
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
  * @since 1.0.0

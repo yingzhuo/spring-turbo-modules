@@ -23,6 +23,8 @@ import java.nio.charset.Charset;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
+ * {@link RoleHierarchy} 工厂，本来使用文件配置角色之间的继承关系。
+ *
  * @author 应卓
  * @since 1.0.0
  */

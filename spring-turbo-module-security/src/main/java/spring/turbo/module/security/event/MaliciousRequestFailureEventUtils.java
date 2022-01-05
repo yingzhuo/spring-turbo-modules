@@ -22,6 +22,7 @@ import java.util.Optional;
 /**
  * @author 应卓
  * @see MaliciousRequestFailureEvent
+ * @see spring.turbo.module.security.exception.MaliciousRequestException
  * @since 1.0.4
  */
 public final class MaliciousRequestFailureEventUtils {

@@ -18,7 +18,10 @@ import java.util.Date;
 import java.util.function.Function;
 
 /**
+ * {@link UserDetailsPlus} 创建器
+ *
  * @author 应卓
+ * @see UserDetailsPlus#builder()
  * @since 1.0.0
  */
 public final class UserDetailsPlusBuilder {

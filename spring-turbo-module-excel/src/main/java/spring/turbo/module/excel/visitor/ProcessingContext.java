@@ -40,25 +40,13 @@ public final class ProcessingContext implements Serializable {
         this.row = row;
     }
 
-    public void setResource(Resource resource) {
-        this.resource = resource;
-    }
-
-    public void setWorkbook(Workbook workbook) {
-        this.workbook = workbook;
-    }
-
-    public void setSheet(Sheet sheet) {
-        this.sheet = sheet;
-    }
-
-    public void setRow(Row row) {
-        this.row = row;
-    }
-
     @Nullable
     public Resource getResource() {
         return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 
     @Nullable
@@ -66,14 +54,26 @@ public final class ProcessingContext implements Serializable {
         return workbook;
     }
 
+    public void setWorkbook(Workbook workbook) {
+        this.workbook = workbook;
+    }
+
     @Nullable
     public Sheet getSheet() {
         return sheet;
     }
 
+    public void setSheet(Sheet sheet) {
+        this.sheet = sheet;
+    }
+
     @Nullable
     public Row getRow() {
         return row;
+    }
+
+    public void setRow(Row row) {
+        this.row = row;
     }
 
 }

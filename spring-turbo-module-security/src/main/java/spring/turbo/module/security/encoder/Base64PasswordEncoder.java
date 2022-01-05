@@ -12,9 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.util.crypto.Base64;
 
 /**
- * 仅仅能用于测试，不可使用在生产环境
+ * Base64 - PasswordEncoder
  *
  * @author 应卓
+ * @see PasswordEncoder
+ * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
+ * @see PasswordEncoderFactories
  * @since 1.0.2
  */
 public final class Base64PasswordEncoder implements PasswordEncoder {

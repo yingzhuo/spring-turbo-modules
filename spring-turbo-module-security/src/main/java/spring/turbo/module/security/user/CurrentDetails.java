@@ -11,12 +11,20 @@ package spring.turbo.module.security.user;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import spring.turbo.module.security.authentication.RequestDetailsBuilder;
 
 import java.lang.annotation.*;
 
 /**
+ * 获取当前用户的Details对象
+ *
  * @author 应卓
+ * @see org.springframework.security.core.context.SecurityContext
  * @see AbstractAuthenticationToken#getDetails()
+ * @see RequestDetailsBuilder
+ * @see RequestDetailsBuilder#SPRING_SECURITY_DEFAULT
+ * @see RequestDetailsBuilder#SNAPSHOT
+ * @see RequestDetailsBuilder#DESCRIPTION
  * @since 1.0.0
  */
 @Documented

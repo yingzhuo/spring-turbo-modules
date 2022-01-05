@@ -16,9 +16,12 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
+ * 获取当前用户的Avatar
+ *
  * @author 应卓
  * @see UserDetails
  * @see UserDetailsPlus
+ * @see UserDetailsPlus#getAvatar()
  * @see AuthenticationPrincipalArgumentResolver
  * @since 1.0.0
  */

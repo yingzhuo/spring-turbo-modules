@@ -13,7 +13,12 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.TripleDES;
 
 /**
+ * 3DES - PasswordEncoder
+ *
  * @author 应卓
+ * @see PasswordEncoder
+ * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
+ * @see PasswordEncoderFactories
  * @since 1.0.0
  */
 public class TripleDESPasswordEncoder implements PasswordEncoder {

@@ -15,7 +15,12 @@ import spring.turbo.util.crypto.RSA;
 import java.util.Objects;
 
 /**
+ * RSA - PasswordEncoder
+ *
  * @author 应卓
+ * @see PasswordEncoder
+ * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
+ * @see PasswordEncoderFactories
  * @since 1.0.0
  */
 public class RSAPasswordEncoder implements PasswordEncoder {
