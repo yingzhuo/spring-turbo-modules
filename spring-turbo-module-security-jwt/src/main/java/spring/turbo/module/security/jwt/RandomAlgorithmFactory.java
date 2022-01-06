@@ -16,7 +16,7 @@ import spring.turbo.util.RandomUtils;
  * @author 应卓
  * @since 1.0.1
  */
-class RandomAlgorithmFactory implements AlgorithmFactory {
+final class RandomAlgorithmFactory implements AlgorithmFactory {
 
     RandomAlgorithmFactory() {
         super();

@@ -11,12 +11,22 @@ package spring.turbo.module.security.jwt;
 import org.springframework.lang.NonNull;
 
 /**
+ * JWT令牌工厂
+ *
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
 public interface JwtTokenFactory {
 
+    /**
+     * 创建令牌
+     *
+     * @param metadata 令牌元数据信息
+     * @return 令牌字符串
+     * @see JwtTokenMetadata#builder()
+     * @see JwtTokenMetadata.Builder
+     */
     @NonNull
     public String create(@NonNull JwtTokenMetadata metadata);
 
