@@ -102,7 +102,7 @@ public final class BatchWalker<T> {
         this.initHeaderInfo(workbook);
 
         try {
-            doWalker(workbook);
+            doWalk(workbook);
             return ProcessingResult.NORMAL;
         } catch (AbortException e) {
             visitor.onAbort(payload);
@@ -117,7 +117,7 @@ public final class BatchWalker<T> {
         }
     }
 
-    private void doWalker(Workbook workbook) throws AbortException {
+    private void doWalk(Workbook workbook) throws AbortException {
 
         visitor.beforeProcessing(new ProcessingContext(resource, workbook, null, null), payload);
 

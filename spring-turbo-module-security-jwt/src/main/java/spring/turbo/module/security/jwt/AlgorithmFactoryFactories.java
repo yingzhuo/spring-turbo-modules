@@ -21,6 +21,7 @@ import com.auth0.jwt.algorithms.Algorithm;
  * @see RSA256AlgorithmFactory
  * @see RSA384AlgorithmFactory
  * @see RSA512AlgorithmFactory
+ * @see RandomAlgorithmFactory
  * @since 1.0.0
  */
 public final class AlgorithmFactoryFactories {
