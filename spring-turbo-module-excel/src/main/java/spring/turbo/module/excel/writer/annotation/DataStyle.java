@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.writer.annotation;
 
-import spring.turbo.lang.Beta;
 import spring.turbo.module.excel.style.StyleProvider;
 
 import java.lang.annotation.*;
@@ -22,7 +21,6 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
-@Beta
 public @interface DataStyle {
 
     public Class<? extends StyleProvider> type();

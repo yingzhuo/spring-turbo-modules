@@ -11,14 +11,12 @@ package spring.turbo.module.excel.style;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.lang.Nullable;
-import spring.turbo.lang.Beta;
 
 /**
  * @author 应卓
  * @since 1.0.6
  */
 @FunctionalInterface
-@Beta
 public interface StyleProvider {
 
     @Nullable
