@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.writer.annotation;
 
-import spring.turbo.lang.Beta;
-
 import java.lang.annotation.*;
 
 /**
@@ -19,7 +17,6 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
-@Beta
 public @interface Header {
 
     public String[] value() default {};

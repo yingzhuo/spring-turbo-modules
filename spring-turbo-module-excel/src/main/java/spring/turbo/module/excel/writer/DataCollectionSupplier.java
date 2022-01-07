@@ -9,47 +9,34 @@
 package spring.turbo.module.excel.writer;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * @author 应卓
- * @since 1.0.6
+ * @since 1.0.7
  */
-@FunctionalInterface
 @SuppressWarnings("unchecked")
-public interface ValueObjectCollectionProvider<T> extends BiFunction<Map<String, Object>, Class<T>, Collection<T>> {
-
-    @NonNull
-    public static <T> ValueObjectCollectionProvider<T> getByModelsKey(@NonNull String key) {
-        return new Default(key);
-    }
-
-    @Override
-    public Collection<T> apply(Map<String, Object> models, Class<T> valueObjectType);
+public interface DataCollectionSupplier<T> {
 
     /**
      * 默认实现
      *
-     * @param <T> 数据类型
-     * @author 应卓
-     * @since 1.0.6
+     * @param valueObjectType ValueObject类型
+     * @param modelKey        Model Map 的键
+     * @param <T>             ValueObject类型泛型
+     * @return 实现类
      */
-    public static class Default<T> implements ValueObjectCollectionProvider<T> {
-        private final String key;
-
-        public Default(@NonNull String key) {
-            Asserts.hasText(key);
-            this.key = key;
-        }
-
-        @Override
-        public Collection<T> apply(Map<String, Object> models, Class<T> tClass) {
-            return (Collection<T>) models.get(key);
-        }
+    public static <T> DataCollectionSupplier<T> getDefault(@NonNull final Class<T> valueObjectType, @NonNull final String modelKey) {
+        Asserts.notNull(valueObjectType);
+        Asserts.hasText(modelKey);
+        return (model, type) -> (Collection<T>) model.get(modelKey);
     }
+
+    @Nullable
+    public Collection<T> apply(Map<String, Object> model, Class<T> valueObjectType);
 
 }
