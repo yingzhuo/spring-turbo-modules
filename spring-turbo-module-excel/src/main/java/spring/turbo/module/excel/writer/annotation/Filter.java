@@ -6,28 +6,23 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.visitor;
+package spring.turbo.module.excel.writer.annotation;
+
+import spring.turbo.lang.Beta;
+import spring.turbo.module.excel.filter.ValueObjectFilter;
+
+import java.lang.annotation.*;
 
 /**
- * 无动作{@link BatchVisitor}
- *
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.6
  */
-@SuppressWarnings("unchecked")
-public final class NullBatchVisitor<T> implements BatchVisitor<T> {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Beta
+public @interface Filter {
 
-    private NullBatchVisitor() {
-        super();
-    }
-
-    public static <T> NullBatchVisitor<T> getInstance() {
-        return SyncAvoid.INSTANCE;
-    }
-
-    // 延迟加载
-    private static class SyncAvoid {
-        public static final NullBatchVisitor INSTANCE = new NullBatchVisitor();
-    }
+    public Class<? extends ValueObjectFilter> type();
 
 }

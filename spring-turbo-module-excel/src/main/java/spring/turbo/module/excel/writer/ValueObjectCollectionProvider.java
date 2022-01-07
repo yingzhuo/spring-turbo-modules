@@ -6,28 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.visitor;
+package spring.turbo.module.excel.writer;
+
+import org.springframework.lang.NonNull;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
- * 无动作{@link BatchVisitor}
- *
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.6
  */
+@FunctionalInterface
 @SuppressWarnings("unchecked")
-public final class NullBatchVisitor<T> implements BatchVisitor<T> {
+public interface ValueObjectCollectionProvider<T> extends BiFunction<Map<String, Object>, Class<T>, Collection<T>> {
 
-    private NullBatchVisitor() {
-        super();
+    @NonNull
+    public static <T> ValueObjectCollectionProvider<T> modelsKey(@NonNull String key) {
+        return new ModelsKeyValueObjectCollectionProvider(key);
     }
 
-    public static <T> NullBatchVisitor<T> getInstance() {
-        return SyncAvoid.INSTANCE;
-    }
-
-    // 延迟加载
-    private static class SyncAvoid {
-        public static final NullBatchVisitor INSTANCE = new NullBatchVisitor();
-    }
+    @Override
+    public Collection<T> apply(Map<String, Object> models, Class<T> valueObjectType);
 
 }
