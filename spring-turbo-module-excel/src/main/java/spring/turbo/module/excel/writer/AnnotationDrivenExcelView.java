@@ -21,6 +21,7 @@ import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.lang.Beta;
 import spring.turbo.module.excel.filter.ValueObjectFilter;
+import spring.turbo.module.excel.style.StyleProvider;
 import spring.turbo.module.excel.writer.annotation.Header;
 import spring.turbo.module.excel.writer.annotation.*;
 import spring.turbo.util.Asserts;
@@ -49,6 +50,8 @@ import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
  * @see spring.turbo.bean.valueobject.Alias
  * @see Filter
  * @see GlobalDatePattern
+ * @see HeaderStyle
+ * @see DataStyle
  * @since 1.0.6
  */
 @Beta
@@ -63,39 +66,46 @@ public class AnnotationDrivenExcelView<T> extends AbstractXlsxStreamingView {
     private final DateFormat dateFormat;
     private InstanceCache instanceCache = InstanceCache.newInstance();
 
-    public AnnotationDrivenExcelView(@NonNull Class<T> valueObjectType, @NonNull String modelsKey) {
-        this(valueObjectType, ValueObjectCollectionProvider.modelsKey(modelsKey));
+    public AnnotationDrivenExcelView(@NonNull ApplicationContext applicationContext, @NonNull Class<T> valueObjectType, @NonNull String modelsKey) {
+        this(applicationContext, valueObjectType, ValueObjectCollectionProvider.getByModelsKey(modelsKey));
     }
 
-    public AnnotationDrivenExcelView(@NonNull Class<T> valueObjectType, @NonNull ValueObjectCollectionProvider<T> valueObjectCollectionProvider) {
+    public AnnotationDrivenExcelView(@NonNull ApplicationContext applicationContext, @NonNull Class<T> valueObjectType, @NonNull ValueObjectCollectionProvider<T> valueObjectCollectionProvider) {
+        Asserts.notNull(applicationContext);
         Asserts.notNull(valueObjectType);
         Asserts.notNull(valueObjectCollectionProvider);
+        this.configApplicationContext(applicationContext);
         this.valueObjectType = valueObjectType;
         this.valueObjectCollectionProvider = valueObjectCollectionProvider;
         this.dateFormat = getDateFormat();
     }
 
-    public void configApplicationContext(@NonNull ApplicationContext applicationContext) {
+    private void configApplicationContext(@NonNull ApplicationContext applicationContext) {
         this.instanceCache = InstanceCache.newInstance(applicationContext);
     }
 
     @Override
     protected void buildExcelDocument(Map<String, Object> models, Workbook workbook, HttpServletRequest request, HttpServletResponse response) {
         // TODO: 春节做完
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
         final String sheetName = getSheetName();
         final int offset = getOffset();
         final List<String> header = getHeader();
         final Sheet sheet = workbook.createSheet(sheetName);
         final String filename = getFilename();
+        final StyleProvider headerStyleProvider = getHeaderProvider();
+        final StyleProvider dataStyleProvider = getDataProvider();
 
         // 尝试设置文件名
         if (filename != null) {
-            response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename);
         }
 
-        doWriteHeader(workbook, sheet, header, offset, null);
+        doWriteHeader(workbook, sheet,
+                header, offset,
+                Optional.ofNullable(headerStyleProvider).map(p -> p.getStyle(workbook)).orElse(null)
+        );
 
         // 获取原始数据
         Collection<T> collection = getDataCollection(models);
@@ -109,7 +119,11 @@ public class AnnotationDrivenExcelView<T> extends AbstractXlsxStreamingView {
             collection = collection.stream().filter(filter::filter).collect(Collectors.toList());
         }
 
-        doWriteData(workbook, sheet, collection, header, offset, null);
+        doWriteData(workbook, sheet,
+                collection,
+                header, offset,
+                Optional.ofNullable(dataStyleProvider).map(p -> p.getStyle(workbook)).orElse(null)
+        );
     }
 
     @Nullable
@@ -151,7 +165,7 @@ public class AnnotationDrivenExcelView<T> extends AbstractXlsxStreamingView {
     @NonNull
     private CellStyle createDefaultCellStyleForHeader(Workbook workbook) {
         final Font font = workbook.createFont();
-        font.setFontName("Times New Roman");    // 作者最喜欢的字体之一
+        font.setFontName("Times New Roman");
         font.setColor(IndexedColors.BLACK.getIndex());
         font.setBold(true);
 
@@ -176,7 +190,7 @@ public class AnnotationDrivenExcelView<T> extends AbstractXlsxStreamingView {
     @NonNull
     private CellStyle createDefaultCellStyleForData(Workbook workbook) {
         final Font font = workbook.createFont();
-        font.setFontName("Times New Roman");    // 作者最喜欢的字体之一
+        font.setFontName("Times New Roman");
         font.setColor(IndexedColors.BLACK.getIndex());
         font.setBold(false);
 
@@ -209,6 +223,24 @@ public class AnnotationDrivenExcelView<T> extends AbstractXlsxStreamingView {
                 .map(Filename::value)
                 .map(filename -> new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1))
                 .orElse(null);
+    }
+
+    @Nullable
+    private StyleProvider getHeaderProvider() {
+        final HeaderStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, HeaderStyle.class);
+        if (annotation == null) {
+            return null;
+        }
+        return instanceCache.findOrCreate(annotation.type());
+    }
+
+    @Nullable
+    private StyleProvider getDataProvider() {
+        final DataStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, DataStyle.class);
+        if (annotation == null) {
+            return null;
+        }
+        return instanceCache.findOrCreate(annotation.type());
     }
 
     // ----------------------------------------------------------------------------------------------------------------

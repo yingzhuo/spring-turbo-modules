@@ -6,33 +6,25 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.writer;
+package spring.turbo.module.excel.writer.annotation;
 
-import org.springframework.lang.NonNull;
-import spring.turbo.util.Asserts;
+import spring.turbo.lang.Beta;
+import spring.turbo.module.excel.style.StyleProvider;
 
-import java.util.Collection;
-import java.util.Map;
+import java.lang.annotation.*;
 
 /**
- * (内部工具)
- *
  * @author 应卓
+ * @see StyleProvider
+ * @see HeaderStyle
  * @since 1.0.6
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-class ModelsKeyValueObjectCollectionProvider<T> implements ValueObjectCollectionProvider<T> {
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
+@Beta
+public @interface DataStyle {
 
-    private final String key;
-
-    public ModelsKeyValueObjectCollectionProvider(@NonNull String key) {
-        Asserts.hasText(key);
-        this.key = key;
-    }
-
-    @Override
-    public Collection<T> apply(Map<String, Object> models, Class<T> tClass) {
-        return (Collection<T>) models.get(key);
-    }
+    public Class<? extends StyleProvider> type();
 
 }
