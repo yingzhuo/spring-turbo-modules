@@ -47,6 +47,11 @@ public class AnnotationDrivenExcelView extends AbstractAnnotationDrivenExcelView
         final StyleProvider headerStyleProvider = sheetMetadata.getHeaderProvider(instanceCache);
         final StyleProvider dataStyleProvider = sheetMetadata.getDataProvider(instanceCache);
 
+        // 设置自适应列宽
+        for (int i = offset; i < header.size() + offset; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
         // 写入头部
         doWriteHeader(workbook, sheet,
                 header, offset,

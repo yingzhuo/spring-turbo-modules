@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.servlet.view.document.AbstractXlsxStreamingView;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 import spring.turbo.util.Asserts;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author 应卓
  * @since 1.0.7
  */
-abstract class AbstractAnnotationDrivenExcelView extends AbstractXlsxStreamingView {
+abstract class AbstractAnnotationDrivenExcelView extends AbstractXlsxView {
 
     private final WorkbookMetadata workbookMetadata;
 
