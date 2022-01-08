@@ -21,7 +21,7 @@ import java.lang.annotation.*;
 public @interface InlineHeader {
 
     /**
-     * 分隔符可以是空格符或逗号或缩进符
+     * 分隔符可以是空白字符或逗号
      *
      * @return Header
      */

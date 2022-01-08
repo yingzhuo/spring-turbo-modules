@@ -106,7 +106,7 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
                 AnnotationUtils.findAnnotation(valueObjectType, InlineHeader.class);
 
         if (inlineHeader != null) {
-            blankSafeAddAll(list, inlineHeader.value().split("[ \t,]"));
+            blankSafeAddAll(list, inlineHeader.value().split("[\\s,]+"));
         }
 
         // 处理Header元注释
