@@ -14,9 +14,7 @@ import org.springframework.lang.Nullable;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.style.StyleProvider;
-import spring.turbo.module.excel.writer.annotation.DataStyle;
-import spring.turbo.module.excel.writer.annotation.Header;
-import spring.turbo.module.excel.writer.annotation.HeaderStyle;
+import spring.turbo.module.excel.writer.annotation.*;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceCache;
 
@@ -25,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
+import static spring.turbo.util.StringUtils.blankSafeAddAll;
 
 /**
  * @author 应卓
@@ -98,23 +98,40 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     // ---------------------------------------------------------------------------------------------------------------
 
     @NonNull
-    List<String> getHeader() {
-        final List<String> list = new ArrayList<>();
-        final Header headerAnnotation = AnnotationUtils.findAnnotation(valueObjectType, Header.class);
-        if (headerAnnotation != null) {
-            nullSafeAddAll(list, headerAnnotation.value());
+    public List<String> getHeader() {
+        List<String> list = new ArrayList<>();
+
+        // 处理InlineHeader
+        final InlineHeader inlineHeader =
+                AnnotationUtils.findAnnotation(valueObjectType, InlineHeader.class);
+
+        if (inlineHeader != null) {
+            blankSafeAddAll(list, inlineHeader.value().split("[\\s,]+"));
         }
+
+        // 处理Header元注释
+        final Header header = AnnotationUtils.findAnnotation(valueObjectType, Header.class);
+        if (header != null) {
+            nullSafeAddAll(list, header.value());
+            if (header.trim()) {
+                list = list.stream()
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+            }
+        }
+
         return Collections.unmodifiableList(list);
     }
 
     @NonNull
-    int getOffset() {
-        final Header annotation = AnnotationUtils.findAnnotation(valueObjectType, Header.class);
-        return Optional.ofNullable(annotation).map(Header::offset).orElse(0);
+    public int getOffset() {
+        final Offset annotation = AnnotationUtils.findAnnotation(valueObjectType, Offset.class);
+        final int offset = Optional.ofNullable(annotation).map(Offset::value).orElse(0);
+        return Math.max(offset, 0);
     }
 
     @Nullable
-    StyleProvider getHeaderProvider(InstanceCache instanceCache) {
+    public StyleProvider getHeaderProvider(InstanceCache instanceCache) {
         final HeaderStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, HeaderStyle.class);
         if (annotation == null) {
             return null;
@@ -123,7 +140,7 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     }
 
     @Nullable
-    StyleProvider getDataProvider(InstanceCache instanceCache) {
+    public StyleProvider getDataProvider(InstanceCache instanceCache) {
         final DataStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, DataStyle.class);
         if (annotation == null) {
             return null;

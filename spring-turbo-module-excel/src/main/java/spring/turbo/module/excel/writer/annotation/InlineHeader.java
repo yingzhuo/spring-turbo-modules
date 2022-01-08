@@ -12,16 +12,19 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @see InlineHeader
- * @since 1.0.6
+ * @see Header
+ * @since 1.0.7
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
-public @interface Header {
+public @interface InlineHeader {
 
-    public String[] value() default {};
-
-    public boolean trim() default true;
+    /**
+     * 分隔符可以是空白字符或逗号
+     *
+     * @return Header
+     */
+    public String value();
 
 }

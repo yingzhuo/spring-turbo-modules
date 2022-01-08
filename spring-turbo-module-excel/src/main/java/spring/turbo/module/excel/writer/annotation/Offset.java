@@ -12,16 +12,13 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @see InlineHeader
- * @since 1.0.6
+ * @since 1.0.7
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
-public @interface Header {
+public @interface Offset {
 
-    public String[] value() default {};
-
-    public boolean trim() default true;
+    public int value();
 
 }

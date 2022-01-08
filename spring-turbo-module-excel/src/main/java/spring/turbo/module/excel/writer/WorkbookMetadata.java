@@ -22,6 +22,7 @@ import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
 /**
  * @author 应卓
  * @see SheetMetadata
+ * @see WorkbookMetadata#builder()
  * @since 1.0.7
  */
 @Immutable
@@ -29,10 +30,19 @@ public final class WorkbookMetadata implements Serializable {
 
     private final List<SheetMetadata> sheetMetadata = new ArrayList<>();
     private String filename;
+
+    /**
+     * 私有构造方法
+     */
     private WorkbookMetadata() {
         super();
     }
 
+    /**
+     * 获取构造器
+     *
+     * @return 构造器实例
+     */
     public static Builder builder() {
         return new Builder();
     }
@@ -47,6 +57,12 @@ public final class WorkbookMetadata implements Serializable {
 
     // ----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * SheetMetadata的创建器
+     *
+     * @author 应卓
+     * @since 1.0.7
+     */
     public static final class Builder {
 
         private final List<SheetMetadata> sheetMetadataList = new ArrayList<>();
