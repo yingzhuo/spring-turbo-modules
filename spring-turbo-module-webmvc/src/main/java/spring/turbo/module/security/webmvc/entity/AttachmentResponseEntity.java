@@ -81,6 +81,11 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
             return content(new FileSystemResource(path));
         }
 
+        public Builder attachmentName(String name) {
+            attachmentName = name;
+            return this;
+        }
+
         public AttachmentResponseEntity build() {
             Asserts.notNull(content);
             Asserts.hasText(attachmentName);
