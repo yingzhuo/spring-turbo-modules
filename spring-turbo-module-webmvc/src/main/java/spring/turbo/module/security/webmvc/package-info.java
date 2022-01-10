@@ -11,7 +11,6 @@ package spring.turbo.module.security.webmvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.Ordered;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
@@ -24,13 +23,6 @@ import java.util.List;
  */
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 class SpringBootAutoConfiguration implements WebMvcConfigurer {
-
-    @Autowired(required = false)
-    public SpringBootAutoConfiguration(FormatterRegistry registry) {
-        if (registry != null) {
-            // nop
-        }
-    }
 
     @Autowired(required = false)
     public void config(BeanNameViewResolver resolver) {
