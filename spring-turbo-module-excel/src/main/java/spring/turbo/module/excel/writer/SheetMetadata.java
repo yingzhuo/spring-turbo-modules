@@ -16,13 +16,11 @@ import spring.turbo.lang.Immutable;
 import spring.turbo.module.excel.style.StyleProvider;
 import spring.turbo.module.excel.writer.annotation.*;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.InstanceCache;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
@@ -38,40 +36,37 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     private final Class<T> valueObjectType;
     private final int sheetIndex;
     private final String sheetName;
-    private final DataCollectionSupplier<T> dataCollectionSupplier;
+    private final Collection<T> data;
 
     private SheetMetadata(
             @NonNull Class<T> valueObjectType,
             @NonNull int sheetIndex,
             @NonNull String sheetName,
-            @NonNull DataCollectionSupplier<T> dataCollectionSupplier) {
+            @Nullable Collection<T> data) {
 
         Asserts.notNull(valueObjectType);
         Asserts.isTrue(sheetIndex >= 0);
         Asserts.hasText(sheetName);
-        Asserts.notNull(dataCollectionSupplier);
 
         this.valueObjectType = valueObjectType;
         this.sheetIndex = sheetIndex;
         this.sheetName = sheetName;
-        this.dataCollectionSupplier = dataCollectionSupplier;
+        this.data = CollectionUtils.isEmpty(data) ? Collections.emptyList() : data;
     }
 
-    public static <T> SheetMetadata<T> newInstance(
+    static <T> SheetMetadata<T> newInstance(
+            @NonNull Class<T> valueObjectType,
+            @NonNull int sheetIndex,
+            @NonNull String sheetName) {
+        return newInstance(valueObjectType, sheetIndex, sheetName, null);
+    }
+
+    static <T> SheetMetadata<T> newInstance(
             @NonNull Class<T> valueObjectType,
             @NonNull int sheetIndex,
             @NonNull String sheetName,
-            @NonNull String modelMapKey
-    ) {
-        return newInstance(valueObjectType, sheetIndex, sheetName, DataCollectionSupplier.getDefault(valueObjectType, modelMapKey));
-    }
-
-    public static <T> SheetMetadata<T> newInstance(
-            @NonNull Class<T> valueObjectType,
-            @NonNull int sheetIndex,
-            @NonNull String sheetName,
-            @NonNull DataCollectionSupplier<T> dataCollectionSupplier) {
-        return new SheetMetadata<T>(valueObjectType, sheetIndex, sheetName, dataCollectionSupplier);
+            @Nullable Collection<T> data) {
+        return new SheetMetadata<T>(valueObjectType, sheetIndex, sheetName, data);
     }
 
     public Class<T> getValueObjectType() {
@@ -86,8 +81,8 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         return sheetName;
     }
 
-    public DataCollectionSupplier getDataCollectionSupplier() {
-        return dataCollectionSupplier;
+    public Collection<T> getData() {
+        return data;
     }
 
     @Override

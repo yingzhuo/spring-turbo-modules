@@ -9,11 +9,12 @@
 package spring.turbo.module.excel.writer;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.OrderComparator;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.NumberUtils;
-import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.bean.valueobject.ValueObjectGetter;
 import spring.turbo.bean.valueobject.ValueObjectUtils;
 import spring.turbo.module.excel.style.StyleProvider;
@@ -24,28 +25,84 @@ import spring.turbo.util.InstanceCache;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * @author 应卓
+ * @see SheetMetadata
+ * @see WorkbookIO
  * @since 1.0.7
  */
-public class AnnotationDrivenExcelView extends AbstractAnnotationDrivenExcelView {
+public final class WorkbookBuilder {
 
-    private final InstanceCache instanceCache;
+    private final List<SheetMetadata<?>> sheetInfo = new ArrayList<>();
+    private InstanceCache instanceCache = InstanceCache.newInstance();
+    private Supplier<Workbook> workbookSupplier = XSSFWorkbook::new;
 
-    public AnnotationDrivenExcelView(@NonNull ApplicationContext applicationContext, WorkbookMetadata workbookMetadata) {
-        super(workbookMetadata);
-        Asserts.notNull(applicationContext);
-        this.instanceCache = InstanceCache.newInstance(applicationContext);
+    /**
+     * 私有构造方法
+     */
+    private WorkbookBuilder() {
+        super();
     }
 
-    @Override
-    protected void buildExcelSheet(Workbook workbook, Sheet sheet, SheetMetadata<?> sheetMetadata, Collection<?> data, ServletWebRequest servletWebRequest) {
+    public static WorkbookBuilder newInstance() {
+        return new WorkbookBuilder();
+    }
+
+    public static WorkbookBuilder newInstance(@NonNull Supplier<Workbook> workbookSupplier) {
+        Asserts.notNull(workbookSupplier);
+
+        final WorkbookBuilder builder = new WorkbookBuilder();
+        builder.workbookSupplier = workbookSupplier;
+        return builder;
+    }
+
+    public WorkbookBuilder applicationContext(@Nullable ApplicationContext applicationContext) {
+        this.instanceCache = InstanceCache.newInstance(applicationContext);
+        return this;
+    }
+
+    public <T> WorkbookBuilder sheet(@NonNull Class<T> valueObjectType,
+                                     @NonNull int sheetIndex,
+                                     @NonNull String sheetName) {
+        sheetInfo.add(SheetMetadata.newInstance(valueObjectType, sheetIndex, sheetName));
+        return this;
+    }
+
+    public <T> WorkbookBuilder sheet(@NonNull Class<T> valueObjectType,
+                                     @NonNull int sheetIndex,
+                                     @NonNull String sheetName,
+                                     @Nullable Collection<T> data) {
+        sheetInfo.add(SheetMetadata.newInstance(valueObjectType, sheetIndex, sheetName, data));
+        return this;
+    }
+
+    public Workbook build() {
+        OrderComparator.sort(sheetInfo);
+
+        final Workbook workbook = Optional.ofNullable(workbookSupplier.get()).orElseGet(XSSFWorkbook::new);
+
+        for (SheetMetadata<?> metadata : sheetInfo) {
+            final String sheetName = metadata.getSheetName();
+            final Sheet sheet = workbook.createSheet(sheetName);
+            writeSheets(workbook, sheet, metadata);
+        }
+
+        return workbook;
+    }
+
+    private void writeSheets(Workbook workbook, Sheet sheet, SheetMetadata<?> sheetMetadata) {
 
         final int offset = sheetMetadata.getOffset();
         final List<String> header = sheetMetadata.getHeader();
         final StyleProvider headerStyleProvider = sheetMetadata.getHeaderProvider(instanceCache);
         final StyleProvider dataStyleProvider = sheetMetadata.getDataProvider(instanceCache);
+
+        // 设置自适应列宽
+        for (int i = offset; i < header.size() + offset; i++) {
+            sheet.autoSizeColumn(i);
+        }
 
         // 写入头部
         doWriteHeader(workbook, sheet,
@@ -55,7 +112,7 @@ public class AnnotationDrivenExcelView extends AbstractAnnotationDrivenExcelView
 
         // 写入数据部分
         doWriteData(workbook, sheet,
-                data, header, offset,
+                sheetMetadata.getData(), header, offset,
                 Optional.ofNullable(dataStyleProvider).map(p -> p.getStyle(workbook)).orElse(null),
                 sheetMetadata.getValueObjectType()
         );
@@ -135,6 +192,46 @@ public class AnnotationDrivenExcelView extends AbstractAnnotationDrivenExcelView
             return null;
         }
         return getter.get(propertyName);
+    }
+
+    @NonNull
+    private CellStyle createDefaultCellStyleForHeader(Workbook workbook) {
+        final Font font = workbook.createFont();
+        font.setFontName("Times New Roman");
+        font.setColor(IndexedColors.BLACK.getIndex());
+        font.setBold(true);
+
+        final CellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        style.setWrapText(true);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(BorderStyle.THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        return style;
+    }
+
+    @NonNull
+    private CellStyle createDefaultCellStyleForData(Workbook workbook) {
+        final Font font = workbook.createFont();
+        font.setFontName("Times New Roman");
+        font.setColor(IndexedColors.BLACK.getIndex());
+        font.setBold(false);
+
+        final CellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        style.setWrapText(true);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        return style;
     }
 
 }
