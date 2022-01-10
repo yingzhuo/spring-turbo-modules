@@ -38,6 +38,8 @@ public final class WorkbookBuilder {
     private final List<SheetMetadata<?>> sheetInfo = new ArrayList<>();
     private InstanceCache instanceCache = InstanceCache.newInstance();
     private Supplier<Workbook> workbookSupplier = XSSFWorkbook::new;
+    private CellStyle headerCellStyle;
+    private CellStyle dataCellStyle;
 
     /**
      * 私有构造方法
@@ -79,9 +81,12 @@ public final class WorkbookBuilder {
     }
 
     public Workbook build() {
+
+
         OrderComparator.sort(sheetInfo);
 
         final Workbook workbook = Optional.ofNullable(workbookSupplier.get()).orElseGet(XSSFWorkbook::new);
+        this.lazyInit(workbook);
 
         for (SheetMetadata<?> metadata : sheetInfo) {
             final String sheetName = metadata.getSheetName();
@@ -90,6 +95,11 @@ public final class WorkbookBuilder {
         }
 
         return workbook;
+    }
+
+    private void lazyInit(Workbook workbook) {
+        this.headerCellStyle = createDefaultCellStyleForHeader(workbook);
+        this.dataCellStyle = createDefaultCellStyleForData(workbook);
     }
 
     private void writeSheets(Workbook workbook, Sheet sheet, SheetMetadata<?> sheetMetadata) {
@@ -107,13 +117,13 @@ public final class WorkbookBuilder {
         // 写入头部
         doWriteHeader(workbook, sheet,
                 header, offset,
-                Optional.ofNullable(headerStyleProvider).map(p -> p.getStyle(workbook)).orElse(null)
+                Optional.ofNullable(headerStyleProvider).map(p -> p.getStyle(workbook)).orElse(headerCellStyle)
         );
 
         // 写入数据部分
         doWriteData(workbook, sheet,
                 sheetMetadata.getData(), header, offset,
-                Optional.ofNullable(dataStyleProvider).map(p -> p.getStyle(workbook)).orElse(null),
+                Optional.ofNullable(dataStyleProvider).map(p -> p.getStyle(workbook)).orElse(dataCellStyle),
                 sheetMetadata.getValueObjectType()
         );
     }
