@@ -31,7 +31,7 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
     }
 
     @Override
-    public String getNextWord() {
+    public Word getNextWord() {
         final Random rnd = new Random();
         final StringBuilder sb = new StringBuilder();
         final StringBuilder chars = new StringBuilder(characters);
@@ -49,7 +49,11 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
             }
             sb.append(c);
         }
-        return sb.toString();
+
+        final Word word = new Word();
+        word.setStringForDrawing(sb.toString());
+        word.setStringForValidation(sb.toString());
+        return word;
     }
 
 }

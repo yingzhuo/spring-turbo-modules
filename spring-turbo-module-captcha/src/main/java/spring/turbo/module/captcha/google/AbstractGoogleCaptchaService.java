@@ -15,6 +15,7 @@ import spring.turbo.module.captcha.google.color.ColorFactory;
 import spring.turbo.module.captcha.google.filter.FilterFactory;
 import spring.turbo.module.captcha.google.font.FontFactory;
 import spring.turbo.module.captcha.google.renderer.TextRenderer;
+import spring.turbo.module.captcha.google.word.Word;
 import spring.turbo.module.captcha.google.word.WordFactory;
 
 import java.awt.image.BufferedImage;
@@ -103,10 +104,10 @@ public abstract class AbstractGoogleCaptchaService implements CaptchaService {
     public Captcha create() {
         BufferedImage bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         backgroundFactory.fillBackground(bufImage);
-        String word = wordFactory.getNextWord();
-        textRenderer.draw(word, bufImage, fontFactory, colorFactory);
+        Word word = wordFactory.getNextWord();
+        textRenderer.draw(word.getStringForDrawing(), bufImage, fontFactory, colorFactory);
         BufferedImage image = filterFactory.apply(bufImage);
-        return new Captcha(word, image);
+        return new Captcha(word.getStringForValidation(), image);
     }
 
 }

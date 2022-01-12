@@ -39,7 +39,7 @@ public class RandomWordFactory implements WordFactory {
     }
 
     @Override
-    public String getNextWord() {
+    public Word getNextWord() {
         final Random rnd = new Random();
         final StringBuilder sb = new StringBuilder();
         int l = minLength + (maxLength > minLength ? rnd.nextInt(maxLength - minLength) : 0);
@@ -47,7 +47,10 @@ public class RandomWordFactory implements WordFactory {
             int j = rnd.nextInt(characters.length());
             sb.append(characters.charAt(j));
         }
-        return sb.toString();
+        final Word word = new Word();
+        word.setStringForDrawing(sb.toString());
+        word.setStringForValidation(sb.toString());
+        return word;
     }
 
 }
