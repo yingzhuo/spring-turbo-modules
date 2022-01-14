@@ -30,9 +30,9 @@ public final class PredefinedDSA {
         Asserts.isTrue(i >= 0 && i <= 9, "i must be in range [0,10)");
 
         final String a = ResourceOptions
-                .fromCommaSeparatedLocations(String.format("classpath:dsa/dsa.public.%d.txt", i)).toString(UTF_8);
+                .fromSeparatedLocations(String.format("classpath:dsa/dsa.public.%d.txt", i)).toString(UTF_8);
         final String b = ResourceOptions
-                .fromCommaSeparatedLocations(String.format("classpath:dsa/dsa.private.%d.txt", i)).toString(UTF_8);
+                .fromSeparatedLocations(String.format("classpath:dsa/dsa.private.%d.txt", i)).toString(UTF_8);
 
         return Pair.of(a, b);
     }
