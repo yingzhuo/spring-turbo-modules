@@ -16,14 +16,17 @@ package spring.turbo.module.csv.vistor;
 @SuppressWarnings("unchecked")
 public final class NullBatchVisitor<T> implements BatchVisitor<T> {
 
-    private static final NullBatchVisitor INSTANCE = new NullBatchVisitor();
-
     private NullBatchVisitor() {
         super();
     }
 
     public static <T> NullBatchVisitor<T> getInstance() {
-        return INSTANCE;
+        return SyncAvoid.INSTANCE;
+    }
+
+    // 延迟加载
+    private static class SyncAvoid {
+        public static final NullBatchVisitor INSTANCE = new NullBatchVisitor();
     }
 
 }

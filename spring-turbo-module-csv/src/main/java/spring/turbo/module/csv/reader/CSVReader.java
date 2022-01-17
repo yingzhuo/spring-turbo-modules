@@ -68,18 +68,24 @@ public final class CSVReader<T> {
     }
 
     public void read(@Nullable ProcessPayload payload) {
-        doRead(Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
-    }
-
-    private void doRead(@NonNull ProcessPayload payload) {
         final ResourceOption resourceOption = ResourceOptions.of(this.resource);
 
         if (resourceOption.isAbsent()) {
             throw new UncheckedIOException(new IOException("cannot open resource"));
         }
 
-        int lineNumber = -1;
         final LineIterator lineIterator = resourceOption.getLineIterator(this.charset);
+
+        try {
+            doRead(lineIterator, Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
+        } finally {
+            CloseUtils.closeQuietly(lineIterator);
+            CloseUtils.closeQuietly(resource);
+        }
+    }
+
+    private void doRead(@NonNull LineIterator lineIterator, @NonNull ProcessPayload payload) {
+        int lineNumber = -1;
 
         while (lineIterator.hasNext()) {
             lineNumber++;
@@ -145,9 +151,6 @@ public final class CSVReader<T> {
             }
             batch.clear();
         }
-
-        CloseUtils.closeQuietly(lineIterator);
-        CloseUtils.closeQuietly(resource);
     }
 
     @Nullable
