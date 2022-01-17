@@ -159,4 +159,5 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     public void setRequestDetailsBuilder(@Nullable RequestDetailsBuilder requestDetailsBuilder) {
         this.requestDetailsBuilder = requestDetailsBuilder;
     }
+
 }

@@ -33,7 +33,7 @@ public final class AuthorityUtils {
     private static final List<GrantedAuthority> NO_AUTHORITIES = Collections.emptyList();
 
     /**
-     * 构造方法
+     * 私有构造方法
      */
     private AuthorityUtils() {
         super();
