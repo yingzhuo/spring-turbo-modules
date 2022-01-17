@@ -18,6 +18,7 @@
         <module>spring-turbo-module-security-hutool</module>
         <module>spring-turbo-module-security-jwt</module>
         <module>spring-turbo-module-webmvc</module>
+        <module>spring-turbo-module-csv</module>
     </modules>
     <packaging>pom</packaging>
 
