@@ -93,7 +93,7 @@
 
         <spring.turbo.version>1.0.9-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.6.2</spring.boot.version>
-        <spring.version>5.3.14</spring.version>
+        <spring.version>5.3.15</spring.version>
         <spring.security.version>5.6.1</spring.security.version>
         <feign.version>11.8</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
@@ -224,6 +224,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
