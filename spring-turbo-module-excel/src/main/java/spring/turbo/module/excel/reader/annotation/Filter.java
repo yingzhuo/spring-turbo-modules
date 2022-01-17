@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.excel.reader.annotation;
 
-import spring.turbo.module.excel.filter.ValueObjectFilter;
+import spring.turbo.bean.valueobject.ValueObjectFilter;
 
 import java.lang.annotation.*;
 

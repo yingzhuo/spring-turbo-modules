@@ -51,6 +51,7 @@ public final class CSVReader<T> {
     private Batch<T> batch;
     private ConversionService conversionService;
     private List<Validator> validators;
+    private ValueObjectFilter<T> valueObjectFilter;
 
     /**
      * 私有构造方法
@@ -116,6 +117,12 @@ public final class CSVReader<T> {
                             .addObjects(dataArray)
                             .build())
                     .bind();
+
+            // valueObjectFilter 过滤数据
+            // 不区分vo对象是不是有绑定错误
+            if (valueObjectFilter != null && !valueObjectFilter.filter(vo)) {
+                continue;
+            }
 
             if (!bindingResult.hasErrors()) {
                 payload.incrSuccessCount();
@@ -188,12 +195,13 @@ public final class CSVReader<T> {
 
         private final Class<T> valueObjectType;
         private ConversionService conversionService = new DefaultFormattingConversionService();
-        private List<Validator> validators = new ArrayList<>();
+        private final List<Validator> validators = new ArrayList<>();
         private Resource resource;
         private Charset charset = CharsetPool.UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();
         private HeaderConfig headerConfig;
         private int batchSize = 1000;
+        private ValueObjectFilter<T> valueObjectFilter;
 
         /**
          * 私有构造方法
@@ -242,6 +250,11 @@ public final class CSVReader<T> {
             return this;
         }
 
+        public Builder<T> valueObjectFilter(ValueObjectFilter<T> filter) {
+            this.valueObjectFilter = filter;
+            return this;
+        }
+
         public CSVReader<T> build() {
             Asserts.notNull(valueObjectType);
             Asserts.notNull(resource);
@@ -263,6 +276,7 @@ public final class CSVReader<T> {
             reader.conversionService = this.conversionService;
             reader.validators = this.validators;
             reader.batch = new Batch<>(this.batchSize);
+            reader.valueObjectFilter = this.valueObjectFilter;
             return reader;
         }
     }
