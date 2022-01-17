@@ -9,8 +9,8 @@
 package spring.turbo.module.csv.vistor;
 
 import org.springframework.validation.BindingResult;
-import spring.turbo.module.csv.ProcessPayload;
-import spring.turbo.module.csv.reader.Batch;
+import spring.turbo.bean.valueobject.Batch;
+import spring.turbo.bean.valueobject.ProcessPayload;
 
 /**
  * @param <T> ValueObject泛型

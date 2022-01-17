@@ -10,7 +10,7 @@ package spring.turbo.module.excel.reader;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
-import spring.turbo.module.excel.ProcessPayload;
+import spring.turbo.bean.valueobject.ProcessPayload;
 
 /**
  * @author 应卓
