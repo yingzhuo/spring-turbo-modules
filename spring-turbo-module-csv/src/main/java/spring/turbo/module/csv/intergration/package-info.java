@@ -6,18 +6,4 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.batch;
-
-import org.springframework.boot.context.properties.bind.BindResult;
-
-/**
- * @author 应卓
- * @since 1.0.0
- */
-public final class BindingResultBatch extends Batch<BindResult> {
-
-    public BindingResultBatch(int maxSize) {
-        super(maxSize);
-    }
-
-}
+package spring.turbo.module.csv.intergration;

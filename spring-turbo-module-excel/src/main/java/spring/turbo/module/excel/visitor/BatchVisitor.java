@@ -10,9 +10,9 @@ package spring.turbo.module.excel.visitor;
 
 import org.springframework.core.io.Resource;
 import org.springframework.validation.BindingResult;
+import spring.turbo.bean.valueobject.Batch;
+import spring.turbo.bean.valueobject.ProcessPayload;
 import spring.turbo.module.excel.ExcelType;
-import spring.turbo.module.excel.ProcessPayload;
-import spring.turbo.module.excel.batch.Batch;
 import spring.turbo.module.excel.reader.ExitPolicy;
 
 /**

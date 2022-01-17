@@ -6,21 +6,40 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.csv.vistor;
 
 import org.springframework.core.io.Resource;
-import org.springframework.lang.Nullable;
-import spring.turbo.bean.valueobject.ProcessPayload;
+import org.springframework.lang.NonNull;
+import spring.turbo.lang.Mutable;
+import spring.turbo.util.Asserts;
+
+import java.io.Serializable;
 
 /**
  * @author 应卓
- * @see spring.turbo.module.excel.reader.annotation.Password
- * @since 1.0.4
+ * @since 1.0.9
  */
-@FunctionalInterface
-public interface PasswordProvider {
+@Mutable
+public final class ProcessingContext implements Serializable {
 
-    @Nullable
-    public String getPassword(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
+    private Resource resource;
+
+    public ProcessingContext() {
+        super();
+    }
+
+    public ProcessingContext(@NonNull Resource resource) {
+        Asserts.notNull(resource);
+        this.resource = resource;
+    }
+
+    @NonNull
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
 
 }

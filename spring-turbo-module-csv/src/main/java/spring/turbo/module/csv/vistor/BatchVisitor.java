@@ -6,21 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.excel.reader;
+package spring.turbo.module.csv.vistor;
 
-import org.springframework.core.io.Resource;
-import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import spring.turbo.bean.valueobject.Batch;
 import spring.turbo.bean.valueobject.ProcessPayload;
 
 /**
+ * @param <T> ValueObject泛型
  * @author 应卓
- * @see spring.turbo.module.excel.reader.annotation.Password
- * @since 1.0.4
+ * @since 1.0.9
  */
-@FunctionalInterface
-public interface PasswordProvider {
+public interface BatchVisitor<T> {
 
-    @Nullable
-    public String getPassword(ExcelDiscriminator discriminator, Resource resource, ProcessPayload payload);
+    public default void onInvalidValueObject(ProcessingContext context, ProcessPayload payload, Object vo, BindingResult bindingResult) {
+    }
+
+    public default void onValidValueObject(ProcessingContext context, ProcessPayload payload, Batch<T> batch) {
+    }
+
+    public default void onError(ProcessingContext context, ProcessPayload payload, Throwable throwable) {
+    }
 
 }
