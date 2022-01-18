@@ -8,11 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.hutool.integration;
 
+import org.springframework.lang.NonNull;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
 import spring.turbo.module.security.hutool.encoder.*;
+import spring.turbo.util.ListFactories;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -21,9 +22,10 @@ import java.util.Collection;
  */
 public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderProvider {
 
+    @NonNull
     @Override
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
-        return Arrays.asList(
+        return ListFactories.newUnmodifiableList(
                 new SM3PasswordEncoder(),
                 new MD2PasswordEncoder(),
                 new SHA384PasswordEncoder(),

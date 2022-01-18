@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.integration;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
@@ -15,8 +16,8 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.module.security.encoder.Base64PasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
+import spring.turbo.util.ListFactories;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -27,9 +28,10 @@ import java.util.Collection;
 @SuppressWarnings("deprecation")
 public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderProvider {
 
+    @NonNull
     @Override
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
-        return Arrays.asList(
+        return ListFactories.newUnmodifiableList(
                 NamedPasswordEncoder.of("bcrypt", new BCryptPasswordEncoder()),
                 NamedPasswordEncoder.of("ldap", new LdapShaPasswordEncoder()),
                 NamedPasswordEncoder.of("MD4", new Md4PasswordEncoder()),
