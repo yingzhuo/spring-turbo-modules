@@ -15,8 +15,8 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.module.security.encoder.Base64PasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
+import spring.turbo.util.ListFactories;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -29,7 +29,7 @@ public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderPro
 
     @Override
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
-        return Arrays.asList(
+        return ListFactories.newUnmodifiableList(
                 NamedPasswordEncoder.of("bcrypt", new BCryptPasswordEncoder()),
                 NamedPasswordEncoder.of("ldap", new LdapShaPasswordEncoder()),
                 NamedPasswordEncoder.of("MD4", new Md4PasswordEncoder()),

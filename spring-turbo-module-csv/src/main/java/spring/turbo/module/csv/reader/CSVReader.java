@@ -194,8 +194,8 @@ public final class CSVReader<T> {
     public static class Builder<T> {
 
         private final Class<T> valueObjectType;
-        private ConversionService conversionService = new DefaultFormattingConversionService();
         private final List<Validator> validators = new ArrayList<>();
+        private ConversionService conversionService = new DefaultFormattingConversionService();
         private Resource resource;
         private Charset charset = CharsetPool.UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();

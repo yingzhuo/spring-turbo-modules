@@ -11,8 +11,8 @@ package spring.turbo.module.security.hutool.integration;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
 import spring.turbo.module.security.hutool.encoder.*;
+import spring.turbo.util.ListFactories;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -23,7 +23,7 @@ public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderPro
 
     @Override
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
-        return Arrays.asList(
+        return ListFactories.newUnmodifiableList(
                 new SM3PasswordEncoder(),
                 new MD2PasswordEncoder(),
                 new SHA384PasswordEncoder(),
