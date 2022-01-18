@@ -37,6 +37,16 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
+        <!-- zxing -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+        </dependency>
+
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -49,14 +59,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- zxing -->
+        <!-- jsr305 -->
         <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
         </dependency>
     </dependencies>
 
