@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.integration;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
@@ -27,6 +28,7 @@ import java.util.Collection;
 @SuppressWarnings("deprecation")
 public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderProvider {
 
+    @NonNull
     @Override
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
         return ListFactories.newUnmodifiableList(

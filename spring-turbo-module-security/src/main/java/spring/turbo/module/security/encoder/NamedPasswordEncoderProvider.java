@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
+import org.springframework.lang.NonNull;
+
 import java.util.Collection;
 
 /**
@@ -17,6 +19,7 @@ import java.util.Collection;
 @FunctionalInterface
 public interface NamedPasswordEncoderProvider {
 
+    @NonNull
     public Collection<NamedPasswordEncoder> getPasswordEncoders();
 
 }

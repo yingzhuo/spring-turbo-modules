@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.qrcode.integration;
 
+import org.springframework.lang.NonNull;
 import spring.turbo.integration.ModuleNameProvider;
 
 import static spring.turbo.integration.Modules.SPRING_TURBO_QRCODE;
@@ -18,6 +19,7 @@ import static spring.turbo.integration.Modules.SPRING_TURBO_QRCODE;
  */
 public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
+    @NonNull
     @Override
     public String getModuleName() {
         return SPRING_TURBO_QRCODE.getName();

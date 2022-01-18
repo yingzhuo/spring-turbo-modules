@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.hutool.integration;
 
+import org.springframework.lang.NonNull;
 import spring.turbo.integration.ModuleNameProvider;
 
 import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY_HUTOOL;
@@ -18,6 +19,7 @@ import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY_HUTOOL;
  */
 public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
+    @NonNull
     @Override
     public String getModuleName() {
         return SPRING_TURBO_SECURITY_HUTOOL.getName();
