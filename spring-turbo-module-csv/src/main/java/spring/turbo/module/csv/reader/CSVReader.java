@@ -51,6 +51,7 @@ public final class CSVReader<T> {
     private Batch<T> batch;
     private ConversionService conversionService;
     private List<Validator> validators;
+    private ValueObjectFilter<T> valueObjectFilter;
 
     /**
      * 私有构造方法
@@ -68,18 +69,24 @@ public final class CSVReader<T> {
     }
 
     public void read(@Nullable ProcessPayload payload) {
-        doRead(Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
-    }
-
-    private void doRead(@NonNull ProcessPayload payload) {
         final ResourceOption resourceOption = ResourceOptions.of(this.resource);
 
         if (resourceOption.isAbsent()) {
             throw new UncheckedIOException(new IOException("cannot open resource"));
         }
 
-        int lineNumber = -1;
         final LineIterator lineIterator = resourceOption.getLineIterator(this.charset);
+
+        try {
+            doRead(lineIterator, Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
+        } finally {
+            CloseUtils.closeQuietly(lineIterator);
+            CloseUtils.closeQuietly(resource);
+        }
+    }
+
+    private void doRead(@NonNull LineIterator lineIterator, @NonNull ProcessPayload payload) {
+        int lineNumber = -1;
 
         while (lineIterator.hasNext()) {
             lineNumber++;
@@ -110,6 +117,12 @@ public final class CSVReader<T> {
                             .addObjects(dataArray)
                             .build())
                     .bind();
+
+            // valueObjectFilter 过滤数据
+            // 不区分vo对象是不是有绑定错误
+            if (valueObjectFilter != null && !valueObjectFilter.filter(vo)) {
+                continue;
+            }
 
             if (!bindingResult.hasErrors()) {
                 payload.incrSuccessCount();
@@ -145,9 +158,6 @@ public final class CSVReader<T> {
             }
             batch.clear();
         }
-
-        CloseUtils.closeQuietly(lineIterator);
-        CloseUtils.closeQuietly(resource);
     }
 
     @Nullable
@@ -185,12 +195,13 @@ public final class CSVReader<T> {
 
         private final Class<T> valueObjectType;
         private ConversionService conversionService = new DefaultFormattingConversionService();
-        private List<Validator> validators = new ArrayList<>();
+        private final List<Validator> validators = new ArrayList<>();
         private Resource resource;
         private Charset charset = CharsetPool.UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();
         private HeaderConfig headerConfig;
         private int batchSize = 1000;
+        private ValueObjectFilter<T> valueObjectFilter;
 
         /**
          * 私有构造方法
@@ -239,6 +250,11 @@ public final class CSVReader<T> {
             return this;
         }
 
+        public Builder<T> valueObjectFilter(ValueObjectFilter<T> filter) {
+            this.valueObjectFilter = filter;
+            return this;
+        }
+
         public CSVReader<T> build() {
             Asserts.notNull(valueObjectType);
             Asserts.notNull(resource);
@@ -260,6 +276,7 @@ public final class CSVReader<T> {
             reader.conversionService = this.conversionService;
             reader.validators = this.validators;
             reader.batch = new Batch<>(this.batchSize);
+            reader.valueObjectFilter = this.valueObjectFilter;
             return reader;
         }
     }

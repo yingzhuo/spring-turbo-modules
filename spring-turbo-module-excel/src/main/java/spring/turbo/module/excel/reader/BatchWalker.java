@@ -30,7 +30,6 @@ import spring.turbo.module.excel.cellparser.GlobalCellParser;
 import spring.turbo.module.excel.config.AliasConfig;
 import spring.turbo.module.excel.config.HeaderConfig;
 import spring.turbo.module.excel.config.HeaderInfo;
-import spring.turbo.module.excel.filter.ValueObjectFilter;
 import spring.turbo.module.excel.function.RowPredicate;
 import spring.turbo.module.excel.function.RowPredicateFactories;
 import spring.turbo.module.excel.function.SheetPredicate;
@@ -511,7 +510,6 @@ public final class BatchWalker<T> {
             this.valueObjectFilter = filter;
             return this;
         }
-
 
         public BatchWalker<T> build() {
             // 合并alias

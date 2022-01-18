@@ -97,7 +97,7 @@
         <spring.security.version>5.6.1</spring.security.version>
         <feign.version>11.8</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.33</slf4j.version>
         <hutool.version>5.7.19</hutool.version>
     </properties>
 
@@ -302,7 +302,7 @@
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
-                <version>3.18.2</version>
+                <version>3.18.3</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
