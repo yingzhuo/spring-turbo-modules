@@ -17,7 +17,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public abstract class AbstractTextRenderer implements TextRenderer {

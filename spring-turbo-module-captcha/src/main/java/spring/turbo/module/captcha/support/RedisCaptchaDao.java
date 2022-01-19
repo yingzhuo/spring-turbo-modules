@@ -9,7 +9,7 @@
 package spring.turbo.module.captcha.support;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 import java.time.Duration;
@@ -25,13 +25,13 @@ public class RedisCaptchaDao implements CaptchaDao {
 
     private final StringRedisTemplate redisTemplate;
 
-    public RedisCaptchaDao(@NonNull StringRedisTemplate template) {
+    public RedisCaptchaDao(StringRedisTemplate template) {
         Asserts.notNull(template);
         this.redisTemplate = template;
     }
 
     @Override
-    public void save(@NonNull String accessKey, @NonNull String captchaWord, Duration ttl) {
+    public void save(String accessKey, String captchaWord, @Nullable Duration ttl) {
         Asserts.hasText(accessKey);
         Asserts.hasText(captchaWord);
 
@@ -43,14 +43,14 @@ public class RedisCaptchaDao implements CaptchaDao {
     }
 
     @Override
-    public Optional<String> find(@NonNull String accessKey) {
+    public Optional<String> find(String accessKey) {
         Asserts.hasText(accessKey);
 
         return Optional.ofNullable(redisTemplate.opsForValue().get(accessKey));
     }
 
     @Override
-    public void delete(@NonNull String accessKey) {
+    public void delete(String accessKey) {
         Asserts.hasText(accessKey);
         redisTemplate.delete(accessKey);
     }

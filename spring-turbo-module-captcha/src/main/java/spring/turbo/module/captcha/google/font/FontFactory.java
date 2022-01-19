@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.google.font;
 import java.awt.*;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 @FunctionalInterface

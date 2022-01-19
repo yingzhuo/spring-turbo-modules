@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.captcha.support;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.time.Duration;
@@ -20,14 +19,14 @@ import java.util.Optional;
  */
 public interface CaptchaDao {
 
-    public default void save(@NonNull String accessKey, @NonNull String captchaWord) {
+    public default void save(String accessKey, String captchaWord) {
         save(accessKey, captchaWord, null);
     }
 
-    public void save(@NonNull String accessKey, @NonNull String captchaWord, @Nullable Duration ttl);
+    public void save(String accessKey, String captchaWord, @Nullable Duration ttl);
 
-    public Optional<String> find(@NonNull String accessKey);
+    public Optional<String> find(String accessKey);
 
-    public void delete(@NonNull String accessKey);
+    public void delete(String accessKey);
 
 }

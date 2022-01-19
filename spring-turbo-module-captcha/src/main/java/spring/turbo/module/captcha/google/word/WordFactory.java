@@ -9,7 +9,6 @@
 package spring.turbo.module.captcha.google.word;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  * @since 1.0.0
  */

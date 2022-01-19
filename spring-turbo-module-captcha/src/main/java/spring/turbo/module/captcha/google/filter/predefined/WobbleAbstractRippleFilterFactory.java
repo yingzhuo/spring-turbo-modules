@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class WobbleAbstractRippleFilterFactory extends AbstractRippleFilterFactory {

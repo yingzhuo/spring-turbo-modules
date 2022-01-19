@@ -17,7 +17,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public abstract class AbstractImageOp implements BufferedImageOp {

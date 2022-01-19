@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class RandomFontFactory implements FontFactory {

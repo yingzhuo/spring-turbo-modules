@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.google.filter;
 import java.awt.image.BufferedImage;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  * @since 1.0.0
  */

@@ -9,7 +9,6 @@
 package spring.turbo.module.captcha.google.renderer;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class BestFitTextRenderer extends AbstractTextRenderer {

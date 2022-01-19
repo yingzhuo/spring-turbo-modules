@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class CurvesImageOp extends AbstractImageOp {
