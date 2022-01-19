@@ -9,7 +9,6 @@
 package spring.turbo.module.security.hutool.encoder;
 
 import cn.hutool.core.codec.Morse;
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
 import spring.turbo.util.Asserts;
 
@@ -35,7 +34,6 @@ public final class MorsePasswordEncoder extends AbstractNamedPasswordEncoder {
         this.morse = morse;
     }
 
-    @NonNull
     @Override
     public String encode(CharSequence rawPassword) {
         return morse.encode(rawPassword.toString());

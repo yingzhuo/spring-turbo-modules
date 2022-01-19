@@ -16,6 +16,9 @@ public final class CaptchaFormat {
 
     public static final String PNG = "png";
 
+    /**
+     * 私有构造方法
+     */
     private CaptchaFormat() {
         super();
     }

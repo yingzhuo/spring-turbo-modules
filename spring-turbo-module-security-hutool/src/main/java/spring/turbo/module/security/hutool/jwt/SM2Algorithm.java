@@ -12,7 +12,6 @@ import cn.hutool.crypto.asymmetric.SM2;
 import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.jwt.AbstractAlgorithm;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.Base64;
@@ -29,7 +28,7 @@ public final class SM2Algorithm extends AbstractAlgorithm {
 
     private final SM2 sm2;
 
-    public SM2Algorithm(@NonNull String publicKey, @NonNull String privateKey) {
+    public SM2Algorithm(String publicKey, String privateKey) {
         super(SM2, SM2);
         Asserts.hasText(publicKey);
         Asserts.hasText(privateKey);

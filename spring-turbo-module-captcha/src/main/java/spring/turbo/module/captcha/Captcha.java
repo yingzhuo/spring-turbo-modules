@@ -9,6 +9,7 @@
 package spring.turbo.module.captcha;
 
 import spring.turbo.lang.Immutable;
+import spring.turbo.util.Asserts;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -26,6 +27,8 @@ public final class Captcha implements Serializable {
     private final BufferedImage image;
 
     public Captcha(String word, BufferedImage image) {
+        Asserts.notNull(word);
+        Asserts.notNull(image);
         this.word = word;
         this.image = image;
     }

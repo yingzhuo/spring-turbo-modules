@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.captcha;
 
-import org.springframework.lang.NonNull;
 import spring.turbo.io.ImageUtils;
 import spring.turbo.util.Asserts;
 
@@ -34,7 +33,7 @@ public final class EncodedCaptcha implements Serializable {
         this.encodedImage = ImageUtils.encodeToBase64(captcha.getImage(), IMAGE_FORMAT);
     }
 
-    public static EncodedCaptcha of(@NonNull Captcha captcha) {
+    public static EncodedCaptcha of(Captcha captcha) {
         Asserts.notNull(captcha);
         Asserts.notNull(captcha.getWord());
         Asserts.notNull(captcha.getImage());

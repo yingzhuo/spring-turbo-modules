@@ -9,6 +9,7 @@
 package spring.turbo.module.qrcode;
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.springframework.lang.Nullable;
 
 import java.awt.image.BufferedImage;
 
@@ -21,10 +22,10 @@ public interface QRCodeGenerator {
 
     public BufferedImage generate(String content);
 
-    public BufferedImage generate(String content, Logo logo);
+    public BufferedImage generate(String content, @Nullable Logo logo);
 
-    public BufferedImage generate(String content, Logo logo, ErrorCorrectionLevel errorCorrectionLevel);
+    public BufferedImage generate(String content, Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel);
 
-    public BufferedImage generate(String content, Logo logo, ErrorCorrectionLevel errorCorrectionLevel, int size);
+    public BufferedImage generate(String content, Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size);
 
 }

@@ -14,6 +14,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.CharsetPool;
 
 import java.awt.*;
@@ -42,17 +43,17 @@ public class QRCodeGeneratorImpl implements QRCodeGenerator {
     }
 
     @Override
-    public BufferedImage generate(String content, Logo logo) {
+    public BufferedImage generate(String content, @Nullable Logo logo) {
         return generate(content, logo, defaultErrorCorrectionLevel);
     }
 
     @Override
-    public BufferedImage generate(String content, Logo logo, ErrorCorrectionLevel errorCorrectionLevel) {
+    public BufferedImage generate(String content, @Nullable Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel) {
         return generate(content, logo, errorCorrectionLevel, defaultSize);
     }
 
     @Override
-    public BufferedImage generate(String content, Logo logo, ErrorCorrectionLevel errorCorrectionLevel, int size) {
+    public BufferedImage generate(String content, @Nullable Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size) {
         try {
             final Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, CHARSET);

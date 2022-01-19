@@ -6,10 +6,14 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+@NonNullApi
+@NonNullFields
 package spring.turbo.module.captcha;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
 import spring.turbo.module.captcha.google.GoogleCaptchaService;
 
 /**
