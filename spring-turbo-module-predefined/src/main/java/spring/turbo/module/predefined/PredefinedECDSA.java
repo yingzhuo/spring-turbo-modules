@@ -14,6 +14,8 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.ECDSA;
 import spring.turbo.util.crypto.ECDSAKeys;
 
+import java.util.Objects;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -40,7 +42,12 @@ public final class PredefinedECDSA {
     public static ECDSA createCrypto(int i) {
         final Pair<String, String> ks = loadKeys(i);
         return ECDSA.builder()
-                .keyPair(ECDSAKeys.fromString(ks.getA(), ks.getB()))
+                .keyPair(
+                        ECDSAKeys.fromString(
+                                Objects.requireNonNull(ks.getA()),
+                                Objects.requireNonNull(ks.getB())
+                        )
+                )
                 .build();
     }
 

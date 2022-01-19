@@ -34,9 +34,9 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
         return c1 || c2;
     }
 
-    @Override
     @Nullable
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    @Override
+    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         String ip = null;

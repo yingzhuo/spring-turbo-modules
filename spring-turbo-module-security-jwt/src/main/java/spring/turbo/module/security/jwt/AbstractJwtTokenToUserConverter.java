@@ -45,7 +45,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
 
     @Nullable
     @Override
-    public final UserDetails convert(Token token) throws AuthenticationException {
+    public final UserDetails convert(@Nullable Token token) throws AuthenticationException {
 
         if (token == null) {
             return null;

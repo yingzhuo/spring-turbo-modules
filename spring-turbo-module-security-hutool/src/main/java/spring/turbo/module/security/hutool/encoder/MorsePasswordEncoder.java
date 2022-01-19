@@ -29,12 +29,13 @@ public final class MorsePasswordEncoder extends AbstractNamedPasswordEncoder {
         this(new Morse(DOT, HYPHEN, SLASH));
     }
 
-    public MorsePasswordEncoder(@NonNull Morse morse) {
+    public MorsePasswordEncoder(Morse morse) {
         super("morse");
         Asserts.notNull(morse);
         this.morse = morse;
     }
 
+    @NonNull
     @Override
     public String encode(CharSequence rawPassword) {
         return morse.encode(rawPassword.toString());

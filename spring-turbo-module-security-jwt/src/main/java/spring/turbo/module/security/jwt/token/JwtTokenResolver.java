@@ -21,6 +21,8 @@ import java.util.Optional;
 import static spring.turbo.util.StringPool.DOT;
 
 /**
+ * (装饰器)
+ *
  * @author 应卓
  * @since 1.0.9
  */

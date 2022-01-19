@@ -9,7 +9,6 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.lang.NonNull;
 import spring.turbo.bean.Factory;
 
 /**
@@ -20,7 +19,6 @@ import spring.turbo.bean.Factory;
 @FunctionalInterface
 public interface AlgorithmFactory extends Factory<Algorithm> {
 
-    @NonNull
     @Override
     public Algorithm create();
 

@@ -14,6 +14,8 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.DSA;
 import spring.turbo.util.crypto.DSAKeys;
 
+import java.util.Objects;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -40,7 +42,12 @@ public final class PredefinedDSA {
     public static DSA createCrypto(int i) {
         final Pair<String, String> ks = loadKeys(i);
         return DSA.builder()
-                .keyPair(DSAKeys.fromString(ks.getA(), ks.getB()))
+                .keyPair(
+                        DSAKeys.fromString(
+                                Objects.requireNonNull(ks.getA()),
+                                Objects.requireNonNull(ks.getB())
+                        )
+                )
                 .build();
     }
 

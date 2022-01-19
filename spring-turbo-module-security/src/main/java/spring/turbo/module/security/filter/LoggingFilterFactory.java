@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import org.springframework.lang.NonNull;
 import spring.turbo.module.security.FilterConfiguration;
 
 /**
@@ -17,6 +18,7 @@ import spring.turbo.module.security.FilterConfiguration;
 @FunctionalInterface
 public interface LoggingFilterFactory extends FilterConfiguration<LoggingFilter> {
 
+    @NonNull
     @Override
     public default Position position() {
         return Position.BEFORE;

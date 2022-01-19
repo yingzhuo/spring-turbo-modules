@@ -9,6 +9,7 @@
 package spring.turbo.module.csv.reader;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -19,7 +20,9 @@ import java.io.Serializable;
  */
 public final class HeaderConfig implements Serializable {
 
+    @Nullable
     private final String[] header;
+
     private final int index;
 
     public HeaderConfig(@NonNull String[] header) {
