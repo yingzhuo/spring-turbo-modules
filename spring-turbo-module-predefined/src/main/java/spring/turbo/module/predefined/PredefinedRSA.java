@@ -14,6 +14,8 @@ import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.RSA;
 import spring.turbo.util.crypto.RSAKeys;
 
+import java.util.Objects;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -40,7 +42,7 @@ public final class PredefinedRSA {
     public static RSA createCrypto(int i) {
         final Pair<String, String> ks = loadKeys(i);
         return RSA.builder()
-                .keyPair(RSAKeys.fromString(ks.getA(), ks.getB()))
+                .keyPair(RSAKeys.fromString(Objects.requireNonNull(ks.getA()), Objects.requireNonNull(ks.getB())))
                 .build();
     }
 

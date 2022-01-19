@@ -26,6 +26,7 @@ import java.util.Collection;
 @Mutable
 public final class RequestAuthentication implements Authentication {
 
+    @Nullable
     public final ServletWebRequest servletWebRequest;
 
     private RequestAuthentication(@Nullable ServletWebRequest servletWebRequest) {
@@ -36,6 +37,7 @@ public final class RequestAuthentication implements Authentication {
         return new RequestAuthentication(servletWebRequest);
     }
 
+    @Nullable
     public ServletWebRequest getServletWebRequest() {
         return servletWebRequest;
     }
@@ -45,16 +47,19 @@ public final class RequestAuthentication implements Authentication {
         return AuthorityUtils.noAuthorities();
     }
 
+    @Nullable
     @Override
     public Object getCredentials() {
         return null;
     }
 
+    @Nullable
     @Override
     public Object getDetails() {
         return null;
     }
 
+    @Nullable
     @Override
     public Object getPrincipal() {
         return null;

@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
+import org.springframework.lang.Nullable;
 import spring.turbo.bean.Payload;
 import spring.turbo.lang.Mutable;
 
@@ -24,14 +25,29 @@ import java.util.function.Supplier;
 @Mutable
 public final class JwtTokenMetadata implements Serializable {
 
+    @Nullable
     private String keyId;
+
+    @Nullable
     private String issuer;
+
+    @Nullable
     private String subject;
+
     private List<String> audience = new ArrayList<>();
+
+    @Nullable
     private Date expiresAt;
+
+    @Nullable
     private Date notBefore;
+
+    @Nullable
     private Date issuedAt;
+
+    @Nullable
     private String jwtId;
+
     private Payload payloadClaims = Payload.newInstance();
 
     private JwtTokenMetadata() {
@@ -42,6 +58,7 @@ public final class JwtTokenMetadata implements Serializable {
         return new Builder();
     }
 
+    @Nullable
     public String getKeyId() {
         return keyId;
     }
@@ -50,6 +67,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.keyId = keyId;
     }
 
+    @Nullable
     public String getIssuer() {
         return issuer;
     }
@@ -58,6 +76,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.issuer = issuer;
     }
 
+    @Nullable
     public String getSubject() {
         return subject;
     }
@@ -74,6 +93,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.audience = audience;
     }
 
+    @Nullable
     public Date getExpiresAt() {
         return expiresAt;
     }
@@ -82,6 +102,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.expiresAt = expiresAt;
     }
 
+    @Nullable
     public Date getNotBefore() {
         return notBefore;
     }
@@ -90,6 +111,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.notBefore = notBefore;
     }
 
+    @Nullable
     public Date getIssuedAt() {
         return issuedAt;
     }
@@ -98,6 +120,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.issuedAt = issuedAt;
     }
 
+    @Nullable
     public String getJwtId() {
         return jwtId;
     }

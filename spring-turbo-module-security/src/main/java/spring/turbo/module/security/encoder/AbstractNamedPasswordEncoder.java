@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
+import org.springframework.lang.NonNull;
 import spring.turbo.util.Asserts;
 
 /**
@@ -23,11 +24,13 @@ public abstract class AbstractNamedPasswordEncoder implements NamedPasswordEncod
         this.name = name;
     }
 
+    @NonNull
     @Override
     public final String getName() {
         return this.name;
     }
 
+    @NonNull
     @Override
     public abstract String encode(CharSequence rawPassword);
 

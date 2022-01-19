@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.util;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,12 +38,10 @@ public final class AuthorityUtils {
         super();
     }
 
-    @NonNull
     public static List<GrantedAuthority> noAuthorities() {
         return NO_AUTHORITIES;
     }
 
-    @NonNull
     public static List<GrantedAuthority> getAuthorities(@Nullable UserDetails userDetails) {
         if (userDetails == null) {
             return NO_AUTHORITIES;
@@ -58,7 +55,6 @@ public final class AuthorityUtils {
         }
     }
 
-    @NonNull
     public static List<GrantedAuthority> createAuthorityList(@Nullable String... authorities) {
         final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (authorities != null) {
@@ -71,7 +67,6 @@ public final class AuthorityUtils {
         return Collections.unmodifiableList(grantedAuthorities);
     }
 
-    @NonNull
     public static List<GrantedAuthority> commaSeparatedStringToAuthorityList(@Nullable String authorityString) {
         if (StringUtils.isBlank(authorityString)) {
             return NO_AUTHORITIES;

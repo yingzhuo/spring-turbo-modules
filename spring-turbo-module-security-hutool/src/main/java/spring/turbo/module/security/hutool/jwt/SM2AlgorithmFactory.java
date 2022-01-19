@@ -9,8 +9,8 @@
 package spring.turbo.module.security.hutool.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.jwt.AlgorithmFactory;
+import spring.turbo.util.Asserts;
 
 /**
  * 国密算法 (SM2)
@@ -23,7 +23,9 @@ public final class SM2AlgorithmFactory implements AlgorithmFactory {
     private final String publicKey;
     private final String privateKey;
 
-    public SM2AlgorithmFactory(@NonNull String publicKey, @NonNull String privateKey) {
+    public SM2AlgorithmFactory(String publicKey, String privateKey) {
+        Asserts.notNull(publicKey);
+        Asserts.notNull(privateKey);
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }

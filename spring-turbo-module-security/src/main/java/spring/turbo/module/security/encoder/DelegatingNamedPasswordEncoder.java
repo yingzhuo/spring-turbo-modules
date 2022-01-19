@@ -33,6 +33,7 @@ class DelegatingNamedPasswordEncoder implements NamedPasswordEncoder {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @NonNull
     @Override
     public String getName() {
         return this.name;

@@ -6,6 +6,8 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+@NonNullApi
+@NonNullFields
 package spring.turbo.module.security;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -14,6 +16,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;

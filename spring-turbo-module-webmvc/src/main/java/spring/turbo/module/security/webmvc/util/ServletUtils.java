@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.webmvc.util;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -26,13 +25,11 @@ public final class ServletUtils {
         super();
     }
 
-    @NonNull
     public static HttpServletRequest getRequest() {
         final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getRequest();
     }
 
-    @NonNull
     public static HttpServletRequest getUnwrappedRequest() {
         HttpServletRequest request = getRequest();
 
@@ -60,7 +57,6 @@ public final class ServletUtils {
         return response;
     }
 
-    @NonNull
     public static HttpSession getSession() {
         return getSession(true);
     }
@@ -69,7 +65,6 @@ public final class ServletUtils {
         return getRequest().getSession(create);
     }
 
-    @NonNull
     public static String getSessionId() {
         return getSession().getId();
     }

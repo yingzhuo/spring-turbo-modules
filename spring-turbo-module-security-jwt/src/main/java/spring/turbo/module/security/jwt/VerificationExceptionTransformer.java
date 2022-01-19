@@ -12,7 +12,6 @@ import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.AuthenticationException;
@@ -30,8 +29,7 @@ final class VerificationExceptionTransformer {
         super();
     }
 
-    @NonNull
-    public static AuthenticationException transform(@NonNull JWTVerificationException e) {
+    public static AuthenticationException transform(JWTVerificationException e) {
         if (e instanceof TokenExpiredException) {
             // 令牌过期
             return new CredentialsExpiredException(e.getMessage());

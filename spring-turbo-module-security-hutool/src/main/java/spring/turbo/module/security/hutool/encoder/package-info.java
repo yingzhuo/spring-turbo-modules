@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.hutool.encoder;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

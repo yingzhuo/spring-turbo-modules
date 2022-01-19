@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import org.springframework.lang.NonNull;
-
 /**
  * JWT令牌工厂
  *
@@ -27,7 +25,6 @@ public interface JwtTokenFactory {
      * @see JwtTokenMetadata#builder()
      * @see JwtTokenMetadata.Builder
      */
-    @NonNull
-    public String create(@NonNull JwtTokenMetadata metadata);
+    public String create(JwtTokenMetadata metadata);
 
 }
