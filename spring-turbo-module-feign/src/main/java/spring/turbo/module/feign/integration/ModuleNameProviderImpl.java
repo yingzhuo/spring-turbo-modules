@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign.integration;
 
-import org.springframework.lang.NonNull;
 import spring.turbo.integration.ModuleNameProvider;
 
 import static spring.turbo.integration.Modules.SPRING_TURBO_FEIGN;
@@ -19,7 +18,6 @@ import static spring.turbo.integration.Modules.SPRING_TURBO_FEIGN;
  */
 public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
-    @NonNull
     @Override
     public String getModuleName() {
         return SPRING_TURBO_FEIGN.getName();
