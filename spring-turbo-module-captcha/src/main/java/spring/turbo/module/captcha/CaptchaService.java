@@ -11,7 +11,6 @@ package spring.turbo.module.captcha;
 import java.util.function.Supplier;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  * @since 1.0.0
  */

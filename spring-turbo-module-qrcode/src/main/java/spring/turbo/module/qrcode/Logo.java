@@ -20,6 +20,8 @@ import java.util.Objects;
  * Logo
  *
  * @author 应卓
+ * @see Builder
+ * @see #builder()
  * @since 1.0.0
  */
 public final class Logo implements Serializable {

@@ -17,7 +17,6 @@ import spring.turbo.module.captcha.google.renderer.BestFitTextRenderer;
 import spring.turbo.module.captcha.google.word.AdaptiveRandomWordFactory;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  * @since 1.0.0
  */

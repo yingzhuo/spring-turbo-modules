@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.google.color;
 import java.awt.*;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  * @since 1.0.0
  */

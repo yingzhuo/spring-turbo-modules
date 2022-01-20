@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.google.renderer;
 import java.util.ArrayList;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class TextString {

@@ -30,7 +30,6 @@ public abstract class AbstractNamedPasswordEncoder implements NamedPasswordEncod
         return this.name;
     }
 
-    @NonNull
     @Override
     public abstract String encode(CharSequence rawPassword);
 

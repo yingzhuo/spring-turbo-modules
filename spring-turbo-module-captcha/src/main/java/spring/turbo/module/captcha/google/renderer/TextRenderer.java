@@ -14,7 +14,6 @@ import spring.turbo.module.captcha.google.font.FontFactory;
 import java.awt.image.BufferedImage;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public interface TextRenderer {

@@ -14,7 +14,6 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class TextCharacter {

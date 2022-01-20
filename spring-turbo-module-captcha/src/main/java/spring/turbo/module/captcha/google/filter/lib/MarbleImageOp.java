@@ -9,7 +9,6 @@
 package spring.turbo.module.captcha.google.filter.lib;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class MarbleImageOp extends AbstractTransformImageOp {

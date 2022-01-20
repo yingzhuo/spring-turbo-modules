@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.google.filter.lib;
 import java.util.Random;
 
 /**
- * @author Piotr Piastucki
  * @since 1.0.0
  */
 public class DiffuseImageOp extends AbstractTransformImageOp {

@@ -9,7 +9,6 @@
 package spring.turbo.module.captcha.google.filter;
 
 /**
- * @author Piotr Piastucki
  * @author 应卓
  */
 public enum FilterType {

@@ -16,6 +16,9 @@ public final class QRCodeFormat {
 
     public static final String PNG = "png";
 
+    /**
+     * 私有构造方法
+     */
     private QRCodeFormat() {
         super();
     }

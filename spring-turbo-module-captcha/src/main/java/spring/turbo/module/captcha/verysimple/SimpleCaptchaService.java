@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * 简易实现，只适合极少数应用
+ * 简易实现，只适合极少数应用或非严肃的开发
  *
  * @author 应卓
  * @since 1.0.0

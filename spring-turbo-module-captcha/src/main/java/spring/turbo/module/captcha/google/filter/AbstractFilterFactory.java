@@ -13,7 +13,7 @@ import java.awt.image.BufferedImageOp;
 import java.util.List;
 
 /**
- * @author Piotr Piastucki
+ * @author 应卓
  * @since 1.0.0
  */
 public abstract class AbstractFilterFactory implements FilterFactory {
