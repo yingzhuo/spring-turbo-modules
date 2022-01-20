@@ -39,9 +39,9 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     private final Collection<T> data;
 
     private SheetMetadata(
-            @NonNull Class<T> valueObjectType,
-            @NonNull int sheetIndex,
-            @NonNull String sheetName,
+            Class<T> valueObjectType,
+            int sheetIndex,
+            String sheetName,
             @Nullable Collection<T> data) {
 
         Asserts.notNull(valueObjectType);
@@ -55,16 +55,16 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     }
 
     static <T> SheetMetadata<T> newInstance(
-            @NonNull Class<T> valueObjectType,
-            @NonNull int sheetIndex,
-            @NonNull String sheetName) {
+            Class<T> valueObjectType,
+            int sheetIndex,
+            String sheetName) {
         return newInstance(valueObjectType, sheetIndex, sheetName, null);
     }
 
     static <T> SheetMetadata<T> newInstance(
-            @NonNull Class<T> valueObjectType,
-            @NonNull int sheetIndex,
-            @NonNull String sheetName,
+            Class<T> valueObjectType,
+            int sheetIndex,
+            String sheetName,
             @Nullable Collection<T> data) {
         return new SheetMetadata<T>(valueObjectType, sheetIndex, sheetName, data);
     }
@@ -118,7 +118,6 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         return Collections.unmodifiableList(list);
     }
 
-    @NonNull
     public int getOffset() {
         final Offset annotation = AnnotationUtils.findAnnotation(valueObjectType, Offset.class);
         final int offset = Optional.ofNullable(annotation).map(Offset::value).orElse(0);

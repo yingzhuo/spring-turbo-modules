@@ -12,7 +12,7 @@ package spring.turbo.module.excel;
  * @author 应卓
  * @since 1.0.0
  */
-public class AbortException extends IllegalStateException {
+public final class AbortException extends IllegalStateException {
 
     public AbortException() {
         super();
