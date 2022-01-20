@@ -17,6 +17,8 @@ import spring.turbo.module.excel.cellparser.CellParser;
 import spring.turbo.module.excel.cellparser.DefaultCellParser;
 import spring.turbo.util.Asserts;
 
+import java.util.Objects;
+
 /**
  * @author 应卓
  * @since 1.0.0
@@ -25,6 +27,9 @@ public final class CellUtils {
 
     private static final CellParser PARSER = new DefaultCellParser();
 
+    /**
+     * 私有构造方法
+     */
     private CellUtils() {
         super();
     }
@@ -39,7 +44,7 @@ public final class CellUtils {
 
     public static String toString(Cell cell) {
         Asserts.notNull(cell);
-        return PARSER.convert(cell);
+        return Objects.requireNonNull(PARSER.convert(cell));
     }
 
 }

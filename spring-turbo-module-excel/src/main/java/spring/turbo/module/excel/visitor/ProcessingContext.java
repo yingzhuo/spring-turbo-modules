@@ -24,9 +24,16 @@ import java.io.Serializable;
 @Mutable
 public final class ProcessingContext implements Serializable {
 
+    @Nullable
     private Resource resource;
+
+    @Nullable
     private Workbook workbook;
+
+    @Nullable
     private Sheet sheet;
+
+    @Nullable
     private Row row;
 
     public ProcessingContext() {

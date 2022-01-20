@@ -20,6 +20,9 @@ import spring.turbo.util.Asserts;
  */
 public final class RowUtils {
 
+    /**
+     * 私有构造方法
+     */
     private RowUtils() {
         super();
     }
