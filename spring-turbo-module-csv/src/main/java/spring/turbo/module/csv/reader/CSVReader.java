@@ -120,7 +120,7 @@ public final class CSVReader<T> {
 
             // valueObjectFilter 过滤数据
             // 不区分vo对象是不是有绑定错误
-            if (valueObjectFilter != null && !valueObjectFilter.filter(vo)) {
+            if (valueObjectFilter != null && !valueObjectFilter.test(vo)) {
                 continue;
             }
 
