@@ -13,6 +13,7 @@
         <module>spring-turbo-module-csv</module>
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
+        <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-security</module>
@@ -176,6 +177,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-json</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
