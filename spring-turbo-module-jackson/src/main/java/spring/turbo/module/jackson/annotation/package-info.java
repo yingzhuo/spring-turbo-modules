@@ -8,25 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.jackson;
+package spring.turbo.module.jackson.annotation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
-import org.springframework.lang.Nullable;
-
-/**
- * @author 应卓
- * @since 1.0.12
- */
-class SpringBootAutoConfiguration {
-
-    @Autowired(required = false)
-    void configObjectMapper(@Nullable ObjectMapper om) {
-        if (om != null) {
-            om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
-        }
-    }
-
-}

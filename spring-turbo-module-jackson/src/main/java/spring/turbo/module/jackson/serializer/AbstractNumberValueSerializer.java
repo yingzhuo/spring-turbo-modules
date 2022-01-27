@@ -6,27 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.jackson;
+package spring.turbo.module.jackson.serializer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
-import org.springframework.lang.Nullable;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import spring.turbo.util.Asserts;
 
 /**
+ * (内部使用)
+ *
+ * @param <T> 数值类型
  * @author 应卓
- * @since 1.0.12
+ * @see JsonSerialize#nullsUsing()
  */
-class SpringBootAutoConfiguration {
+abstract class AbstractNumberValueSerializer<T extends Number> extends JsonSerializer<T> {
 
-    @Autowired(required = false)
-    void configObjectMapper(@Nullable ObjectMapper om) {
-        if (om != null) {
-            om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
-        }
+    protected final T valueIfNull;
+
+    public AbstractNumberValueSerializer(T valueIfNull) {
+        Asserts.notNull(valueIfNull);
+        this.valueIfNull = valueIfNull;
     }
 
 }

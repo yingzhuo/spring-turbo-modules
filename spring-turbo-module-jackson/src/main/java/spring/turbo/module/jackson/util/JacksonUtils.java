@@ -11,6 +11,7 @@ package spring.turbo.module.jackson.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import spring.turbo.core.SpringUtils;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -26,6 +27,8 @@ public final class JacksonUtils {
     }
 
     public static String writeAsString(Object obj) {
+        Asserts.notNull(obj);
+
         final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
                 .orElseGet(ObjectMapper::new);
 
