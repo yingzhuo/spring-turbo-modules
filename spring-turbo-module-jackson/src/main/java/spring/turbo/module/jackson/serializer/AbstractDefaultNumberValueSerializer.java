@@ -6,21 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.integration;
+package spring.turbo.module.jackson.serializer;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY_JWT;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import spring.turbo.util.Asserts;
 
 /**
+ * (内部使用)
+ *
+ * @param <T> 数值类型
  * @author 应卓
- * @since 1.0.0
+ * @see JsonSerialize#nullsUsing()
  */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
+abstract class AbstractDefaultNumberValueSerializer<T extends Number> extends JsonSerializer<T> {
 
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_SECURITY_JWT.getName();
+    protected final T valueIfNull;
+
+    public AbstractDefaultNumberValueSerializer(T valueIfNull) {
+        Asserts.notNull(valueIfNull);
+        this.valueIfNull = valueIfNull;
     }
 
 }

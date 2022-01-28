@@ -11,6 +11,7 @@ package spring.turbo.module.security.webmvc.util;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import spring.turbo.util.Asserts;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
@@ -21,6 +22,9 @@ import javax.servlet.http.*;
  */
 public final class ServletUtils {
 
+    /**
+     * 私有构造方法
+     */
     private ServletUtils() {
         super();
     }
@@ -28,6 +32,12 @@ public final class ServletUtils {
     public static HttpServletRequest getRequest() {
         final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getRequest();
+    }
+
+    public static HttpServletRequest getRequiredRequest() {
+        final HttpServletRequest request = getRequest();
+        Asserts.notNull(request);
+        return request;
     }
 
     public static HttpServletRequest getUnwrappedRequest() {
@@ -44,6 +54,12 @@ public final class ServletUtils {
     public static HttpServletResponse getResponse() {
         final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getResponse();
+    }
+
+    public static HttpServletResponse getRequiredResponse() {
+        final HttpServletResponse response = getResponse();
+        Asserts.notNull(response);
+        return response;
     }
 
     @Nullable

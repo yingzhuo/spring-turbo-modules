@@ -6,21 +6,27 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.integration;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.jackson;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY_JWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
+import org.springframework.lang.Nullable;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.12
  */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
+class SpringBootAutoConfiguration {
 
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_SECURITY_JWT.getName();
+    @Autowired(required = false)
+    void configObjectMapper(@Nullable ObjectMapper om) {
+        if (om != null) {
+            om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
+        }
     }
 
 }
