@@ -16,6 +16,10 @@ import spring.turbo.module.jackson.serializer.*;
  */
 public class Converters {
 
+    // -----------------------------------------------------------------------------------------------------------------
+    private Converters() {
+    }
+
     public static class String {
 
         // @formatter:off
@@ -27,10 +31,6 @@ public class Converters {
         public static class ToDouble extends StringToDoubleSerializer {}
         public static class ToBigDecimal extends StringToBigDecimalSerializer {}
         // @formatter:on
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    private Converters() {
     }
 
 }

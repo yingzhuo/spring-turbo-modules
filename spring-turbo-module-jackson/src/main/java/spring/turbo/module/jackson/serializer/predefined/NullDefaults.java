@@ -16,6 +16,10 @@ import spring.turbo.module.jackson.serializer.*;
  */
 public class NullDefaults {
 
+    // -----------------------------------------------------------------------------------------------------------------
+    private NullDefaults() {
+    }
+
     /**
      * @see java.lang.String
      */
@@ -194,10 +198,6 @@ public class NullDefaults {
                 super(java.math.BigDecimal.valueOf(-1.0D));
             }
         }
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    private NullDefaults() {
     }
 
 }
