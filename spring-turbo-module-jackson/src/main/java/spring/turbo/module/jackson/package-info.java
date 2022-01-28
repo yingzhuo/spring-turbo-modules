@@ -15,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
+import spring.turbo.module.jackson.mixin.MixInFactory;
+import spring.turbo.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author 应卓
@@ -23,10 +28,24 @@ import org.springframework.lang.Nullable;
 class SpringBootAutoConfiguration {
 
     @Autowired(required = false)
+    private List<MixInFactory> mixInFactories;
+
+    @Autowired(required = false)
     void configObjectMapper(@Nullable ObjectMapper om) {
         if (om != null) {
             om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
+
+            handleMixIns(om);
         }
     }
 
+    private void handleMixIns(ObjectMapper om) {
+        if (CollectionUtils.isNotEmpty(mixInFactories)) {
+            for (MixInFactory mixInFactory : mixInFactories) {
+                if (mixInFactory != null) {
+                    Optional.ofNullable(mixInFactory.create()).ifPresent(p -> om.addMixIn(p.getA(), p.getB()));
+                }
+            }
+        }
+    }
 }
