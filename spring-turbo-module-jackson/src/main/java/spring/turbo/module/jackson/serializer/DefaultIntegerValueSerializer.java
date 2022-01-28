@@ -14,13 +14,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.lang.Nullable;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * @author 应卓
  * @see JsonSerialize#nullsUsing()
  * @since 1.0.12
  */
-public class DefaultIntegerValueSerializer extends AbstractNumberValueSerializer<Integer> {
+public class DefaultIntegerValueSerializer extends AbstractDefaultNumberValueSerializer<Integer> {
 
     public DefaultIntegerValueSerializer() {
         this(0);
@@ -32,7 +33,7 @@ public class DefaultIntegerValueSerializer extends AbstractNumberValueSerializer
 
     @Override
     public void serialize(@Nullable Integer value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeNumber(value != null ? value : super.valueIfNull);
+        gen.writeNumber(Optional.ofNullable(value).orElse(super.valueIfNull));
     }
 
 }

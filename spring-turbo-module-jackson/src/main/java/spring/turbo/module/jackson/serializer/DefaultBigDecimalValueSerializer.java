@@ -15,13 +15,14 @@ import org.springframework.lang.Nullable;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * @author 应卓
  * @see JsonSerialize#nullsUsing()
  * @since 1.0.12
  */
-public class DefaultBigDecimalValueSerializer extends AbstractNumberValueSerializer<BigDecimal> {
+public class DefaultBigDecimalValueSerializer extends AbstractDefaultNumberValueSerializer<BigDecimal> {
 
     public DefaultBigDecimalValueSerializer() {
         this(BigDecimal.ZERO);
@@ -33,7 +34,7 @@ public class DefaultBigDecimalValueSerializer extends AbstractNumberValueSeriali
 
     @Override
     public void serialize(@Nullable BigDecimal value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeNumber(value != null ? value : super.valueIfNull);
+        gen.writeNumber(Optional.ofNullable(value).orElse(super.valueIfNull));
     }
 
 }

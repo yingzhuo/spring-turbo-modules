@@ -19,11 +19,11 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @see JsonSerialize#nullsUsing()
  */
-abstract class AbstractNumberValueSerializer<T extends Number> extends JsonSerializer<T> {
+abstract class AbstractDefaultNumberValueSerializer<T extends Number> extends JsonSerializer<T> {
 
     protected final T valueIfNull;
 
-    public AbstractNumberValueSerializer(T valueIfNull) {
+    public AbstractDefaultNumberValueSerializer(T valueIfNull) {
         Asserts.notNull(valueIfNull);
         this.valueIfNull = valueIfNull;
     }
