@@ -48,4 +48,14 @@ public final class JsonMixIns {
         public abstract Object getPayload();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @JsonIgnoreProperties({
+            "password",
+            "pwd",
+            "secret"
+    })
+    public static abstract class SensitiveIgnoring {
+    }
+
 }
