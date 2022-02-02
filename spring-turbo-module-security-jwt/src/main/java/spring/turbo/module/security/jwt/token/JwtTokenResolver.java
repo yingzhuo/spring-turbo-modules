@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.token;
 
-import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.WebRequest;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.BearerTokenResolver;
@@ -34,7 +33,7 @@ public class JwtTokenResolver implements TokenResolver {
         this(new BearerTokenResolver());
     }
 
-    public JwtTokenResolver(@NonNull TokenResolver resolver) {
+    public JwtTokenResolver(TokenResolver resolver) {
         Asserts.notNull(resolver);
         this.resolver = resolver;
     }
@@ -53,12 +52,11 @@ public class JwtTokenResolver implements TokenResolver {
             return option;
         }
 
-        String rawToken = token.asString();
-
+        final String rawToken = token.asString();
         final String[] parts = rawToken.split("\\.");
 
         if (parts.length == 2 && !rawToken.endsWith(DOT)) {
-            return Optional.of(StringToken.of(rawToken + DOT));
+            return Optional.of(JwtToken.of(rawToken + DOT));
         }
 
         return option;

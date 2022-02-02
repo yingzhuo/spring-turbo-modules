@@ -20,6 +20,12 @@ import spring.turbo.module.jackson.serializer.predefined.Converters;
  */
 public final class JsonMixIns {
 
+    private JsonMixIns() {
+        super();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     @JsonIgnoreProperties({"deprecated"})
     public static abstract class Style1 {
         @JsonSerialize(using = Converters.String.ToLong.class)
@@ -32,9 +38,14 @@ public final class JsonMixIns {
         public abstract Object getPayload();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    private JsonMixIns() {
-        super();
+    @JsonIgnoreProperties({"deprecated"})
+    public static abstract class Style2 {
+
+        @JsonProperty("error")
+        public abstract String getErrorMessage();
+
+        @JsonProperty("data")
+        public abstract Object getPayload();
     }
 
 }

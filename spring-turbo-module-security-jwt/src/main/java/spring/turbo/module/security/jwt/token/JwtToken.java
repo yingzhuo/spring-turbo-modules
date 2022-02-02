@@ -6,21 +6,20 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.mixin;
+package spring.turbo.module.security.jwt.token;
 
-import org.springframework.lang.Nullable;
-import spring.turbo.bean.Factory;
-import spring.turbo.bean.Pair;
+import spring.turbo.lang.Immutable;
+import spring.turbo.webmvc.token.StringToken;
 
 /**
  * @author 应卓
- * @since 1.0.12
+ * @since 1.0.13
  */
-@FunctionalInterface
-public interface MixInFactory extends Factory<Pair<Class<?>, Class<?>>> {
+@Immutable
+public final class JwtToken extends StringToken {
 
-    @Nullable
-    @Override
-    public Pair<Class<?>, Class<?>> create();
+    public JwtToken(String token) {
+        super(token);
+    }
 
 }
