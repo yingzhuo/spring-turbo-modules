@@ -9,9 +9,8 @@
 package spring.turbo.module.security.role;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
-import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import spring.turbo.io.ResourceOption;
@@ -28,17 +27,24 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * @author 应卓
  * @since 1.0.0
  */
-public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy>, InitializingBean {
+public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy> {
 
+    @Nullable
     private ResourceOption text;
+
     private Charset charset = UTF_8;
 
+    /**
+     * 构造方法
+     */
     public RoleHierarchyFactoryBean() {
         super();
     }
 
     @Override
     public RoleHierarchy getObject() {
+        Asserts.state(text != null && text.isPresent());
+
         final RoleHierarchyImpl bean = new RoleHierarchyImpl();
         bean.setHierarchy(text.toString(charset));
         return bean;
@@ -54,22 +60,16 @@ public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy
         return true;
     }
 
-    public void setText(@NonNull Resource textResource) {
+    public void setText(Resource textResource) {
         Asserts.notNull(textResource);
         this.text = ResourceOptions.builder()
                 .add(textResource)
                 .build();
     }
 
-    public void setCharset(@NonNull Charset charset) {
+    public void setCharset(Charset charset) {
         Asserts.notNull(charset);
         this.charset = charset;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        Asserts.state(text != null && text.isPresent());
-        Asserts.state(charset != null);
     }
 
 }

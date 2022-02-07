@@ -8,3 +8,7 @@
 ### 关联项目:
 
 [spring-turbo](https://github.com/yingzhuo/spring-turbo)
+
+### 简要说明:
+
+* [spring-turbo-module-security](./spring-turbo-module-security)
