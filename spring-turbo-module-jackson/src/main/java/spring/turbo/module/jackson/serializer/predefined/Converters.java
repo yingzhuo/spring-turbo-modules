@@ -18,6 +18,7 @@ public class Converters {
 
     // -----------------------------------------------------------------------------------------------------------------
     private Converters() {
+        super();
     }
 
     public static class String {
