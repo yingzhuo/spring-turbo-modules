@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.bean.Factory;
@@ -34,12 +33,10 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     @Override
     public T create();
 
-    @NonNull
     public default Class<? extends Filter> positionInChain() {
         return BasicAuthenticationFilter.class;
     }
 
-    @NonNull
     public default Position position() {
         return Position.AFTER;
     }

@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.exception;
 
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 
 /**
@@ -19,7 +20,7 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class MaliciousRequestException extends AuthenticationException {
 
-    public MaliciousRequestException(String msg) {
+    public MaliciousRequestException(@Nullable String msg) {
         super(msg);
     }
 

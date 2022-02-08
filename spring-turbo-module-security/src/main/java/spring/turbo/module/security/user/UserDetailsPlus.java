@@ -20,6 +20,8 @@ import java.util.Date;
  *
  * @author 应卓
  * @see UserDetails
+ * @see UserDetailsPlusBuilder
+ * @see UserDetailsPlusImpl
  * @since 1.0.0
  */
 public interface UserDetailsPlus extends UserDetails {
