@@ -29,6 +29,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
+import spring.turbo.webmvc.AbstractServletFilter;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -54,6 +55,10 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
             final Filter filter = configuration.create();
             if (filter == null) {
                 continue;
+            }
+
+            if (filter instanceof AbstractServletFilter) {
+                ((AbstractServletFilter) filter).addSkipPredicates(configuration.skipPredicates());
             }
 
             if (filter instanceof InitializingBean) {
