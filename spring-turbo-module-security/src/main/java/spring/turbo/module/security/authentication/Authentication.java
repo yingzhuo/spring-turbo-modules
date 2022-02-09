@@ -27,6 +27,7 @@ import java.util.Optional;
 @Mutable
 public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
 
+    @Nullable
     private final UserDetails userDetails;
 
     public Authentication() {

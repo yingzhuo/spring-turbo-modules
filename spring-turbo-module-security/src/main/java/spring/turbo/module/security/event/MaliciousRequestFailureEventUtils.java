@@ -27,6 +27,9 @@ import java.util.Optional;
  */
 public final class MaliciousRequestFailureEventUtils {
 
+    /**
+     * 私有构造方法
+     */
     private MaliciousRequestFailureEventUtils() {
         super();
     }

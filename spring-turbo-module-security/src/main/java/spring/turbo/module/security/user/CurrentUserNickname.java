@@ -21,6 +21,7 @@ import java.lang.annotation.*;
  * @author 应卓
  * @see UserDetails
  * @see UserDetailsPlus
+ * @see UserDetailsPlus#getNickname()
  * @see AuthenticationPrincipalArgumentResolver
  * @since 1.0.0
  */

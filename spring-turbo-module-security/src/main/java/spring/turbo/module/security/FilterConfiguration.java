@@ -8,10 +8,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.bean.Factory;
+import spring.turbo.webmvc.function.PredicateSet;
 
 import javax.servlet.Filter;
 
@@ -22,6 +22,7 @@ import javax.servlet.Filter;
  *
  * @param <T> FilterType
  * @author 应卓
+ * @see spring.turbo.webmvc.AbstractServletFilter
  * @see spring.turbo.module.security.filter.AccessControlHeaderSettingFilter
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
  * @see spring.turbo.module.security.filter.LoggingFilter
@@ -34,12 +35,15 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     @Override
     public T create();
 
-    @NonNull
+    @Nullable
+    public default PredicateSet skipPredicates() {
+        return null;
+    }
+
     public default Class<? extends Filter> positionInChain() {
         return BasicAuthenticationFilter.class;
     }
 
-    @NonNull
     public default Position position() {
         return Position.AFTER;
     }
