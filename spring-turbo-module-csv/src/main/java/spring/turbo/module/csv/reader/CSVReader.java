@@ -19,6 +19,8 @@ import spring.turbo.bean.valueobject.*;
 import spring.turbo.io.LineIterator;
 import spring.turbo.io.ResourceOption;
 import spring.turbo.io.ResourceOptions;
+import spring.turbo.module.csv.reader.function.LinePredicate;
+import spring.turbo.module.csv.reader.function.LinePredicateFactories;
 import spring.turbo.module.csv.vistor.BatchVisitor;
 import spring.turbo.module.csv.vistor.NullBatchVisitor;
 import spring.turbo.module.csv.vistor.ProcessingContext;
@@ -33,6 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static spring.turbo.util.CharsetPool.UTF_8;
 import static spring.turbo.util.StringPool.COMMA;
 
 /**
@@ -52,6 +55,7 @@ public final class CSVReader<T> {
     private ConversionService conversionService;
     private List<Validator> validators;
     private ValueObjectFilter<T> valueObjectFilter;
+    private LinePredicate skipLinePredicate;
 
     /**
      * 私有构造方法
@@ -91,6 +95,11 @@ public final class CSVReader<T> {
         while (lineIterator.hasNext()) {
             lineNumber++;
             String line = lineIterator.next();
+
+            if (skipLinePredicate.test(lineNumber, line)) {
+                continue;
+            }
+
             String[] header = getHeader(line, lineNumber);
 
             if (header == null) {
@@ -197,11 +206,12 @@ public final class CSVReader<T> {
         private final List<Validator> validators = new ArrayList<>();
         private ConversionService conversionService = new DefaultFormattingConversionService();
         private Resource resource;
-        private Charset charset = CharsetPool.UTF_8;
+        private Charset charset = UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();
         private HeaderConfig headerConfig;
         private int batchSize = 1000;
         private ValueObjectFilter<T> valueObjectFilter;
+        private LinePredicate skipLinePredicate = LinePredicateFactories.alwaysFalse();
 
         /**
          * 私有构造方法
@@ -218,6 +228,10 @@ public final class CSVReader<T> {
         public Builder<T> charset(Charset charset) {
             this.charset = charset;
             return this;
+        }
+
+        public Builder<T> charset(String charset) {
+            return charset(Charset.forName(charset));
         }
 
         public Builder<T> visitor(BatchVisitor<T> visitor) {
@@ -255,6 +269,11 @@ public final class CSVReader<T> {
             return this;
         }
 
+        public Builder<T> skipLinePredicate(LinePredicate predicate) {
+            this.skipLinePredicate = predicate;
+            return this;
+        }
+
         public CSVReader<T> build() {
             Asserts.notNull(valueObjectType);
             Asserts.notNull(resource);
@@ -277,6 +296,7 @@ public final class CSVReader<T> {
             reader.validators = this.validators;
             reader.batch = new Batch<>(this.batchSize);
             reader.valueObjectFilter = this.valueObjectFilter;
+            reader.skipLinePredicate = this.skipLinePredicate;
             return reader;
         }
     }
