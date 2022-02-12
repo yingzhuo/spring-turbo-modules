@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static spring.turbo.util.CharsetPool.UTF_8;
 import static spring.turbo.util.StringPool.COMMA;
 
 /**
@@ -205,7 +206,7 @@ public final class CSVReader<T> {
         private final List<Validator> validators = new ArrayList<>();
         private ConversionService conversionService = new DefaultFormattingConversionService();
         private Resource resource;
-        private Charset charset = CharsetPool.UTF_8;
+        private Charset charset = UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();
         private HeaderConfig headerConfig;
         private int batchSize = 1000;
@@ -227,6 +228,10 @@ public final class CSVReader<T> {
         public Builder<T> charset(Charset charset) {
             this.charset = charset;
             return this;
+        }
+
+        public Builder<T> charset(String charset) {
+            return charset(Charset.forName(charset));
         }
 
         public Builder<T> visitor(BatchVisitor<T> visitor) {
