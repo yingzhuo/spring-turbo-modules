@@ -11,7 +11,6 @@ package spring.turbo.module.csv.reader;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -19,8 +18,7 @@ import spring.turbo.bean.valueobject.*;
 import spring.turbo.io.LineIterator;
 import spring.turbo.io.ResourceOption;
 import spring.turbo.io.ResourceOptions;
-import spring.turbo.module.csv.reader.function.LinePredicate;
-import spring.turbo.module.csv.reader.function.LinePredicateFactories;
+import spring.turbo.module.csv.reader.function.*;
 import spring.turbo.module.csv.vistor.BatchVisitor;
 import spring.turbo.module.csv.vistor.NullBatchVisitor;
 import spring.turbo.module.csv.vistor.ProcessingContext;
@@ -29,10 +27,7 @@ import spring.turbo.util.*;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static spring.turbo.util.CharsetPool.UTF_8;
@@ -40,6 +35,7 @@ import static spring.turbo.util.StringPool.COMMA;
 
 /**
  * @author 应卓
+ * @see #builder(Class)
  * @since 1.0.9
  */
 public final class CSVReader<T> {
@@ -56,6 +52,8 @@ public final class CSVReader<T> {
     private List<Validator> validators;
     private ValueObjectFilter<T> valueObjectFilter;
     private LinePredicate skipLinePredicate;
+    private GlobalValueNormalizer globalValueNormalizer;
+    private Map<Integer, ValueNormalizer> normalizerMap;
 
     /**
      * 私有构造方法
@@ -89,7 +87,7 @@ public final class CSVReader<T> {
         }
     }
 
-    private void doRead(@NonNull LineIterator lineIterator, @NonNull ProcessPayload payload) {
+    private void doRead(LineIterator lineIterator, ProcessPayload payload) {
         int lineNumber = -1;
 
         while (lineIterator.hasNext()) {
@@ -106,7 +104,7 @@ public final class CSVReader<T> {
                 continue;
             }
 
-            final String[] dataArray = line.split(COMMA);
+            final String[] dataArray = normalize(line.split(COMMA));
 
             // 数据实际无意义
             if (ArrayUtils.doseNotContainsAnyElements(dataArray)) {
@@ -169,6 +167,23 @@ public final class CSVReader<T> {
         }
     }
 
+    private String[] normalize(String[] dataArray) {
+        for (int i = 0; i < dataArray.length; i++) {
+            String c = dataArray[i];
+            if (this.globalValueNormalizer != null) {
+                c = this.globalValueNormalizer.normalize(c);
+            }
+
+            ValueNormalizer normalizer = this.normalizerMap.get(i);
+            if (normalizer != null) {
+                c = normalizer.normalize(c);
+            }
+            dataArray[i] = c;
+        }
+
+        return dataArray;
+    }
+
     @Nullable
     private String[] getHeader(String line, int lineNumber) {
         if (headerIsUse != null) {
@@ -209,9 +224,11 @@ public final class CSVReader<T> {
         private Charset charset = UTF_8;
         private BatchVisitor<T> visitor = NullBatchVisitor.getInstance();
         private HeaderConfig headerConfig;
-        private int batchSize = 1000;
+        private int batchSize = 1024;
         private ValueObjectFilter<T> valueObjectFilter;
         private LinePredicate skipLinePredicate = LinePredicateFactories.alwaysFalse();
+        private GlobalValueNormalizer globalValueNormalizer = NullValueNormalizer.getInstance();
+        private final Map<Integer, ValueNormalizer> normalizerMap = new HashMap<>();
 
         /**
          * 私有构造方法
@@ -274,6 +291,16 @@ public final class CSVReader<T> {
             return this;
         }
 
+        public Builder<T> globalValueNormalizer(GlobalValueNormalizer normalizer) {
+            this.globalValueNormalizer = normalizer;
+            return this;
+        }
+
+        public Builder<T> addNormalizer(Integer columnIndex, ValueNormalizer normalizer) {
+            this.normalizerMap.put(columnIndex, normalizer);
+            return this;
+        }
+
         public CSVReader<T> build() {
             Asserts.notNull(valueObjectType);
             Asserts.notNull(resource);
@@ -297,6 +324,8 @@ public final class CSVReader<T> {
             reader.batch = new Batch<>(this.batchSize);
             reader.valueObjectFilter = this.valueObjectFilter;
             reader.skipLinePredicate = this.skipLinePredicate;
+            reader.globalValueNormalizer = this.globalValueNormalizer;
+            reader.normalizerMap = this.normalizerMap;
             return reader;
         }
     }
