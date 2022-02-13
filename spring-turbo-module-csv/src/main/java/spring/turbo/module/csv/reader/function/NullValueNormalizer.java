@@ -10,12 +10,26 @@ package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
- * @see LinePredicateFactories
  * @since 1.0.13
  */
-@FunctionalInterface
-public interface LinePredicate {
+public final class NullValueNormalizer implements ValueNormalizer, GlobalValueNormalizer {
 
-    public boolean test(int lineNumber, String line);
+    public static NullValueNormalizer getInstance() {
+        return AsyncAvoid.INSTANCE;
+    }
+
+    private NullValueNormalizer() {
+        super();
+    }
+
+    @Override
+    public String normalize(String string) {
+        return string;
+    }
+
+    // 延迟加载
+    private static class AsyncAvoid {
+        private static final NullValueNormalizer INSTANCE = new NullValueNormalizer();
+    }
 
 }

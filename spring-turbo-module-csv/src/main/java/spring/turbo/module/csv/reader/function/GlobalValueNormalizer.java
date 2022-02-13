@@ -10,12 +10,8 @@ package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
- * @see LinePredicateFactories
  * @since 1.0.13
  */
 @FunctionalInterface
-public interface LinePredicate {
-
-    public boolean test(int lineNumber, String line);
-
+public interface GlobalValueNormalizer extends ValueNormalizer {
 }
