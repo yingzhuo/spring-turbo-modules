@@ -71,6 +71,9 @@ public final class CSVReader<T> {
     private LinePredicate skipLinePredicate;
 
     @Nullable
+    private HeaderNormalizer headerNormalizer;
+
+    @Nullable
     private GlobalValueNormalizer globalValueNormalizer;
 
     private Map<Integer, ValueNormalizer> normalizerMap = new HashMap<>();
@@ -79,7 +82,7 @@ public final class CSVReader<T> {
     private ValueObjectFilter<T> valueObjectFilter;
 
     @Nullable
-    private String[] headerIsUse;
+    private String[] headerInUse;
 
     /**
      * 私有构造方法
@@ -144,7 +147,7 @@ public final class CSVReader<T> {
                 continue;
             }
 
-            final String[] dataArray = normalize(line.split(COMMA));
+            final String[] dataArray = normalizeValue(line.split(COMMA));
 
             // 数据实际无意义
             if (ArrayUtils.doseNotContainsAnyElements(dataArray)) {
@@ -207,7 +210,18 @@ public final class CSVReader<T> {
         }
     }
 
-    private String[] normalize(String[] dataArray) {
+    private String[] normalizeHeader(String[] header) {
+        for (int i = 0; i < header.length; i++) {
+            String c = header[i];
+            if (this.headerNormalizer != null) {
+                c = this.headerNormalizer.normalize(c);
+            }
+            header[i] = c;
+        }
+        return header;
+    }
+
+    private String[] normalizeValue(String[] dataArray) {
         for (int i = 0; i < dataArray.length; i++) {
             String c = dataArray[i];
             if (this.globalValueNormalizer != null) {
@@ -228,20 +242,20 @@ public final class CSVReader<T> {
     private String[] getHeader(String line, int lineNumber) {
         Asserts.notNull(headerConfig);
 
-        if (headerIsUse != null) {
-            return headerIsUse;
+        if (headerInUse != null) {
+            return headerInUse;
         }
 
         if (headerConfig.isFixed()) {
             String[] configHeader = headerConfig.getHeader();
             Asserts.notNull(configHeader);
-            this.headerIsUse = mergeWithAlias(configHeader);
-            return headerIsUse;
+            this.headerInUse = mergeWithAlias(normalizeHeader(configHeader));
+            return headerInUse;
         }
 
         if (lineNumber == headerConfig.getIndex()) {
-            this.headerIsUse = mergeWithAlias(line.split(COMMA));
-            return headerIsUse;
+            this.headerInUse = mergeWithAlias(normalizeHeader(line.split(COMMA)));
+            return headerInUse;
         } else {
             return null;
         }
@@ -273,6 +287,7 @@ public final class CSVReader<T> {
         private int batchSize = 1024;
         private ValueObjectFilter<T> valueObjectFilter;
         private LinePredicate skipLinePredicate = LinePredicateFactories.alwaysFalse();
+        private HeaderNormalizer headerNormalizer = NullHeaderNormalizer.getInstance();
         private GlobalValueNormalizer globalValueNormalizer = NullValueNormalizer.getInstance();
 
         /**
@@ -336,6 +351,11 @@ public final class CSVReader<T> {
             return this;
         }
 
+        public Builder<T> headerNormalizer(HeaderNormalizer headerNormalizer) {
+            this.headerNormalizer = headerNormalizer;
+            return this;
+        }
+
         public Builder<T> globalValueNormalizer(GlobalValueNormalizer normalizer) {
             this.globalValueNormalizer = normalizer;
             return this;
@@ -371,6 +391,7 @@ public final class CSVReader<T> {
             reader.skipLinePredicate = this.skipLinePredicate;
             reader.globalValueNormalizer = this.globalValueNormalizer;
             reader.normalizerMap = this.normalizerMap;
+            reader.headerNormalizer = this.headerNormalizer;
             return reader;
         }
     }

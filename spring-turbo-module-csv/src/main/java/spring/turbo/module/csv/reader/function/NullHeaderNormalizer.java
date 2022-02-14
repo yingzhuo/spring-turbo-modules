@@ -10,13 +10,28 @@ package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
- * @see HeaderNormalizer
- * @see GlobalValueNormalizer
  * @since 1.0.13
  */
-@FunctionalInterface
-public interface ValueNormalizer {
+public final class NullHeaderNormalizer implements HeaderNormalizer {
 
-    public String normalize(String string);
+    /**
+     * 私有构造方法
+     */
+    private NullHeaderNormalizer() {
+        super();
+    }
+
+    public static NullHeaderNormalizer getInstance() {
+        return AsyncAvoid.INSTANCE;
+    }
+
+    @Override
+    public String normalize(String string) {
+        return string;
+    }
+
+    private static class AsyncAvoid {
+        private static final NullHeaderNormalizer INSTANCE = new NullHeaderNormalizer();
+    }
 
 }

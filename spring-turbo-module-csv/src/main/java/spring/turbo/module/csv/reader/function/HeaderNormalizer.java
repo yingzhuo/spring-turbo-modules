@@ -10,12 +10,12 @@ package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
- * @see HeaderNormalizer
+ * @see ValueNormalizer
  * @see GlobalValueNormalizer
  * @since 1.0.13
  */
 @FunctionalInterface
-public interface ValueNormalizer {
+public interface HeaderNormalizer {
 
     public String normalize(String string);
 
