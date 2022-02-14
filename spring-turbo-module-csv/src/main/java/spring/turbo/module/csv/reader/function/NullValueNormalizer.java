@@ -14,12 +14,15 @@ package spring.turbo.module.csv.reader.function;
  */
 public final class NullValueNormalizer implements ValueNormalizer, GlobalValueNormalizer {
 
-    public static NullValueNormalizer getInstance() {
-        return AsyncAvoid.INSTANCE;
-    }
-
+    /**
+     * 私有构造方法
+     */
     private NullValueNormalizer() {
         super();
+    }
+
+    public static NullValueNormalizer getInstance() {
+        return AsyncAvoid.INSTANCE;
     }
 
     @Override
