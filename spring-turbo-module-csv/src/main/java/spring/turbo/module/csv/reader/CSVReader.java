@@ -40,20 +40,46 @@ import static spring.turbo.util.StringPool.COMMA;
  */
 public final class CSVReader<T> {
 
+    @Nullable
     private Resource resource;
+
+    @Nullable
     private Charset charset;
+
+    @Nullable
     private HeaderConfig headerConfig;
+
+    @Nullable
     private BatchVisitor<T> visitor;
+
+    @Nullable
     private Class<T> valueObjectType;
+
+    @Nullable
     private Supplier<T> valueObjectSupplier;
-    private String[] headerIsUse;
+
+    @Nullable
     private Batch<T> batch;
+
+    @Nullable
     private ConversionService conversionService;
+
+    @Nullable
     private List<Validator> validators;
-    private ValueObjectFilter<T> valueObjectFilter;
+
+    @Nullable
     private LinePredicate skipLinePredicate;
+
+    @Nullable
     private GlobalValueNormalizer globalValueNormalizer;
-    private Map<Integer, ValueNormalizer> normalizerMap;
+
+    private Map<Integer, ValueNormalizer> normalizerMap = new HashMap<>();
+
+    @Nullable
+    private ValueObjectFilter<T> valueObjectFilter;
+
+    @Nullable
+    private String[] headerIsUse;
 
     /**
      * 私有构造方法
@@ -71,6 +97,9 @@ public final class CSVReader<T> {
     }
 
     public void read(@Nullable ProcessPayload payload) {
+        Asserts.notNull(this.resource);
+        Asserts.notNull(this.charset);
+
         final ResourceOption resourceOption = ResourceOptions.of(this.resource);
 
         if (resourceOption.isAbsent()) {
@@ -83,22 +112,33 @@ public final class CSVReader<T> {
             doRead(lineIterator, Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
         } finally {
             CloseUtils.closeQuietly(lineIterator);
-            CloseUtils.closeQuietly(resource);
+            CloseUtils.closeQuietly(this.resource);
         }
     }
 
     private void doRead(LineIterator lineIterator, ProcessPayload payload) {
+        Asserts.notNull(lineIterator);
+        Asserts.notNull(payload);
+        Asserts.notNull(this.skipLinePredicate);
+        Asserts.notNull(this.valueObjectSupplier);
+        Asserts.notNull(this.conversionService);
+        Asserts.notNull(this.validators);
+        Asserts.notNull(this.batch);
+        Asserts.notNull(this.resource);
+        Asserts.notNull(this.charset);
+        Asserts.notNull(this.visitor);
+        Asserts.notNull(this.headerConfig);
+
         int lineNumber = -1;
 
         while (lineIterator.hasNext()) {
             lineNumber++;
             String line = lineIterator.next();
+            String[] header = getHeader(line, lineNumber);
 
-            if (skipLinePredicate.test(lineNumber, line)) {
+            if (skipLinePredicate.test(lineNumber, line) || (!headerConfig.isFixed() && headerConfig.getIndex() == lineNumber)) {
                 continue;
             }
-
-            String[] header = getHeader(line, lineNumber);
 
             if (header == null) {
                 continue;
@@ -186,12 +226,16 @@ public final class CSVReader<T> {
 
     @Nullable
     private String[] getHeader(String line, int lineNumber) {
+        Asserts.notNull(headerConfig);
+
         if (headerIsUse != null) {
             return headerIsUse;
         }
 
         if (headerConfig.isFixed()) {
-            this.headerIsUse = mergeWithAlias(headerConfig.getHeader());
+            String[] configHeader = headerConfig.getHeader();
+            Asserts.notNull(configHeader);
+            this.headerIsUse = mergeWithAlias(configHeader);
             return headerIsUse;
         }
 
@@ -204,6 +248,7 @@ public final class CSVReader<T> {
     }
 
     public String[] mergeWithAlias(String[] array) {
+        Asserts.notNull(valueObjectType);
         final Map<String, String> aliasMap = ValueObjectUtils.getAliases(valueObjectType);
         for (int i = 0; i < array.length; i++) {
             String to = aliasMap.get(array[i]);
@@ -219,6 +264,7 @@ public final class CSVReader<T> {
 
         private final Class<T> valueObjectType;
         private final List<Validator> validators = new ArrayList<>();
+        private final Map<Integer, ValueNormalizer> normalizerMap = new HashMap<>();
         private ConversionService conversionService = new DefaultFormattingConversionService();
         private Resource resource;
         private Charset charset = UTF_8;
@@ -228,7 +274,6 @@ public final class CSVReader<T> {
         private ValueObjectFilter<T> valueObjectFilter;
         private LinePredicate skipLinePredicate = LinePredicateFactories.alwaysFalse();
         private GlobalValueNormalizer globalValueNormalizer = NullValueNormalizer.getInstance();
-        private final Map<Integer, ValueNormalizer> normalizerMap = new HashMap<>();
 
         /**
          * 私有构造方法

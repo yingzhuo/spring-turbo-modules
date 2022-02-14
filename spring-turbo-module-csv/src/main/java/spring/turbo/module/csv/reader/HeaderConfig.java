@@ -43,6 +43,7 @@ public final class HeaderConfig implements Serializable {
         return header != null;
     }
 
+    @Nullable
     public String[] getHeader() {
         return header;
     }
