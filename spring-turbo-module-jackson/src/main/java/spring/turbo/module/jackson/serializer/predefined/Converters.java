@@ -22,7 +22,6 @@ public class Converters {
     }
 
     public static class String {
-
         // @formatter:off
         public static class ToShort extends StringToShortSerializer {}
         public static class ToInteger extends StringToIntegerSerializer {}

@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
+import spring.turbo.bean.DatePair;
+import spring.turbo.bean.DayRange;
+import spring.turbo.module.jackson.mixin.DatePairMixin;
+import spring.turbo.module.jackson.mixin.DayRangeMixin;
 
 /**
  * @author 应卓
@@ -26,6 +30,8 @@ class SpringBootAutoConfiguration {
     void configObjectMapper(@Nullable ObjectMapper om) {
         if (om != null) {
             om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
+            om.addMixIn(DatePair.class, DatePairMixin.class);
+            om.addMixIn(DayRange.class, DayRangeMixin.class);
         }
     }
 
