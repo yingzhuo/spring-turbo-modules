@@ -15,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
-import spring.turbo.bean.DatePair;
-import spring.turbo.bean.DayRange;
-import spring.turbo.module.jackson.mixin.DatePairMixin;
-import spring.turbo.module.jackson.mixin.DayRangeMixin;
+import spring.turbo.bean.*;
+import spring.turbo.module.jackson.mixin.*;
 
 /**
  * @author 应卓
@@ -32,6 +30,15 @@ class SpringBootAutoConfiguration {
             om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
             om.addMixIn(DatePair.class, DatePairMixin.class);
             om.addMixIn(DayRange.class, DayRangeMixin.class);
+            om.addMixIn(NumberPair.class, NumberPairMixin.class);
+            om.addMixIn(IntegerPair.class, IntegerPairMixin.class);
+            om.addMixIn(LongPair.class, LongPairMixin.class);
+            om.addMixIn(BytePair.class, BytePairMixin.class);
+            om.addMixIn(ShortPair.class, ShortPairMixin.class);
+            om.addMixIn(FloatPair.class, FloatPairMixin.class);
+            om.addMixIn(DoublePair.class, DoublePairMixin.class);
+            om.addMixIn(BigIntegerPair.class, BigIntegerPairMixin.class);
+            om.addMixIn(BigDecimalPair.class, BigDecimalPairMixin.class);
         }
     }
 
