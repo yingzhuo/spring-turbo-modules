@@ -12,13 +12,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import spring.turbo.bean.DatePair;
+import org.springframework.core.convert.TypeDescriptor;
 import spring.turbo.bean.DayRange;
-import spring.turbo.format.DatePairParser;
+import spring.turbo.format.StringToDayRangeConverter;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Locale;
 
 /**
  * @author 应卓
@@ -27,18 +26,18 @@ import java.util.Locale;
 @JsonDeserialize(using = DayRangeMixin.DayRangeJsonDeserializer.class)
 public abstract class DayRangeMixin {
 
-    private static final DatePairParser DATE_PAIR_PARSER = new DatePairParser();
+    private static final StringToDayRangeConverter CONVERTER = new StringToDayRangeConverter();
 
     static class DayRangeJsonDeserializer extends JsonDeserializer<DayRange> {
         @Override
+        @Nullable
         public DayRange deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            try {
-                final String source = p.readValueAs(String.class);
-                final DatePair pair = DATE_PAIR_PARSER.parse(source, Locale.getDefault());
-                return pair.toDayRange();
-            } catch (ParseException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
+            final String source = p.readValueAs(String.class);
+            return (DayRange) CONVERTER.convert(
+                    source,
+                    TypeDescriptor.valueOf(String.class),
+                    TypeDescriptor.valueOf(DayRange.class)
+            );
         }
     }
 
