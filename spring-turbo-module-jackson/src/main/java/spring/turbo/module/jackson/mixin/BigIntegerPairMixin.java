@@ -8,17 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.jackson.mixin;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.core.convert.TypeDescriptor;
 import spring.turbo.bean.BigIntegerPair;
 import spring.turbo.bean.NumberPair;
-import spring.turbo.format.StringToNumberPairConverter;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * @author 应卓
@@ -29,20 +21,9 @@ import java.io.IOException;
 @JsonDeserialize(using = BigIntegerPairMixin.BigIntegerPairJsonDeserializer.class)
 public abstract class BigIntegerPairMixin {
 
-    private static final StringToNumberPairConverter CONVERTER = new StringToNumberPairConverter();
-
-    static class BigIntegerPairJsonDeserializer extends JsonDeserializer<BigIntegerPair> {
-
-        @Override
-        @Nullable
-        public BigIntegerPair deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            final String source = p.readValueAs(String.class);
-            return (BigIntegerPair) CONVERTER.convert
-                    (
-                            source,
-                            TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(BigIntegerPair.class)
-                    );
+    static class BigIntegerPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<BigIntegerPair> {
+        public BigIntegerPairJsonDeserializer() {
+            super(BigIntegerPair.class);
         }
     }
 

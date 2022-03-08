@@ -8,17 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.jackson.mixin;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.core.convert.TypeDescriptor;
 import spring.turbo.bean.NumberPair;
 import spring.turbo.bean.ShortPair;
-import spring.turbo.format.StringToNumberPairConverter;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * @author 应卓
@@ -29,20 +21,9 @@ import java.io.IOException;
 @JsonDeserialize(using = ShortPairMixin.ShortPairJsonDeserializer.class)
 public abstract class ShortPairMixin {
 
-    private static final StringToNumberPairConverter CONVERTER = new StringToNumberPairConverter();
-
-    static class ShortPairJsonDeserializer extends JsonDeserializer<ShortPair> {
-
-        @Override
-        @Nullable
-        public ShortPair deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            final String source = p.readValueAs(String.class);
-            return (ShortPair) CONVERTER.convert
-                    (
-                            source,
-                            TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(ShortPair.class)
-                    );
+    static class ShortPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<ShortPair> {
+        public ShortPairJsonDeserializer() {
+            super(ShortPair.class);
         }
     }
 

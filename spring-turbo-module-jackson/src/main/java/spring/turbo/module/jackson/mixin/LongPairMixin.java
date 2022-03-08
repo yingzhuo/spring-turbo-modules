@@ -8,17 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.jackson.mixin;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.core.convert.TypeDescriptor;
 import spring.turbo.bean.LongPair;
 import spring.turbo.bean.NumberPair;
-import spring.turbo.format.StringToNumberPairConverter;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * @author 应卓
@@ -29,20 +21,9 @@ import java.io.IOException;
 @JsonDeserialize(using = LongPairMixin.LongPairJsonDeserializer.class)
 public abstract class LongPairMixin {
 
-    private static final StringToNumberPairConverter CONVERTER = new StringToNumberPairConverter();
-
-    static class LongPairJsonDeserializer extends JsonDeserializer<LongPair> {
-
-        @Override
-        @Nullable
-        public LongPair deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            final String source = p.readValueAs(String.class);
-            return (LongPair) CONVERTER.convert
-                    (
-                            source,
-                            TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(LongPair.class)
-                    );
+    static class LongPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<LongPair> {
+        public LongPairJsonDeserializer() {
+            super(LongPair.class);
         }
     }
 

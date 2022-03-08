@@ -11,38 +11,35 @@ package spring.turbo.module.jackson.mixin;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.core.convert.TypeDescriptor;
-import spring.turbo.bean.DatePair;
-import spring.turbo.format.StringToDatePairConverter;
+import spring.turbo.bean.NumberPair;
+import spring.turbo.format.StringToNumberPairConverter;
 import spring.turbo.util.Asserts;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
+ * (内部使用)
+ *
  * @author 应卓
- * @see spring.turbo.bean.DayRange
  * @since 1.0.14
  */
-@JsonDeserialize(using = DatePairMixin.DatePairJsonDeserializer.class)
-public abstract class DatePairMixin {
+abstract class AbstractNumberPairJsonDeserializer<T extends NumberPair> extends JsonDeserializer<T> {
 
-    private static final StringToDatePairConverter CONVERTER = new StringToDatePairConverter();
+    protected static final StringToNumberPairConverter CONVERTER = new StringToNumberPairConverter();
 
-    static class DatePairJsonDeserializer extends JsonDeserializer<DatePair> {
-        @Override
-        public DatePair deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            final String source = p.readValueAs(String.class);
-            final DatePair datePair = (DatePair) CONVERTER.convert
-                    (
-                            source,
-                            TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(DatePair.class)
-                    );
+    private final TypeDescriptor descTypeDescriptor;
 
-            Asserts.notNull(datePair);
-            return datePair;
-        }
+    protected AbstractNumberPairJsonDeserializer(Class<T> descType) {
+        Asserts.notNull(descType);
+        this.descTypeDescriptor = TypeDescriptor.valueOf(descType);
+    }
+
+    @Override
+    public final T deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+        final String source = p.readValueAs(String.class);
+        return (T) Objects.requireNonNull(CONVERTER.convert(source, TypeDescriptor.valueOf(String.class), descTypeDescriptor));
     }
 
 }

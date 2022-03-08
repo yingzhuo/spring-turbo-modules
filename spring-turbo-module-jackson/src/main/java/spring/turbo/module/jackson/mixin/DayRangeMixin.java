@@ -15,8 +15,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.core.convert.TypeDescriptor;
 import spring.turbo.bean.DayRange;
 import spring.turbo.format.StringToDayRangeConverter;
+import spring.turbo.util.Asserts;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 
 /**
@@ -30,14 +30,16 @@ public abstract class DayRangeMixin {
 
     static class DayRangeJsonDeserializer extends JsonDeserializer<DayRange> {
         @Override
-        @Nullable
         public DayRange deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
             final String source = p.readValueAs(String.class);
-            return (DayRange) CONVERTER.convert(
+            final DayRange dayRange = (DayRange) CONVERTER.convert(
                     source,
                     TypeDescriptor.valueOf(String.class),
                     TypeDescriptor.valueOf(DayRange.class)
             );
+
+            Asserts.notNull(dayRange);
+            return dayRange;
         }
     }
 
