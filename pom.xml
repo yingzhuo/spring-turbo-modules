@@ -7,7 +7,7 @@
 
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
@@ -92,14 +92,14 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.0.13</spring.turbo.version>
-        <spring.boot.version>2.6.3</spring.boot.version>
-        <spring.version>5.3.15</spring.version>
-        <spring.security.version>5.6.1</spring.security.version>
+        <spring.turbo.version>1.0.14</spring.turbo.version>
+        <spring.boot.version>2.6.5</spring.boot.version>
+        <spring.version>5.3.17</spring.version>
+        <spring.security.version>5.6.2</spring.security.version>
         <feign.version>11.8</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
-        <slf4j.version>1.7.35</slf4j.version>
-        <hutool.version>5.7.20</hutool.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <hutool.version>5.7.22</hutool.version>
     </properties>
 
     <dependencyManagement>
@@ -229,6 +229,12 @@
             <!-- springframework -->
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
@@ -266,6 +272,12 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
