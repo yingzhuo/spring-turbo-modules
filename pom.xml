@@ -16,6 +16,7 @@
         <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
+        <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-security-hutool</module>
         <module>spring-turbo-module-security-jwt</module>
