@@ -16,7 +16,10 @@ import spring.turbo.util.Asserts;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
+ * 消息工厂
+ *
  * @author 应卓
+ * @see MessageSender
  * @since 1.0.15
  */
 public final class MessageFactories {

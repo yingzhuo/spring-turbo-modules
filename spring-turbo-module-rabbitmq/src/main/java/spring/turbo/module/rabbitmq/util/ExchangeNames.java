@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.rabbitmq.util;
 
-import spring.turbo.util.StringPool;
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
@@ -16,7 +16,7 @@ import spring.turbo.util.StringPool;
  */
 public final class ExchangeNames {
 
-    public static final String DEFAULT = StringPool.EMPTY;
+    public static final String DEFAULT = EMPTY;
 
     /**
      * 私有构造方法
