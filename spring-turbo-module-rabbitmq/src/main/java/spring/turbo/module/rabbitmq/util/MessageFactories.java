@@ -21,6 +21,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public final class MessageFactories {
 
+    /**
+     * 私有构造方法
+     */
     private MessageFactories() {
         super();
     }
