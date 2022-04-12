@@ -16,6 +16,7 @@
         <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
+        <module>spring-turbo-module-rabbitmq</module>
         <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-security-hutool</module>
@@ -224,6 +225,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
