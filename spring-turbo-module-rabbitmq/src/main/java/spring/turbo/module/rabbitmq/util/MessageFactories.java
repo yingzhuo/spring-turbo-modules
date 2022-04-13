@@ -28,39 +28,38 @@ public final class MessageFactories {
      * 私有构造方法
      */
     private MessageFactories() {
-        super();
     }
 
-    public static Message createPlainMessage(String messageContent) {
+    public static Message create(String messageContent) {
+        return create(messageContent, Long.MIN_VALUE);
+    }
+
+    public static Message create(String messageContent, long ttlInMillis) {
+        return create(messageContent, ttlInMillis, Integer.MIN_VALUE);
+    }
+
+    public static Message create(String messageContent, long ttlInMillis, int priority) {
         Asserts.notNull(messageContent);
-        final MessageProperties props = new MessageProperties();
-        props.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-        props.setDeliveryMode(MessageDeliveryMode.PERSISTENT); // 消息要持久化必须配合队列也持久化
-        return new Message(messageContent.getBytes(UTF_8), props);
-    }
 
-    public static Message createJsonMessage(String jsonContent) {
-        Asserts.notNull(jsonContent);
         final MessageProperties props = new MessageProperties();
-        props.setContentType(MessageProperties.CONTENT_TYPE_JSON);
-        props.setDeliveryMode(MessageDeliveryMode.PERSISTENT); // 消息要持久化必须配合队列也持久化
-        return new Message(jsonContent.getBytes(UTF_8), props);
-    }
 
-    public static Message createXmlMessage(String xmlContent) {
-        Asserts.notNull(xmlContent);
-        final MessageProperties props = new MessageProperties();
-        props.setContentType(MessageProperties.CONTENT_TYPE_XML);
-        props.setDeliveryMode(MessageDeliveryMode.PERSISTENT);  // 消息要持久化必须配合队列也持久化
-        return new Message(xmlContent.getBytes(UTF_8), props);
-    }
-
-    public static Message createBytesMessage(byte[] bytes) {
-        Asserts.notNull(bytes);
-        final MessageProperties props = new MessageProperties();
+        // 内容类型: byte[]
         props.setContentType(MessageProperties.CONTENT_TYPE_BYTES);
-        props.setDeliveryMode(MessageDeliveryMode.PERSISTENT); // 消息要持久化必须配合队列也持久化
-        return new Message(bytes, props);
+
+        // 持久化
+        props.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+
+        // 对每条消息设置TTL
+        if (ttlInMillis > 0) {
+            props.setExpiration(Long.toString(ttlInMillis));
+        }
+
+        // 优先权
+        if (priority >= 0) {
+            props.setPriority(priority);
+        }
+
+        return new Message(messageContent.getBytes(UTF_8), props);
     }
 
 }
