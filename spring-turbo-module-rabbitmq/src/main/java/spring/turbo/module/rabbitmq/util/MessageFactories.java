@@ -28,6 +28,7 @@ public final class MessageFactories {
      * 私有构造方法
      */
     private MessageFactories() {
+        super();
     }
 
     public static Message create(String messageContent) {

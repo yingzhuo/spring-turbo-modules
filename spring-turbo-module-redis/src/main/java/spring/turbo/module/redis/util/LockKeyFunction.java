@@ -6,9 +6,19 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.rabbitmq;
+package spring.turbo.module.redis.util;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import java.util.function.Function;
+
+/**
+ * @author 应卓
+ * @see LockUtils
+ * @since 1.0.15
+ */
+@FunctionalInterface
+public interface LockKeyFunction extends Function<String, String> {
+
+    @Override
+    public String apply(String key);
+
+}

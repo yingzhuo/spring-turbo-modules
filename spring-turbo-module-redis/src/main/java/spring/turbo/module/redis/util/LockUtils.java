@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import spring.turbo.core.SpringUtils;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +20,14 @@ import java.util.List;
  * 分布式锁工具
  *
  * @author 应卓
+ * @see LockKeyFunction
  * @since 1.0.15
  */
 public final class LockUtils {
 
     private static final List<String> EMPTY_KEYS = Collections.emptyList();
+
+    private static final LockKeyFunction DEFAULT_LOCK_KEY_FUNC = s -> s;
 
     /**
      * 私有构造方法
@@ -43,9 +45,12 @@ public final class LockUtils {
      * @return true时表示成功
      */
     public static boolean lock(String key, String uuid, int ttlInSeconds) {
-        Asserts.isTrue(StringUtils.isNotBlank(key));
-        Asserts.isTrue(StringUtils.isNotBlank(uuid));
+        Asserts.hasText(key);
+        Asserts.hasText(uuid);
         Asserts.isTrue(ttlInSeconds >= 1);
+
+        final LockKeyFunction keyFunc = SpringUtils.getBean(LockKeyFunction.class).orElse(DEFAULT_LOCK_KEY_FUNC);
+        key = keyFunc.apply(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);
         final RedisScript<Boolean> lua = SpringUtils.getRequiredBean(RedisScript.class, "redisLockLockLuaScript");
@@ -61,8 +66,11 @@ public final class LockUtils {
      * @return true时表示成功
      */
     public static boolean release(String key, String uuid) {
-        Asserts.isTrue(StringUtils.isNotBlank(key));
-        Asserts.isTrue(StringUtils.isNotBlank(uuid));
+        Asserts.hasText(key);
+        Asserts.hasText(uuid);
+
+        final LockKeyFunction keyFunc = SpringUtils.getBean(LockKeyFunction.class).orElse(DEFAULT_LOCK_KEY_FUNC);
+        key = keyFunc.apply(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);
         final RedisScript<Boolean> lua = SpringUtils.getRequiredBean(RedisScript.class, "redisLockReleaseLuaScript");

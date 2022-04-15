@@ -26,6 +26,7 @@ public final class MessageSender {
      * 私有构造方法
      */
     private MessageSender() {
+        super();
     }
 
     public static void send(String queueName, Message message) {
