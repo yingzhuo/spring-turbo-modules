@@ -14,6 +14,7 @@
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
+        <module>spring-turbo-module-kafka</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-rabbitmq</module>
@@ -98,6 +99,7 @@
         <spring.boot.version>2.6.6</spring.boot.version>
         <spring.version>5.3.18</spring.version>
         <spring.security.version>5.6.2</spring.security.version>
+        <spring.kafka.version>2.8.4</spring.kafka.version>
         <feign.version>11.8</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -321,6 +323,13 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-crypto</artifactId>
                 <version>${spring.security.version}</version>
+            </dependency>
+
+            <!-- spring-kafka -->
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring.kafka.version}</version>
             </dependency>
 
             <!-- java-jwt -->
