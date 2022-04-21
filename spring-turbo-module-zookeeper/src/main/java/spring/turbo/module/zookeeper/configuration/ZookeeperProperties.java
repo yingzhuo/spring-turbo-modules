@@ -10,7 +10,10 @@ package spring.turbo.module.zookeeper.configuration;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.lang.Nullable;
+import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 
@@ -21,11 +24,22 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "springturbo.zookeeper")
-public class ZookeeperProperties implements Serializable {
+public class ZookeeperProperties implements InitializingBean, Serializable {
 
-    private String connectString = "localhost:2181";
+    private String connectString;
     private BackoffRetryPolicy backoffRetryPolicy = new BackoffRetryPolicy();
     private LeaderElection leaderElection = new LeaderElection();
+
+    @Override
+    public void afterPropertiesSet() {
+        Asserts.notNull(connectString);
+        Asserts.notNull(backoffRetryPolicy);
+        Asserts.notNull(leaderElection);
+
+        if (leaderElection.isEnabled()) {
+            Asserts.notNull(leaderElection.getZkPath());
+        }
+    }
 
     @Getter
     @Setter
@@ -37,8 +51,12 @@ public class ZookeeperProperties implements Serializable {
     @Getter
     @Setter
     public static class LeaderElection implements Serializable {
-        private boolean enabled = false;
+
+        private boolean enabled = true;
+
         private String zkPath = "/leader-election";
+
+        @Nullable
         private String nodeId;
     }
 

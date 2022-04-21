@@ -27,6 +27,8 @@ import spring.turbo.util.Asserts;
 public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
 
     private final ZookeeperProperties zookeeperProperties;
+
+    @Nullable
     private CuratorFramework zookeeperClient;
 
     public ZookeeperClientFactory(ZookeeperProperties zookeeperProperties) {
@@ -65,10 +67,6 @@ public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, In
     @Override
     public void destroy() {
         CloseableUtils.closeQuietly(zookeeperClient);
-    }
-
-    public CuratorFramework getZookeeperClient() {
-        return zookeeperClient;
     }
 
 }

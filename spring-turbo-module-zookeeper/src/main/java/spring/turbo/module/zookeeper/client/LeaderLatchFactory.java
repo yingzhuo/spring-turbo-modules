@@ -32,6 +32,8 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
 
     private final ZookeeperProperties zookeeperProperties;
     private final CuratorFramework zookeeperClient;
+
+    @Nullable
     private LeaderLatch leaderLatch;
 
     public LeaderLatchFactory(ZookeeperProperties zookeeperProperties, CuratorFramework zookeeperClient) {
@@ -75,7 +77,4 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
         CloseableUtils.closeQuietly(this.leaderLatch);
     }
 
-    public LeaderLatch getLeaderLatch() {
-        return leaderLatch;
-    }
 }
