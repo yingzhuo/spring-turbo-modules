@@ -7,19 +7,23 @@
 
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
+        <module>spring-turbo-module-kafka</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
+        <module>spring-turbo-module-rabbitmq</module>
+        <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-security-hutool</module>
         <module>spring-turbo-module-security-jwt</module>
         <module>spring-turbo-module-webmvc</module>
+        <module>spring-turbo-module-zookeeper</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -56,14 +60,14 @@
     </licenses>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss-snapshot</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
             <id>oss-release</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <snapshotRepository>
+            <id>oss-snapshot</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <issueManagement>
@@ -92,14 +96,16 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.0.14</spring.turbo.version>
-        <spring.boot.version>2.6.5</spring.boot.version>
-        <spring.version>5.3.17</spring.version>
-        <spring.security.version>5.6.2</spring.security.version>
+        <spring.turbo.version>1.0.15-SNAPSHOT</spring.turbo.version>
+        <spring.boot.version>2.6.6</spring.boot.version>
+        <spring.version>5.3.19</spring.version>
+        <spring.security.version>5.6.3</spring.security.version>
+        <spring.kafka.version>2.8.5</spring.kafka.version>
         <feign.version>11.8</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
         <hutool.version>5.7.22</hutool.version>
+        <curator.version>5.2.1</curator.version>
     </properties>
 
     <dependencyManagement>
@@ -225,6 +231,11 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
 
             <!-- springframework -->
             <dependency>
@@ -316,11 +327,18 @@
                 <version>${spring.security.version}</version>
             </dependency>
 
+            <!-- spring-kafka -->
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring.kafka.version}</version>
+            </dependency>
+
             <!-- java-jwt -->
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
-                <version>3.18.3</version>
+                <version>3.19.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.fasterxml.jackson.core</groupId>
@@ -411,7 +429,31 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15to18</artifactId>
-                <version>1.70</version>
+                <version>1.71</version>
+            </dependency>
+
+            <!-- zookeeper-client -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.8.0</version>
+            </dependency>
+
+            <!-- kafka-client -->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>3.1.0</version>
             </dependency>
 
             <!-- slf4j -->
