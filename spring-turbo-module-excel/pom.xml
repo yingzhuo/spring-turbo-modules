@@ -12,7 +12,7 @@
     <artifactId>spring-turbo-module-excel</artifactId>
 
     <dependencies>
-        <!-- spring-turbo -->
+        <!-- spring-turbo & modules -->
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo</artifactId>
