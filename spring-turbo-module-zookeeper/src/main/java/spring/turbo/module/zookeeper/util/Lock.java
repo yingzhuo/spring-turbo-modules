@@ -26,14 +26,14 @@ public final class Lock {
 
     private final InterProcessMutex mutex;
 
+    private Lock(CuratorFramework zkClient, String zkPath) {
+        this.mutex = new InterProcessMutex(zkClient, zkPath);
+    }
+
     public static Lock newInstance(String zkPath) {
         final CuratorFramework zkClient = SpringUtils.getRequiredBean(CuratorFramework.class);
         Asserts.notNull(zkClient);
         return new Lock(zkClient, zkPath);
-    }
-
-    private Lock(CuratorFramework zkClient, String zkPath) {
-        this.mutex = new InterProcessMutex(zkClient, zkPath);
     }
 
     public boolean lock(long ttl, TimeUnit ttlUnit) {
