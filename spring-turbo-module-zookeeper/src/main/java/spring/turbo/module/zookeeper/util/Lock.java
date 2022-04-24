@@ -13,6 +13,7 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import spring.turbo.core.SpringUtils;
 import spring.turbo.util.Asserts;
 
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @see #newInstance(String)
  * @since 1.0.15
  */
-public final class Lock {
+public final class Lock implements Serializable {
 
     private final InterProcessMutex mutex;
 

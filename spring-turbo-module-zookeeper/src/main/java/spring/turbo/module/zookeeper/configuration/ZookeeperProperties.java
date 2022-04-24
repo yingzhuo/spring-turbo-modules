@@ -26,7 +26,9 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "springturbo.zookeeper")
 public class ZookeeperProperties implements InitializingBean, Serializable {
 
+    private boolean enabled = true;
     private String connectString;
+    private String namespace;
     private BackoffRetryPolicy backoffRetryPolicy = new BackoffRetryPolicy();
     private LeaderElection leaderElection = new LeaderElection();
 

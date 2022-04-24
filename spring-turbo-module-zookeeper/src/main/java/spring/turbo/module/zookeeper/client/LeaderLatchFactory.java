@@ -30,17 +30,17 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
 
     private static final Logger log = LoggerFactory.getLogger(LeaderLatchFactory.class);
 
-    private final ZookeeperProperties zookeeperProperties;
-    private final CuratorFramework zookeeperClient;
+    private final ZookeeperProperties zkProps;
+    private final CuratorFramework zkCli;
 
     @Nullable
     private LeaderLatch leaderLatch;
 
-    public LeaderLatchFactory(ZookeeperProperties zookeeperProperties, CuratorFramework zookeeperClient) {
-        Asserts.notNull(zookeeperProperties);
-        Asserts.notNull(zookeeperClient);
-        this.zookeeperProperties = zookeeperProperties;
-        this.zookeeperClient = zookeeperClient;
+    public LeaderLatchFactory(ZookeeperProperties zkProps, CuratorFramework zkCli) {
+        Asserts.notNull(zkProps);
+        Asserts.notNull(zkCli);
+        this.zkProps = zkProps;
+        this.zkCli = zkCli;
     }
 
     @Nullable
@@ -57,15 +57,15 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        String thisNodeId = zookeeperProperties.getLeaderElection().getNodeId();
+        String thisNodeId = zkProps.getLeaderElection().getNodeId();
         if (thisNodeId == null) {
             thisNodeId = UUID.randomUUID().toString();
             log.debug("node-id: {}", thisNodeId);
         }
 
         this.leaderLatch = new LeaderLatch(
-                this.zookeeperClient,
-                this.zookeeperProperties.getLeaderElection().getZkPath(),
+                this.zkCli,
+                this.zkProps.getLeaderElection().getZkPath(),
                 thisNodeId
         );
 

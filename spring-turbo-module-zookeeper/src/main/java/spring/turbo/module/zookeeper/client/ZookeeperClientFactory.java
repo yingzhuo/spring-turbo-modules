@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.zookeeper.client;
 
-import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -26,31 +25,34 @@ import spring.turbo.util.Asserts;
  */
 public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
 
-    private final ZookeeperProperties zookeeperProperties;
+    private final ZookeeperProperties zkProps;
 
     @Nullable
-    private CuratorFramework zookeeperClient;
+    private CuratorFramework zkCli;
 
-    public ZookeeperClientFactory(ZookeeperProperties zookeeperProperties) {
-        Asserts.notNull(zookeeperProperties);
-        this.zookeeperProperties = zookeeperProperties;
+    public ZookeeperClientFactory(ZookeeperProperties zkProps) {
+        Asserts.notNull(zkProps);
+        this.zkProps = zkProps;
     }
 
     @Nullable
     @Override
     public CuratorFramework getObject() {
-        return zookeeperClient;
+        return zkCli;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        final RetryPolicy retryPolicy = new ExponentialBackoffRetry(
-                zookeeperProperties.getBackoffRetryPolicy().getBaseSleepTime(),
-                zookeeperProperties.getBackoffRetryPolicy().getMaxRetries()
-        );
-        this.zookeeperClient = CuratorFrameworkFactory.newClient(zookeeperProperties.getConnectString(), retryPolicy);
-        this.zookeeperClient.start();
-        this.zookeeperClient.getZookeeperClient().blockUntilConnectedOrTimedOut();
+        this.zkCli = CuratorFrameworkFactory.builder()
+                .connectString(zkProps.getConnectString())
+                .namespace(zkProps.getNamespace())
+                .retryPolicy(new ExponentialBackoffRetry(
+                        zkProps.getBackoffRetryPolicy().getBaseSleepTime(),
+                        zkProps.getBackoffRetryPolicy().getMaxRetries()
+                ))
+                .build();
+        this.zkCli.start();
+        this.zkCli.getZookeeperClient().blockUntilConnectedOrTimedOut();
     }
 
     @Nullable
@@ -66,7 +68,7 @@ public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, In
 
     @Override
     public void destroy() {
-        CloseableUtils.closeQuietly(zookeeperClient);
+        CloseableUtils.closeQuietly(zkCli);
     }
 
 }
