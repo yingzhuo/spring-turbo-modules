@@ -54,7 +54,7 @@ public class ShardCountFactory implements FactoryBean<SharedCount>, Initializing
     }
 
     @Override
-    public void destroy() throws Exception {
+    public void destroy() {
         CloseableUtils.closeQuietly(this.count);
     }
 
