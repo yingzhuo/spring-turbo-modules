@@ -9,6 +9,7 @@
 package spring.turbo.module.zookeeper.util;
 
 import org.apache.curator.framework.recipes.leader.LeaderLatch;
+import org.springframework.lang.Nullable;
 import spring.turbo.core.SpringUtils;
 
 /**
@@ -32,6 +33,16 @@ public final class LeadershipUtils {
     public static boolean hasLeadership() {
         return SpringUtils.getRequiredBean(LeaderLatch.class)
                 .hasLeadership();
+    }
+
+    @Nullable
+    public static String getLeaderId() {
+        final LeaderLatch leaderLatch = SpringUtils.getRequiredBean(LeaderLatch.class);
+        try {
+            return leaderLatch.getLeader().getId();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

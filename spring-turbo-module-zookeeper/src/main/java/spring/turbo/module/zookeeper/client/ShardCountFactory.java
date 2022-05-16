@@ -9,56 +9,38 @@
 package spring.turbo.module.zookeeper.client;
 
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.framework.recipes.shared.SharedCount;
 import org.apache.curator.utils.CloseableUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.module.zookeeper.configuration.ZookeeperProperties;
 import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
  * @since 1.0.15
  */
-public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
+public class ShardCountFactory implements FactoryBean<SharedCount>, InitializingBean, DisposableBean {
 
-    private final ZookeeperProperties zkProps;
+    private final SharedCount count;
 
-    @Nullable
-    private CuratorFramework zkCli;
-
-    public ZookeeperClientFactory(ZookeeperProperties zkProps) {
-        Asserts.notNull(zkProps);
-        this.zkProps = zkProps;
+    public ShardCountFactory(CuratorFramework zkCli, String path, int seedValue) {
+        Asserts.notNull(zkCli);
+        Asserts.notNull(path);
+        this.count = new SharedCount(zkCli, path, seedValue);
     }
 
     @Nullable
     @Override
-    public CuratorFramework getObject() {
-        return zkCli;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        this.zkCli = CuratorFrameworkFactory.builder()
-                .connectString(zkProps.getConnectString())
-                .namespace(zkProps.getNamespace())
-                .retryPolicy(new ExponentialBackoffRetry(
-                        zkProps.getBackoffRetryPolicy().getBaseSleepTime(),
-                        zkProps.getBackoffRetryPolicy().getMaxRetries()
-                ))
-                .build();
-        this.zkCli.start();
-        this.zkCli.getZookeeperClient().blockUntilConnectedOrTimedOut();
+    public SharedCount getObject() {
+        return this.count;
     }
 
     @Nullable
     @Override
     public Class<?> getObjectType() {
-        return CuratorFramework.class;
+        return SharedCount.class;
     }
 
     @Override
@@ -67,8 +49,13 @@ public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, In
     }
 
     @Override
+    public void afterPropertiesSet() throws Exception {
+        this.count.start();
+    }
+
+    @Override
     public void destroy() {
-        CloseableUtils.closeQuietly(zkCli);
+        CloseableUtils.closeQuietly(this.count);
     }
 
 }

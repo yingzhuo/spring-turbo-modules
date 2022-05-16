@@ -25,6 +25,7 @@ import spring.turbo.module.zookeeper.configuration.ZookeeperProperties;
  * @since 1.0.15
  */
 @EnableConfigurationProperties(ZookeeperProperties.class)
+@ConditionalOnProperty(prefix = "springturbo.zookeeper", name = "enabled", havingValue = "true", matchIfMissing = true)
 class SpringBootAutoConfiguration {
 
     @Bean
@@ -33,7 +34,7 @@ class SpringBootAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "springturbo.zookeeper.leader-election", name = "enabled", havingValue = "true", matchIfMissing = false)
+    @ConditionalOnProperty(prefix = "springturbo.zookeeper.leader-election", name = "enabled", havingValue = "true", matchIfMissing = true)
     public LeaderLatchFactory leaderLatchFactory(ZookeeperProperties properties, CuratorFramework zkClient) {
         return new LeaderLatchFactory(properties, zkClient);
     }
