@@ -92,9 +92,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
                 return true;
             } else {
                 if (log.isDebugEnabled()) {
-                    log.debug("UserDetails converted");
-                    log.debug("username: {}", user.getUsername());
-                    log.debug("password: {}", user.getPassword());
+                    log.debug("UserDetails converted. (username: {})", user.getUsername());
                 }
             }
 
@@ -119,6 +117,11 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             }
 
         } catch (AuthenticationException e) {
+
+            if (log.isDebugEnabled()) {
+                log.debug(e.getMessage(), e);
+            }
+
             SecurityContextHolder.clearContext();
 
             if (rememberMeServices != null) {

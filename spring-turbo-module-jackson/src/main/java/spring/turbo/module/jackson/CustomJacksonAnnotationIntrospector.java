@@ -17,5 +17,5 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 class CustomJacksonAnnotationIntrospector extends JacksonAnnotationIntrospector {
 
     // 此类用于扩展元注释
-
+    // TODO: 没有想好要扩展啥
 }
