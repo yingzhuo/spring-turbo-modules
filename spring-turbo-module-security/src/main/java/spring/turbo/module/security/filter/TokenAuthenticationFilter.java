@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,6 +26,7 @@ import spring.turbo.module.security.authentication.RequestDetailsBuilder;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.AbstractServletFilter;
+import spring.turbo.webmvc.token.StringToken;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
@@ -39,12 +42,25 @@ import java.io.IOException;
  */
 public class TokenAuthenticationFilter extends AbstractServletFilter {
 
-    private TokenResolver tokenResolver; // non-null
-    private TokenToUserConverter tokenToUserConverter; // non-null
-    private RememberMeServices rememberMeServices; // nullable
-    private AuthenticationEventPublisher authenticationEventPublisher;  // nullable
-    private AuthenticationEntryPoint authenticationEntryPoint;  // nullable
-    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.SNAPSHOT; // nullable
+    private static final Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
+
+    @Nullable
+    private TokenResolver tokenResolver;
+
+    @Nullable
+    private TokenToUserConverter tokenToUserConverter;
+
+    @Nullable
+    private RememberMeServices rememberMeServices;
+
+    @Nullable
+    private AuthenticationEventPublisher authenticationEventPublisher;
+
+    @Nullable
+    private AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Nullable
+    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.SNAPSHOT;
 
     public TokenAuthenticationFilter() {
         super();
@@ -59,12 +75,27 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
             if (token == null) {
+                log.debug("token cannot be resolved");
                 return true;
+            } else {
+                if (log.isDebugEnabled()) {
+                    log.debug("token resolved");
+                    if (token instanceof StringToken) {
+                        log.debug("token value (string): {}", token.asString());
+                    }
+                }
             }
 
             UserDetails user = tokenToUserConverter.convert(token);
             if (user == null) {
+                log.debug("cannot convert token to UserDetails instance");
                 return true;
+            } else {
+                if (log.isDebugEnabled()) {
+                    log.debug("UserDetails converted");
+                    log.debug("username: {}", user.getUsername());
+                    log.debug("password: {}", user.getPassword());
+                }
             }
 
             final spring.turbo.module.security.authentication.Authentication auth
