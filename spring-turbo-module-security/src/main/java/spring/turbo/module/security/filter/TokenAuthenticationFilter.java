@@ -72,6 +72,9 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             return true;
         }
 
+        Asserts.notNull(this.tokenResolver);
+        Asserts.notNull(this.tokenToUserConverter);
+
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
             if (token == null) {

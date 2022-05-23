@@ -8,23 +8,26 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.user;
 
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 增强型 {@link UserDetails}
  * <p>
- * 为 {@link UserDetails} 增加若干方法使之更方便。
+ * 为 {@link UserDetails} 增加若干方法使之更方便
  *
  * @author 应卓
  * @see UserDetails
  * @see UserDetailsPlusBuilder
+ * @see #builder()
  * @see UserDetailsPlusImpl
  * @since 1.0.0
  */
-public interface UserDetailsPlus extends UserDetails {
+public interface UserDetailsPlus extends UserDetails, Serializable {
 
     /**
      * 获取创建器
@@ -35,24 +38,34 @@ public interface UserDetailsPlus extends UserDetails {
         return new UserDetailsPlusBuilder();
     }
 
+    @Nullable
     public <T> T getId();
 
+    @Nullable
     public String getNickname();
 
+    @Nullable
     public <T> T getGender();
 
+    @Nullable
     public <T> T getAvatar();
 
+    @Nullable
     public <T> T getNativeUser();
 
+    @Nullable
     public String getEmail();
 
+    @Nullable
     public String getPhoneNumber();
 
+    @Nullable
     public Date getDateOfBirth();
 
+    @Nullable
     public String getBiography();
 
+    @Nullable
     public Attributes getAttributes();
 
 }

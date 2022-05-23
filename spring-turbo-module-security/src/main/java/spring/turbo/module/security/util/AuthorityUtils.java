@@ -38,10 +38,21 @@ public final class AuthorityUtils {
         super();
     }
 
+    /**
+     * 无任何权限
+     *
+     * @return 空集合
+     */
     public static List<GrantedAuthority> noAuthorities() {
         return NO_AUTHORITIES;
     }
 
+    /**
+     * 从用户实体中获取权限信息
+     *
+     * @param userDetails 用户实体 (可为null)
+     * @return 集合
+     */
     public static List<GrantedAuthority> getAuthorities(@Nullable UserDetails userDetails) {
         if (userDetails == null) {
             return NO_AUTHORITIES;
@@ -55,6 +66,12 @@ public final class AuthorityUtils {
         }
     }
 
+    /**
+     * 逗号分隔的字符串集合转换成权限信息
+     *
+     * @param authorities 字符串集合
+     * @return 权限集合
+     */
     public static List<GrantedAuthority> createAuthorityList(@Nullable String... authorities) {
         final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (authorities != null) {
@@ -67,6 +84,12 @@ public final class AuthorityUtils {
         return Collections.unmodifiableList(grantedAuthorities);
     }
 
+    /**
+     * 逗号分隔的字符串转换成权限信息
+     *
+     * @param authorityString 字符串
+     * @return 权限集合
+     */
     public static List<GrantedAuthority> commaSeparatedStringToAuthorityList(@Nullable String authorityString) {
         if (StringUtils.isBlank(authorityString)) {
             return NO_AUTHORITIES;

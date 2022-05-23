@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.user;
 
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
@@ -21,7 +22,9 @@ import java.util.function.Function;
  * {@link UserDetailsPlus} 创建器
  *
  * @author 应卓
+ * @see org.springframework.security.core.userdetails.UserDetails
  * @see UserDetailsPlus#builder()
+ * @see UserDetailsPlus
  * @since 1.0.0
  */
 public final class UserDetailsPlusBuilder {
@@ -30,17 +33,39 @@ public final class UserDetailsPlusBuilder {
 
     private final User.UserBuilder userBuilder = User.builder();
     private final Attributes attributes = Attributes.newInstance();
-    private Object id;
-    private String nickname;
-    private Object gender;
-    private Object avatar;
-    private Object nativeUser;
-    private String email;
-    private String phoneNumber;
-    private Date dateOfBirth;
-    private String biography;
-    private boolean pwdFlag = false;
+    private boolean passwordFlag = false; // 是否主动设置了密码
 
+    @Nullable
+    private Object id;
+
+    @Nullable
+    private String nickname;
+
+    @Nullable
+    private Object gender;
+
+    @Nullable
+    private Object avatar;
+
+    @Nullable
+    private Object nativeUser;
+
+    @Nullable
+    private String email;
+
+    @Nullable
+    private String phoneNumber;
+
+    @Nullable
+    private Date dateOfBirth;
+
+    @Nullable
+    private String biography;
+
+
+    /**
+     * 构造方法
+     */
     UserDetailsPlusBuilder() {
         super();
     }
@@ -51,7 +76,7 @@ public final class UserDetailsPlusBuilder {
     }
 
     public UserDetailsPlusBuilder password(String password) {
-        pwdFlag = true;
+        passwordFlag = true;
         userBuilder.password(password);
         return this;
     }
@@ -156,7 +181,7 @@ public final class UserDetailsPlusBuilder {
     }
 
     public UserDetailsPlus build() {
-        if (!pwdFlag) {
+        if (!passwordFlag) {
             userBuilder.password(DEFAULT_PASSWORD);
         }
 

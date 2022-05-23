@@ -37,7 +37,8 @@ public class LoggingFilter extends AbstractServletFilter {
     }
 
     public LoggingFilter(@Nullable Logger logger) {
-        this.log = Optional.ofNullable(logger).orElse(DEFAULT_LOGGER);
+        this.log = Optional.ofNullable(logger)
+                .orElse(DEFAULT_LOGGER);
     }
 
     @Override

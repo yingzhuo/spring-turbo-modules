@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.user;
 
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
@@ -21,31 +23,51 @@ import java.util.Optional;
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings("unchecked")
 class UserDetailsPlusImpl implements UserDetailsPlus {
 
+    @NonNull
     private final UserDetails delegate;
+
+    @Nullable
     private final Object id;
+
+    @Nullable
     private final String nickname;
+
+    @Nullable
     private final Object gender;
+
+    @Nullable
     private final Object avatar;
+
+    @Nullable
     private final Object nativeUser;
+
+    @Nullable
     private final String email;
+
+    @Nullable
     private final String phoneNumber;
+
+    @Nullable
     private final Date dateOfBirth;
+
+    @Nullable
     private final String bioInfo;
+
+    @NonNull
     private final Attributes attributes;
 
-    UserDetailsPlusImpl(UserDetails delegate,
-                        Object id,
-                        String nickname,
-                        Object gender,
-                        Object avatar,
-                        Object nativeUser,
-                        String email,
-                        String phoneNumber,
-                        Date dateOfBirth,
-                        String bioInfo,
+    UserDetailsPlusImpl(@Nullable UserDetails delegate,
+                        @Nullable Object id,
+                        @Nullable String nickname,
+                        @Nullable Object gender,
+                        @Nullable Object avatar,
+                        @Nullable Object nativeUser,
+                        @Nullable String email,
+                        @Nullable String phoneNumber,
+                        @Nullable Date dateOfBirth,
+                        @Nullable String bioInfo,
                         Attributes attributes) {
         this.delegate = Objects.requireNonNull(delegate);
         this.id = id;
@@ -61,46 +83,55 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
     }
 
     @Override
+    @Nullable
     public <T> T getId() {
         return (T) id;
     }
 
     @Override
+    @Nullable
     public String getNickname() {
         return nickname;
     }
 
     @Override
+    @Nullable
     public <T> T getGender() {
         return (T) gender;
     }
 
     @Override
+    @Nullable
     public <T> T getAvatar() {
         return (T) this.avatar;
     }
 
     @Override
+    @Nullable
     public <T> T getNativeUser() {
         return (T) nativeUser;
     }
 
     @Override
+    @Nullable
     public String getEmail() {
         return email;
     }
 
     @Override
+    @Nullable
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     @Override
+    @Nullable
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
     @Override
+    @Nullable
     public String getBiography() {
         return bioInfo;
     }
