@@ -12,6 +12,8 @@ import org.springframework.lang.Nullable;
 import spring.turbo.bean.Named;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Set;
 
 /**
@@ -31,10 +33,145 @@ public interface Selector extends Named, Serializable {
     public <T> T getSimpleValue();
 
     @Nullable
+    public default Integer getSimpleValueAsInteger() {
+        try {
+            final BigDecimal decimal = getSimpleValue();
+            return decimal != null ? decimal.intValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Long getSimpleValueAsLong() {
+        try {
+            final BigDecimal decimal = getSimpleValue();
+            return decimal != null ? decimal.longValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Double getSimpleValueAsDouble() {
+        try {
+            final BigDecimal decimal = getSimpleValue();
+            return decimal != null ? decimal.doubleValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigInteger getSimpleValueAsBigInteger() {
+        try {
+            final BigDecimal decimal = getSimpleValue();
+            return decimal != null ? decimal.toBigInteger() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigDecimal getSimpleValueAsBigDecimal() {
+        return getSimpleValue();
+    }
+
+    @Nullable
     public <T> T getValueRangeLeft();
 
     @Nullable
+    public default Integer getValueRangeLeftAsInteger() {
+        try {
+            final BigDecimal decimal = getValueRangeLeft();
+            return decimal != null ? decimal.intValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Long getValueRangeLeftAsLong() {
+        try {
+            final BigDecimal decimal = getValueRangeLeft();
+            return decimal != null ? decimal.longValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Double getValueRangeLeftAsDouble() {
+        try {
+            final BigDecimal decimal = getValueRangeLeft();
+            return decimal != null ? decimal.doubleValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigInteger getValueRangeLeftAsBigInteger() {
+        try {
+            final BigDecimal decimal = getValueRangeLeft();
+            return decimal != null ? decimal.toBigInteger() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigDecimal getValueRangeLeftAsBigDecimal() {
+        return getValueRangeLeft();
+    }
+
+    @Nullable
     public <T> T getValueRangeRight();
+
+    @Nullable
+    public default Integer getValueRangeRightAsInteger() {
+        try {
+            final BigDecimal decimal = getValueRangeRight();
+            return decimal != null ? decimal.intValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Long getValueRangeRightAsLong() {
+        try {
+            final BigDecimal decimal = getValueRangeRight();
+            return decimal != null ? decimal.longValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default Double getValueRangeRightAsDouble() {
+        try {
+            final BigDecimal decimal = getValueRangeRight();
+            return decimal != null ? decimal.doubleValue() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigInteger getValueRangeRightAsBigInteger() {
+        try {
+            final BigDecimal decimal = getValueRangeRight();
+            return decimal != null ? decimal.toBigInteger() : null;
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public default BigDecimal getValueRangeRightAsBigDecimal() {
+        return getValueRangeRight();
+    }
 
     @Nullable
     public <T> Set<T> getValueSet();

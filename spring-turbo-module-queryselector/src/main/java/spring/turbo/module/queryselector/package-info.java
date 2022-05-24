@@ -16,6 +16,7 @@ import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
 import spring.turbo.module.queryselector.resolver.SelectorSetResolverImpl;
+import spring.turbo.module.queryselector.resolver.StringToSelectorSetConverter;
 
 /**
  * @author 应卓
@@ -27,6 +28,12 @@ class SpringBootAutoConfiguration {
     @ConditionalOnMissingBean
     SelectorSetResolver selectorSetResolver() {
         return new SelectorSetResolverImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    StringToSelectorSetConverter stringToSelectorSetConverter(SelectorSetResolver resolver) {
+        return new StringToSelectorSetConverter(resolver);
     }
 
 }

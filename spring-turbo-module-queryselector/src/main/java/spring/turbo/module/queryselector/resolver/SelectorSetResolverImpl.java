@@ -11,6 +11,7 @@ package spring.turbo.module.queryselector.resolver;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.*;
+import spring.turbo.module.queryselector.exception.SelectorResolvingException;
 import spring.turbo.util.*;
 
 import java.math.BigDecimal;
@@ -57,15 +58,7 @@ public class SelectorSetResolverImpl implements SelectorSetResolver, Initializin
             }
 
             final Optional<Selector> selectorOption = this.resolveSelector(selectorString);
-            if (selectorOption.isPresent()) {
-                selectors.add(selectorOption.get());
-            } else {
-                if (this.skipErrorIfUnableToResolve) {
-                    // TODO: 抛出异常
-                } else {
-                    return Optional.empty();
-                }
-            }
+            selectorOption.ifPresent(selectors::add);
         }
 
         return Optional.of(new SelectorSetImpl(selectors));
@@ -90,7 +83,11 @@ public class SelectorSetResolverImpl implements SelectorSetResolver, Initializin
         try {
             return doResolveSelector(string);
         } catch (Exception e) {
-            return Optional.empty();
+            if (this.skipErrorIfUnableToResolve) {
+                return Optional.empty();
+            } else {
+                throw new SelectorResolvingException(e.getMessage());
+            }
         }
     }
 

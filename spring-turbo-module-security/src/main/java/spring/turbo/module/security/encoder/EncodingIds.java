@@ -29,6 +29,7 @@ public final class EncodingIds {
     public static final String MD4 = "MD4";
     public static final String MD5 = "MD5";
     public static final String SM3 = "SM3";
+
     /**
      * 私有构造方法
      */
