@@ -10,5 +10,23 @@
 @NonNullFields
 package spring.turbo.module.queryselector;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
+import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
+import spring.turbo.module.queryselector.resolver.SelectorSetResolverImpl;
+
+/**
+ * @author 应卓
+ * @since 1.1.0
+ */
+class SpringBootAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    SelectorSetResolver selectorSetResolver() {
+        return new SelectorSetResolverImpl();
+    }
+
+}
