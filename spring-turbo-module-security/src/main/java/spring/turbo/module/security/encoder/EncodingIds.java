@@ -14,13 +14,6 @@ package spring.turbo.module.security.encoder;
  */
 public final class EncodingIds {
 
-    /**
-     * 私有构造方法
-     */
-    private EncodingIds() {
-        super();
-    }
-
     public static final String noop = "noop";
     public static final String bcrypt = "bcrypt";
     public static final String ldap = "ldap";
@@ -36,5 +29,11 @@ public final class EncodingIds {
     public static final String MD4 = "MD4";
     public static final String MD5 = "MD5";
     public static final String SM3 = "SM3";
+    /**
+     * 私有构造方法
+     */
+    private EncodingIds() {
+        super();
+    }
 
 }

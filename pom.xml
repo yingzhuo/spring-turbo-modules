@@ -17,6 +17,7 @@
         <module>spring-turbo-module-kafka</module>
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
+        <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-rabbitmq</module>
         <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
