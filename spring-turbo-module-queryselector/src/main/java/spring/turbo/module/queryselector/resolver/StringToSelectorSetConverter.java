@@ -46,7 +46,9 @@ public class StringToSelectorSetConverter implements GenericConverter {
         if (source == null) {
             return null;
         }
-        return selectorSetResolver.resolve(source.toString());
+
+        return selectorSetResolver.resolve(source.toString())
+                .orElse(null);
     }
 
 }
