@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.jackson;
+package spring.turbo.module.jackson.mixin;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -26,7 +26,7 @@ import java.io.IOException;
 @JsonDeserialize(using = SelectorSetMixin.SelectorSetJsonSerializer.class)
 public abstract class SelectorSetMixin {
 
-    protected static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
+    static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
 
         private final SelectorSetResolver selectorSetResolver;
 

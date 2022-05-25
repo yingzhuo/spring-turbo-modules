@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.jackson.SpringBootAutoConfiguration
+    spring.turbo.module.jackson.SpringBootAutoConfiguration,\
+    spring.turbo.module.jackson.SpringBootAutoConfigurationQueryselectorModule

@@ -134,6 +134,11 @@
                 <artifactId>spring-turbo-module-security-jwt</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>spring-turbo-module-queryselector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- spring-boot -->
             <dependency>

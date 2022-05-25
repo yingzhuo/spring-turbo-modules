@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.queryselector.SpringBootAutoConfiguration,\
-    spring.turbo.module.queryselector.SpringBootAutoConfigurationJackson
+    spring.turbo.module.queryselector.SpringBootAutoConfiguration
