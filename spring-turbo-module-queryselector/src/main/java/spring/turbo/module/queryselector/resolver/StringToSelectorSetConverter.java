@@ -11,6 +11,7 @@ package spring.turbo.module.queryselector.resolver;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.lang.Nullable;
+import spring.turbo.module.queryselector.EmptySelectorSet;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.SetFactories;
@@ -48,7 +49,7 @@ public class StringToSelectorSetConverter implements GenericConverter {
         }
 
         return selectorSetResolver.resolve(source.toString())
-                .orElse(null);
+                .orElse(EmptySelectorSet.INSTANCE);
     }
 
 }
