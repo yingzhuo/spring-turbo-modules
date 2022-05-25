@@ -11,6 +11,7 @@
 package spring.turbo.module.zookeeper;
 
 import org.apache.curator.framework.CuratorFramework;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import spring.turbo.module.zookeeper.configuration.ZookeeperProperties;
  * @author 应卓
  * @since 1.0.15
  */
+@AutoConfiguration
 @EnableConfigurationProperties(ZookeeperProperties.class)
 @ConditionalOnProperty(prefix = "springturbo.zookeeper", name = "enabled", havingValue = "true", matchIfMissing = true)
 class SpringBootAutoConfiguration {

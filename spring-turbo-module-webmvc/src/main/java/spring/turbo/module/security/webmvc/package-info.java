@@ -11,6 +11,7 @@
 package spring.turbo.module.security.webmvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.Ordered;
 import org.springframework.lang.NonNullApi;
@@ -26,6 +27,7 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
+@AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 class SpringBootAutoConfiguration implements WebMvcConfigurer {
 

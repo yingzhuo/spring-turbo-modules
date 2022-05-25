@@ -10,6 +10,7 @@
 @NonNullFields
 package spring.turbo.module.excel.reader;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
@@ -23,6 +24,7 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean

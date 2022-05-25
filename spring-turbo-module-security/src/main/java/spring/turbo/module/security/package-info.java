@@ -12,6 +12,7 @@ package spring.turbo.module.security;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -98,6 +99,7 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
  * @author 应卓
  * @since 1.0.0
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     /**

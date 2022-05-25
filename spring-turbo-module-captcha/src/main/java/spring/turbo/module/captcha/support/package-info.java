@@ -10,6 +10,7 @@
 @NonNullFields
 package spring.turbo.module.captcha.support;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import org.springframework.lang.NonNullFields;
  * @author 应卓
  * @since 1.0.1
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean
@@ -35,6 +37,7 @@ class SpringBootAutoConfiguration {
  * @author 应卓
  * @since 1.0.1
  */
+@AutoConfiguration
 @ConditionalOnBean(type = "org.springframework.data.redis.core.StringRedisTemplate")
 class SpringBootAutoConfigurationDependsOnSpringDataRedis {
 

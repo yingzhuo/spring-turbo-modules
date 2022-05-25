@@ -10,6 +10,7 @@
 @NonNullFields
 package spring.turbo.module.qrcode;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
@@ -19,6 +20,7 @@ import org.springframework.lang.NonNullFields;
  * @author 应卓
  * @since 1.0.0
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean

@@ -55,6 +55,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- mica-auto -->
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-auto</artifactId>
+        </dependency>
+
         <!-- servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>

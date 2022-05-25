@@ -12,6 +12,7 @@ package spring.turbo.module.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
@@ -26,6 +27,7 @@ import spring.turbo.module.queryselector.SelectorSet;
  * @author 应卓
  * @since 1.0.12
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Autowired(required = false)
@@ -53,6 +55,7 @@ class SpringBootAutoConfiguration {
  * @author 应卓
  * @since 1.1.0
  */
+@AutoConfiguration
 @ConditionalOnClass(SelectorSet.class)
 class SpringBootAutoConfigurationQueryselectorModule {
 

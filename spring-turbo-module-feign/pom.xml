@@ -63,10 +63,17 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- mica-auto -->
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-auto</artifactId>
+        </dependency>
+
         <!-- jsr305 -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
         </dependency>
     </dependencies>
+
 </project>

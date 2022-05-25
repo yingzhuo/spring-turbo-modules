@@ -539,6 +539,14 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!-- mica-auto -->
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-auto</artifactId>
+                <version>2.3.0</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- logback -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>

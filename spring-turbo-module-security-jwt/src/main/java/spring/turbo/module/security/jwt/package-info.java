@@ -10,7 +10,9 @@
 @NonNullFields
 package spring.turbo.module.security.jwt;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
@@ -19,10 +21,12 @@ import org.springframework.lang.NonNullFields;
  * @author 应卓
  * @since 1.0.0
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(value = AlgorithmFactory.class)
+    @ConditionalOnMissingBean
     JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
         return new JwtTokenFactoryImpl(algorithmFactory);
     }

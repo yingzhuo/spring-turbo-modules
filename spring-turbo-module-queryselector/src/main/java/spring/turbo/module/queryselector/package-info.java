@@ -10,6 +10,7 @@
 @NonNullFields
 package spring.turbo.module.queryselector;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
@@ -22,6 +23,7 @@ import spring.turbo.module.queryselector.resolver.StringToSelectorSetConverter;
  * @author 应卓
  * @since 1.1.0
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean
