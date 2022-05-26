@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.queryselector.jackson;
+package spring.turbo.module.queryselector.property;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
