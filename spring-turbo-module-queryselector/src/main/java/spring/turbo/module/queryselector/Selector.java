@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author 应卓
@@ -175,5 +176,34 @@ public interface Selector extends Named, Serializable {
 
     @Nullable
     public <T> Set<T> getValueSet();
+
+    @Nullable
+    public default Set<Integer> getValueSetAsInteger() {
+        final Set<BigDecimal> set = getValueSet();
+        return set != null ? set.stream().map(BigDecimal::intValue).collect(Collectors.toSet()) : null;
+    }
+
+    @Nullable
+    public default Set<Long> getValueSetAsLong() {
+        final Set<BigDecimal> set = getValueSet();
+        return set != null ? set.stream().map(BigDecimal::longValue).collect(Collectors.toSet()) : null;
+    }
+
+    @Nullable
+    public default Set<Double> getValueSetAsDouble() {
+        final Set<BigDecimal> set = getValueSet();
+        return set != null ? set.stream().map(BigDecimal::doubleValue).collect(Collectors.toSet()) : null;
+    }
+
+    @Nullable
+    public default Set<BigInteger> getValueSetAsBigInteger() {
+        final Set<BigDecimal> set = getValueSet();
+        return set != null ? set.stream().map(BigDecimal::toBigInteger).collect(Collectors.toSet()) : null;
+    }
+
+    @Nullable
+    public default Set<BigDecimal> getValueSetAsBigDecimal() {
+        return getValueSet();
+    }
 
 }
