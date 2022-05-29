@@ -38,8 +38,6 @@ public final class WorkbookBuilder {
     private final List<SheetMetadata<?>> sheetInfo = new ArrayList<>();
     private InstanceCache instanceCache = InstanceCache.newInstance();
     private Supplier<Workbook> workbookSupplier = XSSFWorkbook::new;
-    private CellStyle headerCellStyle;
-    private CellStyle dataCellStyle;
 
     /**
      * 私有构造方法
@@ -67,26 +65,25 @@ public final class WorkbookBuilder {
 
     public <T> WorkbookBuilder sheet(Class<T> valueObjectType,
                                      int sheetIndex,
-                                     String sheetName) {
-        sheetInfo.add(SheetMetadata.newInstance(valueObjectType, sheetIndex, sheetName));
-        return this;
+                                     String sheetName,
+                                     @Nullable Collection<T> data) {
+        return sheet(valueObjectType, sheetIndex, sheetName, data, Collections.emptySet());
     }
 
     public <T> WorkbookBuilder sheet(Class<T> valueObjectType,
                                      int sheetIndex,
                                      String sheetName,
-                                     @Nullable Collection<T> data) {
-        sheetInfo.add(SheetMetadata.newInstance(valueObjectType, sheetIndex, sheetName, data));
+                                     @Nullable Collection<T> data,
+                                     @Nullable Set<String> includeHeaders) {
+        sheetInfo.add(SheetMetadata.newInstance(valueObjectType, sheetIndex, sheetName, data, includeHeaders));
         return this;
     }
 
     public Workbook build() {
 
-
         OrderComparator.sort(sheetInfo);
 
         final Workbook workbook = Optional.ofNullable(workbookSupplier.get()).orElseGet(XSSFWorkbook::new);
-        this.lazyInit(workbook);
 
         for (SheetMetadata<?> metadata : sheetInfo) {
             final String sheetName = metadata.getSheetName();
@@ -97,35 +94,81 @@ public final class WorkbookBuilder {
         return workbook;
     }
 
-    private void lazyInit(Workbook workbook) {
-        this.headerCellStyle = createDefaultCellStyleForHeader(workbook);
-        this.dataCellStyle = createDefaultCellStyleForData(workbook);
-    }
-
     private void writeSheets(Workbook workbook, Sheet sheet, SheetMetadata<?> sheetMetadata) {
 
         final int offset = sheetMetadata.getOffset();
         final List<String> header = sheetMetadata.getHeader();
-        final StyleProvider headerStyleProvider = sheetMetadata.getHeaderProvider(instanceCache);
-        final StyleProvider dataStyleProvider = sheetMetadata.getDataProvider(instanceCache);
+
+        // 重新调整header
+        final List<String> betterHeader = new ArrayList<>();
+        for (String headerName : header) {
+            if (!sheetMetadata.shouldSkip(headerName)) {
+                betterHeader.add(headerName);
+            }
+        }
 
         // 设置自适应列宽
-        for (int i = offset; i < header.size() + offset; i++) {
+        for (int i = offset; i < betterHeader.size() + offset; i++) {
             sheet.autoSizeColumn(i);
         }
 
         // 写入头部
-        doWriteHeader(workbook, sheet,
-                header, offset,
-                Optional.ofNullable(headerStyleProvider).map(p -> p.getStyle(workbook)).orElse(headerCellStyle)
+        doWriteHeader(workbook,
+                sheet,
+                betterHeader,
+                offset,
+                getHeaderStyle(instanceCache, workbook, sheetMetadata)
         );
 
         // 写入数据部分
-        doWriteData(workbook, sheet,
-                sheetMetadata.getData(), header, offset,
-                Optional.ofNullable(dataStyleProvider).map(p -> p.getStyle(workbook)).orElse(dataCellStyle),
+        doWriteData(workbook,
+                sheet,
+                sheetMetadata.getData(),
+                betterHeader,
+                offset,
+                getCommonDataStyle(instanceCache, workbook, sheetMetadata),
+                getDateTypeDataStyle(instanceCache, workbook, sheetMetadata),
                 sheetMetadata.getValueObjectType()
         );
+    }
+
+    @NonNull
+    private CellStyle getHeaderStyle(InstanceCache cache, Workbook workbook, SheetMetadata<?> sheetMetadata) {
+        CellStyle style = null;
+        StyleProvider provider = sheetMetadata.getHeaderStyleProvider(cache);
+        if (provider != null) {
+            style = provider.getStyle(workbook);
+        }
+        if (style == null) {
+            style = createDefaultCellStyleForHeader(workbook);
+        }
+        return style;
+    }
+
+    @NonNull
+    private CellStyle getCommonDataStyle(InstanceCache cache, Workbook workbook, SheetMetadata<?> sheetMetadata) {
+        CellStyle style = null;
+        StyleProvider provider = sheetMetadata.getHeaderStyleProvider(cache);
+        if (provider != null) {
+            style = provider.getStyle(workbook);
+        }
+        if (style == null) {
+            style = createDefaultCellStyleForCommonData(workbook);
+        }
+        return style;
+    }
+
+    @NonNull
+    private CellStyle getDateTypeDataStyle(InstanceCache cache, Workbook workbook, SheetMetadata<?> sheetMetadata) {
+        CellStyle style = null;
+        StyleProvider provider = sheetMetadata.getHeaderStyleProvider(cache);
+        if (provider != null) {
+            style = provider.getStyle(workbook);
+        }
+        if (style == null) {
+            style = createDefaultCellStyleForDateTypeData(workbook);
+        }
+        return style;
     }
 
     private void doWriteHeader(
@@ -148,6 +191,7 @@ public final class WorkbookBuilder {
                              List<String> header,
                              int offset,
                              @Nullable CellStyle dataCellStyle,
+                             @Nullable CellStyle dataCellStyleForDate,
                              Class<?> valueObjectType) {
 
         if (CollectionUtils.isEmpty(data)) {
@@ -155,7 +199,7 @@ public final class WorkbookBuilder {
         }
 
         final Map<String, String> aliasMap = ValueObjectUtils.getAliases(valueObjectType);
-        dataCellStyle = Optional.ofNullable(dataCellStyle).orElse(createDefaultCellStyleForData(workbook));
+        dataCellStyle = Optional.ofNullable(dataCellStyle).orElse(createDefaultCellStyleForCommonData(workbook));
 
         int indexOfData = -1;
         for (Object vo : data) {
@@ -180,8 +224,10 @@ public final class WorkbookBuilder {
 
                 if (property instanceof Date) {
                     cell.setCellValue((Date) property);
+                    cell.setCellStyle(dataCellStyleForDate);
                 } else if (property instanceof Calendar) {
                     cell.setCellValue((Calendar) property);
+                    cell.setCellStyle(dataCellStyleForDate);
                 } else if (property instanceof LocalDateTime) {
                     cell.setCellValue((LocalDateTime) property);
                 } else if (property instanceof LocalDate) {
@@ -230,7 +276,7 @@ public final class WorkbookBuilder {
     }
 
     @NonNull
-    private CellStyle createDefaultCellStyleForData(Workbook workbook) {
+    private CellStyle createDefaultCellStyleForCommonData(Workbook workbook) {
         final Font font = workbook.createFont();
         font.setFontName("Times New Roman");
         font.setColor(IndexedColors.BLACK.getIndex());
@@ -241,6 +287,26 @@ public final class WorkbookBuilder {
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.LEFT);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
+        return style;
+    }
+
+    @NonNull
+    private CellStyle createDefaultCellStyleForDateTypeData(Workbook workbook) {
+        final Font font = workbook.createFont();
+        font.setFontName("Times New Roman");
+        font.setColor(IndexedColors.BLACK.getIndex());
+        font.setBold(false);
+
+        final CellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        style.setWrapText(true);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        CreationHelper createHelper = workbook.getCreationHelper();
+        style.setDataFormat(
+                createHelper.createDataFormat().getFormat("yyyy-MM-dd HH:mm:ss")
+        );
         return style;
     }
 
