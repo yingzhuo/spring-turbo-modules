@@ -20,6 +20,9 @@ import spring.turbo.module.jackson.serializer.predefined.Converters;
  */
 public final class JsonMixIns {
 
+    /**
+     * 私有构造方法
+     */
     private JsonMixIns() {
         super();
     }
@@ -52,8 +55,10 @@ public final class JsonMixIns {
 
     @JsonIgnoreProperties({
             "password",
+            "passwd",
             "pwd",
-            "secret"
+            "secret",
+            "hidden"
     })
     public static abstract class SensitiveIgnoring {
     }

@@ -12,6 +12,7 @@ package spring.turbo.module.security;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +27,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
@@ -42,7 +44,7 @@ import java.util.Map;
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes"})
 @AutoConfigureAfter(SpringBootAutoConfiguration.class)
 class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecurity> {
 
@@ -98,7 +100,8 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
  * @author 应卓
  * @since 1.0.0
  */
-class SpringBootAutoConfiguration {
+@AutoConfiguration
+class SpringBootAutoConfiguration implements WebMvcConfigurer {
 
     /**
      * 自定义HttpFirewall

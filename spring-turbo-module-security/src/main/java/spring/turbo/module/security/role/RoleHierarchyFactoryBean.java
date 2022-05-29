@@ -8,13 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.role;
 
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.core.io.Resource;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import spring.turbo.io.ResourceOption;
-import spring.turbo.io.ResourceOptions;
+import spring.turbo.io.ResourceUtils;
 import spring.turbo.util.Asserts;
 
 import java.nio.charset.Charset;
@@ -25,28 +23,40 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * {@link RoleHierarchy} 工厂，本来使用文件配置角色之间的继承关系。
  *
  * @author 应卓
+ * @see RoleHierarchy
+ * @see RoleHierarchyImpl
+ * @see ResourceUtils
  * @since 1.0.0
  */
-public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy> {
+public final class RoleHierarchyFactoryBean implements SmartFactoryBean<RoleHierarchy> {
 
-    @Nullable
-    private ResourceOption text;
-
-    private Charset charset = UTF_8;
+    private final String roleHierarchyStringRepresentation;
 
     /**
      * 构造方法
+     *
+     * @param roleHierarchyStringRepresentation 配置文件
      */
-    public RoleHierarchyFactoryBean() {
-        super();
+    public RoleHierarchyFactoryBean(Resource roleHierarchyStringRepresentation) {
+        this(roleHierarchyStringRepresentation, UTF_8);
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param roleHierarchyStringRepresentation 配置文件
+     * @param charset                           配置文件字符集
+     */
+    public RoleHierarchyFactoryBean(Resource roleHierarchyStringRepresentation, Charset charset) {
+        Asserts.notNull(roleHierarchyStringRepresentation);
+        Asserts.notNull(charset);
+        this.roleHierarchyStringRepresentation = ResourceUtils.toString(roleHierarchyStringRepresentation, charset);
     }
 
     @Override
     public RoleHierarchy getObject() {
-        Asserts.state(text != null && text.isPresent());
-
         final RoleHierarchyImpl bean = new RoleHierarchyImpl();
-        bean.setHierarchy(text.toString(charset));
+        bean.setHierarchy(roleHierarchyStringRepresentation);
         return bean;
     }
 
@@ -60,16 +70,14 @@ public final class RoleHierarchyFactoryBean implements FactoryBean<RoleHierarchy
         return true;
     }
 
-    public void setText(Resource textResource) {
-        Asserts.notNull(textResource);
-        this.text = ResourceOptions.builder()
-                .add(textResource)
-                .build();
+    @Override
+    public boolean isPrototype() {
+        return false;
     }
 
-    public void setCharset(Charset charset) {
-        Asserts.notNull(charset);
-        this.charset = charset;
+    @Override
+    public boolean isEagerInit() {
+        return true;
     }
 
 }

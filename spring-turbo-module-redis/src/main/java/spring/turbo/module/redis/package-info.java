@@ -10,6 +10,7 @@
 @NonNullFields
 package spring.turbo.module.redis;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -21,6 +22,7 @@ import org.springframework.lang.NonNullFields;
  * @author 应卓
  * @since 1.0.15
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean(name = "redisLockLockLuaScript")

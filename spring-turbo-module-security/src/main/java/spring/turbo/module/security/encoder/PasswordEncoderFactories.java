@@ -20,6 +20,7 @@ import java.util.*;
 
 /**
  * @author 应卓
+ * @see EncodingIds
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {

@@ -38,11 +38,15 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     private final String sheetName;
     private final Collection<T> data;
 
+    @Nullable
+    private final Set<String> includeHeaders;
+
     private SheetMetadata(
             Class<T> valueObjectType,
             int sheetIndex,
             String sheetName,
-            @Nullable Collection<T> data) {
+            @Nullable Collection<T> data,
+            @Nullable Set<String> includeHeaders) {
 
         Asserts.notNull(valueObjectType);
         Asserts.isTrue(sheetIndex >= 0);
@@ -52,21 +56,16 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         this.sheetIndex = sheetIndex;
         this.sheetName = sheetName;
         this.data = CollectionUtils.isEmpty(data) ? Collections.emptyList() : data;
-    }
-
-    static <T> SheetMetadata<T> newInstance(
-            Class<T> valueObjectType,
-            int sheetIndex,
-            String sheetName) {
-        return newInstance(valueObjectType, sheetIndex, sheetName, null);
+        this.includeHeaders = includeHeaders;
     }
 
     static <T> SheetMetadata<T> newInstance(
             Class<T> valueObjectType,
             int sheetIndex,
             String sheetName,
-            @Nullable Collection<T> data) {
-        return new SheetMetadata<T>(valueObjectType, sheetIndex, sheetName, data);
+            @Nullable Collection<T> data,
+            @Nullable Set<String> includeHeaders) {
+        return new SheetMetadata<T>(valueObjectType, sheetIndex, sheetName, data, includeHeaders);
     }
 
     public Class<T> getValueObjectType() {
@@ -85,9 +84,23 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         return data;
     }
 
+    @Nullable
+    public Set<String> getIncludeHeaders() {
+        return includeHeaders;
+    }
+
     @Override
     public int getOrder() {
         return getSheetIndex();
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+
+    public boolean shouldSkip(String headerName) {
+        if (CollectionUtils.isEmpty(this.includeHeaders)) {
+            return false;
+        }
+        return !this.includeHeaders.contains(headerName);
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -125,7 +138,7 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     }
 
     @Nullable
-    public StyleProvider getHeaderProvider(InstanceCache instanceCache) {
+    public StyleProvider getHeaderStyleProvider(InstanceCache instanceCache) {
         final HeaderStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, HeaderStyle.class);
         if (annotation == null) {
             return null;
@@ -134,8 +147,17 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     }
 
     @Nullable
-    public StyleProvider getDataProvider(InstanceCache instanceCache) {
+    public StyleProvider getCommonDataStyleProvider(InstanceCache instanceCache) {
         final DataStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, DataStyle.class);
+        if (annotation == null) {
+            return null;
+        }
+        return instanceCache.findOrCreate(annotation.type());
+    }
+
+    @Nullable
+    public StyleProvider getDateTypeDataStyleProvider(InstanceCache instanceCache) {
+        final DateTypeDataStyle annotation = AnnotationUtils.findAnnotation(valueObjectType, DateTypeDataStyle.class);
         if (annotation == null) {
             return null;
         }

@@ -12,22 +12,28 @@ package spring.turbo.module.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
 import spring.turbo.bean.*;
 import spring.turbo.module.jackson.mixin.*;
+import spring.turbo.module.queryselector.SelectorSet;
 
 /**
+ * 自动注册
+ *
  * @author 应卓
  * @since 1.0.12
  */
+@AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Autowired(required = false)
     void configObjectMapper(@Nullable ObjectMapper om) {
         if (om != null) {
-            om.setAnnotationIntrospector(new CustomJacksonAnnotationIntrospector());
             om.addMixIn(DatePair.class, DatePairMixin.class);
             om.addMixIn(DayRange.class, DayRangeMixin.class);
             om.addMixIn(NumberPair.class, NumberPairMixin.class);
@@ -39,6 +45,26 @@ class SpringBootAutoConfiguration {
             om.addMixIn(DoublePair.class, DoublePairMixin.class);
             om.addMixIn(BigIntegerPair.class, BigIntegerPairMixin.class);
             om.addMixIn(BigDecimalPair.class, BigDecimalPairMixin.class);
+        }
+    }
+
+}
+
+/**
+ * 自动注册
+ *
+ * @author 应卓
+ * @since 1.1.0
+ */
+@AutoConfiguration
+@ConditionalOnClass(SelectorSet.class)
+@ConfigurationProperties(prefix = "springturbo.queryselector")
+class SpringBootAutoConfigurationQueryselectorModule {
+
+    @Autowired(required = false)
+    void configObjectMapper(@Nullable ObjectMapper om) {
+        if (om != null) {
+            om.addMixIn(SelectorSet.class, SelectorSetMixin.class);
         }
     }
 
