@@ -214,11 +214,11 @@ public final class WorkbookBuilder {
                 cellIndex++;
 
                 final Cell cell = row.createCell(cellIndex);
-                cell.setCellStyle(dataCellStyle);
 
                 Object property = getPropertyValue(aliasMap, getter, headerName);
                 if (property == null) {
                     cell.setBlank();
+                    cell.setCellStyle(dataCellStyle);
                     continue;
                 }
 
@@ -230,12 +230,16 @@ public final class WorkbookBuilder {
                     cell.setCellStyle(dataCellStyleForDate);
                 } else if (property instanceof LocalDateTime) {
                     cell.setCellValue((LocalDateTime) property);
+                    cell.setCellStyle(dataCellStyle);
                 } else if (property instanceof LocalDate) {
                     cell.setCellValue((LocalDate) property);
+                    cell.setCellStyle(dataCellStyle);
                 } else if (property instanceof Number) {
                     cell.setCellValue((Double) NumberUtils.convertNumberToTargetClass((Number) property, Double.class));
+                    cell.setCellStyle(dataCellStyle);
                 } else {
                     cell.setCellValue(property.toString());
+                    cell.setCellStyle(dataCellStyle);
                 }
             }
         }
