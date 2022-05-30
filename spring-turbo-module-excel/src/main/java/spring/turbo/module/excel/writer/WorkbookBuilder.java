@@ -27,6 +27,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static spring.turbo.module.excel.writer.PredefinedCellStyleFactories.*;
+
 /**
  * @author 应卓
  * @see SheetMetadata
@@ -140,7 +142,7 @@ public final class WorkbookBuilder {
             style = provider.getStyle(workbook);
         }
         if (style == null) {
-            style = createDefaultCellStyleForHeader(workbook);
+            style = createCellStyleForHeader(workbook);
         }
         return style;
     }
@@ -153,7 +155,7 @@ public final class WorkbookBuilder {
             style = provider.getStyle(workbook);
         }
         if (style == null) {
-            style = createDefaultCellStyleForCommonData(workbook);
+            style = createCellStyleForCommonData(workbook);
         }
         return style;
     }
@@ -166,7 +168,7 @@ public final class WorkbookBuilder {
             style = provider.getStyle(workbook);
         }
         if (style == null) {
-            style = createDefaultCellStyleForDateTypeData(workbook);
+            style = createCellStyleForDateTypeData(workbook);
         }
         return style;
     }
@@ -175,7 +177,7 @@ public final class WorkbookBuilder {
             Workbook workbook,
             Sheet sheet, List<String> header, int offset, @Nullable CellStyle headerCellStyle) {
 
-        headerCellStyle = Optional.ofNullable(headerCellStyle).orElse(createDefaultCellStyleForHeader(workbook));
+        headerCellStyle = Optional.ofNullable(headerCellStyle).orElse(createCellStyleForHeader(workbook));
 
         final Row row = sheet.createRow(0);
         for (int i = 0; i < header.size(); i++) {
@@ -199,7 +201,7 @@ public final class WorkbookBuilder {
         }
 
         final Map<String, String> aliasMap = ValueObjectUtils.getAliases(valueObjectType);
-        dataCellStyle = Optional.ofNullable(dataCellStyle).orElse(createDefaultCellStyleForCommonData(workbook));
+        dataCellStyle = Optional.ofNullable(dataCellStyle).orElse(createCellStyleForCommonData(workbook));
 
         int indexOfData = -1;
         for (Object vo : data) {
@@ -254,64 +256,5 @@ public final class WorkbookBuilder {
         return getter.get(propertyName);
     }
 
-    @NonNull
-    private CellStyle createDefaultCellStyleForHeader(Workbook workbook) {
-        final Font font = workbook.createFont();
-        font.setFontName("Times New Roman");
-        font.setColor(IndexedColors.BLACK.getIndex());
-        font.setBold(true);
-
-        final CellStyle style = workbook.createCellStyle();
-        style.setFont(font);
-        style.setWrapText(true);
-        style.setAlignment(HorizontalAlignment.LEFT);
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        style.setBorderRight(BorderStyle.THIN);
-        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderLeft(BorderStyle.THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderTop(BorderStyle.THIN);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
-        style.setBorderBottom(BorderStyle.THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        return style;
-    }
-
-    @NonNull
-    private CellStyle createDefaultCellStyleForCommonData(Workbook workbook) {
-        final Font font = workbook.createFont();
-        font.setFontName("Times New Roman");
-        font.setColor(IndexedColors.BLACK.getIndex());
-        font.setBold(false);
-
-        final CellStyle style = workbook.createCellStyle();
-        style.setFont(font);
-        style.setWrapText(true);
-        style.setAlignment(HorizontalAlignment.LEFT);
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
-        return style;
-    }
-
-    @NonNull
-    private CellStyle createDefaultCellStyleForDateTypeData(Workbook workbook) {
-        final Font font = workbook.createFont();
-        font.setFontName("Times New Roman");
-        font.setColor(IndexedColors.BLACK.getIndex());
-        font.setBold(false);
-
-        final CellStyle style = workbook.createCellStyle();
-        style.setFont(font);
-        style.setWrapText(true);
-        style.setAlignment(HorizontalAlignment.LEFT);
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
-
-        CreationHelper createHelper = workbook.getCreationHelper();
-        style.setDataFormat(
-                createHelper.createDataFormat().getFormat("yyyy-MM-dd HH:mm:ss")
-        );
-        return style;
-    }
 
 }
