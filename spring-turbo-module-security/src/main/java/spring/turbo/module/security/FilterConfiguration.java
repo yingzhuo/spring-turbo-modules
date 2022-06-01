@@ -31,8 +31,8 @@ import javax.servlet.Filter;
 @FunctionalInterface
 public interface FilterConfiguration<T extends Filter> extends Factory<T> {
 
-    @Nullable
     @Override
+    @Nullable
     public T create();
 
     @Nullable
@@ -48,7 +48,7 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
         return Position.AFTER;
     }
 
-    public static enum Position {
+    public enum Position {
         BEFORE, AFTER, AT
     }
 

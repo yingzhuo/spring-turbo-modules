@@ -31,12 +31,12 @@ public final class PasswordEncoderFactories {
 
     @NonNull
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder() {
-        return createDelegatingPasswordEncoder("bcrypt", "noop");
+        return createDelegatingPasswordEncoder(EncodingIds.bcrypt, EncodingIds.noop);
     }
 
     @NonNull
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(@NonNull String encodingId) {
-        return createDelegatingPasswordEncoder(encodingId, "noop");
+        return createDelegatingPasswordEncoder(encodingId, EncodingIds.noop);
     }
 
     @NonNull
