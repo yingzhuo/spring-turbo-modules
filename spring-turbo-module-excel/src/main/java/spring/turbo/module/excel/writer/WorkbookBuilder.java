@@ -109,11 +109,6 @@ public final class WorkbookBuilder {
             }
         }
 
-        // 设置自适应列宽
-        for (int i = offset; i < betterHeader.size() + offset; i++) {
-            sheet.autoSizeColumn(i);
-        }
-
         // 写入头部
         doWriteHeader(workbook,
                 sheet,
@@ -132,6 +127,31 @@ public final class WorkbookBuilder {
                 getDateTypeDataStyle(instanceCache, workbook, sheetMetadata),
                 sheetMetadata.getValueObjectType()
         );
+
+        // 设置自适应列宽 // 此API调用以后实际并不好用
+//        for (int i = offset; i < betterHeader.size() + offset; i++) {
+//            sheet.autoSizeColumn(i);
+//        }
+
+        this.autoSizeColumns(workbook);
+    }
+
+    private void autoSizeColumns(Workbook workbook) {
+        int numberOfSheets = workbook.getNumberOfSheets();
+        for (int i = 0; i < numberOfSheets; i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+            if (sheet.getPhysicalNumberOfRows() > 0) {
+                Row row = sheet.getRow(sheet.getFirstRowNum());
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    int columnIndex = cell.getColumnIndex();
+                    sheet.autoSizeColumn(columnIndex);
+                    int currentColumnWidth = sheet.getColumnWidth(columnIndex);
+                    sheet.setColumnWidth(columnIndex, (currentColumnWidth + 2500));
+                }
+            }
+        }
     }
 
     @NonNull
@@ -255,6 +275,5 @@ public final class WorkbookBuilder {
         }
         return getter.get(propertyName);
     }
-
 
 }
