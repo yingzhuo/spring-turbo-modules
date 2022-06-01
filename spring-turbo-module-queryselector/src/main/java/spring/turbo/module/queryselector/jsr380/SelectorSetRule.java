@@ -18,6 +18,7 @@ import static java.lang.annotation.ElementType.*;
 
 /**
  * @author 应卓
+ * @see SelectorSetRuleValidator
  * @since 1.1.0
  */
 @Retention(RetentionPolicy.RUNTIME)

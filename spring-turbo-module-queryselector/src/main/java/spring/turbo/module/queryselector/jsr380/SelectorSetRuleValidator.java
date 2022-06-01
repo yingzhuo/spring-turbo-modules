@@ -20,6 +20,7 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * @author 应卓
+ * @see SelectorSetRule
  * @since 1.1.0
  */
 public class SelectorSetRuleValidator implements ConstraintValidator<SelectorSetRule, SelectorSet> {

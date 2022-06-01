@@ -29,8 +29,8 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean c1 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class;
-        boolean c2 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == Optional.class;
+        final boolean c1 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class;
+        final boolean c2 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == Optional.class;
         return c1 || c2;
     }
 

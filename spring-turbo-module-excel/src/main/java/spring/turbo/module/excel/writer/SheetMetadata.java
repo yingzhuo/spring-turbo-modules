@@ -37,8 +37,6 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
     private final int sheetIndex;
     private final String sheetName;
     private final Collection<T> data;
-
-    @Nullable
     private final Set<String> includeHeaders;
 
     private SheetMetadata(
@@ -56,7 +54,7 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         this.sheetIndex = sheetIndex;
         this.sheetName = sheetName;
         this.data = CollectionUtils.isEmpty(data) ? Collections.emptyList() : data;
-        this.includeHeaders = includeHeaders;
+        this.includeHeaders = CollectionUtils.isEmpty(includeHeaders) ? Collections.emptySet() : Collections.unmodifiableSet(includeHeaders);
     }
 
     static <T> SheetMetadata<T> newInstance(
@@ -84,7 +82,6 @@ public final class SheetMetadata<T> implements Serializable, Ordered {
         return data;
     }
 
-    @Nullable
     public Set<String> getIncludeHeaders() {
         return includeHeaders;
     }
