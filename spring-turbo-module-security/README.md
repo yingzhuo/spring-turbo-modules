@@ -49,13 +49,14 @@ public interface TokenResolver extends Ordered {
 这依然是一个核心部件，他(的实现)从令牌信息获取用户信息。
 
 ```java
+
 @FunctionalInterface
 public interface TokenToUserConverter extends Converter<Token, UserDetails> {
 
     @Nullable
     @Override
     public UserDetails convert(@Nullable Token token) throws AuthenticationException;
-    
+
     @Nullable
     public default UserDetails convert(String rawToken) throws AuthenticationException {
         return convert(StringToken.of(rawToken));

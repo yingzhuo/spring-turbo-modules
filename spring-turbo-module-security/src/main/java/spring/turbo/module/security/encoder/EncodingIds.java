@@ -10,6 +10,8 @@ package spring.turbo.module.security.encoder;
 
 /**
  * @author 应卓
+ * @see PasswordEncoderFactories#createDelegatingPasswordEncoder(String)
+ * @see PasswordEncoderFactories#createDelegatingPasswordEncoder(String, String)
  * @since 1.1.0
  */
 public final class EncodingIds {

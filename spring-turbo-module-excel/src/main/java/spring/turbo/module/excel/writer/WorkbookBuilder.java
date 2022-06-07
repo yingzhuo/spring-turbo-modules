@@ -37,6 +37,8 @@ import static spring.turbo.module.excel.writer.PredefinedCellStyleFactories.*;
  */
 public final class WorkbookBuilder {
 
+    private static final int MAX_CELL_WIDTH = 255 * 256;
+
     private final List<SheetMetadata<?>> sheetInfo = new ArrayList<>();
     private InstanceCache instanceCache = InstanceCache.newInstance();
     private Supplier<Workbook> workbookSupplier = XSSFWorkbook::new;
@@ -128,11 +130,6 @@ public final class WorkbookBuilder {
                 sheetMetadata.getValueObjectType()
         );
 
-        // 设置自适应列宽 // 此API调用以后实际并不好用
-//        for (int i = offset; i < betterHeader.size() + offset; i++) {
-//            sheet.autoSizeColumn(i);
-//        }
-
         this.autoSizeColumns(workbook);
     }
 
@@ -144,11 +141,11 @@ public final class WorkbookBuilder {
                 Row row = sheet.getRow(sheet.getFirstRowNum());
                 Iterator<Cell> cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
+                    final Cell cell = cellIterator.next();
                     int columnIndex = cell.getColumnIndex();
                     sheet.autoSizeColumn(columnIndex);
                     int currentColumnWidth = sheet.getColumnWidth(columnIndex);
-                    sheet.setColumnWidth(columnIndex, (currentColumnWidth + 2500));
+                    sheet.setColumnWidth(columnIndex, Math.min((currentColumnWidth + 2500), MAX_CELL_WIDTH)); // POI对最大宽度有限制，不得超过256*255
                 }
             }
         }
