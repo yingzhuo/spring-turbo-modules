@@ -11,7 +11,10 @@ package spring.turbo.module.security.hutool.integration;
 import org.springframework.lang.NonNull;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
-import spring.turbo.module.security.hutool.encoder.*;
+import spring.turbo.module.security.hutool.encoder.MD2PasswordEncoder;
+import spring.turbo.module.security.hutool.encoder.SHA384PasswordEncoder;
+import spring.turbo.module.security.hutool.encoder.SHA512PasswordEncoder;
+import spring.turbo.module.security.hutool.encoder.SM3PasswordEncoder;
 import spring.turbo.util.ListFactories;
 
 import java.util.Collection;
@@ -29,8 +32,7 @@ public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderPro
                 new SM3PasswordEncoder(),
                 new MD2PasswordEncoder(),
                 new SHA384PasswordEncoder(),
-                new SHA512PasswordEncoder(),
-                new MorsePasswordEncoder()
+                new SHA512PasswordEncoder()
         );
     }
 

@@ -13,7 +13,6 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import spring.turbo.module.security.encoder.Base64PasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
 import spring.turbo.util.ListFactories;
@@ -41,7 +40,6 @@ public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderPro
                 NamedPasswordEncoder.of("pbkdf2", new Pbkdf2PasswordEncoder()),
                 NamedPasswordEncoder.of("scrypt", new SCryptPasswordEncoder()),
                 NamedPasswordEncoder.of("argon2", new Argon2PasswordEncoder()),
-                NamedPasswordEncoder.of("base64", Base64PasswordEncoder.getInstance()),
                 NamedPasswordEncoder.of("noop", NoOpPasswordEncoder.getInstance())
         );
     }
