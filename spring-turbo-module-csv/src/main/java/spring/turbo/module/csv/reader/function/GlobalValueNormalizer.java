@@ -16,4 +16,8 @@ package spring.turbo.module.csv.reader.function;
  */
 @FunctionalInterface
 public interface GlobalValueNormalizer extends ValueNormalizer {
+
+    @Override
+    public String normalize(String string);
+
 }

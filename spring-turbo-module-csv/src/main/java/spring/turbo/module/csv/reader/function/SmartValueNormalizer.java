@@ -8,22 +8,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.csv.reader.function;
 
-import java.util.function.Function;
-
 /**
  * @author 应卓
- * @see HeaderNormalizer
- * @see GlobalValueNormalizer
- * @since 1.0.13
+ * @since 1.1.0
  */
-@FunctionalInterface
-public interface ValueNormalizer extends Function<String, String> {
-
-    public String normalize(String string);
+public class SmartValueNormalizer implements GlobalValueNormalizer, ValueNormalizer {
 
     @Override
-    default String apply(String s) {
-        return this.normalize(s);
+    public String normalize(String string) {
+        if (string == null) {
+            return null;
+        }
+
+        // 消除两头的白字符
+        string = string.trim();
+        // 消除两头的多余的双引号
+        string = string.replaceFirst("\"*([^\"]*)\"*", "$1");
+
+        return string;
     }
 
 }
