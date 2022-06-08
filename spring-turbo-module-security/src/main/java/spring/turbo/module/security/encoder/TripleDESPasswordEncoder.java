@@ -21,6 +21,7 @@ import spring.turbo.util.crypto.TripleDES;
  * @see PasswordEncoderFactories
  * @since 1.0.0
  */
+@Deprecated
 public class TripleDESPasswordEncoder implements PasswordEncoder {
 
     private final TripleDES des;

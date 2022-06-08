@@ -11,6 +11,7 @@ package spring.turbo.module.security.hutool.encoder;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
+import spring.turbo.module.security.encoder.EncodingIds;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
@@ -22,7 +23,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 public final class MD2PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     public MD2PasswordEncoder() {
-        super(DigestAlgorithm.MD2.getValue());
+        super(EncodingIds.MD2);
     }
 
     @Override
