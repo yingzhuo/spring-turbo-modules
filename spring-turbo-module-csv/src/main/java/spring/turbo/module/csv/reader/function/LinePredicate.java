@@ -8,14 +8,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.csv.reader.function;
 
+import java.util.function.BiPredicate;
+
 /**
  * @author 应卓
  * @see LinePredicateFactories
  * @since 1.0.13
  */
 @FunctionalInterface
-public interface LinePredicate {
+public interface LinePredicate extends BiPredicate<Integer, String> {
 
     public boolean test(int lineNumber, String line);
+
+    @Override
+    public default boolean test(Integer integer, String s) {
+        return test(integer.intValue(), s);
+    }
 
 }

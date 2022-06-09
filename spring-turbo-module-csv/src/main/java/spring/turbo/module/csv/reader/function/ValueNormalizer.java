@@ -22,7 +22,7 @@ public interface ValueNormalizer extends Function<String, String> {
     public String normalize(String string);
 
     @Override
-    default String apply(String s) {
+    public default String apply(String s) {
         return this.normalize(s);
     }
 
