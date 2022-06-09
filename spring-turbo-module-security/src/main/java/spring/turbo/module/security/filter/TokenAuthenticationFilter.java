@@ -62,6 +62,9 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     @Nullable
     private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.SNAPSHOT;
 
+    /**
+     * 构造方法
+     */
     public TokenAuthenticationFilter() {
         super();
     }

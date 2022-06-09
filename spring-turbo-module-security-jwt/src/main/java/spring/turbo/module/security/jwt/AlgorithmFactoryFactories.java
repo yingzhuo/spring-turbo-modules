@@ -15,13 +15,11 @@ import com.auth0.jwt.algorithms.Algorithm;
  * @see AlgorithmFactory
  * @see Algorithm
  * @see ECDSA256AlgorithmFactory
- * @see ECDSA256KAlgorithmFactory
  * @see ECDSA384AlgorithmFactory
  * @see ECDSA512AlgorithmFactory
  * @see RSA256AlgorithmFactory
  * @see RSA384AlgorithmFactory
  * @see RSA512AlgorithmFactory
- * @see RandomAlgorithmFactory
  * @since 1.0.0
  */
 public final class AlgorithmFactoryFactories {
@@ -32,10 +30,6 @@ public final class AlgorithmFactoryFactories {
 
     public static AlgorithmFactory none() {
         return Algorithm::none;
-    }
-
-    public static AlgorithmFactory random() {
-        return new RandomAlgorithmFactory();
     }
 
     public static AlgorithmFactory hmac256(final String secret) {
@@ -64,10 +58,6 @@ public final class AlgorithmFactoryFactories {
 
     public static AlgorithmFactory ecdsa256(final String publicKey, final String privateKey) {
         return new ECDSA256AlgorithmFactory(publicKey, privateKey);
-    }
-
-    public static AlgorithmFactory ecdsa256k(final String publicKey, final String privateKey) {
-        return new ECDSA256KAlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory ecdsa384(final String publicKey, final String privateKey) {
