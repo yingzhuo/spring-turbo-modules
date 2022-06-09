@@ -37,6 +37,8 @@ public class DataSourceSwitchingAspect {
             final String key = annotation.value();
             log.info("switch datasource to '{}'", key);
             DynamicDataSourceKeyHolder.setKey(key);
+        } else {
+            log.info("switch datasource to default");
         }
 
         try {
