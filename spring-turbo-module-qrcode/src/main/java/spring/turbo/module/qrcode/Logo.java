@@ -9,7 +9,9 @@
 package spring.turbo.module.qrcode;
 
 import org.springframework.core.io.Resource;
+import spring.turbo.util.Asserts;
 
+import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
@@ -20,13 +22,15 @@ import java.util.Objects;
  * Logo
  *
  * @author 应卓
- * @see Builder
  * @see #builder()
+ * @see java.awt.image.BufferedImage
  * @since 1.0.0
  */
 public final class Logo implements Serializable {
 
+    @Nullable
     private Image image;
+
     private boolean compress = true;
 
     private Logo() {
@@ -38,6 +42,7 @@ public final class Logo implements Serializable {
     }
 
     public Image getImage() {
+        Asserts.notNull(image);
         return image;
     }
 
@@ -99,6 +104,7 @@ public final class Logo implements Serializable {
         }
 
         public Logo build() {
+            Asserts.notNull(this.image);
             Logo logo = new Logo();
             logo.image = Objects.requireNonNull(image);
             logo.compress = this.compress;

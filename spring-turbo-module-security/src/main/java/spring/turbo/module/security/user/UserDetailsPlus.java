@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -25,9 +24,10 @@ import java.util.Date;
  * @see UserDetailsPlusBuilder
  * @see #builder()
  * @see UserDetailsPlusImpl
+ * @see spring.turbo.module.security.authentication.TokenToUserConverter
  * @since 1.0.0
  */
-public interface UserDetailsPlus extends UserDetails, Serializable {
+public interface UserDetailsPlus extends UserDetails {
 
     /**
      * 获取创建器
@@ -44,6 +44,13 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     @Nullable
     public String getNickname();
 
+    /**
+     * 性别
+     *
+     * @param <T> 表达性别的类型
+     * @return 性别
+     * @see spring.turbo.bean.Gender
+     */
     @Nullable
     public <T> T getGender();
 

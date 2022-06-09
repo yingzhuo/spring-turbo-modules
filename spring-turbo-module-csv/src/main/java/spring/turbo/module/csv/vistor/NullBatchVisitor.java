@@ -13,7 +13,6 @@ package spring.turbo.module.csv.vistor;
  * @author 应卓
  * @since 1.0.9
  */
-@SuppressWarnings("unchecked")
 public final class NullBatchVisitor<T> implements BatchVisitor<T> {
 
     private NullBatchVisitor() {

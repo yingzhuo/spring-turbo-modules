@@ -10,6 +10,7 @@ package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
+ * @see #getInstance()
  * @since 1.0.13
  */
 public final class NullHeaderNormalizer implements HeaderNormalizer {

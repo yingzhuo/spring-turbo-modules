@@ -6,30 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt;
-
-import com.auth0.jwt.algorithms.Algorithm;
-import spring.turbo.util.Asserts;
+package spring.turbo.module.csv.reader.function;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.1.0
  */
-final class ECDSA256KAlgorithmFactory extends ECDSAAlgorithmFactory {
-
-    private final String publicKey;
-    private final String privateKey;
-
-    public ECDSA256KAlgorithmFactory(String publicKey, String privateKey) {
-        Asserts.hasText(publicKey);
-        Asserts.hasText(privateKey);
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
-    }
+public class SmartValueNormalizer implements GlobalValueNormalizer, ValueNormalizer {
 
     @Override
-    public Algorithm create() {
-        return Algorithm.ECDSA256K(toPublicKey(publicKey), toPrivateKey(privateKey));
+    public String normalize(String string) {
+        if (string == null) {
+            return null;
+        }
+
+        // 消除两头的白字符
+        string = string.trim();
+        // 消除两头的多余的双引号
+        string = string.replaceFirst("\"*([^\"]*)\"*", "$1");
+
+        return string;
     }
 
 }

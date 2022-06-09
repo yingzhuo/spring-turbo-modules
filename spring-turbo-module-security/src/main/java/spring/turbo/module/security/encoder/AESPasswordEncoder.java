@@ -24,6 +24,7 @@ import java.util.Objects;
  * @see PasswordEncoderFactories
  * @since 1.0.0
  */
+@Deprecated
 public class AESPasswordEncoder implements PasswordEncoder {
 
     private final AES aes;

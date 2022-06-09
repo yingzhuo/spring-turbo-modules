@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.csv.reader.function;
 
+import java.util.function.Function;
+
 /**
  * @author 应卓
  * @see HeaderNormalizer
@@ -15,8 +17,13 @@ package spring.turbo.module.csv.reader.function;
  * @since 1.0.13
  */
 @FunctionalInterface
-public interface ValueNormalizer {
+public interface ValueNormalizer extends Function<String, String> {
 
     public String normalize(String string);
+
+    @Override
+    public default String apply(String s) {
+        return this.normalize(s);
+    }
 
 }
