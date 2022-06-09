@@ -50,7 +50,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    static class Builder {
+    public static class Builder {
 
         @Nullable
         private DataSource defaultTargetDataSource;
