@@ -14,14 +14,14 @@ import org.springframework.lang.Nullable;
  * @author 应卓
  * @since 1.1.0
  */
-public class DynamicDataSourceKeyHolder {
+public class DynamicDataSourceRemote {
 
     private static final ThreadLocal<String> HOLDER = new InheritableThreadLocal();
 
     /**
      * 私有构造方法
      */
-    private DynamicDataSourceKeyHolder() {
+    private DynamicDataSourceRemote() {
         super();
     }
 

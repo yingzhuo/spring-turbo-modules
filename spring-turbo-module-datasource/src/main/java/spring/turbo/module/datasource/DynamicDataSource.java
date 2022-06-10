@@ -18,12 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 动态数据源
+ * 动态可切换数据源
  *
  * @author 应卓
  * @see #builder()
  * @see DataSourceSwitch
- * @see DynamicDataSourceKeyHolder
+ * @see DynamicDataSourceRemote
  * @since 1.1.0
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements InitializingBean {
@@ -45,7 +45,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
     @Nullable
     @Override
     protected Object determineCurrentLookupKey() {
-        return DynamicDataSourceKeyHolder.getKey();
+        return DynamicDataSourceRemote.getKey();
     }
 
     // -----------------------------------------------------------------------------------------------------------------

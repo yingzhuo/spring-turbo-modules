@@ -36,7 +36,7 @@ public class DataSourceSwitchingAspect {
         if (annotation != null) {
             final String key = annotation.value();
             log.info("switch datasource to '{}'", key);
-            DynamicDataSourceKeyHolder.setKey(key);
+            DynamicDataSourceRemote.setKey(key);
         } else {
             log.info("switch datasource to default");
         }
@@ -44,7 +44,7 @@ public class DataSourceSwitchingAspect {
         try {
             return joinPoint.proceed();
         } finally {
-            DynamicDataSourceKeyHolder.clear();
+            DynamicDataSourceRemote.clear();
         }
     }
 
