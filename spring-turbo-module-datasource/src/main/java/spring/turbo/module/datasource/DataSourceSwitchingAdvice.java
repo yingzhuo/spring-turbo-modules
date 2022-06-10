@@ -20,13 +20,15 @@ import spring.turbo.core.AnnotationUtils;
 import java.lang.reflect.Method;
 
 /**
+ * 动态数据源切换用切面
+ *
  * @author 应卓
  * @since 1.1.0
  */
 @Slf4j
 @Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class DataSourceSwitchingAspect {
+public class DataSourceSwitchingAdvice {
 
     private static final Class<DataSourceSwitch> ANNOTATION_TYPE = DataSourceSwitch.class;
 
