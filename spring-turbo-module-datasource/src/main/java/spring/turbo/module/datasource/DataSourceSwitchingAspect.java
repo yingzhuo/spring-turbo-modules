@@ -17,6 +17,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import spring.turbo.core.AnnotationUtils;
 
+import java.lang.reflect.Method;
+
 /**
  * @author 应卓
  * @since 1.1.0
@@ -31,7 +33,8 @@ public class DataSourceSwitchingAspect {
     @Around("@annotation(spring.turbo.module.datasource.DataSourceSwitch)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        final DataSourceSwitch annotation = AnnotationUtils.findAnnotation(((MethodSignature) joinPoint.getSignature()).getMethod(), ANNOTATION_TYPE);
+        final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        final DataSourceSwitch annotation = AnnotationUtils.findAnnotation(method, ANNOTATION_TYPE);
 
         if (annotation != null) {
             final String key = annotation.value();

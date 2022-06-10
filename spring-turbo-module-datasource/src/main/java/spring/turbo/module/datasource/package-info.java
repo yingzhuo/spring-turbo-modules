@@ -11,7 +11,6 @@
 package spring.turbo.module.datasource;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
@@ -26,7 +25,6 @@ class SpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnBean(DynamicDataSource.class)
     DataSourceSwitchingAspect dataSourceSwitchingAspect() {
         return new DataSourceSwitchingAspect();
     }
