@@ -17,32 +17,39 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import spring.turbo.core.AnnotationUtils;
 
+import java.lang.reflect.Method;
+
 /**
+ * 动态数据源切换用切面
+ *
  * @author 应卓
  * @since 1.1.0
  */
 @Slf4j
 @Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class DataSourceSwitchingAspect {
+public class DataSourceSwitchingAdvice {
 
     private static final Class<DataSourceSwitch> ANNOTATION_TYPE = DataSourceSwitch.class;
 
     @Around("@annotation(spring.turbo.module.datasource.DataSourceSwitch)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        final DataSourceSwitch annotation = AnnotationUtils.findAnnotation(((MethodSignature) joinPoint.getSignature()).getMethod(), ANNOTATION_TYPE);
+        final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+        final DataSourceSwitch annotation = AnnotationUtils.findAnnotation(method, ANNOTATION_TYPE);
 
         if (annotation != null) {
             final String key = annotation.value();
             log.info("switch datasource to '{}'", key);
-            DynamicDataSourceKeyHolder.setKey(key);
+            DynamicDataSourceRemote.setKey(key);
+        } else {
+            log.info("switch datasource to default");
         }
 
         try {
             return joinPoint.proceed();
         } finally {
-            DynamicDataSourceKeyHolder.clear();
+            DynamicDataSourceRemote.clear();
         }
     }
 

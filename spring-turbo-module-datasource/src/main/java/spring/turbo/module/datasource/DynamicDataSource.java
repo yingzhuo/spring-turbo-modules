@@ -14,20 +14,27 @@ import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 动态数据源
+ * 动态可切换数据源
  *
  * @author 应卓
+ * @see DataSource
+ * @see DataSourceSwitch
+ * @see DynamicDataSourceRemote
+ * @see ThreadLocal
+ * @see #builder()
  * @since 1.1.0
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements InitializingBean {
 
-    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
-        Asserts.notNull(defaultTargetDataSource);
-        Asserts.notEmpty(targetDataSources);
+    public static Builder builder() {
+        return new Builder();
+    }
 
+    private DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
         super.setTargetDataSources(targetDataSources);
     }
@@ -40,7 +47,42 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
     @Nullable
     @Override
     protected Object determineCurrentLookupKey() {
-        return DynamicDataSourceKeyHolder.getKey();
+        return DynamicDataSourceRemote.getKey();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public static class Builder {
+
+        @Nullable
+        private DataSource defaultTargetDataSource;
+        private final Map<Object, Object> targetDataSources = new HashMap<>();
+
+        /**
+         * 私有构造方法
+         */
+        private Builder() {
+            super();
+        }
+
+        public Builder defaultTargetDataSource(DataSource defaultTargetDataSource) {
+            Asserts.notNull(defaultTargetDataSource);
+            this.defaultTargetDataSource = defaultTargetDataSource;
+            return this;
+        }
+
+        public Builder addTargetDataSources(String name, DataSource targetDataSource) {
+            Asserts.hasText(name);
+            Asserts.notNull(targetDataSource);
+            this.targetDataSources.put(name, targetDataSource);
+            return this;
+        }
+
+        public DynamicDataSource build() {
+            Asserts.notNull(defaultTargetDataSource);
+            Asserts.notEmpty(targetDataSources);
+            return new DynamicDataSource(defaultTargetDataSource, targetDataSources);
+        }
     }
 
 }

@@ -18,15 +18,15 @@ import org.springframework.lang.NonNullFields;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.1.0
  */
 @AutoConfiguration
 class SpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    DataSourceSwitchingAspect dataSourceSwitchingAspect() {
-        return new DataSourceSwitchingAspect();
+    DataSourceSwitchingAdvice dataSourceSwitchingAspect() {
+        return new DataSourceSwitchingAdvice();
     }
 
 }
