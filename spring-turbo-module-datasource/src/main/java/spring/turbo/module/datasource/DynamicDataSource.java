@@ -30,13 +30,13 @@ import java.util.Map;
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements InitializingBean {
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     private DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSources) {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
         super.setTargetDataSources(targetDataSources);
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -54,9 +54,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
 
     public static class Builder {
 
+        private final Map<Object, Object> targetDataSources = new HashMap<>();
+
         @Nullable
         private DataSource defaultTargetDataSource;
-        private final Map<Object, Object> targetDataSources = new HashMap<>();
 
         /**
          * 私有构造方法
