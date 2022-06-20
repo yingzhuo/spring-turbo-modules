@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
  * @see spring.turbo.format.DateTimeFormat
  * @since 1.0.0
  */
-public class DefaultCellParser implements CellParser, GlobalCellParser {
+public class DefaultCellParser implements GlobalCellParser {
 
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"; // ISO DateTime
 
@@ -35,6 +35,7 @@ public class DefaultCellParser implements CellParser, GlobalCellParser {
         this.dateFormat = new SimpleDateFormat(dateFormatPattern);
     }
 
+    @Nullable
     @Override
     public String convert(@Nullable Cell cell) {
         if (cell == null) {
@@ -55,7 +56,6 @@ public class DefaultCellParser implements CellParser, GlobalCellParser {
             case ERROR:
                 return null;
             default:
-                // nop
                 return null;
         }
     }
