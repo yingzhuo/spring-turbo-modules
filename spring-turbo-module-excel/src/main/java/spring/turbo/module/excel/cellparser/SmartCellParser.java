@@ -29,10 +29,6 @@ public class SmartCellParser extends DefaultCellParser {
     @Nullable
     @Override
     public String convert(@Nullable Cell cell) {
-        if (cell == null) {
-            return null;
-        }
-
         String s = super.convert(cell);
 
         if (s == null) return null;

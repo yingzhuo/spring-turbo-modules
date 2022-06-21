@@ -11,6 +11,8 @@ package spring.turbo.module.excel.cellparser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.lang.Nullable;
 
+import java.util.function.Function;
+
 /**
  * 从cell中解析出文本
  *
@@ -19,9 +21,15 @@ import org.springframework.lang.Nullable;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface CellParser {
+public interface CellParser extends Function<Cell, String> {
 
     @Nullable
     public String convert(@Nullable Cell cell);
+
+    @Nullable
+    @Override
+    public default String apply(@Nullable Cell cell) {
+        return convert(cell);
+    }
 
 }

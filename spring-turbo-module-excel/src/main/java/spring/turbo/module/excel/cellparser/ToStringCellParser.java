@@ -9,18 +9,37 @@
 package spring.turbo.module.excel.cellparser;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
 /**
+ * 这个东西功能太弱，不推荐使用
+ *
  * @author 应卓
  * @since 1.0.1
  */
-public class ToStringCellParser implements CellParser {
+@Deprecated
+public class ToStringCellParser implements GlobalCellParser {
+
+    /**
+     * 私有构造方法
+     */
+    private ToStringCellParser() {
+        super();
+    }
+
+    public static ToStringCellParser getInstance() {
+        return SyncAvoid.INSTANCE;
+    }
 
     @Override
-    public String convert(Cell cell) {
+    public String convert(@Nullable Cell cell) {
         return Optional.ofNullable(cell).map(Cell::toString).orElse(null);
+    }
+
+    static class SyncAvoid {
+        private static final ToStringCellParser INSTANCE = new ToStringCellParser();
     }
 
 }
