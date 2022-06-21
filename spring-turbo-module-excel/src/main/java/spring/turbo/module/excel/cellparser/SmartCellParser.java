@@ -10,36 +10,45 @@ package spring.turbo.module.excel.cellparser;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.lang.Nullable;
-
-import java.util.Optional;
+import spring.turbo.util.StringPool;
 
 /**
- * 这个东西功能太弱，不推荐使用
- *
  * @author 应卓
- * @since 1.0.1
+ * @since 1.1.0
  */
-@Deprecated
-public class ToStringCellParser implements GlobalCellParser {
+public class SmartCellParser extends DefaultCellParser {
 
-    /**
-     * 私有构造方法
-     */
-    private ToStringCellParser() {
+    public SmartCellParser() {
         super();
     }
 
-    public static ToStringCellParser getInstance() {
-        return SyncAvoid.INSTANCE;
+    public SmartCellParser(String dateFormatPattern) {
+        super(dateFormatPattern);
     }
 
+    @Nullable
     @Override
     public String convert(@Nullable Cell cell) {
-        return Optional.ofNullable(cell).map(Cell::toString).orElse(null);
-    }
+        String s = super.convert(cell);
 
-    static class SyncAvoid {
-        private static final ToStringCellParser INSTANCE = new ToStringCellParser();
+        if (s == null) return null;
+
+        // "-" 等同于 null
+        if (StringPool.HYPHEN.equals(s)) {
+            return null;
+        }
+
+        // 去除字串中的逗号
+        if (s.contains(",")) {
+            s = s.replaceAll(StringPool.COMMA, StringPool.EMPTY);
+        }
+
+        // 去除字符串结尾的百分号
+        if (s.endsWith("%")) {
+            s = s.substring(0, s.length() - 1);
+        }
+
+        return s;
     }
 
 }
