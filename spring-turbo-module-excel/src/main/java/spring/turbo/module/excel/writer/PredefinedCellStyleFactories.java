@@ -44,6 +44,7 @@ public final class PredefinedCellStyleFactories {
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderBottom(BorderStyle.THIN);
         style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setWrapText(false);
         return style;
     }
 
@@ -58,6 +59,7 @@ public final class PredefinedCellStyleFactories {
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.LEFT);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setWrapText(false);
         return style;
     }
 
@@ -72,6 +74,7 @@ public final class PredefinedCellStyleFactories {
         style.setWrapText(true);
         style.setAlignment(HorizontalAlignment.LEFT);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setWrapText(false);
 
         CreationHelper createHelper = workbook.getCreationHelper();
         style.setDataFormat(
