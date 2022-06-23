@@ -25,19 +25,26 @@ import static spring.turbo.util.StringPool.HYPHEN_X_80;
  * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
-public class LoggingFilter extends AbstractServletFilter {
+public class RequestLoggingFilter extends AbstractServletFilter {
 
-    private static final Logger DEFAULT_LOGGER = new Logger(LoggingFilter.class, LogLevel.DEBUG);
+    private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
 
     private final Logger log;
 
-    // since 1.0.1
-    public LoggingFilter() {
+    /**
+     * 构造方法
+     */
+    public RequestLoggingFilter() {
         this(null);
     }
 
-    public LoggingFilter(@Nullable Logger logger) {
-        this.log = Optional.ofNullable(logger)
+    /**
+     * 构造方法
+     *
+     * @param log 日志记录器
+     */
+    public RequestLoggingFilter(@Nullable Logger log) {
+        this.log = Optional.ofNullable(log)
                 .orElse(DEFAULT_LOGGER);
     }
 

@@ -16,7 +16,7 @@ import spring.turbo.module.security.FilterConfiguration;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface LoggingFilterFactory extends FilterConfiguration<LoggingFilter> {
+public interface RequestLoggingFilterFactory extends FilterConfiguration<RequestLoggingFilter> {
 
     @NonNull
     @Override
