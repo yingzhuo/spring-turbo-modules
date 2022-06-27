@@ -16,6 +16,9 @@ import spring.turbo.util.Asserts;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 应卓
@@ -25,9 +28,10 @@ class DirectoryWatcherWrapper implements InitializingBean, DisposableBean {
 
     private final DirectoryWatcher watcher;
 
-    public DirectoryWatcherWrapper(DirectoryListener listener, String dirToWatch) {
+    public DirectoryWatcherWrapper(DirectoryListener listener, List<String> dirsToWatch) {
         Asserts.notNull(listener);
-        Asserts.hasText(dirToWatch);
+        Asserts.notNull(dirsToWatch);
+
         try {
             this.watcher = DirectoryWatcher.builder()
                     .listener(event -> {
@@ -46,12 +50,16 @@ class DirectoryWatcherWrapper implements InitializingBean, DisposableBean {
                                 break;
                         }
                     })
-                    .path(Paths.get(dirToWatch))
                     .fileHashing(true)
+                    .paths(dirsToWatch.stream().map(Paths::get).collect(Collectors.toList()))
                     .build();
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         }
+    }
+
+    public DirectoryWatcherWrapper(DirectoryListener listener, String dirToWatch) {
+        this(listener, Collections.singletonList(dirToWatch));
     }
 
     @Override

@@ -22,10 +22,12 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
+import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.AbstractFactoryBean;
 import spring.turbo.bean.ClassDefinition;
 import spring.turbo.bean.ClassPathScanner;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringUtils;
 
@@ -41,7 +43,10 @@ import java.util.Set;
 class EnableDirectoryWatchersConfiguration implements
         ImportBeanDefinitionRegistrar, EnvironmentAware, ResourceLoaderAware {
 
+    @Nullable
     private Environment environment;
+
+    @Nullable
     private ResourceLoader resourceLoader;
 
     @Override
@@ -90,7 +95,7 @@ class EnableDirectoryWatchersConfiguration implements
         factoryBeanDefinition.setAbstract(definition.isAbstractDefinition());
         factoryBeanDefinition.setRole(definition.getRole());
         factoryBeanDefinition.setLazyInit(false);
-        factoryBeanDefinition.setResourceDescription("spring-turbo-module-dirwatcher :)"); // 彩蛋
+        factoryBeanDefinition.setResourceDescription("spring-turbo-module-dirwatcher"); // 彩蛋
 
         String beanName = primaryAnnotation.beanName();
         if (StringUtils.isBlank(beanName)) {
@@ -115,6 +120,8 @@ class EnableDirectoryWatchersConfiguration implements
     }
 
     private List<ClassDefinition> scanClasspath(Set<String> basePackages) {
+        Asserts.notNull(resourceLoader);
+        Asserts.notNull(environment);
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
