@@ -23,9 +23,12 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.ClassDefinition;
 import spring.turbo.bean.ClassPathScanner;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
@@ -40,7 +43,10 @@ import java.util.Set;
 class EnableFeignClientsConfiguration implements
         ImportBeanDefinitionRegistrar, EnvironmentAware, ResourceLoaderAware {
 
+    @Nullable
     private Environment environment;
+
+    @Nullable
     private ResourceLoader resourceLoader;
 
     @Override
@@ -97,8 +103,7 @@ class EnableFeignClientsConfiguration implements
         registry.registerBeanDefinition(beanName, factoryBeanDefinition);
     }
 
-    @NonNull
-    private Set<String> getBasePackages(@NonNull AnnotationMetadata importingClassMetadata) {
+    private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
         final Set<String> set = new HashSet<>();
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
@@ -109,10 +114,15 @@ class EnableFeignClientsConfiguration implements
                 set.add(clz.getPackage().getName());
             }
         }
+        if (CollectionUtils.isEmpty(set)) {
+            set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
+        }
         return Collections.unmodifiableSet(set);
     }
 
     private List<ClassDefinition> scanClasspath(@NonNull Set<String> basePackages) {
+        Asserts.notNull(environment);
+        Asserts.notNull(resourceLoader);
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)

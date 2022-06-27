@@ -23,6 +23,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.AbstractFactoryBean;
 import spring.turbo.bean.ClassDefinition;
@@ -115,6 +116,9 @@ class EnableDirectoryWatchersConfiguration implements
             for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
                 set.add(clz.getPackage().getName());
             }
+        }
+        if (CollectionUtils.isEmpty(set)) {
+            set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
         return Collections.unmodifiableSet(set);
     }
