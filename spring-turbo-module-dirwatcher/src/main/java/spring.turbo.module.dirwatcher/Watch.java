@@ -23,6 +23,6 @@ public @interface Watch {
 
     public String beanName() default EMPTY;
 
-    public String spel();
+    public String[] spel();
 
 }

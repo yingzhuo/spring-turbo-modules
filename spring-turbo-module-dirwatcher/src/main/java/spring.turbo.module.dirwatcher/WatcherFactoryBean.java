@@ -21,6 +21,10 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author 应卓
  * @since 1.1.1
@@ -37,7 +41,7 @@ class WatcherFactoryBean implements
     private DirectoryListener listener;
 
     @Nullable
-    private String spel;
+    private String[] spel;
 
     @Nullable
     private ApplicationContext applicationContext;
@@ -51,22 +55,27 @@ class WatcherFactoryBean implements
         if (wrapper == null) {
             Asserts.notNull(listener);
             Asserts.notNull(spel);
-            Asserts.hasText(spel);
-
-            final Expression expression = EXPRESSION_PARSER.parseExpression(spel);
-            final String dirToWatch = expression.getValue(new StandardEvaluationContext(applicationContext), String.class);
-
-            Asserts.notNull(dirToWatch);
+            Asserts.noNullElements(spel);
 
             this.wrapper = new DirectoryWatcherWrapper(
                     listener,
-                    dirToWatch
+                    getDirsToWatch(spel)
             );
 
             this.wrapper.afterPropertiesSet();
         }
 
         return this.wrapper;
+    }
+
+    private List<String> getDirsToWatch(String[] spel) {
+        final List<String> list = new ArrayList<>();
+        for (String exp : spel) {
+            final Expression expression = EXPRESSION_PARSER.parseExpression(exp);
+            final String dirToWatch = expression.getValue(new StandardEvaluationContext(applicationContext), String.class);
+            list.add(dirToWatch);
+        }
+        return Collections.unmodifiableList(list);
     }
 
     @Override
@@ -98,7 +107,7 @@ class WatcherFactoryBean implements
         return DirectoryWatcherWrapper.class;
     }
 
-    public void setSpel(@Nullable String spel) {
+    public void setSpel(@Nullable String[] spel) {
         this.spel = spel;
     }
 
