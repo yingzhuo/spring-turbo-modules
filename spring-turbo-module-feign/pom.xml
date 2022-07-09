@@ -44,13 +44,6 @@
             <artifactId>feign-core</artifactId>
         </dependency>
 
-        <!-- resilience4j -->
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-all</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
