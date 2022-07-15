@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.yingzhuo</groupId>
         <artifactId>spring-turbo-modules</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-turbo-module-feign</artifactId>
@@ -42,13 +42,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
-        </dependency>
-
-        <!-- resilience4j -->
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-all</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- slf4j -->
