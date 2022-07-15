@@ -6,36 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector;
-
-import java.io.Serializable;
+package spring.turbo.module.queryselector.exception;
 
 /**
- * selector数据类型
- *
  * @author 应卓
- * @see Selector
+ * @since 1.1.2
  */
-public enum DataType implements Serializable {
+public class SelectorValueFindingException extends IllegalArgumentException {
 
     /**
-     * 数值类型
+     * 构造方法
      */
-    NUMBER,
+    public SelectorValueFindingException() {
+        super();
+    }
 
     /**
-     * 字符串类型
+     * 构造方法
+     *
+     * @param message 错误信息
      */
-    STRING,
-
-    /**
-     * 日期类型
-     */
-    DATE,
-
-    /**
-     * 日期事件类型
-     */
-    DATETIME
+    public SelectorValueFindingException(String message) {
+        super(message);
+    }
 
 }

@@ -125,7 +125,7 @@ public class SelectorSetResolverImpl implements SelectorSetResolver, Initializin
                 switch (dataType) {
                     case STRING:
                         return Optional.of(new SelectorImpl(name, logicType, dataType, other));
-                    case NUMERIC:
+                    case NUMBER:
                         return Optional.of(
                                 new SelectorImpl(name, logicType, dataType, NumberParseUtils.parse(other, BigDecimal.class))
                         );
@@ -154,7 +154,7 @@ public class SelectorSetResolverImpl implements SelectorSetResolver, Initializin
                     case STRING:
                         // 无意义
                         break;
-                    case NUMERIC:
+                    case NUMBER:
                         return Optional.of(
                                 new SelectorImpl(name, logicType, dataType, null,
                                         NumberParseUtils.parse(leftString, BigDecimal.class),
@@ -185,7 +185,7 @@ public class SelectorSetResolverImpl implements SelectorSetResolver, Initializin
                     case STRING:
                         // 无意义是
                         return Optional.empty();
-                    case NUMERIC:
+                    case NUMBER:
                         return Optional.of(
                                 new SelectorImpl(name, logicType, dataType, null, null, null,
                                         Stream.of(elements)

@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  * @author 应卓
+ * @see SelectorUtils
  * @since 1.1.0
  */
 public interface Selector extends Serializable {
@@ -35,5 +36,4 @@ public interface Selector extends Serializable {
     @Nullable
     public <T> Set<T> getValueSet();
 
-    // TODO: 强化方法
 }
