@@ -9,10 +9,10 @@
 package spring.turbo.module.queryselector;
 
 import org.springframework.lang.Nullable;
+import spring.turbo.bean.Pair;
 import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -20,9 +20,10 @@ import java.util.Set;
  * @since 1.1.0
  */
 @Immutable
+@SuppressWarnings("unchecked")
 public class SelectorImpl implements Selector {
 
-    private final String name;
+    private final Item item;
 
     private final LogicType logicType;
 
@@ -49,7 +50,7 @@ public class SelectorImpl implements Selector {
         Asserts.notNull(logicType);
         Asserts.notNull(dataType);
 
-        this.name = name;
+        this.item = Item.of(name);
         this.logicType = logicType;
         this.dataType = dataType;
         this.simpleValue = simpleValue;
@@ -59,8 +60,8 @@ public class SelectorImpl implements Selector {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public Item getItem() {
+        return this.item;
     }
 
     @Override
@@ -81,35 +82,16 @@ public class SelectorImpl implements Selector {
 
     @Nullable
     @Override
-    public <T> T getValueRangeLeft() {
-        return (T) this.rangeLeft;
-    }
-
-    @Nullable
-    @Override
-    public <T> T getValueRangeRight() {
-        return (T) this.rangeRight;
+    public <T> Pair<T, T> getValueRange() {
+        return this.rangeLeft == null || this.rangeRight == null ?
+                null :
+                Pair.ofNonNull((T) this.rangeLeft, (T) this.rangeRight);
     }
 
     @Override
     @Nullable
     public <T> Set<T> getValueSet() {
         return (Set<T>) this.set;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SelectorImpl selector = (SelectorImpl) o;
-        return name.equals(selector.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
 }

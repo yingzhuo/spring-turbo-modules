@@ -12,14 +12,21 @@ import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.SelectorSet;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * @author 应卓
  * @since 1.1.0
  */
 @FunctionalInterface
-public interface SelectorSetResolver {
+public interface SelectorSetResolver extends Function<String, SelectorSet> {
 
     public Optional<SelectorSet> resolve(@Nullable String string);
+
+    @Nullable
+    @Override
+    public default SelectorSet apply(String s) {
+        return resolve(s).orElse(null);
+    }
 
 }
