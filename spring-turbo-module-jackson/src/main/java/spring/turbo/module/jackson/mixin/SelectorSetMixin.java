@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import spring.turbo.module.queryselector.EmptySelectorSet;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
 import spring.turbo.util.Asserts;
@@ -39,7 +38,7 @@ public abstract class SelectorSetMixin {
         public SelectorSet deserialize(JsonParser p, DeserializationContext context) throws IOException {
             final String string = p.readValueAs(String.class);
             return selectorSetResolver.resolve(string)
-                    .orElse(EmptySelectorSet.INSTANCE);
+                    .orElse(SelectorSet.empty());
         }
     }
 

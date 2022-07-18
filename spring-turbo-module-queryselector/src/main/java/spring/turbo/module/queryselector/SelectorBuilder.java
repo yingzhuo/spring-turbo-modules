@@ -22,36 +22,30 @@ import java.util.Set;
  */
 public final class SelectorBuilder {
 
-    @Nullable
-    private String itemName;
-
-    @Nullable
-    private DataType dataType;
-
-    @Nullable
-    private LogicType logicType;
-
-    @Nullable
-    private Object simpleValue;
-
-    @Nullable
-    private Object rangeLeft;
-
-    @Nullable
-    private Object rangeRight;
-
     @NonNull
     private final Set<Object> setValue = new HashSet<>();
-
-    public static SelectorBuilder newInstance() {
-        return new SelectorBuilder();
-    }
+    @Nullable
+    private String itemName;
+    @Nullable
+    private DataType dataType;
+    @Nullable
+    private LogicType logicType;
+    @Nullable
+    private Object simpleValue;
+    @Nullable
+    private Object rangeLeft;
+    @Nullable
+    private Object rangeRight;
 
     /**
      * 私有构造方法
      */
     private SelectorBuilder() {
         super();
+    }
+
+    public static SelectorBuilder newInstance() {
+        return new SelectorBuilder();
     }
 
     public SelectorBuilder itemName(String itemName) {
