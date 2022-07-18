@@ -11,9 +11,12 @@
 package spring.turbo.module.queryselector.sql;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
+import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
 import spring.turbo.module.queryselector.sql.property.SelectorNameTableColumnMap;
 
 /**
@@ -23,4 +26,11 @@ import spring.turbo.module.queryselector.sql.property.SelectorNameTableColumnMap
 @AutoConfiguration
 @EnableConfigurationProperties(SelectorNameTableColumnMap.class)
 class SpringBootAutoConfiguration {
+
+    @Bean
+    @ConditionalOnBean(SelectorSetResolver.class)
+    public WhereClauseBuilder whereClauseBuilder(SelectorNameTableColumnMap selectorNameTableColumnMap) {
+        return new WhereClauseBuilderImpl(selectorNameTableColumnMap);
+    }
+
 }

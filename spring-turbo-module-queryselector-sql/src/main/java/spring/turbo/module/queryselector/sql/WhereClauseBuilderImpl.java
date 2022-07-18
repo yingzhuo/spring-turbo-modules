@@ -31,7 +31,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     private final Configuration freemarkerConfiguration;
 
     public WhereClauseBuilderImpl(Map<String, String> itemNameTableColumnMap) {
-        Asserts.notEmpty(itemNameTableColumnMap);
+        Asserts.notNull(itemNameTableColumnMap);
         this.itemNameTableColumnMap = itemNameTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
