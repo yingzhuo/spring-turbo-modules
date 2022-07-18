@@ -54,7 +54,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
         this.itemNameTableColumnMap = itemNameTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
-        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), TEMPLATE_CLASS_PATH));
+        cfg.setTemplateLoader(new ClassTemplateLoader(THIS_TYPE, TEMPLATE_CLASS_PATH));
         cfg.setAPIBuiltinEnabled(true);
         cfg.setCacheStorage(NullCacheStorage.INSTANCE);
         this.freemarkerConfiguration = cfg;
