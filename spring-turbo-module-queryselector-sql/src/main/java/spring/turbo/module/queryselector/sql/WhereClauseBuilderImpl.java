@@ -12,11 +12,14 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import spring.turbo.module.queryselector.SelectorSet;
+import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.StringObjectMap;
 import spring.turbo.util.StringPool;
 
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -41,11 +44,15 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     @Override
-    public String apply(SelectorSet selectors) {
+    public String apply(SelectorSet selectors, Map<String, String> itemNameTableColumnMap) {
         try {
+            final Map<String, String> map = new HashMap<>();
+            map.putAll(this.itemNameTableColumnMap);
+            map.putAll(itemNameTableColumnMap);
+
             final StringObjectMap root = StringObjectMap.newInstance()
                     .add("selectorList", selectors.asList())
-                    .add("itemNameTableColumnMap", this.itemNameTableColumnMap);
+                    .add("itemNameTableColumnMap", Collections.unmodifiableMap(map));
 
             final StringWriter writer = new StringWriter();
             final Template template = this.freemarkerConfiguration.getTemplate(TEMPLATE_NAME);
@@ -55,7 +62,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
                     .replaceAll("[ ]+", StringPool.SPACE)   // 连续多个空格替换成一个空格
                     ;
         } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            throw new SQLBuildingException(e.getMessage(), e);
         }
     }
 

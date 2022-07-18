@@ -6,26 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.sql;
-
-import spring.turbo.module.queryselector.SelectorSet;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.function.BiFunction;
+package spring.turbo.module.queryselector.sql.exception;
 
 /**
  * @author 应卓
  * @since 1.1.2
  */
-@FunctionalInterface
-public interface WhereClauseBuilder extends BiFunction<SelectorSet, Map<String, String>, String> {
+public class SQLBuildingException extends IllegalArgumentException {
 
-    public default String apply(SelectorSet selectors) {
-        return apply(selectors, Collections.emptyMap());
+    /**
+     * 构造方法
+     *
+     * @param message 错误消息
+     * @param cause   上级错误
+     */
+    public SQLBuildingException(String message, Throwable cause) {
+        super(message, cause);
     }
-
-    @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameTableColumnMap);
 
 }
