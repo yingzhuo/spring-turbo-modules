@@ -11,7 +11,6 @@ package spring.turbo.module.queryselector;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * @author 应卓
@@ -29,23 +28,18 @@ public final class EmptySelectorSet implements SelectorSet {
     }
 
     @Override
+    public boolean isEmpty() {
+        return true;
+    }
+
+    @Override
     public List<Selector> toList() {
         return Collections.emptyList();
     }
 
     @Override
     public Iterator<Selector> iterator() {
-        return new Iterator<Selector>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Selector next() {
-                throw new NoSuchElementException();
-            }
-        };
+        return Collections.<Selector>emptyList().listIterator();
     }
 
 }

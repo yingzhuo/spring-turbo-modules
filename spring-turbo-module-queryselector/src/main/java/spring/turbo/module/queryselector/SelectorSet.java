@@ -46,4 +46,6 @@ public interface SelectorSet extends Iterable<Selector>, Serializable {
         return toList().size();
     }
 
+    public boolean isEmpty();
+
 }
