@@ -28,17 +28,12 @@ public class SelectorSetImpl implements SelectorSet {
     }
 
     @Override
-    public int size() {
-        return selectors.size();
-    }
-
-    @Override
     public Iterator<Selector> iterator() {
         return selectors.listIterator();
     }
 
     @Override
-    public List<Selector> asList() {
+    public List<Selector> toList() {
         return Collections.unmodifiableList(selectors);
     }
 

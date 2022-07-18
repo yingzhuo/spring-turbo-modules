@@ -13,12 +13,12 @@ package spring.turbo.module.jackson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
 import spring.turbo.bean.*;
+import spring.turbo.bean.condition.ConditionalOnModule;
+import spring.turbo.integration.Modules;
 import spring.turbo.module.jackson.mixin.*;
 import spring.turbo.module.queryselector.SelectorSet;
 
@@ -57,8 +57,7 @@ class SpringBootAutoConfiguration {
  * @since 1.1.0
  */
 @AutoConfiguration
-@ConditionalOnClass(SelectorSet.class)
-@ConfigurationProperties(prefix = "springturbo.queryselector")
+@ConditionalOnModule(Modules.SPRING_TURBO_QUERYSELECTOR)
 class SpringBootAutoConfigurationQueryselectorModule {
 
     @Autowired(required = false)

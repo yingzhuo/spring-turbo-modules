@@ -17,9 +17,16 @@ import java.util.Set;
 /**
  * @author 应卓
  * @see SelectorUtils
+ * @see SelectorBuilder
+ * @see SelectorBuilder#newInstance()
+ * @see #builder()
  * @since 1.1.0
  */
 public interface Selector extends Serializable {
+
+    public static SelectorBuilder builder() {
+        return SelectorBuilder.newInstance();
+    }
 
     public Item getItem();
 

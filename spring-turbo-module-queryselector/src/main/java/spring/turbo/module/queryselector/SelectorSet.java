@@ -8,8 +8,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector;
 
+import spring.turbo.util.CollectionUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * 选择器集合
@@ -19,8 +24,26 @@ import java.util.List;
  */
 public interface SelectorSet extends Iterable<Selector>, Serializable {
 
-    public int size();
+    public static SelectorSet of(Selector... selectors) {
+        final List<Selector> selectorList = new ArrayList<>();
+        CollectionUtils.nullSafeAddAll(selectorList, selectors);
+        return new SelectorSetImpl(selectorList);
+    }
 
-    public List<Selector> asList();
+    public static SelectorSet of(Collection<Selector> selectors) {
+        final List<Selector> selectorList = new ArrayList<>();
+        CollectionUtils.nullSafeAddAll(selectorList, selectors);
+        return new SelectorSetImpl(selectorList);
+    }
+
+    public List<Selector> toList();
+
+    public default Stream<Selector> toStream() {
+        return toList().stream();
+    }
+
+    public default int size() {
+        return toList().size();
+    }
 
 }

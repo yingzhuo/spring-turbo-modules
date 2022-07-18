@@ -8,36 +8,29 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector;
 
-import org.springframework.lang.Nullable;
-import spring.turbo.bean.Named;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.EnumUtils;
-
-import java.io.Serializable;
 
 /**
  * @author 应卓
  * @since 1.1.2
  */
-public interface Item extends Named, Serializable {
+public class SimpleItem implements Item {
 
-    public static Item of(String string) {
-        return new SimpleItem(string);
+    private final String name;
+
+    public SimpleItem(String name) {
+        Asserts.hasText(name);
+        this.name = name;
     }
 
-    public default String getName() {
-        return toString();
+    @Override
+    public String getName() {
+        return this.name;
     }
 
-    @Nullable
-    public default <E extends Enum<E>> E toEnum(Class<E> enumClass) {
-        return EnumUtils.getEnumIgnoreCase(enumClass, getName());
-    }
-
-    public default <E extends Enum<E>> E toNonNullEnum(Class<E> enumClass) {
-        final E en = toEnum(enumClass);
-        Asserts.notNull(en);
-        return en;
+    @Override
+    public String toString() {
+        return this.name;
     }
 
 }

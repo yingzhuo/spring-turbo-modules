@@ -33,7 +33,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
     static {
         String path = ClassUtils.getPackageName(WhereClauseBuilderImpl.class)
-                .replaceAll("\\.", "/");
+                .replaceAll("\\.", StringPool.SLASH);
         if (!StringUtils.startsWith(path, StringPool.SLASH)) {
             path = StringPool.SLASH + path;
         }
@@ -76,17 +76,16 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
             map.putAll(this.itemNameTableColumnMap);
             map.putAll(itemNameTableColumnMap);
 
-            final StringObjectMap root = StringObjectMap.newInstance()
-                    .add("selectorList", selectors.asList())
+            final StringObjectMap data = StringObjectMap.newInstance()
+                    .add("selectorList", selectors.toList())
                     .add("itemNameTableColumnMap", Collections.unmodifiableMap(map));
 
             final StringWriter writer = new StringWriter();
             final Template template = this.freemarkerConfiguration.getTemplate(TEMPLATE_NAME);
-            template.process(root, writer);
+            template.process(data, writer);
             return writer.toString()
                     .replaceAll("\n", StringPool.EMPTY)     // 消除换行
-                    .replaceAll("[ ]+", StringPool.SPACE)   // 连续多个空格替换成一个空格
-                    ;
+                    .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
         } catch (Exception e) {
             throw new SQLBuildingException(e.getMessage(), e);
         }

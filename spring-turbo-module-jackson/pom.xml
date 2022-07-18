@@ -20,6 +20,7 @@
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo-module-queryselector</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- spring-boot -->

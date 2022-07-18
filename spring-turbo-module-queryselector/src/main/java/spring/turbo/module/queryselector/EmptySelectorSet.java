@@ -29,12 +29,7 @@ public final class EmptySelectorSet implements SelectorSet {
     }
 
     @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public List<Selector> asList() {
+    public List<Selector> toList() {
         return Collections.emptyList();
     }
 
