@@ -79,12 +79,16 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
             final StringWriter writer = new StringWriter();
             final Template template = this.freemarkerConfiguration.getTemplate(TEMPLATE_NAME);
             template.process(data, writer);
-            return writer.toString()
-                    .replaceAll("\n", StringPool.EMPTY)     // 消除换行
-                    .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
+            return formatSql(writer.toString());
         } catch (Exception e) {
             throw new SQLBuildingException(e.getMessage(), e);
         }
+    }
+
+    private String formatSql(String sql) {
+        return sql
+                .replaceAll("\n", StringPool.EMPTY)     // 消除换行
+                .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
     }
 
 }
