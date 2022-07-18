@@ -33,10 +33,10 @@ class SpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    SelectorSetResolver selectorSetResolver(QuerySelectorProperties properties) {
+    SelectorSetResolver selectorSetResolver(final QuerySelectorProperties properties) {
         final SelectorSetResolverImpl bean = new SelectorSetResolverImpl();
         bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
-        bean.setSeparatorInSet(properties.getSeparatorInSelector());
+        bean.setSeparatorInSelector(properties.getSeparatorInSelector());
         bean.setSeparatorInRange(properties.getSeparatorInRange());
         bean.setSeparatorInSet(properties.getSeparatorInSet());
         bean.setDatePattern(properties.getDatePattern());
