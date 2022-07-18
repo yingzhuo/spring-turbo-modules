@@ -8,7 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -29,6 +31,11 @@ public final class EmptySelectorSet implements SelectorSet {
     @Override
     public int size() {
         return 0;
+    }
+
+    @Override
+    public List<Selector> asList() {
+        return Collections.emptyList();
     }
 
     @Override

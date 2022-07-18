@@ -10,6 +10,7 @@ package spring.turbo.module.queryselector;
 
 import spring.turbo.util.Asserts;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class SelectorSetImpl implements SelectorSet {
     @Override
     public Iterator<Selector> iterator() {
         return selectors.listIterator();
+    }
+
+    @Override
+    public List<Selector> asList() {
+        return Collections.unmodifiableList(selectors);
     }
 
 }

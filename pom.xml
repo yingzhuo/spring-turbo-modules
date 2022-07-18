@@ -18,6 +18,7 @@
         <module>spring-turbo-module-predefined</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-queryselector</module>
+        <module>spring-turbo-module-queryselector-sql</module>
         <module>spring-turbo-module-rabbitmq</module>
         <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
@@ -546,6 +547,13 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- freemarker -->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.31</version>
             </dependency>
 
             <!-- lombok -->

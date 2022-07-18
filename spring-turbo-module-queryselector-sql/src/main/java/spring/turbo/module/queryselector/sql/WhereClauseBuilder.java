@@ -6,21 +6,20 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector;
+package spring.turbo.module.queryselector.sql;
 
-import java.io.Serializable;
-import java.util.List;
+import spring.turbo.module.queryselector.SelectorSet;
+
+import java.util.function.Function;
 
 /**
- * 选择器集合
- *
  * @author 应卓
- * @since 1.1.0
+ * @since 1.1.2
  */
-public interface SelectorSet extends Iterable<Selector>, Serializable {
+@FunctionalInterface
+public interface WhereClauseBuilder extends Function<SelectorSet, String> {
 
-    public int size();
-
-    public List<Selector> asList();
+    @Override
+    public String apply(SelectorSet selectors);
 
 }

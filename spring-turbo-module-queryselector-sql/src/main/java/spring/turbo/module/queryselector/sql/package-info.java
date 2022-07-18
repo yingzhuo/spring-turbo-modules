@@ -6,21 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.queryselector.sql;
 
-import java.io.Serializable;
-import java.util.List;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
+import spring.turbo.module.queryselector.sql.property.SelectorNameTableColumnMap;
 
 /**
- * 选择器集合
- *
  * @author 应卓
- * @since 1.1.0
+ * @since 1.1.2
  */
-public interface SelectorSet extends Iterable<Selector>, Serializable {
-
-    public int size();
-
-    public List<Selector> asList();
-
+@AutoConfiguration
+@EnableConfigurationProperties(SelectorNameTableColumnMap.class)
+class SpringBootAutoConfiguration {
 }

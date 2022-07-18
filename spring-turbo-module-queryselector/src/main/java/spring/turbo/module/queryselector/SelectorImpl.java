@@ -82,7 +82,7 @@ public class SelectorImpl implements Selector {
 
     @Nullable
     @Override
-    public <T> Pair<T, T> getValueRange() {
+    public <T> Pair<T, T> getRangeValue() {
         return this.rangeLeft == null || this.rangeRight == null ?
                 null :
                 Pair.ofNonNull((T) this.rangeLeft, (T) this.rangeRight);
@@ -90,7 +90,7 @@ public class SelectorImpl implements Selector {
 
     @Override
     @Nullable
-    public <T> Set<T> getValueSet() {
+    public <T> Set<T> getSetValue() {
         return (Set<T>) this.set;
     }
 

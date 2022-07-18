@@ -6,21 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.queryselector.sql.property;
 
-import java.io.Serializable;
-import java.util.List;
-
-/**
- * 选择器集合
- *
- * @author 应卓
- * @since 1.1.0
- */
-public interface SelectorSet extends Iterable<Selector>, Serializable {
-
-    public int size();
-
-    public List<Selector> asList();
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

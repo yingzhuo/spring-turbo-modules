@@ -31,9 +31,9 @@ public interface Selector extends Serializable {
     public <T> T getSimpleValue();
 
     @Nullable
-    public <T> Pair<T, T> getValueRange();
+    public <T> Pair<T, T> getRangeValue();
 
     @Nullable
-    public <T> Set<T> getValueSet();
+    public <T> Set<T> getSetValue();
 
 }

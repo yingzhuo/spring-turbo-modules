@@ -39,7 +39,7 @@ public final class SelectorUtils {
     }
 
     public static <T> Set<T> getValueSetAndConvert(Selector selector, Class<T> targetClass) {
-        final Set<Object> set = selector.getValueSet();
+        final Set<Object> set = selector.getSetValue();
 
         if (set == null) {
             throw new SelectorValueFindingException("Cannot get simple value");
@@ -53,7 +53,7 @@ public final class SelectorUtils {
     }
 
     public static <T> Pair<T, T> getValueRangeAndConvert(Selector selector, Class<T> targetClass) {
-        final Pair<Object, Object> pair = selector.getValueRange();
+        final Pair<Object, Object> pair = selector.getRangeValue();
 
         if (pair == null) {
             throw new SelectorValueFindingException("Cannot get simple value");
