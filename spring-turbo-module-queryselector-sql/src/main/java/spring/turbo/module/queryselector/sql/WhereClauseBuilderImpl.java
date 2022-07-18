@@ -9,13 +9,12 @@
 package spring.turbo.module.queryselector.sql;
 
 import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
-import spring.turbo.util.Asserts;
-import spring.turbo.util.StringObjectMap;
-import spring.turbo.util.StringPool;
+import spring.turbo.util.*;
 
 import java.io.StringWriter;
 import java.util.Collections;
@@ -28,18 +27,45 @@ import java.util.Map;
  */
 public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
-    private static final String TEMPLATE_NAME = WhereClauseBuilderImpl.class.getSimpleName() + ".ftl";
+    private static final Class<WhereClauseBuilderImpl> THIS_TYPE = WhereClauseBuilderImpl.class;
+    private static final String TEMPLATE_NAME = THIS_TYPE.getSimpleName() + ".ftl";
+    private static final String TEMPLATE_CLASS_PATH;
+
+    static {
+        String path = ClassUtils.getPackageName(WhereClauseBuilderImpl.class)
+                .replaceAll("\\.", "/");
+        if (!StringUtils.startsWith(path, StringPool.SLASH)) {
+            path = StringPool.SLASH + path;
+        }
+        if (!StringUtils.endsWith(path, StringPool.SLASH)) {
+            path = path + StringPool.SLASH;
+        }
+        TEMPLATE_CLASS_PATH = path;
+    }
 
     private final Map<String, String> itemNameTableColumnMap;
     private final Configuration freemarkerConfiguration;
 
+    /**
+     * 构造方法
+     */
+    public WhereClauseBuilderImpl() {
+        this(Collections.emptyMap());
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param itemNameTableColumnMap item名称于数据库字段映射关系
+     */
     public WhereClauseBuilderImpl(Map<String, String> itemNameTableColumnMap) {
         Asserts.notNull(itemNameTableColumnMap);
         this.itemNameTableColumnMap = itemNameTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
-        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), "/spring/turbo/module/queryselector/sql"));
+        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), TEMPLATE_CLASS_PATH));
         cfg.setAPIBuiltinEnabled(true);
+        cfg.setCacheStorage(NullCacheStorage.INSTANCE);
         this.freemarkerConfiguration = cfg;
     }
 
