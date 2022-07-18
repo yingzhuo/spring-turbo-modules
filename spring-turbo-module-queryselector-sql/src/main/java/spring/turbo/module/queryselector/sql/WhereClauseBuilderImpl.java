@@ -14,7 +14,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
-import spring.turbo.util.*;
+import spring.turbo.util.Asserts;
+import spring.turbo.util.ClassPathDirUtils;
+import spring.turbo.util.StringObjectMap;
+import spring.turbo.util.StringPool;
 
 import java.io.StringWriter;
 import java.util.Collections;
@@ -29,19 +32,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
     private static final Class<WhereClauseBuilderImpl> THIS_TYPE = WhereClauseBuilderImpl.class;
     private static final String TEMPLATE_NAME = THIS_TYPE.getSimpleName() + ".ftl";
-    private static final String TEMPLATE_CLASS_PATH;
-
-    static {
-        String path = ClassUtils.getPackageName(WhereClauseBuilderImpl.class)
-                .replaceAll("\\.", StringPool.SLASH);
-        if (!StringUtils.startsWith(path, StringPool.SLASH)) {
-            path = StringPool.SLASH + path;
-        }
-        if (!StringUtils.endsWith(path, StringPool.SLASH)) {
-            path = path + StringPool.SLASH;
-        }
-        TEMPLATE_CLASS_PATH = path;
-    }
+    private static final String TEMPLATE_CLASS_PATH = ClassPathDirUtils.getClassPathDir(THIS_TYPE);
 
     private final Map<String, String> itemNameTableColumnMap;
     private final Configuration freemarkerConfiguration;
@@ -63,7 +54,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
         this.itemNameTableColumnMap = itemNameTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
-        cfg.setTemplateLoader(new ClassTemplateLoader(getClass(), TEMPLATE_CLASS_PATH));
+        cfg.setTemplateLoader(new ClassTemplateLoader(THIS_TYPE, TEMPLATE_CLASS_PATH));
         cfg.setAPIBuiltinEnabled(true);
         cfg.setCacheStorage(NullCacheStorage.INSTANCE);
         this.freemarkerConfiguration = cfg;
@@ -71,6 +62,11 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
     @Override
     public String apply(SelectorSet selectors, Map<String, String> itemNameTableColumnMap) {
+
+        if (selectors.isEmpty()) {
+            return " (1 = 1) ";
+        }
+
         try {
             final Map<String, String> map = new HashMap<>();
             map.putAll(this.itemNameTableColumnMap);

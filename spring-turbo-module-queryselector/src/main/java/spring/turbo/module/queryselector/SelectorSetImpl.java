@@ -37,4 +37,9 @@ public class SelectorSetImpl implements SelectorSet {
         return Collections.unmodifiableList(selectors);
     }
 
+    @Override
+    public boolean isEmpty() {
+        return selectors.isEmpty();
+    }
+
 }
