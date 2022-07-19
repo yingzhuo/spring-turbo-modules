@@ -26,6 +26,7 @@ import javax.servlet.Filter;
  * @see spring.turbo.module.security.filter.AccessControlHeaderSettingFilter
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
  * @see spring.turbo.module.security.filter.RequestLoggingFilter
+ * @see spring.turbo.module.security.filter.PrincipalSettingFilter
  * @since 1.0.0
  */
 @FunctionalInterface
