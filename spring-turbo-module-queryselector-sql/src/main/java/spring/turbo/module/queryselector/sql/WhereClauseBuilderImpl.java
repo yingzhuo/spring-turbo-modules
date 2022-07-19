@@ -34,7 +34,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     private static final String TEMPLATE_NAME = THIS_TYPE.getSimpleName() + ".ftl";
     private static final String TEMPLATE_CLASS_PATH = ClassPathDirUtils.getClassPathDir(THIS_TYPE);
 
-    private final Map<String, String> itemNameTableColumnMap;
+    private final Map<String, String> itemNameToTableColumnMap;
     private final Configuration freemarkerConfiguration;
 
     /**
@@ -47,11 +47,11 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     /**
      * 构造方法
      *
-     * @param itemNameTableColumnMap item名称于数据库字段映射关系
+     * @param itemNameToTableColumnMap item名称于数据库字段映射关系
      */
-    public WhereClauseBuilderImpl(@Nullable Map<String, String> itemNameTableColumnMap) {
-        itemNameTableColumnMap = itemNameTableColumnMap != null ? itemNameTableColumnMap : Collections.emptyMap();
-        this.itemNameTableColumnMap = itemNameTableColumnMap;
+    public WhereClauseBuilderImpl(@Nullable Map<String, String> itemNameToTableColumnMap) {
+        itemNameToTableColumnMap = itemNameToTableColumnMap != null ? itemNameToTableColumnMap : Collections.emptyMap();
+        this.itemNameToTableColumnMap = itemNameToTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         cfg.setTemplateLoader(new ClassTemplateLoader(THIS_TYPE, TEMPLATE_CLASS_PATH));
@@ -61,7 +61,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameTableColumnMap) {
+    public String apply(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap) {
 
         if (selectors.isEmpty()) {
             return " (1 = 1) ";
@@ -69,12 +69,12 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
         try {
             final Map<String, String> map = new HashMap<>();
-            map.putAll(this.itemNameTableColumnMap);
-            map.putAll(itemNameTableColumnMap);
+            map.putAll(this.itemNameToTableColumnMap);
+            map.putAll(itemNameToTableColumnMap);
 
             final StringObjectMap data = StringObjectMap.newInstance()
                     .add("selectorList", selectors.toList())
-                    .add("itemNameTableColumnMap", Collections.unmodifiableMap(map));
+                    .add("itemNameToTableColumnMap", Collections.unmodifiableMap(map));
 
             final StringWriter writer = new StringWriter();
             final Template template = this.freemarkerConfiguration.getTemplate(TEMPLATE_NAME);

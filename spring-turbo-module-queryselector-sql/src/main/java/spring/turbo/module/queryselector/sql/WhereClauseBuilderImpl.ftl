@@ -1,6 +1,6 @@
 <#list selectorList as x>
     (
-    ${itemNameTableColumnMap?api.get(x.item.name)}
+    ${itemNameToTableColumnMap?api.get(x.item.name)}
     <#switch x.logicType>
         <#case 'IS'>
             =

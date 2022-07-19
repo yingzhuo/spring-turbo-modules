@@ -6,26 +6,17 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.sql;
+package spring.turbo.module.queryselector.sql.property;
 
-import spring.turbo.module.queryselector.SelectorSet;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * @author 应卓
  * @since 1.1.2
  */
-@FunctionalInterface
-public interface WhereClauseBuilder extends BiFunction<SelectorSet, Map<String, String>, String> {
-
-    public default String apply(SelectorSet selectors) {
-        return apply(selectors, Collections.emptyMap());
-    }
-
-    @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap);
-
+@ConfigurationProperties(prefix = "springturbo.queryselector.sql.column-mapping")
+public class ItemNameToTableColumnMap extends HashMap<String, String> implements Map<String, String> {
 }
