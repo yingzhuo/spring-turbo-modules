@@ -26,6 +26,6 @@ public interface WhereClauseBuilder extends BiFunction<SelectorSet, Map<String, 
     }
 
     @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameTableColumnMap);
+    public String apply(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap);
 
 }

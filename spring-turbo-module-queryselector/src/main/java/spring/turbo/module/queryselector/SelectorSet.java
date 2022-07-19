@@ -24,6 +24,10 @@ import java.util.stream.Stream;
  */
 public interface SelectorSet extends Iterable<Selector>, Serializable {
 
+    public static SelectorSet empty() {
+        return EmptySelectorSet.getInstance();
+    }
+
     public static SelectorSet of(Selector... selectors) {
         final List<Selector> selectorList = new ArrayList<>();
         CollectionUtils.nullSafeAddAll(selectorList, selectors);

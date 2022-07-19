@@ -6,46 +6,33 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector;
+package spring.turbo.module.queryselector.sql.util;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import spring.turbo.core.SpringUtils;
+import spring.turbo.module.queryselector.SelectorSet;
+import spring.turbo.module.queryselector.sql.WhereClauseBuilder;
+
+import java.util.Map;
 
 /**
  * @author 应卓
  * @since 1.1.2
  */
-public final class EmptySelectorSet implements SelectorSet {
+public final class WhereClauseUtils {
 
     /**
      * 私有构造方法
      */
-    private EmptySelectorSet() {
+    private WhereClauseUtils() {
         super();
     }
 
-    public static EmptySelectorSet getInstance() {
-        return SyncAvoid.INSTANCE;
+    public static String generateSqlSnippet(SelectorSet selectors) {
+        return SpringUtils.getRequiredBean(WhereClauseBuilder.class).apply(selectors);
     }
 
-    @Override
-    public List<Selector> toList() {
-        return Collections.emptyList();
+    public static String generateSqlSnippet(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap) {
+        return SpringUtils.getRequiredBean(WhereClauseBuilder.class).apply(selectors, itemNameToTableColumnMap);
     }
 
-    @Override
-    public boolean isEmpty() {
-        return true;
-    }
-
-    @Override
-    public Iterator<Selector> iterator() {
-        return Collections.emptyIterator();
-    }
-
-    // 延迟加载
-    private static class SyncAvoid {
-        private static final EmptySelectorSet INSTANCE = new EmptySelectorSet();
-    }
 }
