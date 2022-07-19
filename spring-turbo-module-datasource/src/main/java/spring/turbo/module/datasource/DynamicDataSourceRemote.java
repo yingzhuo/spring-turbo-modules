@@ -18,7 +18,7 @@ import org.springframework.lang.Nullable;
  */
 public class DynamicDataSourceRemote {
 
-    private static final ThreadLocal<String> HOLDER = new InheritableThreadLocal();
+    private static final ThreadLocal<String> HOLDER = new InheritableThreadLocal<>();
 
     /**
      * 私有构造方法

@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * @author 应卓
+ * @see #getInstance()
  * @since 1.1.2
  */
 public final class EmptySelectorSet implements SelectorSet {
@@ -42,6 +43,11 @@ public final class EmptySelectorSet implements SelectorSet {
     @Override
     public Iterator<Selector> iterator() {
         return Collections.emptyIterator();
+    }
+
+    @Override
+    public String toString() {
+        return "EmptySelectorSet";
     }
 
     // 延迟加载
