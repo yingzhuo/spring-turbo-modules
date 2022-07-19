@@ -13,7 +13,6 @@ import spring.turbo.util.CollectionUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -26,7 +25,7 @@ import java.util.stream.Stream;
 public interface SelectorSet extends Iterable<Selector>, Serializable {
 
     public static SelectorSet empty() {
-        return new SelectorSetImpl(Collections.emptyList());
+        return EmptySelectorSet.getInstance();
     }
 
     public static SelectorSet of(Selector... selectors) {

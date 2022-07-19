@@ -25,10 +25,10 @@ import spring.turbo.module.queryselector.sql.property.SelectorNameTableColumnMap
  */
 @AutoConfiguration
 @EnableConfigurationProperties(SelectorNameTableColumnMap.class)
+@ConditionalOnBean(SelectorSetResolver.class)
 class SpringBootAutoConfiguration {
 
     @Bean
-    @ConditionalOnBean(SelectorSetResolver.class)
     public WhereClauseBuilder whereClauseBuilder(SelectorNameTableColumnMap selectorNameTableColumnMap) {
         return new WhereClauseBuilderImpl(selectorNameTableColumnMap);
     }

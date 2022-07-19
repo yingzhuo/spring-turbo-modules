@@ -12,9 +12,9 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.ClassPathDirUtils;
 import spring.turbo.util.StringObjectMap;
 import spring.turbo.util.StringPool;
@@ -41,7 +41,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
      * 构造方法
      */
     public WhereClauseBuilderImpl() {
-        this(Collections.emptyMap());
+        this(null);
     }
 
     /**
@@ -49,8 +49,8 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
      *
      * @param itemNameTableColumnMap item名称于数据库字段映射关系
      */
-    public WhereClauseBuilderImpl(Map<String, String> itemNameTableColumnMap) {
-        Asserts.notNull(itemNameTableColumnMap);
+    public WhereClauseBuilderImpl(@Nullable Map<String, String> itemNameTableColumnMap) {
+        itemNameTableColumnMap = itemNameTableColumnMap != null ? itemNameTableColumnMap : Collections.emptyMap();
         this.itemNameTableColumnMap = itemNameTableColumnMap;
 
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
@@ -86,8 +86,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     private String formatSql(String sql) {
-        return sql
-                .replaceAll("\n", StringPool.EMPTY)     // 消除换行
+        return sql.replaceAll("\n", StringPool.EMPTY)     // 消除换行
                 .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
     }
 
