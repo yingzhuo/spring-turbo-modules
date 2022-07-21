@@ -11,8 +11,10 @@ package spring.turbo.module.security.user;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
+import spring.turbo.util.Asserts;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * 增强型 {@link UserDetails}
@@ -41,8 +43,20 @@ public interface UserDetailsPlus extends UserDetails {
     @Nullable
     public <T> T getId();
 
+    public default <T> T getRequiredId() {
+        T id = getId();
+        Asserts.notNull(id);
+        return id;
+    }
+
     @Nullable
     public String getNickname();
+
+    public default String getRequiredNickname() {
+        String nickname = getNickname();
+        Asserts.notNull(nickname);
+        return nickname;
+    }
 
     /**
      * 性别
@@ -54,25 +68,89 @@ public interface UserDetailsPlus extends UserDetails {
     @Nullable
     public <T> T getGender();
 
+    public default <T> T getRequiredGender() {
+        T gender = getGender();
+        Asserts.notNull(gender);
+        return gender;
+    }
+
     @Nullable
     public <T> T getAvatar();
+
+    public default <T> T getRequiredAvatar() {
+        T avatar = getAvatar();
+        Asserts.notNull(avatar);
+        return avatar;
+    }
 
     @Nullable
     public <T> T getNativeUser();
 
+    public default <T> T getRequiredNativeUser() {
+        T user = getNativeUser();
+        Asserts.notNull(user);
+        return user;
+    }
+
     @Nullable
     public String getEmail();
+
+    public default String getRequiredEmail() {
+        String email = getEmail();
+        Asserts.notNull(email);
+        return email;
+    }
 
     @Nullable
     public String getPhoneNumber();
 
+    public default String getRequiredPhoneNumber() {
+        String phoneNumber = getPhoneNumber();
+        Asserts.notNull(phoneNumber);
+        return phoneNumber;
+    }
+
     @Nullable
     public Date getDateOfBirth();
+
+    public default Date getRequiredDateOfBirth() {
+        Date dob = getDateOfBirth();
+        Asserts.notNull(dob);
+        return dob;
+    }
 
     @Nullable
     public String getBiography();
 
+    public default String getRequiredBiography() {
+        String bio = getBiography();
+        Asserts.notNull(bio);
+        return bio;
+    }
+
+    @Nullable
+    public String getLocation();
+
+    public default String getRequiredLocation() {
+        String location = getLocation();
+        Asserts.notNull(location);
+        return location;
+    }
+
+    @Nullable
+    public String getUrl();
+
+    public default String getRequiredUrl() {
+        String url = getUrl();
+        Asserts.notNull(url);
+        return url;
+    }
+
     @Nullable
     public Attributes getAttributes();
+
+    public default Attributes getRequiredAttributes() {
+        return Optional.ofNullable(getAttributes()).orElseGet(Attributes::newInstance);
+    }
 
 }

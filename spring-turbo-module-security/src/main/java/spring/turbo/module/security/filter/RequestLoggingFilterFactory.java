@@ -11,12 +11,14 @@ package spring.turbo.module.security.filter;
 import org.springframework.lang.NonNull;
 import spring.turbo.module.security.FilterConfiguration;
 
+import javax.servlet.Filter;
+
 /**
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<RequestLoggingFilter> {
+public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
 
     @NonNull
     @Override

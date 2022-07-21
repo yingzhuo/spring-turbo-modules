@@ -24,6 +24,13 @@ import java.io.IOException;
  */
 public class PrincipalSettingFilter implements Filter {
 
+    /**
+     * 构造方法
+     */
+    public PrincipalSettingFilter() {
+        super();
+    }
+
     @Override
     public void doFilter(ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
 

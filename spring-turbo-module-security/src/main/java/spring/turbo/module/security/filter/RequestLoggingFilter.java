@@ -10,17 +10,22 @@ package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.filter.ServletContextRequestLoggingFilter;
 import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
-import spring.turbo.webmvc.function.RequestPredicateSet;
 import spring.turbo.webmvc.function.RequestPredicate;
+import spring.turbo.webmvc.function.RequestPredicateSet;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author 应卓
  * @see spring.turbo.module.security.FilterConfiguration
+ * @see AbstractRequestLoggingFilter
+ * @see CommonsRequestLoggingFilter
+ * @see ServletContextRequestLoggingFilter
  * @since 1.0.0
  */
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {

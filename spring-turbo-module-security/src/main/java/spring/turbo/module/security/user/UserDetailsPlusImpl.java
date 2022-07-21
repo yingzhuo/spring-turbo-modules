@@ -23,7 +23,8 @@ import java.util.Optional;
  * @author 应卓
  * @since 1.0.0
  */
-class UserDetailsPlusImpl implements UserDetailsPlus {
+@SuppressWarnings("unchecked")
+public class UserDetailsPlusImpl implements UserDetailsPlus {
 
     @NonNull
     private final UserDetails delegate;
@@ -55,10 +56,16 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
     @Nullable
     private final String bioInfo;
 
+    @Nullable
+    private final String location;
+
+    @Nullable
+    private final String url;
+
     @NonNull
     private final Attributes attributes;
 
-    UserDetailsPlusImpl(@Nullable UserDetails delegate,
+    UserDetailsPlusImpl(UserDetails delegate,
                         @Nullable Object id,
                         @Nullable String nickname,
                         @Nullable Object gender,
@@ -68,7 +75,9 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
                         @Nullable String phoneNumber,
                         @Nullable Date dateOfBirth,
                         @Nullable String bioInfo,
-                        Attributes attributes) {
+                        @Nullable String location,
+                        @Nullable String url,
+                        @Nullable Attributes attributes) {
         this.delegate = Objects.requireNonNull(delegate);
         this.id = id;
         this.nickname = nickname;
@@ -79,7 +88,9 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.bioInfo = bioInfo;
-        this.attributes = Optional.ofNullable(attributes).orElse(Attributes.newInstance());
+        this.location = location;
+        this.url = url;
+        this.attributes = Optional.ofNullable(attributes).orElseGet(Attributes::newInstance);
     }
 
     @Override
@@ -134,6 +145,18 @@ class UserDetailsPlusImpl implements UserDetailsPlus {
     @Nullable
     public String getBiography() {
         return bioInfo;
+    }
+
+    @Override
+    @Nullable
+    public String getLocation() {
+        return location;
+    }
+
+    @Override
+    @Nullable
+    public String getUrl() {
+        return url;
     }
 
     @Override
