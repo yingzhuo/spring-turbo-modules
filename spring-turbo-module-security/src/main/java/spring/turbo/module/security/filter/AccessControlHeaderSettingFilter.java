@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AccessControlHeaderSettingFilter extends AbstractServletFilter {
 
+    /**
+     * 构造方法
+     */
     public AccessControlHeaderSettingFilter() {
         super();
     }
