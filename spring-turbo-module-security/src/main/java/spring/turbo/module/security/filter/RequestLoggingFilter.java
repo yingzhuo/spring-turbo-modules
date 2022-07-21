@@ -9,27 +9,26 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
+import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
-import spring.turbo.webmvc.AbstractServletFilter;
-import spring.turbo.webmvc.HttpRequestSnapshot;
+import spring.turbo.webmvc.function.RequestPredicateSet;
+import spring.turbo.webmvc.function.RequestPredicate;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
-
-import static spring.turbo.util.StringPool.HYPHEN_X_80;
 
 /**
  * @author 应卓
  * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
-public class RequestLoggingFilter extends AbstractServletFilter {
+public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
 
     private final Logger log;
+    private final RequestPredicateSet skipPredicates = new RequestPredicateSet();
 
     /**
      * 构造方法
@@ -44,22 +43,43 @@ public class RequestLoggingFilter extends AbstractServletFilter {
      * @param log 日志记录器
      */
     public RequestLoggingFilter(@Nullable Logger log) {
-        this.log = Optional.ofNullable(log)
-                .orElse(DEFAULT_LOGGER);
+        this.log = log != null ? log : DEFAULT_LOGGER;
+        super.setIncludeHeaders(true);
+        super.setIncludeQueryString(true);
+        super.setIncludeClientInfo(true);
+        super.setIncludePayload(false);
     }
 
     @Override
-    protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            log.log(HYPHEN_X_80);
-            HttpRequestSnapshot.of(request)
-                    .getLines()
-                    .forEach(log::log);
-            log.log(HYPHEN_X_80);
-            return true;
-        } catch (Throwable e) {
-            return true;
+    protected void beforeRequest(HttpServletRequest request, String message) {
+        log.log(message);
+    }
+
+    @Override
+    protected void afterRequest(HttpServletRequest request, String message) {
+        log.log(message);
+    }
+
+    @Override
+    protected boolean shouldLog(HttpServletRequest request) {
+        if (!super.shouldLog(request)) {
+            return false;
         }
+
+        if (this.skipPredicates.isEmpty()) {
+            return true;
+        } else {
+            return this.skipPredicates.noneMatches(request);
+        }
+    }
+
+    public final void addSkipPredicates(@Nullable RequestPredicate predicate, @Nullable RequestPredicate... others) {
+        CollectionUtils.nullSafeAdd(skipPredicates, predicate);
+        CollectionUtils.nullSafeAddAll(skipPredicates, others);
+    }
+
+    public final void addSkipPredicates(@Nullable RequestPredicateSet predicates) {
+        CollectionUtils.nullSafeAddAll(skipPredicates, predicates);
     }
 
 }

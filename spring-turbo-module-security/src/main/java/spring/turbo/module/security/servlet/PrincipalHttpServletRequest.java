@@ -6,40 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.datasource;
+package spring.turbo.module.security.servlet;
 
-import org.springframework.lang.Nullable;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.security.Principal;
 
 /**
- * 全局数据源切换遥控器
- *
  * @author 应卓
- * @since 1.1.0
+ * @since 1.1.2
  */
-public class DynamicDataSourceRemote {
+public class PrincipalHttpServletRequest extends HttpServletRequestWrapper {
 
-    private static final ThreadLocal<String> HOLDER = new InheritableThreadLocal<>();
+    private final Principal principal;
 
-    /**
-     * 私有构造方法
-     */
-    private DynamicDataSourceRemote() {
-        super();
+    public PrincipalHttpServletRequest(HttpServletRequest request, Principal principal) {
+        super(request);
+        this.principal = principal;
     }
 
-    @Nullable
-    public static String getKey() {
-        return HOLDER.get();
-    }
-
-    public static void setKey(@Nullable String key) {
-        if (key != null) {
-            HOLDER.set(key);
-        }
-    }
-
-    public static void clear() {
-        HOLDER.remove();
+    @Override
+    public Principal getUserPrincipal() {
+        return this.principal;
     }
 
 }

@@ -6,40 +6,27 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.datasource;
+package spring.turbo.module.security.filter;
 
-import org.springframework.lang.Nullable;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
+import spring.turbo.module.security.FilterConfiguration;
+
+import javax.servlet.Filter;
 
 /**
- * 全局数据源切换遥控器
- *
  * @author 应卓
- * @since 1.1.0
+ * @since 1.1.2
  */
-public class DynamicDataSourceRemote {
+public interface PrincipalSettingFilterFactory extends FilterConfiguration<PrincipalSettingFilter> {
 
-    private static final ThreadLocal<String> HOLDER = new InheritableThreadLocal<>();
-
-    /**
-     * 私有构造方法
-     */
-    private DynamicDataSourceRemote() {
-        super();
+    @Override
+    default Position position() {
+        return Position.BEFORE;
     }
 
-    @Nullable
-    public static String getKey() {
-        return HOLDER.get();
-    }
-
-    public static void setKey(@Nullable String key) {
-        if (key != null) {
-            HOLDER.set(key);
-        }
-    }
-
-    public static void clear() {
-        HOLDER.remove();
+    @Override
+    public default Class<? extends Filter> positionInChain() {
+        return ExceptionTranslationFilter.class;
     }
 
 }
