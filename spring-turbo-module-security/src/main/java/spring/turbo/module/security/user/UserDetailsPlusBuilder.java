@@ -62,6 +62,11 @@ public final class UserDetailsPlusBuilder {
     @Nullable
     private String biography;
 
+    @Nullable
+    private String location;
+
+    @Nullable
+    private String url;
 
     /**
      * 构造方法
@@ -175,6 +180,16 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
+    public UserDetailsPlusBuilder location(String location) {
+        this.location = location;
+        return this;
+    }
+
+    public UserDetailsPlusBuilder url(String url) {
+        this.url = url;
+        return this;
+    }
+
     public UserDetailsPlusBuilder putAttribute(String key, Object value) {
         this.attributes.add(key, value);
         return this;
@@ -195,6 +210,8 @@ public final class UserDetailsPlusBuilder {
                 this.phoneNumber,
                 this.dateOfBirth,
                 this.biography,
+                this.location,
+                this.url,
                 this.attributes
         );
     }

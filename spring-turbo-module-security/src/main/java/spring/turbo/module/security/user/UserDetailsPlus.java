@@ -129,6 +129,24 @@ public interface UserDetailsPlus extends UserDetails {
     }
 
     @Nullable
+    public String getLocation();
+
+    public default String getRequiredLocation() {
+        String location = getLocation();
+        Asserts.notNull(location);
+        return location;
+    }
+
+    @Nullable
+    public String getUrl();
+
+    public default String getRequiredUrl() {
+        String url = getUrl();
+        Asserts.notNull(url);
+        return url;
+    }
+
+    @Nullable
     public Attributes getAttributes();
 
     public default Attributes getRequiredAttributes() {
