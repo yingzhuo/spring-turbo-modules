@@ -10,8 +10,11 @@ package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
+import spring.turbo.webmvc.function.RequestPredicateSet;
+import spring.turbo.webmvc.function.RequestPredicate;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +28,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
 
     private final Logger log;
+    private final RequestPredicateSet skipPredicates = new RequestPredicateSet();
 
     /**
      * 构造方法
@@ -54,6 +58,28 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
         log.log(message);
+    }
+
+    @Override
+    protected boolean shouldLog(HttpServletRequest request) {
+        if (!super.shouldLog(request)) {
+            return false;
+        }
+
+        if (this.skipPredicates.isEmpty()) {
+            return true;
+        } else {
+            return this.skipPredicates.noneMatches(request);
+        }
+    }
+
+    public final void addSkipPredicates(@Nullable RequestPredicate predicate, @Nullable RequestPredicate... others) {
+        CollectionUtils.nullSafeAdd(skipPredicates, predicate);
+        CollectionUtils.nullSafeAddAll(skipPredicates, others);
+    }
+
+    public final void addSkipPredicates(@Nullable RequestPredicateSet predicates) {
+        CollectionUtils.nullSafeAddAll(skipPredicates, predicates);
     }
 
 }

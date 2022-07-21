@@ -11,7 +11,7 @@ package spring.turbo.module.security;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.bean.Factory;
-import spring.turbo.webmvc.function.PredicateSet;
+import spring.turbo.webmvc.function.RequestPredicateSet;
 
 import javax.servlet.Filter;
 
@@ -37,7 +37,7 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     public T create();
 
     @Nullable
-    public default PredicateSet skipPredicates() {
+    public default RequestPredicateSet skipPredicates() {
         return null;
     }
 

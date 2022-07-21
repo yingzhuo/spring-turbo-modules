@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import spring.turbo.module.security.FilterConfiguration;
 
 import javax.servlet.Filter;
@@ -21,12 +21,12 @@ public interface PrincipalSettingFilterFactory extends FilterConfiguration<Princ
 
     @Override
     default Position position() {
-        return Position.AFTER;
+        return Position.BEFORE;
     }
 
     @Override
     public default Class<? extends Filter> positionInChain() {
-        return AnonymousAuthenticationFilter.class;
+        return ExceptionTranslationFilter.class;
     }
 
 }
