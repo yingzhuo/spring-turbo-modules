@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.filter;
 
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.filter.TokenAuthenticationFilter;
 import spring.turbo.module.security.jwt.token.JwtTokenResolver;
 import spring.turbo.util.Asserts;
@@ -25,9 +24,8 @@ public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
         this.setTokenResolver(new BearerTokenResolver());
     }
 
-    // since 1.0.9
     @Override
-    public void setTokenResolver(@NonNull TokenResolver resolver) {
+    public void setTokenResolver(TokenResolver resolver) {
         Asserts.notNull(resolver);
 
         if (resolver instanceof JwtTokenResolver) {
