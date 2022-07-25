@@ -9,7 +9,7 @@
 package spring.turbo.module.captcha.support;
 
 import org.springframework.beans.factory.InitializingBean;
-import spring.turbo.bean.SpringApplicationName;
+import spring.turbo.bean.injection.ApplicationName;
 import spring.turbo.util.RandomStringUtils;
 import spring.turbo.util.StringUtils;
 
@@ -23,7 +23,7 @@ import static spring.turbo.util.StringPool.EMPTY;
  */
 public class SimpleAccessKeyGenerator implements AccessKeyGenerator, InitializingBean {
 
-    @SpringApplicationName
+    @ApplicationName
     private String applicationName;
 
     @Override
