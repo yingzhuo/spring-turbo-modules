@@ -31,8 +31,8 @@ import javax.servlet.Filter;
 @FunctionalInterface
 public interface FilterConfiguration<T extends Filter> extends Factory<T> {
 
-    @Override
     @Nullable
+    @Override
     public T create();
 
     @Nullable

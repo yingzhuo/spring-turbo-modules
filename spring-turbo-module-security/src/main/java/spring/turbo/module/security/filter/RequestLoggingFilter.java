@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @see AbstractRequestLoggingFilter
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
+ * @see HumanReadableRequestLoggingFilter
  * @since 1.0.0
  */
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
