@@ -27,10 +27,18 @@ public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
 
     private final Logger log;
 
+    /**
+     * 构造方法
+     */
     public HumanReadableRequestLoggingFilter() {
         this(null);
     }
 
+    /**
+     * 构造方法
+     *
+     * @param log 日志记录器
+     */
     public HumanReadableRequestLoggingFilter(@Nullable Logger log) {
         this.log = log != null ? log : new Logger(HumanReadableRequestLoggingFilter.class, LogLevel.DEBUG);
     }
@@ -45,15 +53,13 @@ public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
     }
 
     private void doLog(HttpServletRequest request) {
-        if (!log.isEnabled()) {
-            return;
+        if (log.isEnabled()) {
+            log.log(StringPool.HYPHEN_X_80);
+            HttpRequestSnapshot.of(request)
+                    .getLines()
+                    .forEach(log::log);
+            log.log(StringPool.HYPHEN_X_80);
         }
-
-        log.log(StringPool.HYPHEN_X_80);
-        HttpRequestSnapshot.of(request)
-                .getLines()
-                .forEach(log::log);
-        log.log(StringPool.HYPHEN_X_80);
     }
 
 }
