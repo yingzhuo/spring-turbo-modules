@@ -45,7 +45,7 @@ import java.util.Map;
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings({"rawtypes"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 @AutoConfigureAfter(SpringBootAutoConfiguration.class)
 class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecurity> {
 

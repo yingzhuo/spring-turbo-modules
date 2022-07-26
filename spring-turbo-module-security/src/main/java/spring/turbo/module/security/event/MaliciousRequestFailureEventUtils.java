@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.event;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -35,7 +34,7 @@ public final class MaliciousRequestFailureEventUtils {
     }
 
     @Nullable
-    public static ServletWebRequest getServletWebRequest(@NonNull MaliciousRequestFailureEvent event) {
+    public static ServletWebRequest getServletWebRequest(MaliciousRequestFailureEvent event) {
         Asserts.notNull(event);
         final Authentication authentication = event.getAuthentication();
         if (authentication instanceof RequestAuthentication) {
@@ -46,13 +45,25 @@ public final class MaliciousRequestFailureEventUtils {
     }
 
     @Nullable
-    public static HttpServletRequest getHttpServletRequest(@NonNull MaliciousRequestFailureEvent event) {
+    public static HttpServletRequest getRequest(MaliciousRequestFailureEvent event) {
         return Optional.ofNullable(getServletWebRequest(event)).map(ServletWebRequest::getRequest).orElse(null);
     }
 
     @Nullable
-    public static HttpServletResponse getHttpServletResponse(@NonNull MaliciousRequestFailureEvent event) {
+    public static HttpServletResponse getResponse(MaliciousRequestFailureEvent event) {
         return Optional.ofNullable(getServletWebRequest(event)).map(ServletWebRequest::getResponse).orElse(null);
+    }
+
+    public static HttpServletRequest getRequiredRequest(MaliciousRequestFailureEvent event) {
+        final HttpServletRequest request = getRequest(event);
+        Asserts.notNull(request);
+        return request;
+    }
+
+    public static HttpServletResponse getRequiredResponse(MaliciousRequestFailureEvent event) {
+        final HttpServletResponse response = getResponse(event);
+        Asserts.notNull(response);
+        return response;
     }
 
 }
