@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author 应卓
  * @see RequestLoggingFilter
+ * @see org.springframework.web.filter.CommonsRequestLoggingFilter
+ * @see org.springframework.web.filter.AbstractRequestLoggingFilter
  * @since 1.1.3
  */
 public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
