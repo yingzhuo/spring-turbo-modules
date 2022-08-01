@@ -15,7 +15,7 @@ import org.springframework.web.filter.ServletContextRequestLoggingFilter;
 import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
-import spring.turbo.webmvc.function.RequestPredicate;
+import spring.turbo.webmvc.SkippableFilter;
 import spring.turbo.webmvc.function.RequestPredicateSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * @see HumanReadableRequestLoggingFilter
  * @since 1.0.0
  */
-public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
+public class RequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
 
     private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
 
@@ -79,11 +79,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
         }
     }
 
-    public final void addSkipPredicates(@Nullable RequestPredicate predicate, @Nullable RequestPredicate... others) {
-        CollectionUtils.nullSafeAdd(skipPredicates, predicate);
-        CollectionUtils.nullSafeAddAll(skipPredicates, others);
-    }
-
+    @Override
     public final void addSkipPredicates(@Nullable RequestPredicateSet predicates) {
         CollectionUtils.nullSafeAddAll(skipPredicates, predicates);
     }
