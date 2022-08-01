@@ -6,19 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.webmvc;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.webmvc.entity;
 
-import spring.turbo.webmvc.RemoteAddressUtils;
-
-import java.lang.annotation.*;
-
-/**
- * @author 应卓
- * @see RemoteAddressUtils
- * @since 1.0.0
- */
-@Documented
-@Target({ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface RemoteAddress {
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

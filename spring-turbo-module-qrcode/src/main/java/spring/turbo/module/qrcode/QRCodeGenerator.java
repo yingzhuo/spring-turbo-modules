@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author 应卓
- * @see spring.turbo.module.security.webmvc.entity.ImageResponseEntity
+ * @see spring.turbo.module.webmvc.entity.ImageResponseEntity
  * @since 1.0.0
  */
 public interface QRCodeGenerator {

@@ -1,1 +1,1 @@
-spring.turbo.module.security.webmvc.integration.ModuleNameProviderImpl
+spring.turbo.module.webmvc.integration.ModuleNameProviderImpl
