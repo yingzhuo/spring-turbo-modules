@@ -152,6 +152,7 @@
                 <groupId>com.github.yingzhuo</groupId>
                 <artifactId>spring-turbo-module-queryselector</artifactId>
                 <version>${project.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- spring-boot -->
