@@ -248,14 +248,14 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         if (listAnnotation != null) {
             for (Headerless annotation : listAnnotation.value()) {
                 headerlessConfig.add(
-                        Tuple.of(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
+                        Tuple.ofNullable(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
                 );
             }
         } else {
             Headerless annotation = AnnotationUtils.findAnnotation(visitorType, Headerless.class);
             if (annotation != null) {
                 headerlessConfig.add(
-                        Tuple.of(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
+                        Tuple.ofNullable(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
                 );
             }
         }
@@ -339,7 +339,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         if (listAnnotation != null) {
             for (ExcludeRowRange annotation : listAnnotation.value()) {
                 list.add(
-                        Tuple.of(
+                        Tuple.ofNullable(
                                 annotation.sheetIndex(),
                                 annotation.minInclude(),
                                 annotation.maxExclude()
@@ -350,7 +350,7 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
             ExcludeRowRange annotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowRange.class);
             if (annotation != null) {
                 list.add(
-                        Tuple.of(
+                        Tuple.ofNullable(
                                 annotation.sheetIndex(),
                                 annotation.minInclude(),
                                 annotation.maxExclude()

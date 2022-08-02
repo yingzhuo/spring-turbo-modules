@@ -56,7 +56,7 @@ public final class HeaderConfig implements Serializable {
     }
 
     public HeaderConfig fixed(int sheetIndex, int offset, String... header) {
-        sheetIndexFixedHeader.add(Tuple.of(sheetIndex, offset, header));
+        sheetIndexFixedHeader.add(Tuple.ofNullable(sheetIndex, offset, header));
         return this;
     }
 
@@ -65,7 +65,7 @@ public final class HeaderConfig implements Serializable {
     }
 
     public HeaderConfig fixed(String sheetName, int offset, String... header) {
-        sheetNameFixedHeader.add(Tuple.of(sheetName, offset, header));
+        sheetNameFixedHeader.add(Tuple.ofNullable(sheetName, offset, header));
         return this;
     }
 
