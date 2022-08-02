@@ -40,14 +40,14 @@ public final class HeaderConfig implements Serializable {
     public HeaderConfig bySheetName(String sheetName, int rowIndex) {
         Asserts.hasText(sheetName);
         Asserts.isTrue(rowIndex >= 0);
-        sheetNameConfig.add(Pair.of(sheetName, rowIndex));
+        sheetNameConfig.add(Pair.ofNonNull(sheetName, rowIndex));
         return this;
     }
 
     public HeaderConfig bySheetIndex(int sheetIndex, int rowIndex) {
         Asserts.isTrue(sheetIndex >= 0);
         Asserts.isTrue(rowIndex >= 0);
-        sheetIndexConfig.add(Pair.of(sheetIndex, rowIndex));
+        sheetIndexConfig.add(Pair.ofNonNull(sheetIndex, rowIndex));
         return this;
     }
 

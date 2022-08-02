@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author 应卓
+ * @see #builder()
  * @since 1.0.1
  */
 public final class ImageResponseEntity extends ResponseEntity<byte[]> {

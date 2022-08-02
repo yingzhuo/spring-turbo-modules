@@ -230,12 +230,12 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
 
         if (listAnnotation != null) {
             for (Header annotation : listAnnotation.value()) {
-                headerConfig.add(Pair.of(annotation.sheetIndex(), annotation.rowIndex()));
+                headerConfig.add(Pair.ofNonNull(annotation.sheetIndex(), annotation.rowIndex()));
             }
         } else {
             Header annotation = AnnotationUtils.findAnnotation(visitorType, Header.class);
             if (annotation != null) {
-                headerConfig.add(Pair.of(annotation.sheetIndex(), annotation.rowIndex()));
+                headerConfig.add(Pair.ofNonNull(annotation.sheetIndex(), annotation.rowIndex()));
             }
         }
         return headerConfig;
@@ -320,13 +320,13 @@ class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigg
         if (listAnnotation != null) {
             for (ExcludeRowSet annotation : listAnnotation.value()) {
                 Set<Integer> set = Arrays.stream(annotation.rowIndexes()).boxed().collect(Collectors.toSet());
-                list.add(Pair.of(annotation.sheetIndex(), set));
+                list.add(Pair.ofNonNull(annotation.sheetIndex(), set));
             }
         } else {
             ExcludeRowSet annotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowSet.class);
             if (annotation != null) {
                 Set<Integer> set = Arrays.stream(annotation.rowIndexes()).boxed().collect(Collectors.toSet());
-                list.add(Pair.of(annotation.sheetIndex(), set));
+                list.add(Pair.ofNonNull(annotation.sheetIndex(), set));
             }
         }
 
