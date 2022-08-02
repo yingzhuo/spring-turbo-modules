@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector.sql;
 
+import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.SelectorSet;
 
 import java.util.Collections;
@@ -21,11 +22,11 @@ import java.util.function.BiFunction;
 @FunctionalInterface
 public interface WhereClauseBuilder extends BiFunction<SelectorSet, Map<String, String>, String> {
 
-    public default String apply(SelectorSet selectors) {
+    public default String apply(@Nullable SelectorSet selectors) {
         return apply(selectors, Collections.emptyMap());
     }
 
     @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap);
+    public String apply(@Nullable SelectorSet selectors, Map<String, String> itemNameToTableColumnMap);
 
 }

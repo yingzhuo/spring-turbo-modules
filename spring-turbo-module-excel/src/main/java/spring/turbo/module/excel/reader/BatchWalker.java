@@ -487,7 +487,7 @@ public final class BatchWalker<T> {
         }
 
         public Builder<T> setColumnBasedCellParser(int sheetIndex, int columnIndex, CellParser parser) {
-            this.cellParsers.add(Tuple.of(sheetIndex, columnIndex, parser));
+            this.cellParsers.add(Tuple.ofNullable(sheetIndex, columnIndex, parser));
             return this;
         }
 

@@ -31,7 +31,7 @@ public final class RowUtils {
         Asserts.notNull(row);
         Sheet sheet = row.getSheet();
         Workbook workbook = sheet.getWorkbook();
-        return Pair.of(workbook, sheet);
+        return Pair.ofNonNull(workbook, sheet);
     }
 
     public static int getIndex(Row row) {

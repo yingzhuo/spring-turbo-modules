@@ -61,9 +61,8 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     @Override
-    public String apply(SelectorSet selectors, Map<String, String> itemNameToTableColumnMap) {
-
-        if (selectors.isEmpty()) {
+    public String apply(@Nullable SelectorSet selectors, Map<String, String> itemNameToTableColumnMap) {
+        if (selectors == null || selectors.isEmpty()) {
             return " (1 = 1) ";
         }
 

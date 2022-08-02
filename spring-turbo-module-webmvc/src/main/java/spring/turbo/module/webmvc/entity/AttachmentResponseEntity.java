@@ -24,6 +24,7 @@ import java.nio.file.Path;
 
 /**
  * @author 应卓
+ * @see #builder()
  * @since 1.0.1
  */
 public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
