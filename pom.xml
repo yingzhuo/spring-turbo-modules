@@ -10,6 +10,7 @@
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
+        <module>spring-turbo-module-data</module>
         <module>spring-turbo-module-datasource</module>
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
@@ -116,6 +117,7 @@
         <spring.version>5.3.22</spring.version>
         <spring.security.version>5.7.2</spring.security.version>
         <spring.kafka.version>2.9.0</spring.kafka.version>
+        <spring.data.commons.version>2.7.2</spring.data.commons.version>
         <feign.version>11.9.1</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -372,6 +374,13 @@
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring.kafka.version}</version>
+            </dependency>
+
+            <!-- spring-data-commons -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring.data.commons.version}</version>
             </dependency>
 
             <!-- java-jwt -->
