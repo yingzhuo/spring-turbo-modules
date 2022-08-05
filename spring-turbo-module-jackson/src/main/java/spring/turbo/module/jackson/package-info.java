@@ -34,8 +34,7 @@ class SpringBootAutoConfiguration {
     @Autowired(required = false)
     void configObjectMapper(@Nullable ObjectMapper om) {
         if (om != null) {
-            om.addMixIn(DatePair.class, DatePairMixin.class);
-            om.addMixIn(DayRange.class, DayRangeMixin.class);
+            om.addMixIn(DateRange.class, DateRangeMixin.class);
             om.addMixIn(NumberPair.class, NumberPairMixin.class);
             om.addMixIn(IntegerPair.class, IntegerPairMixin.class);
             om.addMixIn(LongPair.class, LongPairMixin.class);
