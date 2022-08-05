@@ -21,7 +21,7 @@ import spring.turbo.bean.NumberPair;
 @JsonDeserialize(using = LongPairMixin.LongPairJsonDeserializer.class)
 public abstract class LongPairMixin {
 
-    static class LongPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<LongPair> {
+    public static class LongPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<LongPair> {
         public LongPairJsonDeserializer() {
             super(LongPair.class);
         }

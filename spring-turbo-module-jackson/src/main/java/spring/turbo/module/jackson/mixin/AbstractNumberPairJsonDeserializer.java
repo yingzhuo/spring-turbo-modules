@@ -37,6 +37,7 @@ abstract class AbstractNumberPairJsonDeserializer<T extends NumberPair> extends 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public final T deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
         final String source = p.readValueAs(String.class);
         return (T) Objects.requireNonNull(CONVERTER.convert(source, TypeDescriptor.valueOf(String.class), descTypeDescriptor));

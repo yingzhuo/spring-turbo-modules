@@ -28,14 +28,14 @@ public abstract class DateRangeMixin {
 
     private static final DateRangeParser CONVERTER = new DateRangeParser();
 
-    static class DateRangeJsonDeserializer extends JsonDeserializer<DateRange> {
+    public static class DateRangeJsonDeserializer extends JsonDeserializer<DateRange> {
         @Override
         public DateRange deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
             final String source = p.readValueAs(String.class);
             final DateRange dateRange = (DateRange) CONVERTER.convert(
                     source,
                     TypeDescriptor.valueOf(String.class),
-                    TypeDescriptor.valueOf(DateRangeParser.class)
+                    TypeDescriptor.valueOf(DateRange.class)
             );
 
             Asserts.notNull(dateRange);

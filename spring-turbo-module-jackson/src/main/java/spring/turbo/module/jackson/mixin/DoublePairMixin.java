@@ -22,7 +22,7 @@ import spring.turbo.bean.NumberPair;
 @JsonDeserialize(using = DoublePairMixin.DoublePairJsonDeserializer.class)
 public abstract class DoublePairMixin {
 
-    static class DoublePairJsonDeserializer extends AbstractNumberPairJsonDeserializer<DoublePair> {
+    public static class DoublePairJsonDeserializer extends AbstractNumberPairJsonDeserializer<DoublePair> {
         public DoublePairJsonDeserializer() {
             super(DoublePair.class);
         }
