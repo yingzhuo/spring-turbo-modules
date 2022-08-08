@@ -37,7 +37,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         return new Builder();
     }
 
-    public final static class Builder {
+    public final static class Builder implements spring.turbo.bean.Builder<AttachmentResponseEntity> {
 
         private HttpStatus status = HttpStatus.OK;
         private byte[] content;

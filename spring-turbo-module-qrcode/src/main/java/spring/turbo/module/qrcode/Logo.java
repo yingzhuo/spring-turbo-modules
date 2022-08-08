@@ -50,7 +50,8 @@ public final class Logo implements Serializable {
         return compress;
     }
 
-    public static class Builder {
+    public static class Builder implements spring.turbo.bean.Builder<Logo> {
+
         private Image image;
         private boolean compress = true;
 

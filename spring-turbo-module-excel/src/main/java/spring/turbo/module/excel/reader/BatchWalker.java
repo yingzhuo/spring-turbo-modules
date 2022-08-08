@@ -19,6 +19,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import spring.turbo.bean.Builder;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.bean.valueobject.*;
@@ -373,7 +374,7 @@ public final class BatchWalker<T> {
     /**
      * 创建器
      */
-    public final static class Builder<T> {
+    public final static class Builder<T> implements spring.turbo.bean.Builder<BatchWalker<T>> {
         private final Class<T> valueObjectType;
         private final Supplier<T> valueObjectSupplier;
         private final AliasConfig aliasConfig = AliasConfig.newInstance();
