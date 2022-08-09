@@ -25,7 +25,7 @@ import java.io.IOException;
 @JsonDeserialize(using = SelectorSetMixin.SelectorSetJsonSerializer.class)
 public abstract class SelectorSetMixin {
 
-    static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
+    public static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
 
         private final SelectorSetResolver selectorSetResolver;
 

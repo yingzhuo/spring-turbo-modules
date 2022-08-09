@@ -21,7 +21,7 @@ import spring.turbo.bean.ShortPair;
 @JsonDeserialize(using = ShortPairMixin.ShortPairJsonDeserializer.class)
 public abstract class ShortPairMixin {
 
-    static class ShortPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<ShortPair> {
+    public static class ShortPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<ShortPair> {
         public ShortPairJsonDeserializer() {
             super(ShortPair.class);
         }

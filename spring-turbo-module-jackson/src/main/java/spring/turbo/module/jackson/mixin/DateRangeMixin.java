@@ -13,35 +13,33 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.core.convert.TypeDescriptor;
-import spring.turbo.bean.DatePair;
-import spring.turbo.format.StringToDatePairConverter;
+import spring.turbo.bean.DateRange;
+import spring.turbo.format.DateRangeParser;
 import spring.turbo.util.Asserts;
 
 import java.io.IOException;
 
 /**
  * @author 应卓
- * @see spring.turbo.bean.DayRange
- * @since 1.0.14
+ * @since 1.1.4
  */
-@JsonDeserialize(using = DatePairMixin.DatePairJsonDeserializer.class)
-public abstract class DatePairMixin {
+@JsonDeserialize(using = DateRangeMixin.DateRangeJsonDeserializer.class)
+public abstract class DateRangeMixin {
 
-    private static final StringToDatePairConverter CONVERTER = new StringToDatePairConverter();
+    private static final DateRangeParser CONVERTER = new DateRangeParser();
 
-    static class DatePairJsonDeserializer extends JsonDeserializer<DatePair> {
+    public static class DateRangeJsonDeserializer extends JsonDeserializer<DateRange> {
         @Override
-        public DatePair deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+        public DateRange deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
             final String source = p.readValueAs(String.class);
-            final DatePair datePair = (DatePair) CONVERTER.convert
-                    (
-                            source,
-                            TypeDescriptor.valueOf(String.class),
-                            TypeDescriptor.valueOf(DatePair.class)
-                    );
+            final DateRange dateRange = (DateRange) CONVERTER.convert(
+                    source,
+                    TypeDescriptor.valueOf(String.class),
+                    TypeDescriptor.valueOf(DateRange.class)
+            );
 
-            Asserts.notNull(datePair);
-            return datePair;
+            Asserts.notNull(dateRange);
+            return dateRange;
         }
     }
 

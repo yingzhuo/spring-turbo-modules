@@ -21,7 +21,7 @@ import spring.turbo.bean.NumberPair;
 @JsonDeserialize(using = FloatPairMixin.FloatPairJsonDeserializer.class)
 public abstract class FloatPairMixin {
 
-    static class FloatPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<FloatPair> {
+    public static class FloatPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<FloatPair> {
         public FloatPairJsonDeserializer() {
             super(FloatPair.class);
         }

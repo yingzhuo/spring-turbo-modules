@@ -20,6 +20,10 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class MaliciousRequestException extends AuthenticationException {
 
+    public MaliciousRequestException() {
+        this(null);
+    }
+
     public MaliciousRequestException(@Nullable String msg) {
         super(msg);
     }

@@ -24,11 +24,11 @@ import java.util.Collection;
  * @see spring.turbo.module.security.encoder.PasswordEncoderFactories
  * @since 1.0.1
  */
-@SuppressWarnings("deprecation")
 public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderProvider {
 
     @NonNull
     @Override
+    @SuppressWarnings("deprecation")
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
         return ListFactories.newUnmodifiableList(
                 NamedPasswordEncoder.of("bcrypt", new BCryptPasswordEncoder()),
