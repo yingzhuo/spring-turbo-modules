@@ -11,6 +11,7 @@ package spring.turbo.module.jackson.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import spring.turbo.core.SpringUtils;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.StringPool;
 
 import java.io.File;
 import java.io.Reader;
@@ -30,17 +31,28 @@ public final class JacksonUtils {
     }
 
     public static String writeAsString(Object obj) {
+        return writeAsString(obj, false);
+    }
+
+    public static String writeAsString(Object obj, boolean flat) {
         Asserts.notNull(obj);
 
         final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
                 .orElseGet(ObjectMapper::new);
 
         try {
-            return om.writeValueAsString(obj);
+            final String jsonString = om.writeValueAsString(obj);
+            if (flat) {
+                return jsonString.replaceAll("\\n", StringPool.EMPTY);
+            } else {
+                return jsonString;
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     public static <T> T readAsObject(String json, Class<T> objectType) {
         Asserts.notNull(json);
