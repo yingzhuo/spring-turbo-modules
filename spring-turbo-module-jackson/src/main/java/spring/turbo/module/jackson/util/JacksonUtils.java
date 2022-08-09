@@ -8,10 +8,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.jackson.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import spring.turbo.core.SpringUtils;
 import spring.turbo.util.Asserts;
+
+import java.io.File;
+import java.io.Reader;
+import java.net.URL;
 
 /**
  * @author 应卓
@@ -34,7 +37,63 @@ public final class JacksonUtils {
 
         try {
             return om.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static <T> T readAsObject(String json, Class<T> objectType) {
+        Asserts.notNull(json);
+        Asserts.notNull(objectType);
+
+        final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
+                .orElseGet(ObjectMapper::new);
+
+        try {
+            return om.readValue(json, objectType);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static <T> T readAsObject(File json, Class<T> objectType) {
+        Asserts.notNull(json);
+        Asserts.notNull(objectType);
+
+        final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
+                .orElseGet(ObjectMapper::new);
+
+        try {
+            return om.readValue(json, objectType);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static <T> T readAsObject(URL json, Class<T> objectType) {
+        Asserts.notNull(json);
+        Asserts.notNull(objectType);
+
+        final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
+                .orElseGet(ObjectMapper::new);
+
+        try {
+            return om.readValue(json, objectType);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public static <T> T readAsObject(Reader json, Class<T> objectType) {
+        Asserts.notNull(json);
+        Asserts.notNull(objectType);
+
+        final ObjectMapper om = SpringUtils.getBean(ObjectMapper.class)
+                .orElseGet(ObjectMapper::new);
+
+        try {
+            return om.readValue(json, objectType);
+        } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
