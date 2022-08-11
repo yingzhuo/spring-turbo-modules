@@ -12,28 +12,31 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import spring.turbo.module.queryselector.SelectorSet;
-import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
-import spring.turbo.module.queryselector.resolver.SelectorSetResolverImpl;
+import spring.turbo.bean.NumberZones;
+import spring.turbo.format.NumberZonesParser;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * @author 应卓
- * @since 1.1.0
+ * @since 1.1.4
  */
-@JsonDeserialize(using = SelectorSetMixin.SelectorSetJsonSerializer.class)
-public abstract class SelectorSetMixin {
+@JsonDeserialize(using = NumberZonesMixin.NumberZonesJsonDeserializer.class)
+public abstract class NumberZonesMixin {
 
-    public static final SelectorSetResolver RESOLVER = new SelectorSetResolverImpl();
+    private static final NumberZonesParser PARSER = new NumberZonesParser();
 
-    public static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
-
+    public static class NumberZonesJsonDeserializer extends JsonDeserializer<NumberZones> {
         @Override
-        public SelectorSet deserialize(JsonParser p, DeserializationContext context) throws IOException {
-            final String string = p.readValueAs(String.class);
-            return RESOLVER.resolve(string).orElse(SelectorSet.empty());
+        public NumberZones deserialize(JsonParser p, DeserializationContext context) throws IOException {
+            try {
+                final String source = p.readValueAs(String.class);
+                return PARSER.parse(source, Locale.getDefault());
+            } catch (ParseException e) {
+                throw new IllegalStateException(e.getMessage());
+            }
         }
     }
-
 }

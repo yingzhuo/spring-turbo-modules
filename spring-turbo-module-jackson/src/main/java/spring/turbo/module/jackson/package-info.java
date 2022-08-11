@@ -44,6 +44,7 @@ class SpringBootAutoConfiguration {
             om.addMixIn(DoublePair.class, DoublePairMixin.class);
             om.addMixIn(BigIntegerPair.class, BigIntegerPairMixin.class);
             om.addMixIn(BigDecimalPair.class, BigDecimalPairMixin.class);
+            om.addMixIn(NumberZones.class, NumberZonesMixin.class);
         }
     }
 
