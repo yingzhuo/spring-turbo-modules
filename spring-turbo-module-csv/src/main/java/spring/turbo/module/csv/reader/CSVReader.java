@@ -116,7 +116,7 @@ public final class CSVReader<T> {
         final LineIterator lineIterator = resourceOption.getLineIterator(this.charset);
 
         try {
-            doRead(lineIterator, Optional.ofNullable(payload).orElse(ProcessPayload.newInstance()));
+            doRead(lineIterator, Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance));
         } finally {
             CloseUtils.closeQuietly(lineIterator);
             CloseUtils.closeQuietly(this.resource);
@@ -226,6 +226,7 @@ public final class CSVReader<T> {
     }
 
     private String[] normalizeValue(String[] dataArray) {
+        // TODO: 裁剪成与Header一样长
         for (int i = 0; i < dataArray.length; i++) {
             String c = dataArray[i];
             if (this.globalValueNormalizer != null) {
