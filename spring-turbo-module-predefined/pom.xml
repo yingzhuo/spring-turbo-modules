@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.yingzhuo</groupId>
         <artifactId>spring-turbo-modules</artifactId>
-        <version>1.1.4</version>
+        <version>1.1.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-turbo-module-predefined</artifactId>
