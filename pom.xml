@@ -113,7 +113,7 @@
 
         <spring.turbo.version>1.2.0-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.7.3</spring.boot.version>
-        <spring.version>5.3.22</spring.version>
+        <spring.version>5.3.23</spring.version>
         <spring.security.version>5.7.3</spring.security.version>
         <spring.kafka.version>2.9.0</spring.kafka.version>
         <spring.data.commons.version>2.7.2</spring.data.commons.version>
@@ -162,6 +162,12 @@
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${spring.boot.version}</version>
                 <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure-processor</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -597,6 +603,14 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>3.0.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- yaml -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.32</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>
