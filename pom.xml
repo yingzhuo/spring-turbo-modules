@@ -16,6 +16,7 @@
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-kafka</module>
+        <module>spring-turbo-module-pdf</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-queryselector-sql</module>
@@ -548,6 +549,18 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
                 <version>3.2.2</version>
+            </dependency>
+
+            <!-- pdf -->
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>5.5.13.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext-asian</artifactId>
+                <version>5.2.0</version>
             </dependency>
 
             <!-- slf4j -->

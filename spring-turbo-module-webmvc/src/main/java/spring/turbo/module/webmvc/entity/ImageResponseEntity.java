@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import spring.turbo.bean.Builder;
 import spring.turbo.io.ImageUtils;
 import spring.turbo.util.Asserts;
 

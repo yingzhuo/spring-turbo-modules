@@ -23,13 +23,26 @@ public class Converters {
 
     public static class String {
         // @formatter:off
-        public static class ToShort extends StringToShortSerializer {}
-        public static class ToInteger extends StringToIntegerSerializer {}
-        public static class ToLong extends StringToLongSerializer {}
-        public static class ToBigInteger extends StringToBigIntegerSerializer {}
-        public static class ToFloat extends StringToFloatSerializer {}
-        public static class ToDouble extends StringToDoubleSerializer {}
-        public static class ToBigDecimal extends StringToBigDecimalSerializer {}
+        public static class ToShort extends StringToShortSerializer {
+        }
+
+        public static class ToInteger extends StringToIntegerSerializer {
+        }
+
+        public static class ToLong extends StringToLongSerializer {
+        }
+
+        public static class ToBigInteger extends StringToBigIntegerSerializer {
+        }
+
+        public static class ToFloat extends StringToFloatSerializer {
+        }
+
+        public static class ToDouble extends StringToDoubleSerializer {
+        }
+
+        public static class ToBigDecimal extends StringToBigDecimalSerializer {
+        }
         // @formatter:on
     }
 
