@@ -8,6 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.pdf.watermak;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,12 +22,12 @@ import java.util.List;
  * 水印位置(多个)
  *
  * @author 应卓
- * @see WatermarkPosition
+ * @see Position
  * @see WatermarkPositions#builder()
  * @see WatermarkPositions#DEFAULT
  * @since 1.2.0
  */
-public class WatermarkPositions implements Serializable, Iterable<WatermarkPosition> {
+public class WatermarkPositions implements Serializable, Iterable<WatermarkPositions.Position> {
 
     public static final WatermarkPositions DEFAULT = builder()
             .add(300, 250, 30)
@@ -30,18 +35,18 @@ public class WatermarkPositions implements Serializable, Iterable<WatermarkPosit
             .add(300, 650, 30)
             .build();
 
-    private final List<WatermarkPosition> list;
+    private final List<Position> list;
+
+    private WatermarkPositions(List<Position> list) {
+        this.list = list;
+    }
 
     public static WatermarkPositions.Builder builder() {
         return new Builder();
     }
 
-    private WatermarkPositions(List<WatermarkPosition> list) {
-        this.list = list;
-    }
-
     @Override
-    public Iterator<WatermarkPosition> iterator() {
+    public Iterator<Position> iterator() {
         return list.listIterator();
     }
 
@@ -55,13 +60,13 @@ public class WatermarkPositions implements Serializable, Iterable<WatermarkPosit
 
     static class Builder {
 
-        private final List<WatermarkPosition> list = new LinkedList<>();
+        private final List<Position> list = new LinkedList<>();
 
         private Builder() {
         }
 
         public Builder add(int x, int y, int r) {
-            this.list.add(new WatermarkPosition(x, y, r));
+            this.list.add(new Position(x, y, r));
             return this;
         }
 
@@ -70,4 +75,28 @@ public class WatermarkPositions implements Serializable, Iterable<WatermarkPosit
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Position implements Serializable {
+
+        /**
+         * X坐标
+         */
+        private int x;
+
+        /**
+         * Y坐标
+         */
+        private int y;
+
+        /**
+         * 旋转角度
+         */
+        private int rotation;
+
+    }
 }

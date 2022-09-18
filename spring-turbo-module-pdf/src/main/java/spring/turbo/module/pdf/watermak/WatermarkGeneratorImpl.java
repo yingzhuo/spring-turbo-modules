@@ -113,7 +113,7 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
 
             int total = reader.getNumberOfPages() + 1;
             PdfContentByte content;
-            for (WatermarkPosition position : this.watermarkPositions) {
+            for (WatermarkPositions.Position position : this.watermarkPositions) {
                 for (int i = 1; i < total; i++) {
                     content = stamper.getOverContent(i);
                     content.beginText();
