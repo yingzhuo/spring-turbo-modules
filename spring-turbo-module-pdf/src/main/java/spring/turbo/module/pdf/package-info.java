@@ -10,5 +10,23 @@
 @NonNullFields
 package spring.turbo.module.pdf;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
+import spring.turbo.module.pdf.watermak.WatermarkGenerator;
+import spring.turbo.module.pdf.watermak.WatermarkGeneratorImpl;
+
+/**
+ * @author 应卓
+ * @since 1.2.0
+ */
+class SpringBootAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    WatermarkGenerator watermarkGenerator() {
+        return new WatermarkGeneratorImpl();
+    }
+
+}

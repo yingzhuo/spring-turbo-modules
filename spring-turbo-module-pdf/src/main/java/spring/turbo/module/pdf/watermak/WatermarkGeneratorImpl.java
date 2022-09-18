@@ -22,15 +22,15 @@ import java.nio.file.Path;
  */
 public class WatermarkGeneratorImpl implements WatermarkGenerator {
 
-    private final String watermarkFontName;
-    private final int watermarkFontSize;
-    private final String watermarkFontEncoding;
+    private String watermarkFontName;
+    private int watermarkFontSize;
+    private String watermarkFontEncoding;
 
-    private final boolean watermarkFontEmbedded;
+    private boolean watermarkFontEmbedded;
 
-    private final float watermarkFontOpacity;
+    private float watermarkFontOpacity;
 
-    private final WatermarkPositions watermarkPositions;
+    private WatermarkPositions watermarkPositions;
 
     public WatermarkGeneratorImpl() {
         this("STSong-Light",
@@ -39,7 +39,9 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
                 false,
                 0.4F,
                 WatermarkPositions.builder()
-                        .add(300, 300, 30)
+                        .add(300, 250, 30)
+                        .add(300, 450, 30)
+                        .add(300, 650, 30)
                         .build()
         );
     }
@@ -54,6 +56,30 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
         this.watermarkFontEncoding = watermarkFontEncoding;
         this.watermarkFontEmbedded = watermarkFontEmbedded;
         this.watermarkFontOpacity = watermarkFontOpacity;
+        this.watermarkPositions = watermarkPositions;
+    }
+
+    public void setWatermarkFontName(String watermarkFontName) {
+        this.watermarkFontName = watermarkFontName;
+    }
+
+    public void setWatermarkFontSize(int watermarkFontSize) {
+        this.watermarkFontSize = watermarkFontSize;
+    }
+
+    public void setWatermarkFontEncoding(String watermarkFontEncoding) {
+        this.watermarkFontEncoding = watermarkFontEncoding;
+    }
+
+    public void setWatermarkFontEmbedded(boolean watermarkFontEmbedded) {
+        this.watermarkFontEmbedded = watermarkFontEmbedded;
+    }
+
+    public void setWatermarkFontOpacity(float watermarkFontOpacity) {
+        this.watermarkFontOpacity = watermarkFontOpacity;
+    }
+
+    public void setWatermarkPositions(WatermarkPositions watermarkPositions) {
         this.watermarkPositions = watermarkPositions;
     }
 
