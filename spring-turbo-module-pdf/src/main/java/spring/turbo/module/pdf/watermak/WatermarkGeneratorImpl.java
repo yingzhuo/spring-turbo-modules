@@ -22,14 +22,34 @@ import java.nio.file.Path;
  */
 public class WatermarkGeneratorImpl implements WatermarkGenerator {
 
+    /**
+     * 水印字体名称
+     */
     private String watermarkFontName;
+
+    /**
+     * 水印字体尺寸
+     */
     private int watermarkFontSize;
+
+    /**
+     * 水印字体字符集
+     */
     private String watermarkFontEncoding;
 
+    /**
+     * 水印字体是否嵌入
+     */
     private boolean watermarkFontEmbedded;
 
+    /**
+     * 透明度
+     */
     private float watermarkFontOpacity;
 
+    /**
+     * 水印位置
+     */
     private WatermarkPositions watermarkPositions;
 
     public WatermarkGeneratorImpl() {
@@ -38,12 +58,7 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
                 "UniGB-UCS2-H",
                 false,
                 0.4F,
-                WatermarkPositions.builder()
-                        .add(300, 250, 30)
-                        .add(300, 450, 30)
-                        .add(300, 650, 30)
-                        .build()
-        );
+                WatermarkPositions.DEFAULT);
     }
 
     public WatermarkGeneratorImpl(String watermarkFontName,

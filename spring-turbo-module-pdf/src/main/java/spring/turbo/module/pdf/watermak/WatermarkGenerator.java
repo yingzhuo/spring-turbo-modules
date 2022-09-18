@@ -17,6 +17,13 @@ import java.nio.file.Path;
 @FunctionalInterface
 public interface WatermarkGenerator {
 
+    /**
+     * 为PDF添加水印
+     *
+     * @param in               输入文件
+     * @param out              输出文件
+     * @param watermarkContent 水印内容
+     */
     public void addWatermark(Path in, Path out, Object watermarkContent);
 
 }

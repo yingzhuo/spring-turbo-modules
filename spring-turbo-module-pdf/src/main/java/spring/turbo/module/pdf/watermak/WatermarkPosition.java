@@ -26,7 +26,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WatermarkPosition implements Serializable {
+
+    /**
+     * X坐标
+     */
     private int x;
+
+    /**
+     * Y坐标
+     */
     private int y;
+
+    /**
+     * 旋转角度
+     */
     private int rotation;
+
 }

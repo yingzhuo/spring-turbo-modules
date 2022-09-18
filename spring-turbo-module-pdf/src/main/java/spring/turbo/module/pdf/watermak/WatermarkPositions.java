@@ -14,10 +14,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 水印位置(多个)
+ *
  * @author 应卓
+ * @see WatermarkPosition
+ * @see WatermarkPositions#builder()
+ * @see WatermarkPositions#DEFAULT
  * @since 1.2.0
  */
 public class WatermarkPositions implements Serializable, Iterable<WatermarkPosition> {
+
+    public static final WatermarkPositions DEFAULT = builder()
+            .add(300, 250, 30)
+            .add(300, 450, 30)
+            .add(300, 650, 30)
+            .build();
 
     private final List<WatermarkPosition> list;
 
