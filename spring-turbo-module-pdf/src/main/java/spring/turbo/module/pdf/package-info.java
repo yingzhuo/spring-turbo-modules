@@ -26,6 +26,7 @@ class SpringBootAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     WatermarkGenerator watermarkGenerator() {
+        // 完全使用默认值
         return new WatermarkGeneratorImpl();
     }
 

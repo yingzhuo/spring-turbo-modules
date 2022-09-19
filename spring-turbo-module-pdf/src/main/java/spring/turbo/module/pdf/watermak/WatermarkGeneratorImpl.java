@@ -25,53 +25,35 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
     /**
      * 水印字体名称
      */
-    private String watermarkFontName;
+    private String watermarkFontName = "STSong-Light";
 
     /**
      * 水印字体尺寸
      */
-    private int watermarkFontSize;
+    private int watermarkFontSize = 56;
 
     /**
      * 水印字体字符集
      */
-    private String watermarkFontEncoding;
+    private String watermarkFontEncoding = "UniGB-UCS2-H";
 
     /**
      * 水印字体是否嵌入
      */
-    private boolean watermarkFontEmbedded;
+    private boolean watermarkFontEmbedded = false;
 
     /**
      * 透明度
      */
-    private float watermarkFontOpacity;
+    private float watermarkFontOpacity = 0.4F;
 
     /**
      * 水印位置
      */
-    private WatermarkPositions watermarkPositions;
+    private WatermarkPositions watermarkPositions = WatermarkPositions.DEFAULT;
 
     public WatermarkGeneratorImpl() {
-        this("STSong-Light",
-                56,
-                "UniGB-UCS2-H",
-                false,
-                0.4F,
-                WatermarkPositions.DEFAULT);
-    }
-
-    public WatermarkGeneratorImpl(String watermarkFontName,
-                                  int watermarkFontSize,
-                                  String watermarkFontEncoding, boolean watermarkFontEmbedded,
-                                  float watermarkFontOpacity,
-                                  WatermarkPositions watermarkPositions) {
-        this.watermarkFontName = watermarkFontName;
-        this.watermarkFontSize = watermarkFontSize;
-        this.watermarkFontEncoding = watermarkFontEncoding;
-        this.watermarkFontEmbedded = watermarkFontEmbedded;
-        this.watermarkFontOpacity = watermarkFontOpacity;
-        this.watermarkPositions = watermarkPositions;
+        super();
     }
 
     public void setWatermarkFontName(String watermarkFontName) {

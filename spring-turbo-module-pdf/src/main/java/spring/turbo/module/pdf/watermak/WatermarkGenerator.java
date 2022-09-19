@@ -8,6 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.pdf.watermak;
 
+import spring.turbo.util.Asserts;
+
+import java.io.File;
 import java.nio.file.Path;
 
 /**
@@ -25,5 +28,11 @@ public interface WatermarkGenerator {
      * @param watermarkContent 水印内容
      */
     public void addWatermark(Path in, Path out, Object watermarkContent);
+
+    public default void addWatermark(File in, File out, Object watermarkContent) {
+        Asserts.notNull(in);
+        Asserts.notNull(out);
+        addWatermark(in.toPath(), out.toPath(), watermarkContent);
+    }
 
 }

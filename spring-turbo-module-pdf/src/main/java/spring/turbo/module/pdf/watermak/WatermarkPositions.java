@@ -8,18 +8,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.pdf.watermak;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import spring.turbo.lang.Immutable;
+import spring.turbo.util.Asserts;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 水印位置(多个)
+ * 水印位置
  *
  * @author 应卓
  * @see Position
@@ -27,7 +24,7 @@ import java.util.List;
  * @see WatermarkPositions#DEFAULT
  * @since 1.2.0
  */
-public class WatermarkPositions implements Serializable, Iterable<WatermarkPositions.Position> {
+public class WatermarkPositions implements Iterable<WatermarkPositions.Position> {
 
     public static final WatermarkPositions DEFAULT = builder()
             .add(300, 250, 30)
@@ -58,6 +55,9 @@ public class WatermarkPositions implements Serializable, Iterable<WatermarkPosit
         return this.list.isEmpty();
     }
 
+    /**
+     * 创建器
+     */
     static class Builder {
 
         private final List<Position> list = new LinkedList<>();
@@ -70,33 +70,56 @@ public class WatermarkPositions implements Serializable, Iterable<WatermarkPosit
             return this;
         }
 
+        public Builder clear() {
+            this.list.clear();
+            return this;
+        }
+
         public WatermarkPositions build() {
-            return new WatermarkPositions(this.list);
+            return list.isEmpty() ? DEFAULT : new WatermarkPositions(this.list);
         }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Position implements Serializable {
+    @Immutable
+    public static class Position {
 
         /**
          * X坐标
          */
-        private int x;
+        private final int x;
 
         /**
          * Y坐标
          */
-        private int y;
+        private final int y;
 
         /**
          * 旋转角度
          */
-        private int rotation;
+        private final int rotation;
 
+        public Position(int x, int y, int rotation) {
+            Asserts.isTrue(x >= 0);
+            Asserts.isTrue(y >= 0);
+            Asserts.isTrue(rotation >= 0);
+            this.x = x;
+            this.y = y;
+            this.rotation = rotation;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public int getRotation() {
+            return rotation;
+        }
     }
+
 }
