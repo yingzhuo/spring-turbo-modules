@@ -12,9 +12,7 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.*;
 import spring.turbo.io.IOExceptionUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
+import spring.turbo.io.LocalFileDescriptor;
 
 /**
  * @author 应卓
@@ -53,7 +51,6 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
     private WatermarkPositions watermarkPositions = WatermarkPositions.DEFAULT;
 
     public WatermarkGeneratorImpl() {
-        super();
     }
 
     public void setWatermarkFontName(String watermarkFontName) {
@@ -81,10 +78,10 @@ public class WatermarkGeneratorImpl implements WatermarkGenerator {
     }
 
     @Override
-    public void addWatermark(Path in, Path out, Object watermarkContent) {
+    public void addWatermark(LocalFileDescriptor in, LocalFileDescriptor out, Object watermarkContent) {
         try {
-            final PdfReader reader = new PdfReader(Files.newInputStream(in));
-            final PdfStamper stamper = new PdfStamper(reader, Files.newOutputStream(out));
+            final PdfReader reader = new PdfReader(in.openAsInputStream());
+            final PdfStamper stamper = new PdfStamper(reader, out.openAsOutputStream(false));
             final PdfGState gs = new PdfGState();
             final BaseFont font = BaseFont.createFont(
                     this.watermarkFontName,

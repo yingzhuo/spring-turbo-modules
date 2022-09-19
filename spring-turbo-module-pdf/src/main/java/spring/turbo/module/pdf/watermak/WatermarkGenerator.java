@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.pdf.watermak;
 
+import spring.turbo.io.LocalFileDescriptor;
 import spring.turbo.util.Asserts;
 
 import java.io.File;
@@ -27,12 +28,42 @@ public interface WatermarkGenerator {
      * @param out              输出文件
      * @param watermarkContent 水印内容
      */
-    public void addWatermark(Path in, Path out, Object watermarkContent);
+    public default void addWatermark(Path in, Path out, Object watermarkContent) {
+        Asserts.notNull(in);
+        Asserts.notNull(out);
+        Asserts.notNull(watermarkContent);
+        addWatermark(
+                LocalFileDescriptor.of(in),
+                LocalFileDescriptor.of(out),
+                watermarkContent
+        );
+    }
 
+    /**
+     * 为PDF添加水印
+     *
+     * @param in               输入文件
+     * @param out              输出文件
+     * @param watermarkContent 水印内容
+     */
     public default void addWatermark(File in, File out, Object watermarkContent) {
         Asserts.notNull(in);
         Asserts.notNull(out);
-        addWatermark(in.toPath(), out.toPath(), watermarkContent);
+        Asserts.notNull(watermarkContent);
+        addWatermark(
+                LocalFileDescriptor.of(in),
+                LocalFileDescriptor.of(out),
+                watermarkContent
+        );
     }
+
+    /**
+     * 为PDF添加水印
+     *
+     * @param in               输入文件
+     * @param out              输出文件
+     * @param watermarkContent 水印内容
+     */
+    public void addWatermark(LocalFileDescriptor in, LocalFileDescriptor out, Object watermarkContent);
 
 }
