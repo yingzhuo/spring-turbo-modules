@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.pdf.watermak;
+package spring.turbo.module.pdf.watermark;
 
 import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
@@ -26,13 +26,11 @@ import java.util.List;
  */
 public class WatermarkPositions implements Iterable<WatermarkPositions.Position> {
 
-    public static final WatermarkPositions DEFAULT = builder()
+    private final List<Position> list;    public static final WatermarkPositions DEFAULT = builder()
             .add(300, 250, 30)
             .add(300, 450, 30)
             .add(300, 650, 30)
             .build();
-
-    private final List<Position> list;
 
     private WatermarkPositions(List<Position> list) {
         this.list = list;
@@ -80,8 +78,6 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     @Immutable
     public static class Position {
 
@@ -121,5 +117,9 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
             return rotation;
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+
 
 }

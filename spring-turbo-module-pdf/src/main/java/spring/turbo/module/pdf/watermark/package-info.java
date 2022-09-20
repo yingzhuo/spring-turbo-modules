@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.pdf.watermak;
+package spring.turbo.module.pdf.watermark;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

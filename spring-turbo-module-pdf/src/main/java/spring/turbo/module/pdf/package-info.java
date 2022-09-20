@@ -14,8 +14,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
-import spring.turbo.module.pdf.watermak.WatermarkGenerator;
-import spring.turbo.module.pdf.watermak.WatermarkGeneratorImpl;
+import spring.turbo.module.pdf.watermark.WatermarkGenerator;
+import spring.turbo.module.pdf.watermark.WatermarkGeneratorImpl;
 
 /**
  * @author 应卓
