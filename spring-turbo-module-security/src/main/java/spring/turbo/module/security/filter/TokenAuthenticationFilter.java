@@ -26,7 +26,6 @@ import spring.turbo.module.security.authentication.RequestDetailsBuilder;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.util.AuthenticationUtils;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.ObjectUtils;
 import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.token.NullTokenResolver;
 import spring.turbo.webmvc.token.StringToken;
@@ -158,8 +157,14 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        this.tokenResolver = ObjectUtils.defaultIfNull(tokenResolver, NullTokenResolver::getInstance);
-        this.tokenToUserConverter = ObjectUtils.defaultIfNull(tokenToUserConverter, NullTokenToUserConverter::getInstance);
+
+        if (this.tokenResolver == null) {
+            this.tokenResolver = NullTokenResolver.getInstance();
+        }
+
+        if (this.tokenToUserConverter == null) {
+            this.tokenToUserConverter = NullTokenToUserConverter.getInstance();
+        }
     }
 
     protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {

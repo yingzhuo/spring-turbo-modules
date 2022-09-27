@@ -14,12 +14,17 @@ import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.BearerTokenResolver;
 import spring.turbo.webmvc.token.TokenResolver;
 
+import javax.servlet.ServletException;
+
 /**
  * @author 应卓
  * @since 1.0.1
  */
 public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
+    /**
+     * 构造方法
+     */
     public JwtTokenAuthenticationFilter() {
         this.setTokenResolver(new BearerTokenResolver());
     }
@@ -33,6 +38,11 @@ public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
         } else {
             super.setTokenResolver(new JwtTokenResolver(resolver));
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
     }
 
 }
