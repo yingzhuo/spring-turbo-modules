@@ -121,7 +121,7 @@
         <feign.version>11.10</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <hutool.version>5.8.7</hutool.version>
+        <hutool.version>5.8.8</hutool.version>
         <netty.version>4.1.82.Final</netty.version>
         <curator.version>5.3.0</curator.version>
         <logback.version>1.2.11</logback.version>
@@ -624,7 +624,7 @@
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.32</version>
+                <version>1.33</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>
