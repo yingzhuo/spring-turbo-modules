@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
@@ -112,7 +112,7 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.2.0-SNAPSHOT</spring.turbo.version>
+        <spring.turbo.version>1.2.0</spring.turbo.version>
         <spring.boot.version>2.7.4</spring.boot.version>
         <spring.version>5.3.23</spring.version>
         <spring.security.version>5.7.3</spring.security.version>
@@ -121,7 +121,7 @@
         <feign.version>11.10</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <hutool.version>5.8.7</hutool.version>
+        <hutool.version>5.8.8</hutool.version>
         <netty.version>4.1.82.Final</netty.version>
         <curator.version>5.3.0</curator.version>
         <logback.version>1.2.11</logback.version>
@@ -624,7 +624,7 @@
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.32</version>
+                <version>1.33</version>
                 <scope>provided</scope>
             </dependency>
         </dependencies>
