@@ -50,6 +50,7 @@ import java.util.Map;
 @AutoConfigureAfter(SpringBootAutoConfiguration.class)
 class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecurity> {
 
+    @Override
     public void configure(HttpSecurity http) {
         final SpringContext ctx = this.getSpringContext(http);
 
