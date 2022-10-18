@@ -29,10 +29,6 @@ public final class AnnotationDescriptor implements Serializable {
     private final String annotationFqn;
     private final List<AnnotationValue> values;
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     /**
      * 私有构造方法
      *
@@ -43,6 +39,10 @@ public final class AnnotationDescriptor implements Serializable {
         Asserts.notNull(annotationFqn);
         this.annotationFqn = annotationFqn;
         this.values = values != null ? values : Collections.emptyList();
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getAnnotationFqn() {
@@ -75,8 +75,8 @@ public final class AnnotationDescriptor implements Serializable {
     }
 
     public static final class Builder {
-        private String annotationFqn;
         private final List<AnnotationValue> annotationValues = new ArrayList<>();
+        private String annotationFqn;
 
         private Builder() {
             super();

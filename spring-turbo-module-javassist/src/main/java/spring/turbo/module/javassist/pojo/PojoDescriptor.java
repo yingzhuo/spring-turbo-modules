@@ -8,13 +8,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.javassist.pojo;
 
+import org.springframework.lang.Nullable;
+import org.springframework.util.comparator.ComparableComparator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
+import spring.turbo.lang.Mutable;
 import spring.turbo.module.javassist.AnnotationDescriptor;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -22,8 +24,11 @@ import java.util.*;
  * @see #newInstance(String)
  * @since 1.2.2
  */
+@Mutable
 @SuppressWarnings("rawtypes")
-public class PojoDescriptor extends HashMap<String, Class<?>> implements Serializable {
+public class PojoDescriptor extends TreeMap<String, Class<?>> implements Map<String, Class<?>> {
+
+    private final static Comparator<String> DEFAULT_PROPERTY_COMPARATOR = new ComparableComparator<>();
 
     /**
      * 类型级别元注释
@@ -33,22 +38,33 @@ public class PojoDescriptor extends HashMap<String, Class<?>> implements Seriali
     private final List<AnnotationDescriptor> classLevelAnnotations = new ArrayList<>();
     private final List<Pair<AnnotationPos, List<AnnotationDescriptor>>> allPropertyAnnotationConfig = new ArrayList<>();
     private final List<Tuple<String, AnnotationPos, List<AnnotationDescriptor>>> propertyAnnotationConfig = new ArrayList<>();
+    private final Comparator<String> propertyComparator;
 
     /**
      * 私有构造方法
      */
-    private PojoDescriptor(String pojoFqn) {
+    private PojoDescriptor(String pojoFqn, @Nullable Comparator<String> propertyComparator) {
+        super(propertyComparator != null ? propertyComparator : DEFAULT_PROPERTY_COMPARATOR);
         Asserts.notNull(pojoFqn);
         this.pojoFqn = pojoFqn;
+        this.propertyComparator = propertyComparator != null ? propertyComparator : DEFAULT_PROPERTY_COMPARATOR;
     }
 
     public static PojoDescriptor newInstance(String pojoFqn) {
-        return new PojoDescriptor(pojoFqn);
+        return newInstance(pojoFqn, null);
+    }
+
+    public static PojoDescriptor newInstance(String pojoFqn, @Nullable Comparator<String> propertyComparator) {
+        return new PojoDescriptor(pojoFqn, propertyComparator);
     }
 
     public static PojoDescriptor fromMap(String pojoFqn, Map map) {
+        return fromMap(pojoFqn, map, null);
+    }
+
+    public static PojoDescriptor fromMap(String pojoFqn, Map map, @Nullable Comparator<String> propertyComparator) {
         Asserts.notNull(map);
-        PojoDescriptor ret = PojoDescriptor.newInstance(pojoFqn);
+        PojoDescriptor ret = PojoDescriptor.newInstance(pojoFqn, propertyComparator);
         for (Object key : map.keySet()) {
             if (!(key instanceof CharSequence)) {
                 throw new IllegalArgumentException("Unsupported key type.");
@@ -76,9 +92,7 @@ public class PojoDescriptor extends HashMap<String, Class<?>> implements Seriali
     public PojoDescriptor addPropertyLevelAnnotationsForAllProperties(AnnotationPos annotationPos, AnnotationDescriptor... descriptors) {
         Asserts.notNull(annotationPos);
         Asserts.notEmpty(descriptors);
-        this.allPropertyAnnotationConfig.add(
-                Pair.ofNonNull(annotationPos, Arrays.asList(descriptors))
-        );
+        this.allPropertyAnnotationConfig.add(Pair.ofNonNull(annotationPos, Arrays.asList(descriptors)));
         return this;
     }
 
@@ -86,24 +100,13 @@ public class PojoDescriptor extends HashMap<String, Class<?>> implements Seriali
         Asserts.notNull(propertyName);
         Asserts.notNull(annotationPos);
         Asserts.notEmpty(descriptors);
-        this.propertyAnnotationConfig.add(
-                Tuple.ofNonNull(propertyName, annotationPos, Arrays.asList(descriptors))
-        );
+        this.propertyAnnotationConfig.add(Tuple.ofNonNull(propertyName, annotationPos, Arrays.asList(descriptors)));
         return this;
     }
 
     @Override
     public String toString() {
         return this.pojoFqn;
-    }
-
-    /**
-     * 元注释位置
-     */
-    public static enum AnnotationPos {
-        GETTER,
-        SETTER,
-        FIELD
     }
 
     public String getPojoFqn() {
@@ -120,6 +123,17 @@ public class PojoDescriptor extends HashMap<String, Class<?>> implements Seriali
 
     public List<Tuple<String, AnnotationPos, List<AnnotationDescriptor>>> getPropertyAnnotationConfig() {
         return propertyAnnotationConfig;
+    }
+
+    public Comparator<String> getPropertyComparator() {
+        return propertyComparator;
+    }
+
+    /**
+     * 元注释位置
+     */
+    public static enum AnnotationPos {
+        GETTER, SETTER, FIELD
     }
 
 }

@@ -69,6 +69,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         ClassFile classFile = cc.getClassFile();
         ConstPool constpool = classFile.getConstPool();
 
+        // 实现Serializable接口
         cc.addInterface(resolveCtClass(Serializable.class));
 
         // 处理类级别元注释
@@ -128,7 +129,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         String getterName = "get" + fieldName.substring(0, 1).toUpperCase()
                 + fieldName.substring(1);
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("public ").append(fieldClass.getName()).append(" ")
                 .append(getterName).append("(){").append("return this.")
                 .append(fieldName).append(";").append("}");
@@ -158,7 +159,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         String setterName = "set" + fieldName.substring(0, 1).toUpperCase()
                 + fieldName.substring(1);
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("public void ").append(setterName).append("(")
                 .append(fieldClass.getName()).append(" ").append(fieldName)
                 .append(")").append("{").append("this.").append(fieldName)
