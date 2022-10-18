@@ -79,6 +79,7 @@ public final class AnnotationDescriptor implements Serializable {
         private final List<AnnotationValue> annotationValues = new ArrayList<>();
 
         private Builder() {
+            super();
         }
 
         public Builder annotationFqn(String annotationFqn) {

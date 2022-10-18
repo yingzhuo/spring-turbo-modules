@@ -72,7 +72,8 @@ public final class AnnotationDescriptorHelper {
             return ret;
         }
 
-        throw new IllegalArgumentException("Not supported yet, sorry!");
+        // 其他元注释值暂时不支持
+        throw new UnsupportedOperationException("Not supported yet, sorry!");
     }
 
 }

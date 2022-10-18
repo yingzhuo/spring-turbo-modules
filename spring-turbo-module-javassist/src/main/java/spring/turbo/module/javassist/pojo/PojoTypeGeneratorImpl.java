@@ -15,6 +15,8 @@ import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.module.javassist.AnnotationDescriptor;
 import spring.turbo.module.javassist.AnnotationDescriptorHelper;
+import spring.turbo.module.javassist.exception.UnableToCompileException;
+import spring.turbo.module.javassist.exception.UnableToFindException;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
 
@@ -47,11 +49,9 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         try {
             return doGenerate(classDescription);
         } catch (NotFoundException e) {
-            // TODO: 处理异常
-            throw new RuntimeException(e);
+            throw new UnableToFindException(e.getMessage(), e);
         } catch (CannotCompileException e) {
-            // TODO: 处理异常
-            throw new RuntimeException(e);
+            throw new UnableToCompileException(e.getMessage(), e);
         }
     }
 

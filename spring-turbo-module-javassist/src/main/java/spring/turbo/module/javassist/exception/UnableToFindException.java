@@ -6,29 +6,18 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.javassist;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
-import spring.turbo.module.javassist.pojo.PojoTypeGenerator;
-import spring.turbo.module.javassist.pojo.PojoTypeGeneratorImpl;
+package spring.turbo.module.javassist.exception;
 
 /**
+ * 有些东西无法找到
+ *
  * @author 应卓
  * @since 1.2.2
  */
-@AutoConfiguration
-class SpringBootAutoConfiguration {
+public class UnableToFindException extends IllegalArgumentException {
 
-    @Bean
-    @ConditionalOnMissingBean
-    PojoTypeGenerator pojoTypeGenerator() {
-        return new PojoTypeGeneratorImpl();
+    public UnableToFindException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }
