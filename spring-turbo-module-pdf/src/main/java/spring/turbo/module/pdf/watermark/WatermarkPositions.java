@@ -26,11 +26,7 @@ import java.util.List;
  */
 public class WatermarkPositions implements Iterable<WatermarkPositions.Position> {
 
-    private final List<Position> list;    public static final WatermarkPositions DEFAULT = builder()
-            .add(300, 250, 30)
-            .add(300, 450, 30)
-            .add(300, 650, 30)
-            .build();
+    private final List<Position> list;
 
     private WatermarkPositions(List<Position> list) {
         this.list = list;
@@ -38,7 +34,11 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
 
     public static WatermarkPositions.Builder builder() {
         return new Builder();
-    }
+    }    public static final WatermarkPositions DEFAULT = builder()
+            .add(300, 250, 30)
+            .add(300, 450, 30)
+            .add(300, 650, 30)
+            .build();
 
     @Override
     public Iterator<Position> iterator() {
@@ -118,8 +118,10 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
 
+
+
+    // -----------------------------------------------------------------------------------------------------------------
 
 
 }

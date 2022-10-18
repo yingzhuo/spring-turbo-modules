@@ -9,10 +9,10 @@
         <version>1.2.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>spring-turbo-module-queryselector</artifactId>
+    <artifactId>spring-turbo-module-javassist</artifactId>
 
     <dependencies>
-        <!-- spring-turbo -->
+        <!-- spring-turbo & modules -->
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo</artifactId>
@@ -37,10 +37,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- javassist -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-            <scope>provided</scope>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
         </dependency>
 
         <!-- slf4j -->
