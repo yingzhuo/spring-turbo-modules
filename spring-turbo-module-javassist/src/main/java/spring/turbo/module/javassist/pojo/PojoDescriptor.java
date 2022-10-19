@@ -44,10 +44,10 @@ public class PojoDescriptor extends TreeMap<String, Class<?>> implements Map<Str
      * 私有构造方法
      */
     private PojoDescriptor(String pojoFqn, @Nullable Comparator<String> propertyComparator) {
-        super(propertyComparator != null ? propertyComparator : DEFAULT_PROPERTY_COMPARATOR);
+        super(Optional.ofNullable(propertyComparator).orElse(DEFAULT_PROPERTY_COMPARATOR));
         Asserts.notNull(pojoFqn);
         this.pojoFqn = pojoFqn;
-        this.propertyComparator = propertyComparator != null ? propertyComparator : DEFAULT_PROPERTY_COMPARATOR;
+        this.propertyComparator = Optional.ofNullable(propertyComparator).orElse(DEFAULT_PROPERTY_COMPARATOR);
     }
 
     public static PojoDescriptor newInstance(String pojoFqn) {

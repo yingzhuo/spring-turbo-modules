@@ -44,10 +44,12 @@ public final class AnnotationDescriptor implements Serializable {
     }
 
     public static Builder builder(Class<? extends Annotation> annotationType) {
+        Asserts.notNull(annotationType);
         return new Builder(annotationType.getName());
     }
 
     public static Builder builder(String annotationFqn) {
+        Asserts.notNull(annotationFqn);
         return new Builder(annotationFqn);
     }
 
@@ -80,12 +82,14 @@ public final class AnnotationDescriptor implements Serializable {
         }
     }
 
+    /**
+     * 创建器
+     */
     public static final class Builder {
-        private final List<AnnotationValue> annotationValues = new ArrayList<>();
+        private final List<AnnotationValue> annotationValues = new ArrayList<>(0);
         private final String annotationFqn;
 
         private Builder(String annotationFqn) {
-            Asserts.notNull(annotationFqn);
             this.annotationFqn = annotationFqn;
         }
 
