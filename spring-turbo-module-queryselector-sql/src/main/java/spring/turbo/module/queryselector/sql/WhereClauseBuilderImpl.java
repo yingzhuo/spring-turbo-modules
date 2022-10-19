@@ -16,8 +16,8 @@ import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
 import spring.turbo.util.ClassPathDirUtils;
-import spring.turbo.util.StringObjectMap;
 import spring.turbo.util.StringPool;
+import spring.turbo.util.collection.StringObjectMap;
 
 import java.io.StringWriter;
 import java.util.Collections;

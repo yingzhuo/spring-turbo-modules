@@ -15,7 +15,7 @@ import spring.turbo.module.security.hutool.encoder.MD2PasswordEncoder;
 import spring.turbo.module.security.hutool.encoder.SHA384PasswordEncoder;
 import spring.turbo.module.security.hutool.encoder.SHA512PasswordEncoder;
 import spring.turbo.module.security.hutool.encoder.SM3PasswordEncoder;
-import spring.turbo.util.ListFactories;
+import spring.turbo.util.collection.ListFactories;
 
 import java.util.Collection;
 
