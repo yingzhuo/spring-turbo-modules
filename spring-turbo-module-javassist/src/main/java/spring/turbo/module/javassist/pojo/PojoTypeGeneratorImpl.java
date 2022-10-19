@@ -15,6 +15,7 @@ import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.module.javassist.AnnotationDescriptor;
 import spring.turbo.module.javassist.AnnotationDescriptorHelper;
+import spring.turbo.module.javassist.classcache.ClassCache;
 import spring.turbo.module.javassist.exception.UnableToCompileException;
 import spring.turbo.module.javassist.exception.UnableToFindException;
 import spring.turbo.util.Asserts;
@@ -22,7 +23,6 @@ import spring.turbo.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
 
-    private final Map<String, Class<?>> classCache = new HashMap<>();
+    private final ClassCache classCache = new ClassCache();
 
     /**
      * 构造方法
@@ -42,7 +42,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
     }
 
     @Override
-    public synchronized Class<?> generate(PojoDescriptor classDescription) {
+    public Class<?> generate(PojoDescriptor classDescription) {
 
         Asserts.notNull(classDescription);
 
@@ -59,7 +59,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         final String pojoFqn = classDescription.getPojoFqn();
 
         // 在缓存中查找
-        final Class<?> cached = classCache.get(pojoFqn);
+        final Class<?> cached = classCache.find(pojoFqn);
         if (cached != null) {
             return cached;
         }
@@ -88,7 +88,6 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
                 annotationsAttribute.addAnnotation(annotation);
                 classFile.addAttribute(annotationsAttribute);
             }
-
         }
 
         for (Map.Entry<String, Class<?>> entry : classDescription.entrySet()) {
@@ -98,7 +97,7 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         }
 
         Class<?> created = cc.toClass();
-        this.classCache.put(pojoFqn, created);
+        this.classCache.set(created);
         return created;
     }
 
