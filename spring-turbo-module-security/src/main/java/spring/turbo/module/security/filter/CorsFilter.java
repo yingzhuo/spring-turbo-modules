@@ -9,8 +9,8 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.cors.CorsUtils;
 import spring.turbo.webmvc.AbstractServletFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
-public class AccessControlHeaderSettingFilter extends AbstractServletFilter {
+@Deprecated
+public class CorsFilter extends AbstractServletFilter {
 
     /**
      * 构造方法
      */
-    public AccessControlHeaderSettingFilter() {
+    public CorsFilter() {
         super();
     }
 
@@ -39,8 +40,9 @@ public class AccessControlHeaderSettingFilter extends AbstractServletFilter {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, "3600");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
 
-        if (HttpMethod.OPTIONS.toString().equalsIgnoreCase(request.getMethod())) {
+        if (CorsUtils.isPreFlightRequest(request)) {
             response.setStatus(HttpStatus.OK.value());
+            return false;
         }
 
         return true;

@@ -15,5 +15,12 @@ import spring.turbo.module.security.FilterConfiguration;
  * @author 朱嘉杰
  * @since 1.0.0
  */
-public interface AccessControlHeaderSettingFilterFactory extends FilterConfiguration<AccessControlHeaderSettingFilter> {
+@Deprecated
+public interface CorsFilterFactory extends FilterConfiguration<CorsFilter> {
+
+    @Override
+    public default CorsFilter create() {
+        return new CorsFilter();
+    }
+
 }
