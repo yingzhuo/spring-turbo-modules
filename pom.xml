@@ -15,6 +15,7 @@
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
+        <module>spring-turbo-module-javassist</module>
         <module>spring-turbo-module-kafka</module>
         <module>spring-turbo-module-pdf</module>
         <module>spring-turbo-module-qrcode</module>
@@ -27,7 +28,6 @@
         <module>spring-turbo-module-security-jwt</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-zookeeper</module>
-        <module>spring-turbo-module-javassist</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -117,8 +117,8 @@
         <spring.boot.version>2.7.4</spring.boot.version>
         <spring.version>5.3.23</spring.version>
         <spring.security.version>5.7.3</spring.security.version>
-        <spring.kafka.version>2.9.1</spring.kafka.version>
-        <spring.data.commons.version>2.7.4</spring.data.commons.version>
+        <spring.kafka.version>2.9.2</spring.kafka.version>
+        <spring.data.commons.version>2.7.5</spring.data.commons.version>
         <feign.version>11.10</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
@@ -524,7 +524,7 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15to18</artifactId>
-                <version>1.71</version>
+                <version>1.72</version>
             </dependency>
 
             <!-- zookeeper-client (high level) -->
