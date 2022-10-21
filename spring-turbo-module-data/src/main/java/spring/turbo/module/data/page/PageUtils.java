@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.data.page;
 
-import lombok.val;
 import org.springframework.data.domain.Page;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.api.Json;
@@ -29,7 +28,7 @@ public final class PageUtils {
 
     public static <T> Json wrapAsJson(Page<T> page) {
         Asserts.notNull(page);
-        val json = Json.newInstance();
+        final Json json = Json.newInstance();
         json.payload("content", page.getContent());
         json.payload("pageNumber", page.getNumber());
         json.payload("pageSize", page.getSize());
