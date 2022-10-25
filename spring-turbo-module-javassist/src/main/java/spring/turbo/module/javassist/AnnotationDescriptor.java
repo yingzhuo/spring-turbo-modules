@@ -14,6 +14,7 @@ import spring.turbo.module.javassist.pojo.PojoDescriptor;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.List;
 /**
  * @author 应卓
  * @see PojoDescriptor
- * @see #builder()
+ * @see #builder(String)
+ * @see #builder(Class)
  * @since 1.2.2
  */
 public final class AnnotationDescriptor implements Serializable {
@@ -41,8 +43,14 @@ public final class AnnotationDescriptor implements Serializable {
         this.values = values != null ? values : Collections.emptyList();
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(Class<? extends Annotation> annotationType) {
+        Asserts.notNull(annotationType);
+        return new Builder(annotationType.getName());
+    }
+
+    public static Builder builder(String annotationFqn) {
+        Asserts.notNull(annotationFqn);
+        return new Builder(annotationFqn);
     }
 
     public String getAnnotationFqn() {
@@ -74,17 +82,15 @@ public final class AnnotationDescriptor implements Serializable {
         }
     }
 
+    /**
+     * 创建器
+     */
     public static final class Builder {
-        private final List<AnnotationValue> annotationValues = new ArrayList<>();
-        private String annotationFqn;
+        private final List<AnnotationValue> annotationValues = new ArrayList<>(0);
+        private final String annotationFqn;
 
-        private Builder() {
-            super();
-        }
-
-        public Builder annotationFqn(String annotationFqn) {
+        private Builder(String annotationFqn) {
             this.annotationFqn = annotationFqn;
-            return this;
         }
 
         public Builder addValue(String valueName, Object valueObject) {

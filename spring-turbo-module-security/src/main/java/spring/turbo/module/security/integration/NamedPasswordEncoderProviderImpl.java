@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoder;
 import spring.turbo.module.security.encoder.NamedPasswordEncoderProvider;
-import spring.turbo.util.ListFactories;
+import spring.turbo.util.collection.ListFactories;
 
 import java.util.Collection;
 

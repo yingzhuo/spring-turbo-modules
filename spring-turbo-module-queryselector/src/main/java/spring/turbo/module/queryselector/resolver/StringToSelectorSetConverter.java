@@ -13,7 +13,7 @@ import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.SetFactories;
+import spring.turbo.util.collection.SetFactories;
 
 import java.util.Set;
 

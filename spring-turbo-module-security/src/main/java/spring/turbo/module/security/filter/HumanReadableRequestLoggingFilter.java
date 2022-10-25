@@ -50,6 +50,7 @@ public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
         try {
             doLog(request);
         } catch (Exception ignored) {
+            // NOP
         }
         return true;
     }
