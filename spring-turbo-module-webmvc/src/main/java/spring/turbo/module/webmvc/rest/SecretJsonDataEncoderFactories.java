@@ -8,20 +8,27 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import java.lang.annotation.*;
+import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
  * @since 1.2.2
  */
-@Inherited
-@Retention(RetentionPolicy.RUNTIME)
-@Target({
-        ElementType.METHOD,
-        ElementType.TYPE
-})
-public @interface SecurityJsonData {
+public final class SecretJsonDataEncoderFactories {
 
-    public String dataProperty() default "secret-data";
+    /**
+     * 私有构造方法
+     */
+    private SecretJsonDataEncoderFactories() {
+        super();
+    }
+
+    public static SecretJsonDataEncoder noop() {
+        return json -> json;
+    }
+
+    public static SecretJsonDataEncoder aes(AES.Mode mode, String password, String salt) {
+        return new AESSecretJsonDataEncoder(mode, password, salt);
+    }
 
 }

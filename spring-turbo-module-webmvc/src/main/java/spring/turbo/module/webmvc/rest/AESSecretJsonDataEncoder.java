@@ -14,11 +14,11 @@ import spring.turbo.util.crypto.AES;
  * @author 应卓
  * @since 1.2.2
  */
-class AESSecurityJsonDataEncoder implements SecurityJsonDataEncoder {
+class AESSecretJsonDataEncoder implements SecretJsonDataEncoder {
 
     private final AES aes;
 
-    public AESSecurityJsonDataEncoder(AES.Mode mode, String password, String salt) {
+    public AESSecretJsonDataEncoder(AES.Mode mode, String password, String salt) {
         this.aes = AES.builder()
                 .mode(mode)
                 .passwordAndSalt(password, salt)

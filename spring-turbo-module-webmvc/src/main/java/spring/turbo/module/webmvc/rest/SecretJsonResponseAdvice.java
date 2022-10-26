@@ -25,17 +25,17 @@ import spring.turbo.webmvc.api.Json;
  * @since 1.2.2
  */
 @RestControllerAdvice
-public class SecurityJsonResponseAdvice implements ResponseBodyAdvice<Object> {
+public class SecretJsonResponseAdvice implements ResponseBodyAdvice<Object> {
 
-    private final SecurityJsonDataEncoder encoder;
+    private final SecretJsonDataEncoder encoder;
     private final ObjectMapper objectMapper;
 
-    public SecurityJsonResponseAdvice(@Nullable SecurityJsonDataEncoder encoder) {
+    public SecretJsonResponseAdvice(@Nullable SecretJsonDataEncoder encoder) {
         this(encoder, null);
     }
 
-    public SecurityJsonResponseAdvice(@Nullable SecurityJsonDataEncoder encoder, @Nullable ObjectMapper objectMapper) {
-        this.encoder = encoder != null ? encoder : SecurityJsonDataEncoderFactories.noop();
+    public SecretJsonResponseAdvice(@Nullable SecretJsonDataEncoder encoder, @Nullable ObjectMapper objectMapper) {
+        this.encoder = encoder != null ? encoder : SecretJsonDataEncoderFactories.noop();
         this.objectMapper = objectMapper != null ? objectMapper : new ObjectMapper();
     }
 
@@ -48,7 +48,7 @@ public class SecurityJsonResponseAdvice implements ResponseBodyAdvice<Object> {
     @Nullable
     public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
-        final SecurityJsonData annotation = findAnnotation(returnType);
+        final SecretJsonData annotation = findAnnotation(returnType);
         if (annotation == null || body == null) {
             return body;
         }
@@ -66,12 +66,12 @@ public class SecurityJsonResponseAdvice implements ResponseBodyAdvice<Object> {
     }
 
     @Nullable
-    private SecurityJsonData findAnnotation(MethodParameter returnType) {
-        SecurityJsonData annotation = returnType.getMethodAnnotation(SecurityJsonData.class);
+    private SecretJsonData findAnnotation(MethodParameter returnType) {
+        SecretJsonData annotation = returnType.getMethodAnnotation(SecretJsonData.class);
         if (annotation != null) {
             return annotation;
         }
-        return returnType.getContainingClass().getAnnotation(SecurityJsonData.class);
+        return returnType.getContainingClass().getAnnotation(SecretJsonData.class);
     }
 
     private String getPayloadJsonString(Json json) {

@@ -8,12 +8,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
+import spring.turbo.util.crypto.AES;
+
 /**
  * @author 应卓
+ * @see SecretJsonDataEncoderFactories#noop()
+ * @see SecretJsonDataEncoderFactories#aes(AES.Mode, String, String)
  * @since 1.2.2
  */
 @FunctionalInterface
-public interface SecurityJsonDataEncoder {
+public interface SecretJsonDataEncoder {
 
     public String encode(String json);
 
