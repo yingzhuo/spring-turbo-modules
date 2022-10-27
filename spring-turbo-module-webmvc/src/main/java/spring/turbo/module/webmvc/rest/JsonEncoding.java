@@ -19,8 +19,5 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-public @interface SecretJsonData {
-
-    public String dataProperty() default "secret-data";
-
+public @interface JsonEncoding {
 }

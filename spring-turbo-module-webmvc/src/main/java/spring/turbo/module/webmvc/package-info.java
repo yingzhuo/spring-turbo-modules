@@ -23,8 +23,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
-import spring.turbo.module.webmvc.rest.SecretJsonDataEncoder;
-import spring.turbo.module.webmvc.rest.SecretJsonResponseAdvice;
+import spring.turbo.module.webmvc.rest.JsonEncoder;
+import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
 
 import java.util.List;
 
@@ -49,9 +49,9 @@ class SpringBootAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    @ConditionalOnBean(SecretJsonDataEncoder.class)
-    SecretJsonResponseAdvice secretJsonResponseAdvice(SecretJsonDataEncoder encoder, ObjectMapper objectMapper) {
-        return new SecretJsonResponseAdvice(encoder, objectMapper);
+    @ConditionalOnBean(JsonEncoder.class)
+    JsonEncodingResponseAdvice jsonEncodingResponseAdvice(JsonEncoder encoder, ObjectMapper objectMapper) {
+        return new JsonEncodingResponseAdvice(encoder, objectMapper);
     }
 
 }

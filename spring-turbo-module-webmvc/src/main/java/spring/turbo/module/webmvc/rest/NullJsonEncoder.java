@@ -8,26 +8,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import spring.turbo.util.crypto.AES;
-
 /**
  * @author 应卓
  * @since 1.2.2
  */
-class AESSecretJsonDataEncoder implements SecretJsonDataEncoder {
+public final class NullJsonEncoder implements JsonEncoder {
 
-    private final AES aes;
+    public static final NullJsonEncoder INSTANCE = new NullJsonEncoder();
 
-    public AESSecretJsonDataEncoder(AES.Mode mode, String password, String salt) {
-        this.aes = AES.builder()
-                .mode(mode)
-                .passwordAndSalt(password, salt)
-                .build();
+    private NullJsonEncoder() {
+        super();
     }
 
     @Override
     public String encode(String json) {
-        return aes.encrypt(json);
+        return json;
     }
 
 }

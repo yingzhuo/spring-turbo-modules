@@ -14,21 +14,21 @@ import spring.turbo.util.crypto.AES;
  * @author 应卓
  * @since 1.2.2
  */
-public final class SecretJsonDataEncoderFactories {
+public final class JsonEncoderFactories {
 
     /**
      * 私有构造方法
      */
-    private SecretJsonDataEncoderFactories() {
+    private JsonEncoderFactories() {
         super();
     }
 
-    public static SecretJsonDataEncoder noop() {
-        return json -> json;
+    public static JsonEncoder noop() {
+        return NullJsonEncoder.INSTANCE;
     }
 
-    public static SecretJsonDataEncoder aes(AES.Mode mode, String password, String salt) {
-        return new AESSecretJsonDataEncoder(mode, password, salt);
+    public static JsonEncoder aes(AES.Mode mode, String password, String salt) {
+        return new AESJsonEncoder(mode, password, salt);
     }
 
 }

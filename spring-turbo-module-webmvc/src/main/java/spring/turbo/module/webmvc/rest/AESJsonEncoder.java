@@ -12,13 +12,22 @@ import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
- * @see SecretJsonDataEncoderFactories#noop()
- * @see SecretJsonDataEncoderFactories#aes(AES.Mode, String, String)
  * @since 1.2.2
  */
-@FunctionalInterface
-public interface SecretJsonDataEncoder {
+class AESJsonEncoder implements JsonEncoder {
 
-    public String encode(String json);
+    private final AES aes;
+
+    public AESJsonEncoder(AES.Mode mode, String password, String salt) {
+        this.aes = AES.builder()
+                .mode(mode)
+                .passwordAndSalt(password, salt)
+                .build();
+    }
+
+    @Override
+    public String encode(String json) {
+        return aes.encrypt(json);
+    }
 
 }
