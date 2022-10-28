@@ -6,9 +6,18 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
 package spring.turbo.module.webmvc.rest;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import java.lang.annotation.*;
+
+/**
+ * @author 应卓
+ * @see spring.turbo.webmvc.api.Json
+ * @since 1.2.2
+ */
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface JsonEncoding {
+}

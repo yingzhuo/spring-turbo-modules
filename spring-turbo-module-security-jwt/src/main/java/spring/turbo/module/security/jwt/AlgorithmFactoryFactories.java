@@ -24,6 +24,9 @@ import com.auth0.jwt.algorithms.Algorithm;
  */
 public final class AlgorithmFactoryFactories {
 
+    /**
+     * 私有构造方法
+     */
     private AlgorithmFactoryFactories() {
         super();
     }

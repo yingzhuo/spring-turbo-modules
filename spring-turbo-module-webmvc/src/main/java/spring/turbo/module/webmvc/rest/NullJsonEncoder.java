@@ -6,9 +6,23 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
 package spring.turbo.module.webmvc.rest;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+/**
+ * @author 应卓
+ * @since 1.2.2
+ */
+public final class NullJsonEncoder implements JsonEncoder {
+
+    public static final NullJsonEncoder INSTANCE = new NullJsonEncoder();
+
+    private NullJsonEncoder() {
+        super();
+    }
+
+    @Override
+    public String encode(String json) {
+        return json;
+    }
+
+}

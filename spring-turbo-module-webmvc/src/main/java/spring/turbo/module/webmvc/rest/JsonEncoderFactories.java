@@ -6,9 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
 package spring.turbo.module.webmvc.rest;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import spring.turbo.util.crypto.AES;
+
+/**
+ * @author 应卓
+ * @since 1.2.2
+ */
+public final class JsonEncoderFactories {
+
+    /**
+     * 私有构造方法
+     */
+    private JsonEncoderFactories() {
+        super();
+    }
+
+    public static JsonEncoder noop() {
+        return NullJsonEncoder.INSTANCE;
+    }
+
+    public static JsonEncoder aes(AES.Mode mode, String password, String salt) {
+        return new AESJsonEncoder(mode, password, salt);
+    }
+
+}
