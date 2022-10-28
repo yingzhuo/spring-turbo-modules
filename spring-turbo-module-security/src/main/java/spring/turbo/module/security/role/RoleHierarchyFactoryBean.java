@@ -28,7 +28,8 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * @see ResourceUtils
  * @since 1.0.0
  */
-public final class RoleHierarchyFactoryBean implements SmartFactoryBean<RoleHierarchy> {
+@Deprecated
+public class RoleHierarchyFactoryBean implements SmartFactoryBean<RoleHierarchy> {
 
     private final String roleHierarchyStringRepresentation;
 
