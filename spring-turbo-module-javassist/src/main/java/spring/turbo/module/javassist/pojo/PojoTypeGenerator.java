@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.javassist.pojo;
 
+import java.util.function.Function;
+
 /**
  * POJO类型生成器
  *
@@ -15,8 +17,13 @@ package spring.turbo.module.javassist.pojo;
  * @since 1.2.2
  */
 @FunctionalInterface
-public interface PojoTypeGenerator {
+public interface PojoTypeGenerator extends Function<PojoDescriptor, Class<?>> {
 
-    public Class<?> generate(PojoDescriptor pojoDescriptor);
+    public Class<?> generate(PojoDescriptor descriptor);
+
+    @Override
+    public default Class<?> apply(PojoDescriptor descriptor) {
+        return generate(descriptor);
+    }
 
 }

@@ -42,12 +42,12 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
     }
 
     @Override
-    public Class<?> generate(PojoDescriptor classDescription) {
+    public Class<?> generate(PojoDescriptor descriptor) {
 
-        Asserts.notNull(classDescription);
+        Asserts.notNull(descriptor);
 
         try {
-            return doGenerate(classDescription);
+            return doGenerate(descriptor);
         } catch (NotFoundException e) {
             throw new UnableToFindException(e.getMessage(), e);
         } catch (CannotCompileException e) {
