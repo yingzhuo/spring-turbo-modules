@@ -31,13 +31,13 @@ import spring.turbo.module.zookeeper.configuration.ZookeeperProperties;
 class SpringBootAutoConfiguration {
 
     @Bean
-    public ZookeeperClientFactory zookeeperClientFactory(ZookeeperProperties properties) {
+    ZookeeperClientFactory zookeeperClientFactory(ZookeeperProperties properties) {
         return new ZookeeperClientFactory(properties);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "springturbo.zookeeper.leader-election", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public LeaderLatchFactory leaderLatchFactory(ZookeeperProperties properties, CuratorFramework zkClient) {
+    LeaderLatchFactory leaderLatchFactory(ZookeeperProperties properties, CuratorFramework zkClient) {
         return new LeaderLatchFactory(properties, zkClient);
     }
 

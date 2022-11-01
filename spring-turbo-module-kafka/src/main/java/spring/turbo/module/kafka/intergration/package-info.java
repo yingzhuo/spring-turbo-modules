@@ -12,4 +12,3 @@ package spring.turbo.module.kafka.intergration;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
-

@@ -10,14 +10,5 @@
 @NonNullFields
 package spring.turbo.module.data;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
-
-/**
- * @author 应卓
- * @since 1.1.3
- */
-@AutoConfiguration
-class SpringBootAutoConfiguration {
-}

@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
@@ -113,7 +113,7 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.2.2</spring.turbo.version>
+        <spring.turbo.version>1.2.3-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.7.5</spring.boot.version>
         <spring.version>5.3.23</spring.version>
         <spring.security.version>5.7.4</spring.security.version>
@@ -124,7 +124,7 @@
         <slf4j.version>1.7.36</slf4j.version>
         <hutool.version>5.8.9</hutool.version>
         <netty.version>4.1.84.Final</netty.version>
-        <curator.version>5.3.0</curator.version>
+        <curator.version>5.4.0</curator.version>
         <logback.version>1.2.11</logback.version>
         <lombok.version>1.18.24</lombok.version>
     </properties>
@@ -657,9 +657,9 @@
                     <exclude>**/.gitkeep</exclude>
                     <exclude>**/*.bak</exclude>
                     <exclude>**/*.java</exclude>
+                    <exclude>**/*.kt</exclude>
                     <exclude>**/*.groovy</exclude>
                     <exclude>**/*.scala</exclude>
-                    <exclude>**/*.kotlin</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -739,6 +739,27 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-license-file</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.directory}/classes/META-INF">
+                                    <fileset dir="${helper.build.root}" includes="LICENSE*" />
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -853,5 +874,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

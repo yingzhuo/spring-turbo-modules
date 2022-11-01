@@ -47,7 +47,6 @@ class SpringBootAutoConfiguration {
             om.addMixIn(NumberZones.class, NumberZonesMixin.class);
         }
     }
-
 }
 
 /**

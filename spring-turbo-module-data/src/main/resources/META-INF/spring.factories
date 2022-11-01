@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.data.SpringBootAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=

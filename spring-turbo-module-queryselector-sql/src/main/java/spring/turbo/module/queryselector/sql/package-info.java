@@ -32,7 +32,7 @@ import spring.turbo.module.queryselector.sql.property.ItemNameToTableColumnMap;
 class SpringBootAutoConfiguration {
 
     @Bean
-    public WhereClauseBuilder whereClauseBuilder(ItemNameToTableColumnMap itemNameToTableColumnMap) {
+    WhereClauseBuilder whereClauseBuilder(ItemNameToTableColumnMap itemNameToTableColumnMap) {
         return new WhereClauseBuilderImpl(itemNameToTableColumnMap);
     }
 
