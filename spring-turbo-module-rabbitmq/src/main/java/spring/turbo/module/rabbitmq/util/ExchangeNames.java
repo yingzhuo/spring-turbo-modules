@@ -12,17 +12,10 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- * @since 1.0.15
+ * @since 1.2.3
  */
-public final class ExchangeNames {
+public interface ExchangeNames {
 
     public static final String DEFAULT = EMPTY;
-
-    /**
-     * 私有构造方法
-     */
-    private ExchangeNames() {
-        super();
-    }
 
 }
