@@ -32,6 +32,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
+import spring.turbo.module.security.exception.SecurityExceptionHandler;
+import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
 import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.SkippableFilter;
 
@@ -137,6 +139,12 @@ class SpringBootAutoConfiguration implements WebMvcConfigurer {
             mappings.put(MaliciousRequestException.class, MaliciousRequestFailureEvent.class);
             publisher.setAdditionalExceptionMappings(mappings);
         }
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    SecurityExceptionHandler securityExceptionHandler() {
+        return new SecurityExceptionHandlerImpl();
     }
 
 }
