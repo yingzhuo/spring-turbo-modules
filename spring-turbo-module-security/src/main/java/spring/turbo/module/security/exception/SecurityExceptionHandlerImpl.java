@@ -6,16 +6,11 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.rabbitmq.util;
-
-import static spring.turbo.util.StringPool.EMPTY;
+package spring.turbo.module.security.exception;
 
 /**
  * @author 应卓
  * @since 1.2.3
  */
-public interface ExchangeNames {
-
-    public static final String DEFAULT = EMPTY;
-
+public class SecurityExceptionHandlerImpl implements SecurityExceptionHandler {
 }
