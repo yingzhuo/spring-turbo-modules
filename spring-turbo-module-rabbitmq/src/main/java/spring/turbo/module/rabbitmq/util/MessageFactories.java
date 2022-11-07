@@ -13,10 +13,10 @@ import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
 import spring.turbo.util.Asserts;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
- * 消息工厂
+ * 消息生成工具
  *
  * @author 应卓
  * @see MessageSender
@@ -31,14 +31,35 @@ public final class MessageFactories {
         super();
     }
 
+    /**
+     * 创建消息实体
+     *
+     * @param messageContent 消息内容
+     * @return 消息实例
+     */
     public static Message create(String messageContent) {
         return create(messageContent, Long.MIN_VALUE);
     }
 
+    /**
+     * 创建消息实体
+     *
+     * @param messageContent 消息内容
+     * @param ttlInMillis    生命期 (毫秒)
+     * @return 消息实例
+     */
     public static Message create(String messageContent, long ttlInMillis) {
         return create(messageContent, ttlInMillis, Integer.MIN_VALUE);
     }
 
+    /**
+     * 创建消息实体
+     *
+     * @param messageContent 消息内容
+     * @param ttlInMillis    生命期 (毫秒)
+     * @param priority       优先级
+     * @return 消息实例
+     */
     public static Message create(String messageContent, long ttlInMillis, int priority) {
         Asserts.notNull(messageContent);
 
