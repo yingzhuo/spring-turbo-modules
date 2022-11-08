@@ -119,7 +119,7 @@
         <spring.security.version>5.7.5</spring.security.version>
         <spring.kafka.version>2.9.2</spring.kafka.version>
         <spring.data.commons.version>2.7.5</spring.data.commons.version>
-        <feign.version>11.10</feign.version>
+        <feign.version>12.0</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
         <hutool.version>5.8.9</hutool.version>
@@ -431,12 +431,12 @@
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>javase</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
             </dependency>
 
             <!-- poi -->

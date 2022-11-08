@@ -9,13 +9,17 @@
 package spring.turbo.module.qrcode;
 
 import org.springframework.core.io.Resource;
+import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.util.Asserts;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -33,6 +37,9 @@ public final class Logo implements Serializable {
 
     private boolean compress = true;
 
+    /**
+     * 私有构造方法
+     */
     private Logo() {
         super();
     }
@@ -50,9 +57,14 @@ public final class Logo implements Serializable {
         return compress;
     }
 
+    /**
+     * 创建器
+     */
     public static class Builder implements spring.turbo.bean.Builder<Logo> {
 
+        @Nullable
         private Image image;
+
         private boolean compress = true;
 
         private Builder() {
@@ -68,7 +80,7 @@ public final class Logo implements Serializable {
             try {
                 return image(resource.getFile());
             } catch (IOException e) {
-                throw new UncheckedIOException(e);
+                throw IOExceptionUtils.toUnchecked(e);
             }
         }
 
@@ -77,7 +89,7 @@ public final class Logo implements Serializable {
                 this.image = ImageIO.read(inputStream);
                 return this;
             } catch (IOException e) {
-                throw new UncheckedIOException(e);
+                throw IOExceptionUtils.toUnchecked(e);
             }
         }
 
@@ -86,7 +98,7 @@ public final class Logo implements Serializable {
                 this.image = ImageIO.read(inputStream);
                 return this;
             } catch (IOException e) {
-                throw new UncheckedIOException(e);
+                throw IOExceptionUtils.toUnchecked(e);
             }
         }
 
@@ -95,7 +107,7 @@ public final class Logo implements Serializable {
                 this.image = ImageIO.read(file);
                 return this;
             } catch (IOException e) {
-                throw new UncheckedIOException(e);
+                throw IOExceptionUtils.toUnchecked(e);
             }
         }
 

@@ -20,14 +20,14 @@ import java.util.List;
  * 分布式锁工具
  *
  * @author 应卓
- * @see LockKeyFunction
+ * @see LockKeyCustomizer
  * @since 1.0.15
  */
+@SuppressWarnings("unchecked")
 public final class LockUtils {
 
     private static final List<String> EMPTY_KEYS = Collections.emptyList();
-
-    private static final LockKeyFunction DEFAULT_LOCK_KEY_FUNC = s -> s;
+    private static final LockKeyCustomizer LOCK_KEY_CUSTOMIZER = s -> s;
 
     /**
      * 私有构造方法
@@ -49,8 +49,8 @@ public final class LockUtils {
         Asserts.hasText(uuid);
         Asserts.isTrue(ttlInSeconds >= 1);
 
-        final LockKeyFunction keyFunc = SpringUtils.getBean(LockKeyFunction.class).orElse(DEFAULT_LOCK_KEY_FUNC);
-        key = keyFunc.apply(key);
+        final LockKeyCustomizer keyFunc = SpringUtils.getBean(LockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
+        key = keyFunc.customize(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);
         final RedisScript<Boolean> lua = SpringUtils.getRequiredBean(RedisScript.class, "redisLockLockLuaScript");
@@ -69,8 +69,8 @@ public final class LockUtils {
         Asserts.hasText(key);
         Asserts.hasText(uuid);
 
-        final LockKeyFunction keyFunc = SpringUtils.getBean(LockKeyFunction.class).orElse(DEFAULT_LOCK_KEY_FUNC);
-        key = keyFunc.apply(key);
+        final LockKeyCustomizer keyFunc = SpringUtils.getBean(LockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
+        key = keyFunc.customize(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);
         final RedisScript<Boolean> lua = SpringUtils.getRequiredBean(RedisScript.class, "redisLockReleaseLuaScript");

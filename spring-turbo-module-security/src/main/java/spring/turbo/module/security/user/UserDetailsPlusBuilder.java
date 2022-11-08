@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
+import spring.turbo.bean.Builder;
 import spring.turbo.module.security.util.AuthorityUtils;
 
 import java.util.Collection;
@@ -27,7 +28,7 @@ import java.util.function.Function;
  * @see UserDetailsPlus
  * @since 1.0.0
  */
-public final class UserDetailsPlusBuilder {
+public final class UserDetailsPlusBuilder implements Builder<UserDetailsPlus> {
 
     private static final String DEFAULT_PASSWORD = "<NO PASSWORD>";
 
@@ -61,6 +62,9 @@ public final class UserDetailsPlusBuilder {
 
     @Nullable
     private String biography;
+
+    @Nullable
+    private String nationality;
 
     @Nullable
     private String location;
@@ -180,6 +184,11 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
+    public UserDetailsPlusBuilder nationality(String nationality) {
+        this.nationality = nationality;
+        return this;
+    }
+
     public UserDetailsPlusBuilder location(String location) {
         this.location = location;
         return this;
@@ -195,6 +204,7 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
+    @Override
     public UserDetailsPlus build() {
         if (!passwordFlag) {
             userBuilder.password(DEFAULT_PASSWORD);
@@ -210,6 +220,7 @@ public final class UserDetailsPlusBuilder {
                 this.phoneNumber,
                 this.dateOfBirth,
                 this.biography,
+                this.nationality,
                 this.location,
                 this.url,
                 this.attributes

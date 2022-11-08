@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.util.AuthorityUtils;
+import spring.turbo.webmvc.token.Token;
 
 import java.util.Optional;
 
@@ -27,16 +28,28 @@ import java.util.Optional;
 @Mutable
 public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
 
+    /**
+     * 当前用户
+     */
     @Nullable
     private final UserDetails userDetails;
 
+    /**
+     * 当前认证的令牌 (Optional)
+     *
+     * @since 1.2.3
+     */
+    @Nullable
+    private final Token token;
+
     public Authentication() {
-        this(null);
+        this(null, null);
     }
 
-    public Authentication(@Nullable UserDetails userDetails) {
+    public Authentication(@Nullable UserDetails userDetails, @Nullable Token token) {
         super(AuthorityUtils.getAuthorities(userDetails));
         this.userDetails = userDetails;
+        this.token = token;
         super.setAuthenticated(userDetails != null);
         super.setDetails(null);
     }
@@ -62,6 +75,11 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @Nullable
     public final UserDetails getUserDetails() {
         return userDetails;
+    }
+
+    @Nullable
+    public Token getToken() {
+        return token;
     }
 
 }

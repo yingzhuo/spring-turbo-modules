@@ -13,7 +13,6 @@ import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 import java.time.Duration;
-import java.util.Optional;
 
 /**
  * {@link CaptchaDao}的Redis相关实现
@@ -43,10 +42,9 @@ public class RedisCaptchaDao implements CaptchaDao {
     }
 
     @Override
-    public Optional<String> find(String accessKey) {
+    public String find(String accessKey) {
         Asserts.hasText(accessKey);
-
-        return Optional.ofNullable(redisTemplate.opsForValue().get(accessKey));
+        return redisTemplate.opsForValue().get(accessKey);
     }
 
     @Override

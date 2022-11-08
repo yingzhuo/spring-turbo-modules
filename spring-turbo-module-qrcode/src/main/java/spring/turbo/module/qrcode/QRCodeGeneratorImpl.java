@@ -26,7 +26,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * QRCode生成器默认实现
+ *
  * @author 应卓
+ * @see QRCodeGenerator
  * @since 1.0.0
  */
 public class QRCodeGeneratorImpl implements QRCodeGenerator {
