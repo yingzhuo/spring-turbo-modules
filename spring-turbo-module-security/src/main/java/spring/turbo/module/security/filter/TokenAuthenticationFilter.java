@@ -106,7 +106,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             }
 
             final spring.turbo.module.security.authentication.Authentication auth
-                    = new spring.turbo.module.security.authentication.Authentication(user);
+                    = new spring.turbo.module.security.authentication.Authentication(user, token);
             auth.setAuthenticated(true);
 
             if (requestDetailsBuilder != null) {
