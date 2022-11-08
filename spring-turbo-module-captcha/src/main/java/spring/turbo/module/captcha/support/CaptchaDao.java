@@ -11,7 +11,6 @@ package spring.turbo.module.captcha.support;
 import org.springframework.lang.Nullable;
 
 import java.time.Duration;
-import java.util.Optional;
 
 /**
  * @author 应卓
@@ -25,7 +24,8 @@ public interface CaptchaDao {
 
     public void save(String accessKey, String captchaWord, @Nullable Duration ttl);
 
-    public Optional<String> find(String accessKey);
+    @Nullable
+    public String find(String accessKey);
 
     public void delete(String accessKey);
 

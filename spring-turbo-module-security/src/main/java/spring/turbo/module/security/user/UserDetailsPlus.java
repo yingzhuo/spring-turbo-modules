@@ -23,8 +23,8 @@ import java.util.Optional;
  *
  * @author 应卓
  * @see UserDetails
- * @see UserDetailsPlusBuilder
  * @see #builder()
+ * @see UserDetailsPlusBuilder
  * @see UserDetailsPlusImpl
  * @see spring.turbo.module.security.authentication.TokenToUserConverter
  * @since 1.0.0
@@ -40,18 +40,40 @@ public interface UserDetailsPlus extends UserDetails {
         return new UserDetailsPlusBuilder();
     }
 
+    /**
+     * 获取ID
+     *
+     * @param <T> ID类型
+     * @return ID或{@code null}
+     */
     @Nullable
     public <T> T getId();
 
+    /**
+     * 获取ID
+     *
+     * @param <T> ID类型
+     * @return ID
+     */
     public default <T> T getRequiredId() {
         T id = getId();
         Asserts.notNull(id);
         return id;
     }
 
+    /**
+     * 获取绰号
+     *
+     * @return 绰号或{@code null}
+     */
     @Nullable
     public String getNickname();
 
+    /**
+     * 获取绰号
+     *
+     * @return 绰号
+     */
     public default String getRequiredNickname() {
         String nickname = getNickname();
         Asserts.notNull(nickname);
@@ -62,21 +84,40 @@ public interface UserDetailsPlus extends UserDetails {
      * 性别
      *
      * @param <T> 表达性别的类型
-     * @return 性别
+     * @return 性别或{@code null}
      * @see spring.turbo.bean.Gender
      */
     @Nullable
     public <T> T getGender();
 
+    /**
+     * 性别
+     *
+     * @param <T> 表达性别的类型
+     * @return 性别
+     * @see spring.turbo.bean.Gender
+     */
     public default <T> T getRequiredGender() {
         T gender = getGender();
         Asserts.notNull(gender);
         return gender;
     }
 
+    /**
+     * 头像
+     *
+     * @param <T> 头像的类型
+     * @return 头像或{@code null}
+     */
     @Nullable
     public <T> T getAvatar();
 
+    /**
+     * 头像
+     *
+     * @param <T> 头像的类型
+     * @return 头像
+     */
     public default <T> T getRequiredAvatar() {
         T avatar = getAvatar();
         Asserts.notNull(avatar);

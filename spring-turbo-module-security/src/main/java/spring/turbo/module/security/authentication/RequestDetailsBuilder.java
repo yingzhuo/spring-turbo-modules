@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface RequestDetailsBuilder {
 
     /**
-     * HTTP快照
+     * HTTP(s)快照
      */
     public static final RequestDetailsBuilder SNAPSHOT = request -> HttpRequestSnapshot.of(request).toString();
 

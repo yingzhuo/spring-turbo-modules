@@ -58,7 +58,7 @@ public final class PasswordEncoderFactories {
         final List<NamedPasswordEncoderProvider> providers = ServiceLoaderUtils.loadQuietly(NamedPasswordEncoderProvider.class);
 
         for (NamedPasswordEncoderProvider provider : providers) {
-            Collection<NamedPasswordEncoder> encoders = provider.getPasswordEncoders();
+            final Collection<NamedPasswordEncoder> encoders = provider.getPasswordEncoders();
             if (encoders != null) {
                 for (NamedPasswordEncoder encoder : encoders) {
                     if (encoder != null) {

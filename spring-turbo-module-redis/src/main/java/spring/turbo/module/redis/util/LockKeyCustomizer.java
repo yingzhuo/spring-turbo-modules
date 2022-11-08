@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.redis.util;
 
-import java.util.function.Function;
+import spring.turbo.bean.Customizer;
 
 /**
  * @author 应卓
@@ -16,9 +16,9 @@ import java.util.function.Function;
  * @since 1.0.15
  */
 @FunctionalInterface
-public interface LockKeyFunction extends Function<String, String> {
+public interface LockKeyCustomizer extends Customizer<String> {
 
     @Override
-    public String apply(String key);
+    public String customize(String obj);
 
 }
