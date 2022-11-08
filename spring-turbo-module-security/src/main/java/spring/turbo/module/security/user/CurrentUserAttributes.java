@@ -26,6 +26,7 @@ import java.lang.annotation.*;
  * @see spring.turbo.bean.Attributes
  * @since 1.0.0
  */
+@Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})

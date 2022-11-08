@@ -16,7 +16,7 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
- * 获取当前 {@link UserDetails}
+ * 获取当前 {@link UserDetails}对象
  *
  * @author 应卓
  * @see UserDetails
@@ -24,6 +24,7 @@ import java.lang.annotation.*;
  * @see AuthenticationPrincipalArgumentResolver
  * @since 1.0.0
  */
+@Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})

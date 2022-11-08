@@ -57,6 +57,9 @@ public class UserDetailsPlusImpl implements UserDetailsPlus {
     private final String bioInfo;
 
     @Nullable
+    private final String nationality;
+
+    @Nullable
     private final String location;
 
     @Nullable
@@ -75,6 +78,7 @@ public class UserDetailsPlusImpl implements UserDetailsPlus {
                         @Nullable String phoneNumber,
                         @Nullable Date dateOfBirth,
                         @Nullable String bioInfo,
+                        @Nullable String nationality,
                         @Nullable String location,
                         @Nullable String url,
                         @Nullable Attributes attributes) {
@@ -88,6 +92,7 @@ public class UserDetailsPlusImpl implements UserDetailsPlus {
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.bioInfo = bioInfo;
+        this.nationality = nationality;
         this.location = location;
         this.url = url;
         this.attributes = Optional.ofNullable(attributes).orElseGet(Attributes::newInstance);
@@ -145,6 +150,12 @@ public class UserDetailsPlusImpl implements UserDetailsPlus {
     @Nullable
     public String getBiography() {
         return bioInfo;
+    }
+
+    @Override
+    @Nullable
+    public String getNationality() {
+        return nationality;
     }
 
     @Override

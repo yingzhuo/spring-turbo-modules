@@ -128,6 +128,14 @@ public interface UserDetailsPlus extends UserDetails {
         return bio;
     }
 
+    public String getNationality();
+
+    public default String getRequiredNationality() {
+        String nationality = getNationality();
+        Asserts.notNull(nationality);
+        return nationality;
+    }
+
     @Nullable
     public String getLocation();
 

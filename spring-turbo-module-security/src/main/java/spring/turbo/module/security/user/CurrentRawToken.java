@@ -15,13 +15,15 @@ import org.springframework.security.core.context.SecurityContext;
 import java.lang.annotation.*;
 
 /**
- * 获取当前用户的携带令牌的值
+ * 获取当前用户的携带令牌的值 {@link java.lang.String}类型
  *
  * @author 应卓
+ * @see spring.turbo.webmvc.token.Token
  * @see org.springframework.security.core.Authentication
  * @see SecurityContext#getAuthentication()
  * @since 1.2.3
  */
+@Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})

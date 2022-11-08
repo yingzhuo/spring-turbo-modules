@@ -16,21 +16,20 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
- * 获取当前Authorities
+ * 获取当前用户的nationality
  *
  * @author 应卓
  * @see UserDetails
- * @see UserDetails#getAuthorities()
  * @see UserDetailsPlus
  * @see AuthenticationPrincipalArgumentResolver
- * @since 1.0.0
+ * @since 1.2.3
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
-@AuthenticationPrincipal(expression = "#root.authorities")
-public @interface CurrentUserAuthorities {
+@AuthenticationPrincipal(expression = "#root.nationality")
+public @interface CurrentUserNationality {
 
     @AliasFor(annotation = AuthenticationPrincipal.class, attribute = "errorOnInvalidType")
     public boolean errorOnInvalidType() default false;
