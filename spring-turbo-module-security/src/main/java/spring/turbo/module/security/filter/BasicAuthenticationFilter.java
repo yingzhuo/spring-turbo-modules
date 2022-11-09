@@ -19,13 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
-import spring.turbo.module.security.authentication.NullTokenToUserConverter;
+import spring.turbo.module.security.authentication.NullUserDetailsFinder;
 import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
-import spring.turbo.module.security.authentication.TokenToUserConverter;
-import spring.turbo.util.Asserts;
+import spring.turbo.module.security.authentication.UserDetailsFinder;
+import spring.turbo.webmvc.token.BasicToken;
 import spring.turbo.webmvc.token.NullTokenResolver;
-import spring.turbo.webmvc.token.StringToken;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
@@ -36,21 +35,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 基于令牌的认证过滤器
- *
  * @author 应卓
- * @see spring.turbo.module.security.FilterConfiguration
- * @since 1.0.0
+ * @since 1.2.3
  */
-public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
+public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
 
     @Nullable
     private TokenResolver tokenResolver;
 
     @Nullable
-    private TokenToUserConverter tokenToUserConverter;
+    private UserDetailsFinder userDetailsFinder;
+
+    @Nullable
+    private RequestDetailsProvider requestDetailsProvider;
 
     @Nullable
     private RememberMeServices rememberMeServices;
@@ -61,50 +60,36 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     @Nullable
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Nullable
-    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
-
-    /**
-     * 构造方法
-     */
-    public TokenAuthenticationFilter() {
-        super();
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!isAuthenticationIsRequired()) {
+        if (!super.isAuthenticationIsRequired()) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        Asserts.notNull(this.tokenResolver);
-        Asserts.notNull(this.tokenToUserConverter);
-
         try {
-            final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
-            if (token == null) {
-                log.debug("token cannot be resolved");
+            final Token token = tokenResolver.resolve(new ServletWebRequest(request, response)).orElse(null);
+            if (!(token instanceof BasicToken)) {
                 filterChain.doFilter(request, response);
                 return;
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("token resolved");
-                    if (token instanceof StringToken) {
-                        log.debug("token value (string): {}", token.asString());
-                    }
+                    log.debug("token value (string): {}", token.asString());
+                    log.debug("token username: {}", ((BasicToken) token).getUsername());
+                    log.debug("token password: {}", ((BasicToken) token).getPassword());
                 }
             }
 
-            final UserDetails user = tokenToUserConverter.convert(token);
+            final BasicToken basicToken = (BasicToken) token;
+            String username = basicToken.getUsername();
+            String password = basicToken.getPassword();
+
+            final UserDetails user = userDetailsFinder.find(username, password);
             if (user == null) {
-                log.debug("cannot convert token to UserDetails instance");
                 filterChain.doFilter(request, response);
                 return;
-            } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("UserDetails converted. (username: {})", user.getUsername());
-                }
             }
 
             final spring.turbo.module.security.authentication.Authentication auth
@@ -126,9 +111,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             if (this.authenticationEventPublisher != null) {
                 authenticationEventPublisher.publishAuthenticationSuccess(auth);
             }
-
         } catch (AuthenticationException e) {
-
             if (log.isDebugEnabled()) {
                 log.debug(e.getMessage(), e);
             }
@@ -159,13 +142,12 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-
         if (this.tokenResolver == null) {
             this.tokenResolver = NullTokenResolver.getInstance();
         }
 
-        if (this.tokenToUserConverter == null) {
-            this.tokenToUserConverter = NullTokenToUserConverter.getInstance();
+        if (this.userDetailsFinder == null) {
+            this.userDetailsFinder = NullUserDetailsFinder.getInstance();
         }
     }
 
@@ -178,29 +160,27 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     public void setTokenResolver(TokenResolver tokenResolver) {
-        Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 
-    public void setTokenToUserConverter(TokenToUserConverter converter) {
-        Asserts.notNull(converter);
-        this.tokenToUserConverter = converter;
+    public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
+        this.userDetailsFinder = userDetailsFinder;
+    }
+
+    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
+        this.requestDetailsProvider = requestDetailsProvider;
     }
 
     public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
         this.rememberMeServices = rememberMeServices;
     }
 
-    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
     public void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
         this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
-    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
-        this.requestDetailsProvider = requestDetailsProvider;
+    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 }
