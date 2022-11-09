@@ -13,10 +13,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
 import spring.turbo.bean.Builder;
+import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.util.AuthorityUtils;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -28,12 +30,13 @@ import java.util.function.Function;
  * @see UserDetailsPlus
  * @since 1.0.0
  */
+@Mutable
 public final class UserDetailsPlusBuilder implements Builder<UserDetailsPlus> {
 
     private static final String DEFAULT_PASSWORD = "<NO PASSWORD>";
 
     private final User.UserBuilder userBuilder = User.builder();
-    private final Attributes attributes = Attributes.newInstance();
+    private Attributes attributes = Attributes.newInstance();
     private boolean passwordFlag = false; // 是否主动设置了密码
 
     @Nullable
@@ -204,13 +207,19 @@ public final class UserDetailsPlusBuilder implements Builder<UserDetailsPlus> {
         return this;
     }
 
+    public UserDetailsPlusBuilder setAttributes(@Nullable Attributes attributes) {
+        this.attributes = Optional.ofNullable(attributes).orElseGet(Attributes::new);
+        return this;
+    }
+
     @Override
     public UserDetailsPlus build() {
         if (!passwordFlag) {
             userBuilder.password(DEFAULT_PASSWORD);
         }
 
-        return new UserDetailsPlusImpl(userBuilder.build(),
+        return new UserDetailsPlusImpl(
+                userBuilder.build(),
                 this.id,
                 this.nickname,
                 this.gender,

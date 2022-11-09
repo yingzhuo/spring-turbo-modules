@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.bean.Attributes;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -24,7 +25,7 @@ import java.util.Optional;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-public class UserDetailsPlusImpl implements UserDetailsPlus {
+public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
 
     @NonNull
     private final UserDetails delegate;
