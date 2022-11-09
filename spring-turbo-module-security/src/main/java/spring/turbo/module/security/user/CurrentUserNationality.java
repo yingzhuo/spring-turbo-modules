@@ -16,11 +16,12 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
- * 获取当前用户的nationality
+ * 获取当前用户的国际
  *
  * @author 应卓
  * @see UserDetails
  * @see UserDetailsPlus
+ * @see UserDetailsPlus#getNationality()
  * @see AuthenticationPrincipalArgumentResolver
  * @since 1.2.3
  */

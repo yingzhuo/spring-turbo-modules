@@ -16,7 +16,7 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import java.lang.annotation.*;
 
 /**
- * 获取当前用户
+ * 获取当前用户昵称
  *
  * @author 应卓
  * @see UserDetails

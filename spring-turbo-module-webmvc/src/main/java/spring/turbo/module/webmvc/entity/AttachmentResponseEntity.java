@@ -11,6 +11,7 @@ package spring.turbo.module.webmvc.entity;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
 import spring.turbo.io.CloseUtils;
@@ -40,9 +41,14 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
     public final static class Builder implements spring.turbo.bean.Builder<AttachmentResponseEntity> {
 
         private HttpStatus status = HttpStatus.OK;
-        private byte[] content;
-        private String attachmentName;
+
         private MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+
+        @Nullable
+        private byte[] content;
+
+        @Nullable
+        private String attachmentName;
 
         private Builder() {
             super();
@@ -87,6 +93,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
             return this;
         }
 
+        @Override
         public AttachmentResponseEntity build() {
             Asserts.notNull(content);
             Asserts.hasText(attachmentName);

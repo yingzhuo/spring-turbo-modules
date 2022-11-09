@@ -23,6 +23,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
+import spring.turbo.module.webmvc.params.RemoteAddressHandlerMethodArgumentResolver;
 import spring.turbo.module.webmvc.rest.JsonEncoder;
 import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
 

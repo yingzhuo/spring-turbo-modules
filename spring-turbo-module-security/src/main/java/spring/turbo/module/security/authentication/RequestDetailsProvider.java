@@ -21,25 +21,33 @@ import javax.servlet.http.HttpServletRequest;
  * 一般说来，RequestDetails是对一个HTTP请求的简要描述，类型一般为{@link String}。
  *
  * @author 应卓
+ * @see #DESCRIPTION
+ * @see #SNAPSHOT
+ * @see #SPRING_SECURITY_DEFAULT
  * @since 1.0.4
  */
 @FunctionalInterface
-public interface RequestDetailsBuilder {
-
-    /**
-     * HTTP(s)快照
-     */
-    public static final RequestDetailsBuilder SNAPSHOT = request -> HttpRequestSnapshot.of(request).toString();
+public interface RequestDetailsProvider {
 
     /**
      * SpringSecurity默认实现
      */
-    public static final RequestDetailsBuilder SPRING_SECURITY_DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request);
+    public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request);
+
+    /**
+     * HTTP(s)快照
+     */
+    public static final RequestDetailsProvider SNAPSHOT = request -> HttpRequestSnapshot.of(request).toString();
 
     /**
      * HTTP信息简要描述
      */
-    public static final RequestDetailsBuilder DESCRIPTION = request -> new ServletWebRequest(request).getDescription(true);
+    public static final RequestDetailsProvider DESCRIPTION = request -> new ServletWebRequest(request).getDescription(true);
+
+    /**
+     * 默认
+     */
+    public static final RequestDetailsProvider DEFAULT = SPRING_SECURITY_DEFAULT;
 
     /**
      * 创建Details
