@@ -20,17 +20,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.NullTokenToUserConverter;
 import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.token.NullTokenResolver;
 import spring.turbo.webmvc.token.StringToken;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ import java.io.IOException;
  * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
-public class TokenAuthenticationFilter extends AbstractServletFilter {
+public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
@@ -73,9 +74,10 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     }
 
     @Override
-    protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (!isAuthenticationIsRequired()) {
-            return true;
+            filterChain.doFilter(request, response);
+            return;
         }
 
         Asserts.notNull(this.tokenResolver);
@@ -85,7 +87,8 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
             if (token == null) {
                 log.debug("token cannot be resolved");
-                return true;
+                filterChain.doFilter(request, response);
+                return;
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("token resolved");
@@ -98,7 +101,8 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
             UserDetails user = tokenToUserConverter.convert(token);
             if (user == null) {
                 log.debug("cannot convert token to UserDetails instance");
-                return true;
+                filterChain.doFilter(request, response);
+                return;
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("UserDetails converted. (username: {})", user.getUsername());
@@ -147,11 +151,11 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
 
             if (authenticationEntryPoint != null) {
                 authenticationEntryPoint.commence(request, response, e);
-                return false;
+                return;
             }
         }
 
-        return true;
+        filterChain.doFilter(request, response);
     }
 
     @Override

@@ -11,10 +11,13 @@ package spring.turbo.module.security.filter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.cors.CorsUtils;
-import spring.turbo.webmvc.AbstractServletFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author 应卓
@@ -23,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 1.0.0
  */
 @Deprecated
-public class CorsFilter extends AbstractServletFilter {
+public class CorsFilter extends OncePerRequestFilter {
 
     /**
      * 构造方法
@@ -33,7 +36,7 @@ public class CorsFilter extends AbstractServletFilter {
     }
 
     @Override
-    protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, PATCH, OPTIONS, DELETE, TRACE, HEAD");
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "X-Requested-With, Content-Type, Last-Modified, Accept, Origin");
@@ -42,10 +45,10 @@ public class CorsFilter extends AbstractServletFilter {
 
         if (CorsUtils.isPreFlightRequest(request)) {
             response.setStatus(HttpStatus.OK.value());
-            return false;
+            return;
         }
 
-        return true;
+        filterChain.doFilter(request, response);
     }
 
 }

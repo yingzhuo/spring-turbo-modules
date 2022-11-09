@@ -34,8 +34,6 @@ import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
 import spring.turbo.module.security.exception.SecurityExceptionHandler;
 import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
-import spring.turbo.webmvc.AbstractServletFilter;
-import spring.turbo.webmvc.SkippableFilter;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -62,10 +60,6 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
             final Filter filter = configuration.create();
             if (filter == null) {
                 continue;
-            }
-
-            if (filter instanceof SkippableFilter) {
-                ((AbstractServletFilter) filter).addSkipPredicates(configuration.skipPredicates());
             }
 
             if (filter instanceof InitializingBean) {

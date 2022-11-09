@@ -9,14 +9,17 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
+import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 import spring.turbo.util.StringPool;
-import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author 应卓
@@ -25,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
  * @since 1.1.3
  */
-public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
+public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
 
     private final Logger log;
 
@@ -46,13 +49,13 @@ public class HumanReadableRequestLoggingFilter extends AbstractServletFilter {
     }
 
     @Override
-    protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             doLog(request);
         } catch (Exception ignored) {
             // NOP
         }
-        return true;
+        filterChain.doFilter(request, response);
     }
 
     private void doLog(HttpServletRequest request) {
