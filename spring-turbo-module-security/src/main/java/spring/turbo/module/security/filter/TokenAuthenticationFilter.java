@@ -10,8 +10,8 @@ package spring.turbo.module.security.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,9 +22,8 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.NullTokenToUserConverter;
 import spring.turbo.module.security.authentication.RequestAuthentication;
-import spring.turbo.module.security.authentication.RequestDetailsBuilder;
+import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
-import spring.turbo.module.security.util.AuthenticationUtils;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.AbstractServletFilter;
 import spring.turbo.webmvc.token.NullTokenResolver;
@@ -38,9 +37,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 基于令牌的认证过滤器
+ *
  * @author 应卓
  * @see spring.turbo.module.security.FilterConfiguration
- * @see AuthenticationUtils#isAuthenticationIsRequired()
  * @since 1.0.0
  */
 public class TokenAuthenticationFilter extends AbstractServletFilter {
@@ -63,7 +63,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Nullable
-    private RequestDetailsBuilder requestDetailsBuilder = RequestDetailsBuilder.SNAPSHOT;
+    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
 
     /**
      * 构造方法
@@ -74,7 +74,7 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
 
     @Override
     protected boolean doFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!AuthenticationUtils.isAuthenticationIsRequired()) {
+        if (!isAuthenticationIsRequired()) {
             return true;
         }
 
@@ -109,8 +109,8 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
                     = new spring.turbo.module.security.authentication.Authentication(user, token);
             auth.setAuthenticated(true);
 
-            if (requestDetailsBuilder != null) {
-                auth.setDetails(requestDetailsBuilder.getDetails(request));
+            if (requestDetailsProvider != null) {
+                auth.setDetails(requestDetailsProvider.getDetails(request));
             }
 
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -167,6 +167,14 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         }
     }
 
+    private boolean isAuthenticationIsRequired() {
+        final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
+        if (existingAuth == null || !existingAuth.isAuthenticated()) {
+            return true;
+        }
+        return (existingAuth instanceof AnonymousAuthenticationToken);
+    }
+
     protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
         // nop
     }
@@ -175,12 +183,12 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         // nop
     }
 
-    public void setTokenResolver(@NonNull TokenResolver tokenResolver) {
+    public void setTokenResolver(TokenResolver tokenResolver) {
         Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 
-    public void setTokenToUserConverter(@NonNull TokenToUserConverter converter) {
+    public void setTokenToUserConverter(TokenToUserConverter converter) {
         Asserts.notNull(converter);
         this.tokenToUserConverter = converter;
     }
@@ -197,8 +205,8 @@ public class TokenAuthenticationFilter extends AbstractServletFilter {
         this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
-    public void setRequestDetailsBuilder(@Nullable RequestDetailsBuilder requestDetailsBuilder) {
-        this.requestDetailsBuilder = requestDetailsBuilder;
+    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
+        this.requestDetailsProvider = requestDetailsProvider;
     }
 
 }

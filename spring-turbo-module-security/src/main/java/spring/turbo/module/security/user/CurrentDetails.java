@@ -11,7 +11,7 @@ package spring.turbo.module.security.user;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import spring.turbo.module.security.authentication.RequestDetailsBuilder;
+import spring.turbo.module.security.authentication.RequestDetailsProvider;
 
 import java.lang.annotation.*;
 
@@ -21,10 +21,10 @@ import java.lang.annotation.*;
  * @author 应卓
  * @see org.springframework.security.core.context.SecurityContext
  * @see AbstractAuthenticationToken#getDetails()
- * @see RequestDetailsBuilder
- * @see RequestDetailsBuilder#SPRING_SECURITY_DEFAULT
- * @see RequestDetailsBuilder#SNAPSHOT
- * @see RequestDetailsBuilder#DESCRIPTION
+ * @see RequestDetailsProvider
+ * @see RequestDetailsProvider#SPRING_SECURITY_DEFAULT
+ * @see RequestDetailsProvider#SNAPSHOT
+ * @see RequestDetailsProvider#DESCRIPTION
  * @since 1.0.0
  */
 @Inherited
