@@ -11,7 +11,6 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author 应卓
@@ -35,11 +34,6 @@ public final class NullUserDetailsFinder implements UserDetailsFinder {
     @Override
     public UserDetails find(String username, String password) throws AuthenticationException {
         return null;
-    }
-
-    @Override
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        // nop
     }
 
     private static class SyncAvoid {
