@@ -17,7 +17,7 @@ package spring.turbo.module.security.encoder;
 public final class EncodingIds {
 
     /**
-     * noop null
+     * Noop
      */
     public static final String noop = "noop";
 

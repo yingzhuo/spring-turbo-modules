@@ -26,13 +26,11 @@ import java.util.List;
  */
 public class WatermarkPositions implements Iterable<WatermarkPositions.Position> {
 
-    public static final WatermarkPositions DEFAULT = builder()
+    private final List<Position> list;    public static final WatermarkPositions DEFAULT = builder()
             .add(300, 250, 30)
             .add(300, 450, 30)
             .add(300, 650, 30)
             .build();
-
-    private final List<Position> list;
 
     private WatermarkPositions(List<Position> list) {
         this.list = list;
@@ -120,5 +118,7 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
             return rotation;
         }
     }
+
+
 
 }

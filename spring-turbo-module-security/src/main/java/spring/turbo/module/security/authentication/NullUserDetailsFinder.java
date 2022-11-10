@@ -19,15 +19,15 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public final class NullUserDetailsFinder implements UserDetailsFinder {
 
-    public static NullUserDetailsFinder getInstance() {
-        return SyncAvoid.INSTANCE;
-    }
-
     /**
      * 私有构造方法
      */
     private NullUserDetailsFinder() {
         super();
+    }
+
+    public static NullUserDetailsFinder getInstance() {
+        return SyncAvoid.INSTANCE;
     }
 
     @Nullable
