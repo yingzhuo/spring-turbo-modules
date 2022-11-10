@@ -63,6 +63,12 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     @Nullable
     private AuthenticationEntryPoint authenticationEntryPoint;
 
+    /**
+     * 构造方法
+     */
+    public BasicAuthenticationFilter() {
+        super();
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

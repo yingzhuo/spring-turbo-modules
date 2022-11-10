@@ -28,8 +28,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
-    private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
-
     private final Logger log;
 
     /**
@@ -45,7 +43,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
      * @param log 日志记录器
      */
     public RequestLoggingFilter(@Nullable Logger log) {
-        this.log = log != null ? log : DEFAULT_LOGGER;
+        this.log = log != null ? log : new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
         super.setIncludeHeaders(true);
         super.setIncludeQueryString(true);
         super.setIncludeClientInfo(true);

@@ -26,6 +26,12 @@ import java.util.List;
  */
 public class WatermarkPositions implements Iterable<WatermarkPositions.Position> {
 
+    public static final WatermarkPositions DEFAULT = builder()
+            .add(300, 250, 30)
+            .add(300, 450, 30)
+            .add(300, 650, 30)
+            .build();
+
     private final List<Position> list;
 
     private WatermarkPositions(List<Position> list) {
@@ -47,16 +53,12 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
 
     public boolean isEmpty() {
         return this.list.isEmpty();
-    }    public static final WatermarkPositions DEFAULT = builder()
-            .add(300, 250, 30)
-            .add(300, 450, 30)
-            .add(300, 650, 30)
-            .build();
+    }
 
     /**
      * 创建器
      */
-    static class Builder {
+    static class Builder implements spring.turbo.bean.Builder<WatermarkPositions> {
 
         private final List<Position> list = new LinkedList<>();
 
@@ -73,6 +75,7 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
             return this;
         }
 
+        @Override
         public WatermarkPositions build() {
             return list.isEmpty() ? DEFAULT : new WatermarkPositions(this.list);
         }
@@ -117,11 +120,5 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
             return rotation;
         }
     }
-
-
-
-
-    // -----------------------------------------------------------------------------------------------------------------
-
 
 }
