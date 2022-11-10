@@ -52,7 +52,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     private UserDetailsFinder userDetailsFinder;
 
     @Nullable
-    private RequestDetailsProvider requestDetailsProvider;
+    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
 
     @Nullable
     private RememberMeServices rememberMeServices;
@@ -92,8 +92,8 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
             }
 
             final BasicToken basicToken = (BasicToken) token;
-            String username = basicToken.getUsername();
-            String password = basicToken.getPassword();
+            final String username = basicToken.getUsername();
+            final String password = basicToken.getPassword();
 
             final UserDetails user = userDetailsFinder.find(username, password);
             if (user == null) {

@@ -29,7 +29,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import spring.turbo.bean.injection.IsTraceOrDebugMode;
 import spring.turbo.core.SpringContext;
+import spring.turbo.module.security.customizer.SpringSecurityDebugModeCustomizer;
 import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
 import spring.turbo.module.security.exception.SecurityExceptionHandler;
@@ -139,6 +141,11 @@ class SpringBootAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnMissingBean
     SecurityExceptionHandler securityExceptionHandler() {
         return new SecurityExceptionHandlerImpl();
+    }
+
+    @Bean
+    SpringSecurityDebugModeCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
+        return new SpringSecurityDebugModeCustomizer(debugMode);
     }
 
 }

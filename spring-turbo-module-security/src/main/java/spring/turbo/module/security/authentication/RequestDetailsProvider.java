@@ -11,6 +11,7 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.context.request.ServletWebRequest;
+import spring.turbo.module.security.authentication.details.AuthenticationDetailsImpl;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +22,11 @@ import javax.servlet.http.HttpServletRequest;
  * 一般说来，RequestDetails是对一个HTTP请求的简要描述，类型一般为{@link String}。
  *
  * @author 应卓
+ * @see #DEFAULT
  * @see #DESCRIPTION
  * @see #SNAPSHOT
  * @see #SPRING_SECURITY_DEFAULT
+ * @see #AUTHENTICATION_DETAILS_OBJ
  * @since 1.0.4
  */
 @FunctionalInterface
@@ -32,7 +35,7 @@ public interface RequestDetailsProvider {
     /**
      * SpringSecurity默认实现
      */
-    public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request);
+    public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request).toString();
 
     /**
      * HTTP(s)快照
@@ -43,6 +46,11 @@ public interface RequestDetailsProvider {
      * HTTP信息简要描述
      */
     public static final RequestDetailsProvider DESCRIPTION = request -> new ServletWebRequest(request).getDescription(true);
+
+    /**
+     * 对象类型
+     */
+    public static final RequestDetailsProvider AUTHENTICATION_DETAILS_OBJ = AuthenticationDetailsImpl::new;
 
     /**
      * 默认
