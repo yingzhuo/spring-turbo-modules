@@ -23,8 +23,9 @@ import spring.turbo.module.security.authentication.NullUserDetailsFinder;
 import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
+import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.BasicToken;
-import spring.turbo.webmvc.token.NullTokenResolver;
+import spring.turbo.webmvc.token.BasicTokenResolver;
 import spring.turbo.webmvc.token.Token;
 import spring.turbo.webmvc.token.TokenResolver;
 
@@ -35,15 +36,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * HttpBasic认证过滤器
+ *
  * @author 应卓
+ * @see TokenAuthenticationFilter
  * @since 1.2.3
  */
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
 
-    @Nullable
-    private TokenResolver tokenResolver;
+    private TokenResolver tokenResolver = new BasicTokenResolver();
 
     @Nullable
     private UserDetailsFinder userDetailsFinder;
@@ -143,7 +146,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
         if (this.tokenResolver == null) {
-            this.tokenResolver = NullTokenResolver.getInstance();
+            this.tokenResolver = new BasicTokenResolver();
         }
 
         if (this.userDetailsFinder == null) {
@@ -160,10 +163,12 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     public void setTokenResolver(TokenResolver tokenResolver) {
+        Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 
     public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
+        Asserts.notNull(userDetailsFinder);
         this.userDetailsFinder = userDetailsFinder;
     }
 
