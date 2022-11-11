@@ -91,7 +91,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             auth.setAuthenticated(true);
 
             if (requestDetailsProvider != null) {
-                auth.setDetails(requestDetailsProvider.getDetails(request));
+                auth.setDetails(requestDetailsProvider.getDetails(request, token));
             }
 
             SecurityContextHolder.getContext().setAuthentication(auth);

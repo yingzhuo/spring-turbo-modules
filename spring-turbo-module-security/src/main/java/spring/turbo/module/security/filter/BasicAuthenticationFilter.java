@@ -86,12 +86,11 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 return;
             }
 
-            final Authentication auth
-                    = new Authentication(user, token);
+            final Authentication auth = new Authentication(user, token);
             auth.setAuthenticated(true);
 
             if (requestDetailsProvider != null) {
-                auth.setDetails(requestDetailsProvider.getDetails(request));
+                auth.setDetails(requestDetailsProvider.getDetails(request, token));
             }
 
             SecurityContextHolder.getContext().setAuthentication(auth);

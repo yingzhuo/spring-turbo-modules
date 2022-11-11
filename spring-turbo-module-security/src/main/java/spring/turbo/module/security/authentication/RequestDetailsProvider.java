@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.details.AuthenticationDetailsImpl;
 import spring.turbo.webmvc.HttpRequestSnapshot;
+import spring.turbo.webmvc.token.Token;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,22 +36,27 @@ public interface RequestDetailsProvider {
     /**
      * SpringSecurity默认实现
      */
-    public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = request -> new WebAuthenticationDetailsSource().buildDetails(request).toString();
+    public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = (request, token) -> new WebAuthenticationDetailsSource().buildDetails(request).toString();
 
     /**
      * HTTP(s)快照
      */
-    public static final RequestDetailsProvider SNAPSHOT = request -> HttpRequestSnapshot.of(request).toString();
+    public static final RequestDetailsProvider SNAPSHOT = (request, token) -> HttpRequestSnapshot.of(request).toString();
 
     /**
      * HTTP信息简要描述
      */
-    public static final RequestDetailsProvider DESCRIPTION = request -> new ServletWebRequest(request).getDescription(true);
+    public static final RequestDetailsProvider DESCRIPTION = (request, token) -> new ServletWebRequest(request).getDescription(true);
 
     /**
      * 对象类型
      */
     public static final RequestDetailsProvider AUTHENTICATION_DETAILS_OBJ = AuthenticationDetailsImpl::new;
+
+    /**
+     * 无动作实现
+     */
+    public static final RequestDetailsProvider NULL = (request, token) -> null;
 
     /**
      * 默认
@@ -61,9 +67,21 @@ public interface RequestDetailsProvider {
      * 创建Details
      *
      * @param request HTTP请求
+     * @param token   令牌
      * @return details或{@code null}
      */
     @Nullable
-    public Object getDetails(HttpServletRequest request);
+    public Object getDetails(HttpServletRequest request, @Nullable Token token);
+
+    /**
+     * 创建Details
+     *
+     * @param request HTTP请求
+     * @return details或{@code null}
+     */
+    @Nullable
+    public default Object getDetails(HttpServletRequest request) {
+        return getDetails(request, null);
+    }
 
 }

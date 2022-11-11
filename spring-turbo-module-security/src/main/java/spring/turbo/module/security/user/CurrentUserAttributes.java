@@ -29,7 +29,7 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Target(ElementType.PARAMETER)
 @AuthenticationPrincipal(expression = "#root.attributes")
 public @interface CurrentUserAttributes {
 

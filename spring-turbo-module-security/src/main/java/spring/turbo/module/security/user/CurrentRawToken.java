@@ -26,7 +26,7 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Target(ElementType.PARAMETER)
 @CurrentSecurityContext(expression = "authentication.token.asString()")
 public @interface CurrentRawToken {
 
