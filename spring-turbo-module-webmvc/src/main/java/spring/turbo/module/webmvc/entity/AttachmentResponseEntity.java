@@ -38,6 +38,9 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         return new Builder();
     }
 
+    /**
+     * 创建器
+     */
     public final static class Builder implements spring.turbo.bean.Builder<AttachmentResponseEntity> {
 
         private HttpStatus status = HttpStatus.OK;

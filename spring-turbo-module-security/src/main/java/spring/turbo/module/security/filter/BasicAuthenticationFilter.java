@@ -11,23 +11,18 @@ package spring.turbo.module.security.filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
-import org.springframework.security.authentication.AuthenticationEventPublisher;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.context.request.ServletWebRequest;
+import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.NullUserDetailsFinder;
 import spring.turbo.module.security.authentication.RequestAuthentication;
-import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.BasicToken;
 import spring.turbo.webmvc.token.BasicTokenResolver;
 import spring.turbo.webmvc.token.Token;
-import spring.turbo.webmvc.token.TokenResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -46,36 +41,26 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
 
-    private TokenResolver tokenResolver = new BasicTokenResolver();
-
     @Nullable
-    private UserDetailsFinder userDetailsFinder;
-
-    @Nullable
-    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
-
-    @Nullable
-    private RememberMeServices rememberMeServices;
-
-    @Nullable
-    private AuthenticationEventPublisher authenticationEventPublisher;
-
-    @Nullable
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private UserDetailsFinder userDetailsFinder = NullUserDetailsFinder.getInstance();
 
     /**
      * 构造方法
      */
     public BasicAuthenticationFilter() {
         super();
+        super.setTokenResolver(new BasicTokenResolver());
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!super.isAuthenticationIsRequired()) {
+        if (!super.isAuthenticationRequired()) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        Asserts.notNull(this.tokenResolver);
+        Asserts.notNull(this.userDetailsFinder);
 
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request, response)).orElse(null);
@@ -101,8 +86,8 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 return;
             }
 
-            final spring.turbo.module.security.authentication.Authentication auth
-                    = new spring.turbo.module.security.authentication.Authentication(user, token);
+            final Authentication auth
+                    = new Authentication(user, token);
             auth.setAuthenticated(true);
 
             if (requestDetailsProvider != null) {
@@ -148,50 +133,9 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
         filterChain.doFilter(request, response);
     }
 
-    @Override
-    public void afterPropertiesSet() throws ServletException {
-        super.afterPropertiesSet();
-        if (this.tokenResolver == null) {
-            this.tokenResolver = new BasicTokenResolver();
-        }
-
-        if (this.userDetailsFinder == null) {
-            this.userDetailsFinder = NullUserDetailsFinder.getInstance();
-        }
-    }
-
-    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
-        // nop
-    }
-
-    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        // nop
-    }
-
-    public void setTokenResolver(TokenResolver tokenResolver) {
-        Asserts.notNull(tokenResolver);
-        this.tokenResolver = tokenResolver;
-    }
-
     public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
         Asserts.notNull(userDetailsFinder);
         this.userDetailsFinder = userDetailsFinder;
-    }
-
-    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
-        this.requestDetailsProvider = requestDetailsProvider;
-    }
-
-    public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
-        this.rememberMeServices = rememberMeServices;
-    }
-
-    public void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
-        this.authenticationEventPublisher = authenticationEventPublisher;
-    }
-
-    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 }

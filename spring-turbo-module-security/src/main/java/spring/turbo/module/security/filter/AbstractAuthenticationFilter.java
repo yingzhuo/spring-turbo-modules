@@ -8,10 +8,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.turbo.module.security.authentication.RequestDetailsProvider;
+import spring.turbo.util.Asserts;
+import spring.turbo.webmvc.token.TokenResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 应卓
@@ -19,12 +30,56 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
 
-    protected final boolean isAuthenticationIsRequired() {
+    @Nullable
+    protected TokenResolver tokenResolver;
+
+    @Nullable
+    protected RememberMeServices rememberMeServices;
+
+    @Nullable
+    protected RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
+
+    @Nullable
+    protected AuthenticationEventPublisher authenticationEventPublisher;
+
+    @Nullable
+    protected AuthenticationEntryPoint authenticationEntryPoint;
+
+    protected final boolean isAuthenticationRequired() {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
         if (existingAuth == null || !existingAuth.isAuthenticated()) {
             return true;
         }
         return (existingAuth instanceof AnonymousAuthenticationToken);
+    }
+
+    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
+        // nop
+    }
+
+    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+        // nop
+    }
+
+    public void setTokenResolver(TokenResolver tokenResolver) {
+        Asserts.notNull(tokenResolver);
+        this.tokenResolver = tokenResolver;
+    }
+
+    public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
+        this.rememberMeServices = rememberMeServices;
+    }
+
+    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
+        this.requestDetailsProvider = requestDetailsProvider;
+    }
+
+    public void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
+        this.authenticationEventPublisher = authenticationEventPublisher;
+    }
+
+    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 }
