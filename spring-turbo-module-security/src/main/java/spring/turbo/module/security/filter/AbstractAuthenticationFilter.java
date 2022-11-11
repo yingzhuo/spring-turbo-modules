@@ -45,7 +45,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Nullable
     protected AuthenticationEntryPoint authenticationEntryPoint;
 
-    protected final boolean isAuthenticationRequired() {
+    protected final boolean authenticationIsRequired() {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
         if (existingAuth == null || !existingAuth.isAuthenticated()) {
             return true;
@@ -61,24 +61,24 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         // nop
     }
 
-    public void setTokenResolver(TokenResolver tokenResolver) {
+    public final void setTokenResolver(TokenResolver tokenResolver) {
         Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 
-    public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
+    public final void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
         this.rememberMeServices = rememberMeServices;
     }
 
-    public void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
+    public final void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
         this.requestDetailsProvider = requestDetailsProvider;
     }
 
-    public void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
+    public final void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
         this.authenticationEventPublisher = authenticationEventPublisher;
     }
 
-    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
+    public final void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 

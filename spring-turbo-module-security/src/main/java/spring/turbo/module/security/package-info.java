@@ -59,6 +59,11 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
         final List<FilterConfiguration> configurations = ctx.getBeanList(FilterConfiguration.class);
 
         for (FilterConfiguration configuration : configurations) {
+
+            if (!configuration.isEnabled()) {
+                continue;
+            }
+
             final Filter filter = configuration.create();
             if (filter == null) {
                 continue;
@@ -68,7 +73,7 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
                 try {
                     ((InitializingBean) filter).afterPropertiesSet();
                 } catch (Exception e) {
-                    throw new IllegalStateException(e.getMessage(), e);
+                    throw new IllegalStateException(e);
                 }
             }
 
@@ -82,7 +87,7 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
                 case AFTER:
                     http.addFilterAfter(filter, position);
                     break;
-                case AT:
+                case REPLACE:
                     http.addFilterAt(filter, position);
                     break;
                 default:

@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import spring.turbo.lang.Beta;
 import spring.turbo.module.security.FilterConfiguration;
 
 /**
@@ -15,6 +16,7 @@ import spring.turbo.module.security.FilterConfiguration;
  * @author 朱嘉杰
  * @since 1.0.0
  */
+@Beta
 @Deprecated
 public interface CorsFilterFactory extends FilterConfiguration<CorsFilter> {
 

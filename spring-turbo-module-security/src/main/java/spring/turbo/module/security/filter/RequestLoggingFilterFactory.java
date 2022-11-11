@@ -22,6 +22,11 @@ import javax.servlet.Filter;
 @FunctionalInterface
 public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
 
+    @Override
+    public default Filter get() {
+        return new HumanReadableRequestLoggingFilter();
+    }
+
     @NonNull
     @Override
     public default Position position() {

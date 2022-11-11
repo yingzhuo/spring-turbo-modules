@@ -54,7 +54,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!super.isAuthenticationRequired()) {
+        if (!super.authenticationIsRequired()) {
             filterChain.doFilter(request, response);
             return;
         }

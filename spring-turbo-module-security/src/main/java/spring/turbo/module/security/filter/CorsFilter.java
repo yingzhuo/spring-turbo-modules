@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.turbo.lang.Beta;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -25,6 +26,7 @@ import java.io.IOException;
  * @see spring.turbo.module.security.FilterConfiguration
  * @since 1.0.0
  */
+@Beta
 @Deprecated
 public class CorsFilter extends OncePerRequestFilter {
 

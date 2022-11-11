@@ -25,7 +25,7 @@ public interface BasicAuthenticationFilterFactory extends FilterConfiguration<Ba
 
     @Override
     public default Position position() {
-        return Position.AT;
+        return Position.REPLACE;
     }
 
 }

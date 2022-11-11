@@ -29,6 +29,10 @@ import javax.servlet.Filter;
 @FunctionalInterface
 public interface FilterConfiguration<T extends Filter> extends Factory<T> {
 
+    public default boolean isEnabled() {
+        return true;
+    }
+
     @Nullable
     @Override
     public T create();
@@ -42,7 +46,7 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     }
 
     public enum Position {
-        BEFORE, AFTER, AT
+        BEFORE, AFTER, REPLACE
     }
 
 }

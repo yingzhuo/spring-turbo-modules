@@ -53,7 +53,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!isAuthenticationRequired()) {
+        if (!authenticationIsRequired()) {
             filterChain.doFilter(request, response);
             return;
         }
