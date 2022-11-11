@@ -10,6 +10,7 @@ package spring.turbo.module.jackson.mixin.predefined;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import spring.turbo.module.jackson.serializer.predefined.Converters;
 
@@ -38,6 +39,7 @@ public final class JsonMixIns {
         public abstract String getErrorMessage();
 
         @JsonProperty("data")
+        @JsonPropertyOrder(alphabetic = true)
         public abstract Object getPayload();
     }
 
@@ -48,6 +50,7 @@ public final class JsonMixIns {
         public abstract String getErrorMessage();
 
         @JsonProperty("data")
+        @JsonPropertyOrder(alphabetic = true)
         public abstract Object getPayload();
     }
 
