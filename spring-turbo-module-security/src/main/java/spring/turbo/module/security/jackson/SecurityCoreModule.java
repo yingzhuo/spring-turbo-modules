@@ -17,17 +17,17 @@ import spring.turbo.webmvc.token.StringToken;
  * @author 应卓
  * @since 1.2.3
  */
-public class SpringTurboModulesSecurityCoreModule extends SimpleModule {
+public class SecurityCoreModule extends SimpleModule {
 
-    public SpringTurboModulesSecurityCoreModule() {
-        super(SpringTurboModulesSecurityCoreModule.class.getName(), PackageVersion.VERSION);
+    public SecurityCoreModule() {
+        super(SecurityCoreModule.class.getName(), PackageVersion.VERSION);
     }
 
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
-        context.setMixInAnnotations(BasicToken.class, BasicTokenMixin.class);
         context.setMixInAnnotations(StringToken.class, StringTokenMixin.class);
+        context.setMixInAnnotations(BasicToken.class, BasicTokenMixin.class);
     }
 
 }

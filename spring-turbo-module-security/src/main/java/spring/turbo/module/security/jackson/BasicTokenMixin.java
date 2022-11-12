@@ -25,6 +25,7 @@ import spring.turbo.webmvc.token.BasicToken;
 @JsonPropertyOrder({"username", "password", "stringValue"})
 public abstract class BasicTokenMixin {
 
+    // 反序列化
     @JsonCreator
     public static BasicToken toBasicToken(
             @JsonProperty("stringValue") String stringValue,

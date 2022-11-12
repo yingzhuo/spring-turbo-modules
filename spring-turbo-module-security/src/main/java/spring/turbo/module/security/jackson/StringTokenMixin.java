@@ -19,12 +19,13 @@ import spring.turbo.webmvc.token.StringToken;
  */
 public abstract class StringTokenMixin {
 
+    // 反序列化
     @JsonCreator
     public static StringToken toToken(String tokenValue) {
         return StringToken.of(tokenValue);
     }
 
-    @JsonValue(true)
+    @JsonValue
     public abstract String asString();
 
 }
