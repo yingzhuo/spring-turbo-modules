@@ -8,29 +8,24 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.FilterConfiguration;
 
 import javax.servlet.Filter;
 
 /**
  * @author 应卓
- * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilter
- * @since 1.0.0
+ * @since 1.2.3
  */
-@FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
+public interface BasicAuthenticationFilterFactory extends FilterConfiguration<BasicAuthenticationFilter> {
 
     @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
+    public default Class<? extends Filter> positionInChain() {
+        return org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     }
 
-    @NonNull
     @Override
     public default Position position() {
-        return Position.BEFORE;
+        return Position.REPLACE;
     }
 
 }

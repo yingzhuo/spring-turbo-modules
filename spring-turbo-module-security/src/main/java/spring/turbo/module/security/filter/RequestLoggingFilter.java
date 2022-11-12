@@ -12,11 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
-import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
-import spring.turbo.webmvc.SkippableFilter;
-import spring.turbo.webmvc.function.RequestPredicateSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,12 +26,9 @@ import javax.servlet.http.HttpServletRequest;
  * @see HumanReadableRequestLoggingFilter
  * @since 1.0.0
  */
-public class RequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
-
-    private static final Logger DEFAULT_LOGGER = new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
+public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     private final Logger log;
-    private final RequestPredicateSet skipPredicates = new RequestPredicateSet();
 
     /**
      * 构造方法
@@ -49,7 +43,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter implement
      * @param log 日志记录器
      */
     public RequestLoggingFilter(@Nullable Logger log) {
-        this.log = log != null ? log : DEFAULT_LOGGER;
+        this.log = log != null ? log : new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
         super.setIncludeHeaders(true);
         super.setIncludeQueryString(true);
         super.setIncludeClientInfo(true);
@@ -64,24 +58,6 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter implement
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
         log.log(message);
-    }
-
-    @Override
-    protected boolean shouldLog(HttpServletRequest request) {
-        if (!super.shouldLog(request)) {
-            return false;
-        }
-
-        if (this.skipPredicates.isEmpty()) {
-            return true;
-        } else {
-            return this.skipPredicates.noneMatches(request);
-        }
-    }
-
-    @Override
-    public final void addSkipPredicates(@Nullable RequestPredicateSet predicates) {
-        CollectionUtils.nullSafeAddAll(skipPredicates, predicates);
     }
 
 }

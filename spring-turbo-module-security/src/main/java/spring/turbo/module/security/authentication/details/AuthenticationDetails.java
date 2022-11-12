@@ -6,11 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.jackson.annotation;
+package spring.turbo.module.security.authentication.details;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import org.springframework.lang.Nullable;
+import spring.turbo.webmvc.token.Token;
 
-// TODO: 没有想好要扩展什么
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author 应卓
+ * @since 1.2.3
+ */
+public interface AuthenticationDetails extends Serializable {
+
+    public Date getAuthenticatedTime();
+
+    public String getPath();
+
+    @Nullable
+    public Token getAuthenticatedToken();
+
+    @Nullable
+    public String getClientId();
+
+}

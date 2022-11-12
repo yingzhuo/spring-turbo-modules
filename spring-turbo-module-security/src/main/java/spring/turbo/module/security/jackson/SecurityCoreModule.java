@@ -6,31 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.jackson;
 
-import org.springframework.lang.NonNull;
-import spring.turbo.module.security.FilterConfiguration;
-
-import javax.servlet.Filter;
+import com.fasterxml.jackson.core.json.PackageVersion;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import spring.turbo.webmvc.token.BasicToken;
+import spring.turbo.webmvc.token.StringToken;
 
 /**
  * @author 应卓
- * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilter
- * @since 1.0.0
+ * @since 1.2.3
  */
-@FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
+public class SecurityCoreModule extends SimpleModule {
 
-    @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
+    public SecurityCoreModule() {
+        super(SecurityCoreModule.class.getName(), PackageVersion.VERSION);
     }
 
-    @NonNull
     @Override
-    public default Position position() {
-        return Position.BEFORE;
+    public void setupModule(SetupContext context) {
+        super.setupModule(context);
+        context.setMixInAnnotations(StringToken.class, StringTokenMixin.class);
+        context.setMixInAnnotations(BasicToken.class, BasicTokenMixin.class);
     }
 
 }

@@ -6,31 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.security.jackson;
 
-import org.springframework.lang.NonNull;
-import spring.turbo.module.security.FilterConfiguration;
-
-import javax.servlet.Filter;
-
-/**
- * @author 应卓
- * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilter
- * @since 1.0.0
- */
-@FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
-
-    @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
-    }
-
-    @NonNull
-    @Override
-    public default Position position() {
-        return Position.BEFORE;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

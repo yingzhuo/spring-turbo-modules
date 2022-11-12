@@ -21,16 +21,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author 应卓
  * @since 1.2.3
  */
-public final class NopHttpFirewall implements HttpFirewall {
+public final class NullHttpFirewall implements HttpFirewall {
 
     /**
      * 私有构造方法
      */
-    private NopHttpFirewall() {
+    private NullHttpFirewall() {
         super();
     }
 
-    public static NopHttpFirewall getInstance() {
+    public static NullHttpFirewall getInstance() {
         return SyncAvoid.INSTANCE;
     }
 
@@ -50,7 +50,7 @@ public final class NopHttpFirewall implements HttpFirewall {
     }
 
     private static class SyncAvoid {
-        private static final NopHttpFirewall INSTANCE = new NopHttpFirewall();
+        private static final NullHttpFirewall INSTANCE = new NullHttpFirewall();
     }
 
 }

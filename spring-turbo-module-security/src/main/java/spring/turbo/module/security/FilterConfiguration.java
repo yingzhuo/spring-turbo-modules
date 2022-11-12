@@ -11,7 +11,6 @@ package spring.turbo.module.security;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.bean.Factory;
-import spring.turbo.webmvc.function.RequestPredicateSet;
 
 import javax.servlet.Filter;
 
@@ -22,7 +21,6 @@ import javax.servlet.Filter;
  *
  * @param <T> FilterType
  * @author 应卓
- * @see spring.turbo.webmvc.AbstractServletFilter
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
  * @see spring.turbo.module.security.filter.RequestLoggingFilter
  * @see org.springframework.security.web.SecurityFilterChain
@@ -31,14 +29,13 @@ import javax.servlet.Filter;
 @FunctionalInterface
 public interface FilterConfiguration<T extends Filter> extends Factory<T> {
 
+    public default boolean isEnabled() {
+        return true;
+    }
+
     @Nullable
     @Override
     public T create();
-
-    @Nullable
-    public default RequestPredicateSet skipPredicates() {
-        return null;
-    }
 
     public default Class<? extends Filter> positionInChain() {
         return BasicAuthenticationFilter.class;
@@ -49,7 +46,7 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
     }
 
     public enum Position {
-        BEFORE, AFTER, AT
+        BEFORE, AFTER, REPLACE
     }
 
 }

@@ -11,8 +11,9 @@ package spring.turbo.module.security.hutool.encoder;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
-import spring.turbo.module.security.encoder.EncodingIds;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
+
+import static spring.turbo.module.security.encoder.EncodingIds.SHA_512;
 
 /**
  * @author 应卓
@@ -23,7 +24,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 public final class SHA512PasswordEncoder extends AbstractNamedPasswordEncoder {
 
     public SHA512PasswordEncoder() {
-        super(EncodingIds.SHA_512);
+        super(SHA_512);
     }
 
     @Override

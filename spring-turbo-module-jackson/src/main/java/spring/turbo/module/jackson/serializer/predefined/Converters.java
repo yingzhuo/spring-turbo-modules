@@ -14,14 +14,14 @@ import spring.turbo.module.jackson.serializer.*;
  * @author 应卓
  * @since 1.0.12
  */
-public class Converters {
+public final class Converters {
 
     // -----------------------------------------------------------------------------------------------------------------
     private Converters() {
         super();
     }
 
-    public static class String {
+    public final static class String {
         // @formatter:off
         public static class ToShort extends StringToShortSerializer {
         }

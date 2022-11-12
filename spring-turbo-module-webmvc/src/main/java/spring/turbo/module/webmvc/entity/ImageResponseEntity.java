@@ -35,6 +35,9 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
         return new Builder();
     }
 
+    /**
+     * 创建器
+     */
     public final static class Builder implements spring.turbo.bean.Builder<ImageResponseEntity> {
 
         private HttpStatus status = HttpStatus.OK;

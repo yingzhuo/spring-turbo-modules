@@ -11,8 +11,9 @@ package spring.turbo.module.security.hutool.encoder;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
 import spring.turbo.module.security.encoder.AbstractNamedPasswordEncoder;
-import spring.turbo.module.security.encoder.EncodingIds;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
+
+import static spring.turbo.module.security.encoder.EncodingIds.SM3;
 
 /**
  * 国密算法 (SM3)
@@ -23,8 +24,6 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @since 1.0.1
  */
 public final class SM3PasswordEncoder extends AbstractNamedPasswordEncoder {
-
-    private static final String SM3 = EncodingIds.SM3;
 
     public SM3PasswordEncoder() {
         super(SM3);

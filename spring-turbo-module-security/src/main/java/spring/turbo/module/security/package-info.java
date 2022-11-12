@@ -29,13 +29,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import spring.turbo.bean.injection.IsTraceOrDebugMode;
 import spring.turbo.core.SpringContext;
+import spring.turbo.module.security.customizer.SpringSecurityDebugModeCustomizer;
 import spring.turbo.module.security.event.MaliciousRequestFailureEvent;
 import spring.turbo.module.security.exception.MaliciousRequestException;
 import spring.turbo.module.security.exception.SecurityExceptionHandler;
 import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
-import spring.turbo.webmvc.AbstractServletFilter;
-import spring.turbo.webmvc.SkippableFilter;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -59,20 +59,21 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
         final List<FilterConfiguration> configurations = ctx.getBeanList(FilterConfiguration.class);
 
         for (FilterConfiguration configuration : configurations) {
-            final Filter filter = configuration.create();
-            if (filter == null) {
+
+            if (!configuration.isEnabled()) {
                 continue;
             }
 
-            if (filter instanceof SkippableFilter) {
-                ((AbstractServletFilter) filter).addSkipPredicates(configuration.skipPredicates());
+            final Filter filter = configuration.create();
+            if (filter == null) {
+                continue;
             }
 
             if (filter instanceof InitializingBean) {
                 try {
                     ((InitializingBean) filter).afterPropertiesSet();
                 } catch (Exception e) {
-                    throw new IllegalStateException(e.getMessage(), e);
+                    throw new IllegalStateException(e);
                 }
             }
 
@@ -86,7 +87,7 @@ class HttpSecurityDSL extends AbstractHttpConfigurer<HttpSecurityDSL, HttpSecuri
                 case AFTER:
                     http.addFilterAfter(filter, position);
                     break;
-                case AT:
+                case REPLACE:
                     http.addFilterAt(filter, position);
                     break;
                 default:
@@ -145,6 +146,11 @@ class SpringBootAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnMissingBean
     SecurityExceptionHandler securityExceptionHandler() {
         return new SecurityExceptionHandlerImpl();
+    }
+
+    @Bean
+    SpringSecurityDebugModeCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
+        return new SpringSecurityDebugModeCustomizer(debugMode);
     }
 
 }

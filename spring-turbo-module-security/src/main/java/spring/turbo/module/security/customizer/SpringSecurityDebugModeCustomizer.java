@@ -6,31 +6,32 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.customizer;
 
-import org.springframework.lang.NonNull;
-import spring.turbo.module.security.FilterConfiguration;
-
-import javax.servlet.Filter;
+import org.springframework.core.Ordered;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 
 /**
  * @author 应卓
- * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilter
- * @since 1.0.0
+ * @since 1.2.3
  */
-@FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
+public class SpringSecurityDebugModeCustomizer implements WebSecurityCustomizer, Ordered {
 
-    @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
+    private final boolean debugMode;
+
+    public SpringSecurityDebugModeCustomizer(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
-    @NonNull
     @Override
-    public default Position position() {
-        return Position.BEFORE;
+    public void customize(WebSecurity web) {
+        web.debug(debugMode);
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
 }

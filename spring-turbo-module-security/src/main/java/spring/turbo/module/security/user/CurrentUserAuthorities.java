@@ -28,7 +28,7 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Target(ElementType.PARAMETER)
 @AuthenticationPrincipal(expression = "#root.authorities")
 public @interface CurrentUserAuthorities {
 

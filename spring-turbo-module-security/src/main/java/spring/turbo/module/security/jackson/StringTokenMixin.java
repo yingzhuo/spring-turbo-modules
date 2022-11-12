@@ -6,31 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.jackson;
 
-import org.springframework.lang.NonNull;
-import spring.turbo.module.security.FilterConfiguration;
-
-import javax.servlet.Filter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import spring.turbo.webmvc.token.StringToken;
 
 /**
  * @author 应卓
- * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilter
- * @since 1.0.0
+ * @see StringToken
+ * @since 1.2.3
  */
-@FunctionalInterface
-public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
+public abstract class StringTokenMixin {
 
-    @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
+    // 反序列化
+    @JsonCreator
+    public static StringToken toToken(String tokenValue) {
+        return StringToken.of(tokenValue);
     }
 
-    @NonNull
-    @Override
-    public default Position position() {
-        return Position.BEFORE;
-    }
+    @JsonValue
+    public abstract String asString();
 
 }

@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.integration;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
@@ -19,6 +18,8 @@ import spring.turbo.util.collection.ListFactories;
 
 import java.util.Collection;
 
+import static spring.turbo.module.security.encoder.EncodingIds.*;
+
 /**
  * @author 应卓
  * @see spring.turbo.module.security.encoder.PasswordEncoderFactories
@@ -26,21 +27,20 @@ import java.util.Collection;
  */
 public class NamedPasswordEncoderProviderImpl implements NamedPasswordEncoderProvider {
 
-    @NonNull
     @Override
     @SuppressWarnings("deprecation")
     public Collection<NamedPasswordEncoder> getPasswordEncoders() {
         return ListFactories.newUnmodifiableList(
-                NamedPasswordEncoder.of("bcrypt", new BCryptPasswordEncoder()),
-                NamedPasswordEncoder.of("ldap", new LdapShaPasswordEncoder()),
-                NamedPasswordEncoder.of("MD4", new Md4PasswordEncoder()),
-                NamedPasswordEncoder.of("MD5", new MessageDigestPasswordEncoder("MD5")),
-                NamedPasswordEncoder.of("SHA-1", new MessageDigestPasswordEncoder("SHA-1")),
-                NamedPasswordEncoder.of("SHA-256", new MessageDigestPasswordEncoder("SHA-256")),
-                NamedPasswordEncoder.of("pbkdf2", new Pbkdf2PasswordEncoder()),
-                NamedPasswordEncoder.of("scrypt", new SCryptPasswordEncoder()),
-                NamedPasswordEncoder.of("argon2", new Argon2PasswordEncoder()),
-                NamedPasswordEncoder.of("noop", NoOpPasswordEncoder.getInstance())
+                NamedPasswordEncoder.of(bcrypt, new BCryptPasswordEncoder()),
+                NamedPasswordEncoder.of(ldap, new LdapShaPasswordEncoder()),
+                NamedPasswordEncoder.of(MD4, new Md4PasswordEncoder()),
+                NamedPasswordEncoder.of(MD5, new MessageDigestPasswordEncoder("MD5")),
+                NamedPasswordEncoder.of(SHA_1, new MessageDigestPasswordEncoder("SHA-1")),
+                NamedPasswordEncoder.of(SHA_256, new MessageDigestPasswordEncoder("SHA-256")),
+                NamedPasswordEncoder.of(pbkdf2, new Pbkdf2PasswordEncoder()),
+                NamedPasswordEncoder.of(scrypt, new SCryptPasswordEncoder()),
+                NamedPasswordEncoder.of(argon2, new Argon2PasswordEncoder()),
+                NamedPasswordEncoder.of(noop, NoOpPasswordEncoder.getInstance())
         );
     }
 
