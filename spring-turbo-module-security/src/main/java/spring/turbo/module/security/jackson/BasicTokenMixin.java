@@ -22,7 +22,7 @@ import spring.turbo.webmvc.token.BasicToken;
         isGetterVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"username", "password", "stringValue"})
+@JsonPropertyOrder({"stringValue", "username", "password"})
 public abstract class BasicTokenMixin {
 
     // 反序列化
@@ -35,13 +35,15 @@ public abstract class BasicTokenMixin {
         return new BasicToken(stringValue, username, password);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @JsonProperty("stringValue")
+    public abstract String asString();
+
     @JsonGetter("username")
     public abstract String getUsername();
 
     @JsonGetter("password")
     public abstract String getPassword();
-
-    @JsonProperty("stringValue")
-    public abstract String asString();
 
 }
