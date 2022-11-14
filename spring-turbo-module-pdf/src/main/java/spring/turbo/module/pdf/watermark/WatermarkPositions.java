@@ -34,16 +34,16 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
 
     public static WatermarkPositions.Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public Iterator<Position> iterator() {
+        return list.listIterator();
     }    public static final WatermarkPositions DEFAULT = builder()
             .add(300, 250, 30)
             .add(300, 450, 30)
             .add(300, 650, 30)
             .build();
-
-    @Override
-    public Iterator<Position> iterator() {
-        return list.listIterator();
-    }
 
     public int size() {
         return this.list.size();
