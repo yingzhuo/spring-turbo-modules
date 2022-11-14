@@ -61,7 +61,7 @@ public interface RequestDetailsProvider {
     /**
      * 默认
      */
-    public static final RequestDetailsProvider DEFAULT = SPRING_SECURITY_DEFAULT;
+    public static final RequestDetailsProvider DEFAULT = AUTHENTICATION_DETAILS_OBJ;
 
     /**
      * 创建Details

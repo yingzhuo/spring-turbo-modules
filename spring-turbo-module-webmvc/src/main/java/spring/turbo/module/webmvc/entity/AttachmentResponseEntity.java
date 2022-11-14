@@ -15,6 +15,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
 import spring.turbo.io.CloseUtils;
+import spring.turbo.io.LocalFileDescriptor;
 import spring.turbo.util.Asserts;
 
 import java.io.File;
@@ -89,6 +90,10 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
 
         public Builder content(Path path) {
             return content(new FileSystemResource(path));
+        }
+
+        public Builder content(LocalFileDescriptor localFileDescriptor) {
+            return content(localFileDescriptor.asResource());
         }
 
         public Builder attachmentName(String name) {

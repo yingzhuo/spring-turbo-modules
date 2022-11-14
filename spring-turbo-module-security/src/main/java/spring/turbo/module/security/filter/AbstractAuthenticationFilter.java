@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 应卓
+ * @see BasicAuthenticationFilter
+ * @see TokenAuthenticationFilter
  * @since 1.2.3
  */
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
