@@ -16,6 +16,7 @@ import java.util.Date;
 
 /**
  * @author 应卓
+ * @see spring.turbo.module.security.authentication.RequestDetailsProvider
  * @since 1.2.3
  */
 public interface AuthenticationDetails extends Serializable {

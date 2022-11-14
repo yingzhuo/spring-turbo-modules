@@ -24,6 +24,7 @@ import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.HttpFirewall;
@@ -149,6 +150,7 @@ class SpringBootAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    @ConditionalOnMissingBean(WebSecurityCustomizer.class)
     SpringSecurityDebugModeCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
         return new SpringSecurityDebugModeCustomizer(debugMode);
     }
