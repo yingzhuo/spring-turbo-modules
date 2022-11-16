@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.webmvc.SpringBootAutoConfiguration
+spring.turbo.module.webmvc.autoconfiguration.WebMvcAutoConfiguration

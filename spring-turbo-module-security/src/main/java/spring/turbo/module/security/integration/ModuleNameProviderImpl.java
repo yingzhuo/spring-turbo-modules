@@ -9,8 +9,7 @@
 package spring.turbo.module.security.integration;
 
 import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY;
+import spring.turbo.integration.Modules;
 
 /**
  * @author 应卓
@@ -20,7 +19,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_SECURITY.getName();
+        return Modules.SPRING_TURBO_SECURITY.getName();
     }
 
 }

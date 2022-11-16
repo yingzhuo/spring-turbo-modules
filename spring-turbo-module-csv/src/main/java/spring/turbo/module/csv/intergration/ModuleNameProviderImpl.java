@@ -9,8 +9,7 @@
 package spring.turbo.module.csv.intergration;
 
 import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_CSV;
+import spring.turbo.integration.Modules;
 
 /**
  * @author 应卓
@@ -20,7 +19,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_CSV.getName();
+        return Modules.SPRING_TURBO_CSV.getName();
     }
 
 }
