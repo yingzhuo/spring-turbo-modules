@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.rabbitmq.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
@@ -16,18 +16,18 @@ import spring.turbo.util.Asserts;
 import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
- * 消息生成工具
+ * RabbitMQ  消息生成工具
  *
  * @author 应卓
- * @see MessageSender
+ * @see RabbitmqMessageSender
  * @since 1.0.15
  */
-public final class MessageFactories {
+public final class RabbitmqMessageFactories {
 
     /**
      * 私有构造方法
      */
-    private MessageFactories() {
+    private RabbitmqMessageFactories() {
         super();
     }
 

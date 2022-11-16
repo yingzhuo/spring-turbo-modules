@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.kafka.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import spring.turbo.core.SpringUtils;
@@ -16,12 +16,12 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @since 1.0.15
  */
-public final class RecordSender {
+public final class KafkaRecordSender {
 
     /**
      * 私有构造方法
      */
-    private RecordSender() {
+    private KafkaRecordSender() {
         super();
     }
 
@@ -44,6 +44,7 @@ public final class RecordSender {
         template.send(topic, partition, key, record);
     }
 
+    @SuppressWarnings("unchecked")
     private static KafkaTemplate<String, String> getTemplate() {
         return SpringUtils.getRequiredBean(KafkaTemplate.class);
     }

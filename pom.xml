@@ -15,12 +15,10 @@
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-javassist</module>
-        <module>spring-turbo-module-kafka</module>
         <module>spring-turbo-module-pdf</module>
         <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-queryselector-sql</module>
-        <module>spring-turbo-module-rabbitmq</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-zookeeper</module>

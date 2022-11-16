@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.rabbitmq.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -15,20 +15,20 @@ import spring.turbo.core.SpringUtils;
 import spring.turbo.util.StringPool;
 
 /**
- * 消息发送工具
+ * RabbitMQ 消息发送工具
  *
  * @author 应卓
- * @see MessageFactories
+ * @see RabbitmqMessageFactories
  * @since 1.0.15
  */
-public final class MessageSender {
+public final class RabbitmqMessageSender {
 
     public static final String DEFAULT_EXCHANGE_NAME = StringPool.EMPTY;
 
     /**
      * 私有构造方法
      */
-    private MessageSender() {
+    private RabbitmqMessageSender() {
         super();
     }
 
