@@ -8,7 +8,6 @@
     <artifactId>spring-turbo-modules</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <modules>
-        <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
         <module>spring-turbo-module-data-accessing</module>
         <module>spring-turbo-module-excel</module>
