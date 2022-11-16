@@ -39,11 +39,7 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
     @Override
     public Iterator<Position> iterator() {
         return list.listIterator();
-    }    public static final WatermarkPositions DEFAULT = builder()
-            .add(300, 250, 30)
-            .add(300, 450, 30)
-            .add(300, 650, 30)
-            .build();
+    }
 
     public int size() {
         return this.list.size();
@@ -51,7 +47,11 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
 
     public boolean isEmpty() {
         return this.list.isEmpty();
-    }
+    }    public static final WatermarkPositions DEFAULT = builder()
+            .add(300, 250, 30)
+            .add(300, 450, 30)
+            .add(300, 650, 30)
+            .build();
 
     /**
      * 创建器

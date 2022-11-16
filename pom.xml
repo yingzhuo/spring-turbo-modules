@@ -10,8 +10,7 @@
     <modules>
         <module>spring-turbo-module-captcha</module>
         <module>spring-turbo-module-csv</module>
-        <module>spring-turbo-module-data</module>
-        <module>spring-turbo-module-datasource</module>
+        <module>spring-turbo-module-data-accessing</module>
         <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-jackson</module>
