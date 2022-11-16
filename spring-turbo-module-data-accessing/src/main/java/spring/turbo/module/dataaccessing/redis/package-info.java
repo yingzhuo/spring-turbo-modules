@@ -6,21 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.redis.intergration;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.dataaccessing.redis;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_REDIS;
-
-/**
- * @author 应卓
- * @since 1.0.15
- */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
-
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_REDIS.getName();
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

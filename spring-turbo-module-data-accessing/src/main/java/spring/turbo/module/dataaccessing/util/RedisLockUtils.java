@@ -6,11 +6,12 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.redis.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import spring.turbo.core.SpringUtils;
+import spring.turbo.module.dataaccessing.redis.RedisLockKeyCustomizer;
 import spring.turbo.util.Asserts;
 
 import java.util.Collections;
@@ -20,19 +21,18 @@ import java.util.List;
  * 分布式锁工具
  *
  * @author 应卓
- * @see LockKeyCustomizer
  * @since 1.0.15
  */
 @SuppressWarnings("unchecked")
-public final class LockUtils {
+public final class RedisLockUtils {
 
     private static final List<String> EMPTY_KEYS = Collections.emptyList();
-    private static final LockKeyCustomizer LOCK_KEY_CUSTOMIZER = s -> s;
+    private static final RedisLockKeyCustomizer LOCK_KEY_CUSTOMIZER = RedisLockKeyCustomizer.DEFAULT;
 
     /**
      * 私有构造方法
      */
-    private LockUtils() {
+    private RedisLockUtils() {
         super();
     }
 
@@ -49,7 +49,7 @@ public final class LockUtils {
         Asserts.hasText(uuid);
         Asserts.isTrue(ttlInSeconds >= 1);
 
-        final LockKeyCustomizer keyFunc = SpringUtils.getBean(LockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
+        final RedisLockKeyCustomizer keyFunc = SpringUtils.getBean(RedisLockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
         key = keyFunc.customize(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);
@@ -69,7 +69,7 @@ public final class LockUtils {
         Asserts.hasText(key);
         Asserts.hasText(uuid);
 
-        final LockKeyCustomizer keyFunc = SpringUtils.getBean(LockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
+        final RedisLockKeyCustomizer keyFunc = SpringUtils.getBean(RedisLockKeyCustomizer.class).orElse(LOCK_KEY_CUSTOMIZER);
         key = keyFunc.customize(key);
 
         final StringRedisTemplate redisTemplate = SpringUtils.getRequiredBean(StringRedisTemplate.class);

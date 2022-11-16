@@ -21,7 +21,6 @@
         <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-queryselector-sql</module>
         <module>spring-turbo-module-rabbitmq</module>
-        <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-zookeeper</module>

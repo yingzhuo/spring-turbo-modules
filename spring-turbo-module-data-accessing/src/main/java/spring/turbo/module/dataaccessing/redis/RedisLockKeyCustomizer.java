@@ -6,9 +6,20 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.redis.lua;
+package spring.turbo.module.dataaccessing.redis;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import spring.turbo.bean.Customizer;
+
+/**
+ * @author 应卓
+ * @since 1.3.0
+ */
+@FunctionalInterface
+public interface RedisLockKeyCustomizer extends Customizer<String> {
+
+    public static final RedisLockKeyCustomizer DEFAULT = key -> key;
+
+    @Override
+    public String customize(String key);
+
+}
