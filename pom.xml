@@ -24,7 +24,6 @@
         <module>spring-turbo-module-rabbitmq</module>
         <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
-        <module>spring-turbo-module-security-hutool</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-zookeeper</module>
     </modules>

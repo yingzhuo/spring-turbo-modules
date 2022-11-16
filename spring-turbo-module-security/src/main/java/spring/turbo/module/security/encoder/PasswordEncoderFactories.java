@@ -8,15 +8,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.ServiceLoaderUtils;
+import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author 应卓
@@ -25,24 +30,24 @@ import java.util.*;
  */
 public final class PasswordEncoderFactories {
 
+    /**
+     * 私有构造方法
+     */
     private PasswordEncoderFactories() {
         super();
     }
 
-    @NonNull
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder() {
         return createDelegatingPasswordEncoder(EncodingIds.bcrypt, EncodingIds.noop);
     }
 
-    @NonNull
-    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(@NonNull String encodingId) {
+    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId) {
         return createDelegatingPasswordEncoder(encodingId, EncodingIds.noop);
     }
 
-    @NonNull
-    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(@NonNull String encodingId, @Nullable String defaultPasswordEncoderForMatches) {
+    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId, @Nullable String defaultPasswordEncoderForMatches) {
         Asserts.hasText(encodingId);
-        final Map<String, PasswordEncoder> encoders = loadFromModules();
+        final Map<String, PasswordEncoder> encoders = getEncoders();
         final DelegatingPasswordEncoder encoder = new DelegatingPasswordEncoder(encodingId, encoders);
 
         if (StringUtils.isNotBlank(defaultPasswordEncoderForMatches)) {
@@ -52,22 +57,57 @@ public final class PasswordEncoderFactories {
         return encoder;
     }
 
-    // since 1.0.2
-    private static Map<String, PasswordEncoder> loadFromModules() {
-        final Map<String, PasswordEncoder> map = new HashMap<>();
-        final List<NamedPasswordEncoderProvider> providers = ServiceLoaderUtils.loadQuietly(NamedPasswordEncoderProvider.class);
+    @SuppressWarnings("deprecation")
+    private static Map<String, PasswordEncoder> getEncoders() {
+        final Map<String, PasswordEncoder> encoders = new HashMap<>();
+        encoders.put(EncodingIds.bcrypt, new BCryptPasswordEncoder()); // default
+        encoders.put(EncodingIds.ldap, new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
+        encoders.put(EncodingIds.MD4, new org.springframework.security.crypto.password.Md4PasswordEncoder());
+        encoders.put(EncodingIds.MD5, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
+        encoders.put(EncodingIds.noop, org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance());
+        encoders.put(EncodingIds.pbkdf2, new Pbkdf2PasswordEncoder());
+        encoders.put(EncodingIds.scrypt, new SCryptPasswordEncoder());
+        encoders.put(EncodingIds.SHA_1, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
+        encoders.put(EncodingIds.SHA_256, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-256"));
+        encoders.put(EncodingIds.argon2, new Argon2PasswordEncoder());
 
-        for (NamedPasswordEncoderProvider provider : providers) {
-            final Collection<NamedPasswordEncoder> encoders = provider.getPasswordEncoders();
-            if (encoders != null) {
-                for (NamedPasswordEncoder encoder : encoders) {
-                    if (encoder != null) {
-                        map.put(encoder.getName(), encoder);
-                    }
-                }
-            }
+        PasswordEncoder encoder = null;
+
+        // MD2
+        encoder = getInstance("spring.turbo.module.security.encoder.hutool.MD2PasswordEncoder");
+        if (encoder != null) {
+            encoders.put(EncodingIds.MD2, encoder);
         }
-        return Collections.unmodifiableMap(map);
+
+        // SHA384
+        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA384PasswordEncoder");
+        if (encoder != null) {
+            encoders.put(EncodingIds.SHA_384, encoder);
+        }
+
+        // SHA512
+        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA512PasswordEncoder");
+        if (encoder != null) {
+            encoders.put(EncodingIds.SHA_512, encoder);
+        }
+
+        // SM3
+        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SM3PasswordEncoder");
+        if (encoder != null) {
+            encoders.put(EncodingIds.SM3, encoder);
+        }
+
+        return encoders;
+    }
+
+    @Nullable
+    private static PasswordEncoder getInstance(String classname) {
+        try {
+            final Optional<PasswordEncoder> oo = InstanceUtils.newInstance(classname);
+            return oo.orElse(null);
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 
 }
