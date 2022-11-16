@@ -1,1 +1,1 @@
-spring.turbo.module.dataaccessing.datasource.intergration.ModuleNameProviderImpl
+spring.turbo.module.dataaccessing.intergration.ModuleNameProviderImpl

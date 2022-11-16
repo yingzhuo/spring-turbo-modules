@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
@@ -23,18 +23,18 @@ import java.util.concurrent.TimeUnit;
  * @see #newInstance(String)
  * @since 1.0.15
  */
-public final class Lock implements Serializable {
+public final class ZkLock implements Serializable {
 
     private final InterProcessMutex mutex;
 
-    private Lock(CuratorFramework zkClient, String zkPath) {
+    private ZkLock(CuratorFramework zkClient, String zkPath) {
         this.mutex = new InterProcessMutex(zkClient, zkPath);
     }
 
-    public static Lock newInstance(String zkPath) {
+    public static ZkLock newInstance(String zkPath) {
         final CuratorFramework zkClient = SpringUtils.getRequiredBean(CuratorFramework.class);
         Asserts.notNull(zkClient);
-        return new Lock(zkClient, zkPath);
+        return new ZkLock(zkClient, zkPath);
     }
 
     public boolean lock(long ttl, TimeUnit ttlUnit) {

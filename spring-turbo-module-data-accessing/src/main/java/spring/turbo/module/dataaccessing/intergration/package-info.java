@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.zookeeper.util;
+package spring.turbo.module.dataaccessing.intergration;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

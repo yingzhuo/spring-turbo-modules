@@ -67,6 +67,25 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- zookeeper-client -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- zookeeper-client (lower level) -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>

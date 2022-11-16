@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.client;
+package spring.turbo.module.dataaccessing.zookeeper;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -16,21 +16,20 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.module.zookeeper.configuration.ZookeeperProperties;
 import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
  * @since 1.0.15
  */
-public class ZookeeperClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
+public class ZkClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
 
-    private final ZookeeperProperties zkProps;
+    private final ZkProperties zkProps;
 
     @Nullable
     private CuratorFramework zkCli;
 
-    public ZookeeperClientFactory(ZookeeperProperties zkProps) {
+    public ZkClientFactory(ZkProperties zkProps) {
         Asserts.notNull(zkProps);
         this.zkProps = zkProps;
     }

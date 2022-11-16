@@ -6,56 +6,74 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.client;
+package spring.turbo.module.dataaccessing.zookeeper;
 
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.shared.SharedCount;
+import org.apache.curator.framework.recipes.leader.LeaderLatch;
 import org.apache.curator.utils.CloseableUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
+import java.util.UUID;
+
 /**
  * @author 应卓
  * @since 1.0.15
  */
-public class ShardCountFactory implements FactoryBean<SharedCount>, InitializingBean, DisposableBean {
+public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, InitializingBean, DisposableBean {
 
-    private final SharedCount count;
+    private static final Logger log = LoggerFactory.getLogger(LeaderLatchFactory.class);
 
-    public ShardCountFactory(CuratorFramework zkCli, String path, int seedValue) {
+    private final ZkProperties zkProps;
+    private final CuratorFramework zkCli;
+
+    @Nullable
+    private LeaderLatch leaderLatch;
+
+    public LeaderLatchFactory(ZkProperties zkProps, CuratorFramework zkCli) {
+        Asserts.notNull(zkProps);
         Asserts.notNull(zkCli);
-        Asserts.notNull(path);
-        this.count = new SharedCount(zkCli, path, seedValue);
+        this.zkProps = zkProps;
+        this.zkCli = zkCli;
     }
 
     @Nullable
     @Override
-    public SharedCount getObject() {
-        return this.count;
+    public LeaderLatch getObject() {
+        return this.leaderLatch;
     }
 
     @Nullable
     @Override
     public Class<?> getObjectType() {
-        return SharedCount.class;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return true;
+        return LeaderLatch.class;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.count.start();
+        String thisNodeId = zkProps.getLeaderElection().getNodeId();
+        if (thisNodeId == null) {
+            thisNodeId = UUID.randomUUID().toString();
+            log.debug("node-id: {}", thisNodeId);
+        }
+
+        this.leaderLatch = new LeaderLatch(
+                this.zkCli,
+                this.zkProps.getLeaderElection().getZkPath(),
+                thisNodeId
+        );
+
+        this.leaderLatch.start();
     }
 
     @Override
     public void destroy() {
-        CloseableUtils.closeQuietly(this.count);
+        CloseableUtils.closeQuietly(this.leaderLatch);
     }
 
 }

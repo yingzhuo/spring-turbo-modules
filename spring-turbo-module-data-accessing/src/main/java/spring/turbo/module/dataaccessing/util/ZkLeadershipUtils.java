@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.util;
+package spring.turbo.module.dataaccessing.util;
 
 import org.apache.curator.framework.recipes.leader.LeaderLatch;
 import org.springframework.lang.Nullable;
@@ -16,12 +16,12 @@ import spring.turbo.core.SpringUtils;
  * @author 应卓
  * @since 1.0.15
  */
-public final class LeadershipUtils {
+public final class ZkLeadershipUtils {
 
     /**
      * 私有构造方法
      */
-    private LeadershipUtils() {
+    private ZkLeadershipUtils() {
         super();
     }
 

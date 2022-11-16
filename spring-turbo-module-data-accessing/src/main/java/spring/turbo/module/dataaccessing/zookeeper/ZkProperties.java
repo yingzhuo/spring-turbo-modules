@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.configuration;
+package spring.turbo.module.dataaccessing.zookeeper;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "springturbo.zookeeper")
-public class ZookeeperProperties implements InitializingBean, Serializable {
+public class ZkProperties implements InitializingBean, Serializable {
 
     private boolean enabled = true;
     private String connectString;

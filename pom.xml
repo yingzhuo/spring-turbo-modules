@@ -21,7 +21,6 @@
         <module>spring-turbo-module-queryselector-sql</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
-        <module>spring-turbo-module-zookeeper</module>
     </modules>
     <packaging>pom</packaging>
 

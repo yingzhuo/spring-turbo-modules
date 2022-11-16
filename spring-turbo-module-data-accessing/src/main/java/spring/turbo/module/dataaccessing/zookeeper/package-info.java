@@ -6,21 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.zookeeper.intergration;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.dataaccessing.zookeeper;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_ZOOKEEPER;
-
-/**
- * @author 应卓
- * @since 1.0.15
- */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
-
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_ZOOKEEPER.getName();
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
