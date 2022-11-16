@@ -25,7 +25,7 @@ import spring.turbo.module.dataaccessing.zookeeper.ZkProperties;
 @AutoConfiguration
 @EnableConfigurationProperties(ZkProperties.class)
 @ConditionalOnClass(name = "org.apache.curator.framework.CuratorFramework")
-@ConditionalOnProperty(prefix = "springturbo.zookeeper", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "springturbo.zookeeper", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class ZkClientAutoConfiguration {
 
     @Bean

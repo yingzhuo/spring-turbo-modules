@@ -26,7 +26,7 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "springturbo.zookeeper")
 public class ZkProperties implements InitializingBean, Serializable {
 
-    private boolean enabled = true;
+    private boolean enabled = false;
     private String connectString;
     private String namespace;
     private BackoffRetryPolicy backoffRetryPolicy = new BackoffRetryPolicy();
