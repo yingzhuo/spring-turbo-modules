@@ -6,18 +6,13 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.javassist.pojo;
+package spring.turbo.module.misc.javassist;
 
 import javassist.*;
 import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
-import spring.turbo.module.javassist.AnnotationDescriptor;
-import spring.turbo.module.javassist.AnnotationDescriptorHelper;
-import spring.turbo.module.javassist.classcache.ClassCache;
-import spring.turbo.module.javassist.exception.UnableToCompileException;
-import spring.turbo.module.javassist.exception.UnableToFindException;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
 

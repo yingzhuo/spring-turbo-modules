@@ -6,21 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.javassist.intergration;
+package spring.turbo.module.misc.javassist;
 
-import spring.turbo.integration.ModuleNameProvider;
+import org.springframework.lang.Nullable;
+import spring.turbo.lang.Mutable;
 
-import static spring.turbo.integration.Modules.SPRING_TURBO_JAVASSIST;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author 应卓
  * @since 1.2.2
  */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
+@Mutable
+public class ClassCache extends ConcurrentHashMap<String, Class<?>> {
 
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_JAVASSIST.getName();
+    public void set(@Nullable Class<?> clz) {
+        if (clz != null) {
+            super.put(clz.getName(), clz);
+        }
+    }
+
+    @Nullable
+    public Class<?> find(String name) {
+        return super.getOrDefault(name, null);
     }
 
 }

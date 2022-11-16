@@ -6,28 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.javassist;
+package spring.turbo.module.misc.autoconfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
-import spring.turbo.module.javassist.pojo.PojoTypeGenerator;
-import spring.turbo.module.javassist.pojo.PojoTypeGeneratorImpl;
+import spring.turbo.module.misc.javassist.PojoTypeGenerator;
+import spring.turbo.module.misc.javassist.PojoTypeGeneratorImpl;
 
 /**
  * @author 应卓
- * @since 1.2.2
+ * @since 1.3.0
  */
 @AutoConfiguration
-class SpringBootAutoConfiguration {
+@ConditionalOnClass(name = "javassist.ClassPool")
+public class PojoTypeGeneratorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    PojoTypeGenerator pojoTypeGenerator() {
+    public PojoTypeGenerator pojoTypeGenerator() {
         return new PojoTypeGeneratorImpl();
     }
 

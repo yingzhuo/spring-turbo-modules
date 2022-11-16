@@ -6,11 +6,10 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.javassist;
+package spring.turbo.module.misc.javassist;
 
 import org.springframework.lang.Nullable;
 import spring.turbo.lang.Immutable;
-import spring.turbo.module.javassist.pojo.PojoDescriptor;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;

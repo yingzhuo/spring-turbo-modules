@@ -6,9 +6,24 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.javassist.exception;
+package spring.turbo.module.misc.javassist;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import java.util.function.Function;
+
+/**
+ * POJO类型生成器
+ *
+ * @author 应卓
+ * @since 1.2.2
+ */
+@FunctionalInterface
+public interface PojoTypeGenerator extends Function<PojoDescriptor, Class<?>> {
+
+    public Class<?> generate(PojoDescriptor descriptor);
+
+    @Override
+    public default Class<?> apply(PojoDescriptor descriptor) {
+        return generate(descriptor);
+    }
+
+}

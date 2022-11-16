@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 spring.turbo.module.misc.autoconfiguration.QRCodeGeneratorAutoConfiguration,\
-spring.turbo.module.misc.autoconfiguration.WatermarkGeneratorAutoConfiguration
+spring.turbo.module.misc.autoconfiguration.WatermarkGeneratorAutoConfiguration,\
+spring.turbo.module.misc.autoconfiguration.PojoTypeGeneratorAutoConfiguration
