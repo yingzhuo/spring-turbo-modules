@@ -73,11 +73,7 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
         public WatermarkPositions build() {
             return list.isEmpty() ? DEFAULT : new WatermarkPositions(this.list);
         }
-    }    public static final WatermarkPositions DEFAULT = builder()
-            .add(300, 250, 30)
-            .add(300, 450, 30)
-            .add(300, 650, 30)
-            .build();
+    }
 
     @Immutable
     public static class Position {
@@ -117,7 +113,11 @@ public class WatermarkPositions implements Iterable<WatermarkPositions.Position>
         public int getRotation() {
             return rotation;
         }
-    }
+    }    public static final WatermarkPositions DEFAULT = builder()
+            .add(300, 250, 30)
+            .add(300, 450, 30)
+            .add(300, 650, 30)
+            .build();
 
 
 
