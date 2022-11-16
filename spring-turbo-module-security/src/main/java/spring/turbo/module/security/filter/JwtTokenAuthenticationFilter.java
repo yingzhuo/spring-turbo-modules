@@ -6,21 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.integration;
+package spring.turbo.module.security.filter;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-import static spring.turbo.integration.Modules.SPRING_TURBO_SECURITY_JWT;
+import spring.turbo.webmvc.token.BearerTokenResolver;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.1
  */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
+public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_SECURITY_JWT.getName();
+    /**
+     * 构造方法
+     */
+    public JwtTokenAuthenticationFilter() {
+        setTokenResolver(new BearerTokenResolver());
     }
 
 }

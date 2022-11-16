@@ -6,29 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.security.jwt;
+package spring.turbo.module.security.autoconfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 1.3.0
  */
 @AutoConfiguration
-class SpringBootAutoConfiguration {
+@ConditionalOnMissingBean(HttpFirewall.class)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+public class HttpFirewallAutoConfiguration {
 
     @Bean
-    @ConditionalOnBean(value = AlgorithmFactory.class)
-    @ConditionalOnMissingBean
-    JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
-        return new JwtTokenFactoryImpl(algorithmFactory);
+    public HttpFirewall httpFirewall() {
+        final StrictHttpFirewall bean = new StrictHttpFirewall();
+        bean.setAllowSemicolon(true);
+        return bean;
     }
 
 }

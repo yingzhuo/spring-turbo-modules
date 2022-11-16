@@ -1,4 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.security.SpringBootAutoConfiguration
+spring.turbo.module.security.autoconfiguration.HttpFirewallAutoConfiguration,\
+spring.turbo.module.security.autoconfiguration.SecurityExceptionHandlerAutoConfiguration,\
+spring.turbo.module.security.autoconfiguration.WebSecurityCustomizerAutoConfiguration,\
+spring.turbo.module.security.autoconfiguration.AuthenticationEventPublisherEditingAutoConfiguration,\
+spring.turbo.module.security.autoconfiguration.JwtTokenFactoryAutoConfiguration
 org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
-    spring.turbo.module.security.HttpSecurityDSL
+spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL

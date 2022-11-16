@@ -21,7 +21,7 @@ import java.util.Set;
  * @author 应卓
  * @since 1.0.0
  */
-class JwtTokenFactoryImpl implements JwtTokenFactory {
+public class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     private final Algorithm algorithm;
 
