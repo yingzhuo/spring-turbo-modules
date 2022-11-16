@@ -53,7 +53,6 @@ public final class PasswordEncoderFactories {
         if (StringUtils.isNotBlank(defaultPasswordEncoderForMatches)) {
             encoder.setDefaultPasswordEncoderForMatches(encoders.get(defaultPasswordEncoderForMatches));
         }
-
         return encoder;
     }
 

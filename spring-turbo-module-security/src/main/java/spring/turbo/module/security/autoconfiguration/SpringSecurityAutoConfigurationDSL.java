@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.autoconfiguration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,15 +27,13 @@ import java.util.List;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
-    private static final Logger log = LoggerFactory.getLogger(SpringSecurityAutoConfigurationDSL.class);
-
     @Override
     public void configure(HttpSecurity http) {
         final SpringContext ctx = this.getSpringContext(http);
 
         final List<FilterConfiguration> configurations = ctx.getBeanList(FilterConfiguration.class);
 
-        for (FilterConfiguration configuration : configurations) {
+        for (final FilterConfiguration configuration : configurations) {
 
             if (!configuration.isEnabled()) {
                 continue;
