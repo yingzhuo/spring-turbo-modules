@@ -9,7 +9,6 @@
     <version>1.3.0-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-feign</module>
-        <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-queryselector-sql</module>
         <module>spring-turbo-module-security</module>

@@ -6,37 +6,33 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.mixin;
+package spring.turbo.module.queryselector.jackson2;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import spring.turbo.bean.NumberZones;
-import spring.turbo.format.NumberZonesParser;
+import spring.turbo.module.queryselector.SelectorSet;
+import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
+import spring.turbo.module.queryselector.resolver.SelectorSetResolverImpl;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Locale;
 
 /**
  * @author 应卓
- * @since 1.1.4
+ * @since 1.3.0
  */
-@JsonDeserialize(using = NumberZonesMixin.NumberZonesJsonDeserializer.class)
-public abstract class NumberZonesMixin {
+@JsonDeserialize(using = SelectorSetMixin.SelectorSetJsonSerializer.class)
+public abstract class SelectorSetMixin {
 
-    private static final NumberZonesParser PARSER = new NumberZonesParser();
+    public static final SelectorSetResolver RESOLVER = new SelectorSetResolverImpl();
 
-    public static class NumberZonesJsonDeserializer extends JsonDeserializer<NumberZones> {
+    public static class SelectorSetJsonSerializer extends JsonDeserializer<SelectorSet> {
+
         @Override
-        public NumberZones deserialize(JsonParser p, DeserializationContext context) throws IOException {
-            try {
-                final String source = p.readValueAs(String.class);
-                return PARSER.parse(source, Locale.getDefault());
-            } catch (ParseException e) {
-                throw new IllegalStateException(e.getMessage());
-            }
+        public SelectorSet deserialize(JsonParser p, DeserializationContext context) throws IOException {
+            final String string = p.readValueAs(String.class);
+            return RESOLVER.resolve(string).orElse(SelectorSet.empty());
         }
     }
 

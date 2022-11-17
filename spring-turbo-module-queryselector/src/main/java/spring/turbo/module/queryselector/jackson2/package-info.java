@@ -6,25 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.mixin;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.queryselector.jackson2;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import spring.turbo.bean.BigDecimalPair;
-import spring.turbo.bean.NumberPair;
-
-/**
- * @author 应卓
- * @see NumberPair
- * @see BigDecimalPair
- * @since 1.0.14
- */
-@JsonDeserialize(using = BigDecimalPairMixin.BigDecimalPairJsonDeserializer.class)
-public abstract class BigDecimalPairMixin {
-
-    public static class BigDecimalPairJsonDeserializer extends AbstractNumberPairJsonDeserializer<BigDecimalPair> {
-        public BigDecimalPairJsonDeserializer() {
-            super(BigDecimalPair.class);
-        }
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
