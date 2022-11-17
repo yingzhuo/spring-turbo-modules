@@ -21,8 +21,10 @@ import spring.turbo.util.Asserts;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+
+import static spring.turbo.util.CharsetPool.ISO_8859_1;
+import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
@@ -104,7 +106,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         @Override
         public AttachmentResponseEntity build() {
             Asserts.notNull(content);
-            Asserts.hasText(attachmentName);
+            Asserts.notNull(attachmentName);
             Asserts.notNull(status);
             Asserts.notNull(mediaType);
 
@@ -112,7 +114,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
             headers.setContentDisposition(
                     ContentDisposition
                             .attachment()
-                            .filename(new String(attachmentName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1))
+                            .filename(new String(attachmentName.getBytes(UTF_8), ISO_8859_1))
                             .build()
             );
             headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
