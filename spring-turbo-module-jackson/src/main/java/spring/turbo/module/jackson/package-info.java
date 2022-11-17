@@ -16,10 +16,9 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
 import org.springframework.lang.Nullable;
-import spring.turbo.bean.*;
 import spring.turbo.bean.condition.ConditionalOnModule;
 import spring.turbo.integration.Modules;
-import spring.turbo.module.jackson.mixin.*;
+import spring.turbo.module.jackson.mixin.SelectorSetMixin;
 import spring.turbo.module.queryselector.SelectorSet;
 
 /**
@@ -33,19 +32,19 @@ class SpringBootAutoConfiguration {
 
     @Autowired(required = false)
     void configObjectMapper(@Nullable ObjectMapper om) {
-        if (om != null) {
-            om.addMixIn(DateRange.class, DateRangeMixin.class);
-            om.addMixIn(NumberPair.class, NumberPairMixin.class);
-            om.addMixIn(IntegerPair.class, IntegerPairMixin.class);
-            om.addMixIn(LongPair.class, LongPairMixin.class);
-            om.addMixIn(BytePair.class, BytePairMixin.class);
-            om.addMixIn(ShortPair.class, ShortPairMixin.class);
-            om.addMixIn(FloatPair.class, FloatPairMixin.class);
-            om.addMixIn(DoublePair.class, DoublePairMixin.class);
-            om.addMixIn(BigIntegerPair.class, BigIntegerPairMixin.class);
-            om.addMixIn(BigDecimalPair.class, BigDecimalPairMixin.class);
-            om.addMixIn(NumberZones.class, NumberZonesMixin.class);
-        }
+//        if (om != null) {
+//            om.addMixIn(DateRange.class, DateRangeMixin.class);
+//            om.addMixIn(NumberPair.class, NumberPairMixin.class);
+//            om.addMixIn(IntegerPair.class, IntegerPairMixin.class);
+//            om.addMixIn(LongPair.class, LongPairMixin.class);
+//            om.addMixIn(BytePair.class, BytePairMixin.class);
+//            om.addMixIn(ShortPair.class, ShortPairMixin.class);
+//            om.addMixIn(FloatPair.class, FloatPairMixin.class);
+//            om.addMixIn(DoublePair.class, DoublePairMixin.class);
+//            om.addMixIn(BigIntegerPair.class, BigIntegerPairMixin.class);
+//            om.addMixIn(BigDecimalPair.class, BigDecimalPairMixin.class);
+//            om.addMixIn(NumberZones.class, NumberZonesMixin.class);
+//        }
     }
 }
 
