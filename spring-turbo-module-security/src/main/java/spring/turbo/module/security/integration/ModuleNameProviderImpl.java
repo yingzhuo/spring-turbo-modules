@@ -9,7 +9,6 @@
 package spring.turbo.module.security.integration;
 
 import spring.turbo.integration.ModuleNameProvider;
-import spring.turbo.integration.Modules;
 
 /**
  * @author 应卓
@@ -19,7 +18,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return Modules.SPRING_TURBO_SECURITY.getName();
+        return "spring.turbo.security";
     }
 
 }

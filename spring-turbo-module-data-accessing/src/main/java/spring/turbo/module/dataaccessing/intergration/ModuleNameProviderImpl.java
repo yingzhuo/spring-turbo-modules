@@ -10,8 +10,6 @@ package spring.turbo.module.dataaccessing.intergration;
 
 import spring.turbo.integration.ModuleNameProvider;
 
-import static spring.turbo.integration.Modules.SPRING_TURBO_DATA_ACCESSING;
-
 /**
  * @author 应卓
  * @since 1.1.0
@@ -20,7 +18,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return SPRING_TURBO_DATA_ACCESSING.getName();
+        return "spring.turbo.data-accessing";
     }
 
 }

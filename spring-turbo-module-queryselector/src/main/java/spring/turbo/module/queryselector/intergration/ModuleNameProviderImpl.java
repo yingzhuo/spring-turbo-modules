@@ -9,7 +9,6 @@
 package spring.turbo.module.queryselector.intergration;
 
 import spring.turbo.integration.ModuleNameProvider;
-import spring.turbo.integration.Modules;
 
 /**
  * @author 应卓
@@ -19,7 +18,7 @@ public final class ModuleNameProviderImpl implements ModuleNameProvider {
 
     @Override
     public String getModuleName() {
-        return Modules.SPRING_TURBO_QUERYSELECTOR.getName();
+        return "spring.turbo.queryselector";
     }
 
 }
