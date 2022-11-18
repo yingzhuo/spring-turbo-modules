@@ -48,6 +48,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>

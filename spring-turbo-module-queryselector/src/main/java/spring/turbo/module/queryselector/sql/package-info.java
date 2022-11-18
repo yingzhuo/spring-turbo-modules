@@ -6,19 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.integration;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.queryselector.sql;
 
-import spring.turbo.integration.ModuleNameProvider;
-
-/**
- * @author 应卓
- * @since 1.0.0
- */
-public final class ModuleNameProviderImpl implements ModuleNameProvider {
-
-    @Override
-    public String getModuleName() {
-        return "spring.turbo.webmvc";
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

@@ -6,33 +6,32 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.queryselector.sql;
+package spring.turbo.module.queryselector.autoconfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
-import spring.turbo.bean.condition.ConditionalOnModule;
-import spring.turbo.integration.Modules;
 import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
+import spring.turbo.module.queryselector.sql.WhereClauseBuilder;
+import spring.turbo.module.queryselector.sql.WhereClauseBuilderImpl;
 import spring.turbo.module.queryselector.sql.property.ItemNameToTableColumnMap;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 1.3.0
  */
 @AutoConfiguration
 @EnableConfigurationProperties(ItemNameToTableColumnMap.class)
-@ConditionalOnModule(Modules.SPRING_TURBO_QUERYSELECTOR)
+@ConditionalOnClass(name = "freemarker.template.Template")
+@ConditionalOnMissingBean(WhereClauseBuilder.class)
 @ConditionalOnBean(SelectorSetResolver.class)
-class SpringBootAutoConfiguration {
+public class WhereClauseBuilderAutoConfiguration {
 
     @Bean
-    WhereClauseBuilder whereClauseBuilder(ItemNameToTableColumnMap itemNameToTableColumnMap) {
+    public WhereClauseBuilder whereClauseBuilder(ItemNameToTableColumnMap itemNameToTableColumnMap) {
         return new WhereClauseBuilderImpl(itemNameToTableColumnMap);
     }
 
