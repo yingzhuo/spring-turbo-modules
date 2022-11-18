@@ -9,6 +9,7 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -36,38 +37,53 @@ public final class AlgorithmFactoryFactories {
     }
 
     public static AlgorithmFactory hmac256(final String secret) {
+        Asserts.hasText(secret);
         return () -> Algorithm.HMAC256(secret);
     }
 
     public static AlgorithmFactory hmac384(final String secret) {
+        Asserts.hasText(secret);
         return () -> Algorithm.HMAC384(secret);
     }
 
     public static AlgorithmFactory hmac512(final String secret) {
+        Asserts.hasText(secret);
         return () -> Algorithm.HMAC512(secret);
     }
 
     public static AlgorithmFactory rsa256(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new RSA256AlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory rsa384(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new RSA384AlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory rsa512(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new RSA512AlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory ecdsa256(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new ECDSA256AlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory ecdsa384(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new ECDSA384AlgorithmFactory(publicKey, privateKey);
     }
 
     public static AlgorithmFactory ecdsa512(final String publicKey, final String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         return new ECDSA512AlgorithmFactory(publicKey, privateKey);
     }
 

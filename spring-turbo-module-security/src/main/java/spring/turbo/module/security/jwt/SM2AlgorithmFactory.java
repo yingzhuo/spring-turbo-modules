@@ -8,36 +8,30 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import spring.turbo.util.Asserts;
 
 /**
- * JWT令牌工厂
+ * 国密算法 (SM2)
  *
  * @author 应卓
- * @since 1.0.0
+ * @since 1.0.2
  */
-@FunctionalInterface
-public interface JwtTokenFactory {
+public final class SM2AlgorithmFactory implements AlgorithmFactory {
 
-    /**
-     * 创建令牌
-     *
-     * @param metadata 令牌元数据信息
-     * @return 令牌字符串
-     * @see JwtTokenMetadata#builder()
-     * @see JwtTokenMetadata.Builder
-     */
-    public String create(JwtTokenMetadata metadata);
+    private final String publicKey;
+    private final String privateKey;
 
-    /**
-     * 创建令牌
-     *
-     * @param builder 令牌元数据创建器
-     * @return 令牌字符串
-     */
-    public default String create(JwtTokenMetadata.Builder builder) {
-        Asserts.notNull(builder);
-        return create(builder.build());
+    public SM2AlgorithmFactory(String publicKey, String privateKey) {
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
+    }
+
+    @Override
+    public Algorithm create() {
+        return new SM2Algorithm(publicKey, privateKey);
     }
 
 }
