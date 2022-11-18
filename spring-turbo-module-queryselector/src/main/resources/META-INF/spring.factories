@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.queryselector.SpringBootAutoConfiguration
+spring.turbo.module.queryselector.autoconfiguration.QuerySetCoreAutoConfiguration,\
+spring.turbo.module.queryselector.autoconfiguration.ObjectMapperEditingAutoConfiguration,\
+spring.turbo.module.queryselector.autoconfiguration.WhereClauseBuilderAutoConfiguration

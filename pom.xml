@@ -6,28 +6,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>1.2.3</version>
+    <version>1.3.0-SNAPSHOT</version>
     <modules>
-        <module>spring-turbo-module-captcha</module>
-        <module>spring-turbo-module-csv</module>
-        <module>spring-turbo-module-data</module>
-        <module>spring-turbo-module-datasource</module>
-        <module>spring-turbo-module-excel</module>
         <module>spring-turbo-module-feign</module>
-        <module>spring-turbo-module-jackson</module>
-        <module>spring-turbo-module-javassist</module>
-        <module>spring-turbo-module-kafka</module>
-        <module>spring-turbo-module-pdf</module>
-        <module>spring-turbo-module-qrcode</module>
         <module>spring-turbo-module-queryselector</module>
-        <module>spring-turbo-module-queryselector-sql</module>
-        <module>spring-turbo-module-rabbitmq</module>
-        <module>spring-turbo-module-redis</module>
         <module>spring-turbo-module-security</module>
-        <module>spring-turbo-module-security-hutool</module>
-        <module>spring-turbo-module-security-jwt</module>
         <module>spring-turbo-module-webmvc</module>
-        <module>spring-turbo-module-zookeeper</module>
+        <module>spring-turbo-module-misc</module>
+        <module>spring-turbo-module-data-handling</module>
+        <module>spring-turbo-module-data-accessing</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -113,17 +100,17 @@
 
         <java.version>1.8</java.version>
 
-        <spring.turbo.version>1.2.3</spring.turbo.version>
+        <spring.turbo.version>1.3.0-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>2.7.5</spring.boot.version>
-        <spring.version>5.3.23</spring.version>
+        <spring.version>5.3.24</spring.version>
         <spring.security.version>5.7.5</spring.security.version>
         <spring.kafka.version>2.9.2</spring.kafka.version>
         <spring.data.commons.version>2.7.5</spring.data.commons.version>
         <feign.version>12.0</feign.version>
         <resilience4j.version>1.7.1</resilience4j.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <hutool.version>5.8.9</hutool.version>
-        <netty.version>4.1.84.Final</netty.version>
+        <hutool.version>5.8.10</hutool.version>
+        <netty.version>4.1.85.Final</netty.version>
         <curator.version>5.4.0</curator.version>
         <logback.version>1.2.11</logback.version>
         <lombok.version>1.18.24</lombok.version>

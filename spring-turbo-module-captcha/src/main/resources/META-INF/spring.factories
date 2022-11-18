@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    spring.turbo.module.captcha.SpringBootAutoConfiguration,\
-    spring.turbo.module.captcha.support.SpringBootAutoConfiguration,\
-    spring.turbo.module.captcha.support.SpringBootAutoConfigurationDependsOnSpringDataRedis

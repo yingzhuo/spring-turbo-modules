@@ -26,7 +26,7 @@ import java.util.Optional;
  * @since 1.0.0
  */
 @Mutable
-public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
+public class Authentication extends AbstractAuthenticationToken {
 
     /**
      * 当前用户

@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+spring.turbo.module.dataaccessing.autoconfiguration.DataSourceSwitchingAdviceAutoConfiguration,\
+spring.turbo.module.dataaccessing.autoconfiguration.RedisLockUtilsAutoConfiguration,\
+spring.turbo.module.dataaccessing.autoconfiguration.ZkClientAutoConfiguration
