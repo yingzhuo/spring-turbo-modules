@@ -9,13 +9,18 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author 应卓
@@ -29,6 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     private final Logger log;
+
+    @Nullable
+    private RequestMatcher skipRequestMatcher;
 
     /**
      * 构造方法
@@ -51,6 +59,15 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     }
 
     @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        super.doFilterInternal(request, response, filterChain);
+    }
+
+    @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
         log.log(message);
     }
@@ -58,6 +75,10 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
         log.log(message);
+    }
+
+    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
+        this.skipRequestMatcher = skipRequestMatcher;
     }
 
 }

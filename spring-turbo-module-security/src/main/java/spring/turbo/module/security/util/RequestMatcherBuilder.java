@@ -24,10 +24,6 @@ import java.util.regex.Pattern;
  */
 public final class RequestMatcherBuilder {
 
-    public static RequestMatcherBuilder newInstance() {
-        return new RequestMatcherBuilder();
-    }
-
     private final List<RequestMatcher> matchers = new LinkedList<>();
 
     /**
@@ -35,6 +31,18 @@ public final class RequestMatcherBuilder {
      */
     private RequestMatcherBuilder() {
         super();
+    }
+
+    public static RequestMatcherBuilder newInstance() {
+        return new RequestMatcherBuilder();
+    }
+
+    public static RequestMatcher alwaysTrue() {
+        return request -> true;
+    }
+
+    public static RequestMatcher alwaysFalse() {
+        return request -> false;
     }
 
     public RequestMatcherBuilder add(RequestMatcher matcher) {
