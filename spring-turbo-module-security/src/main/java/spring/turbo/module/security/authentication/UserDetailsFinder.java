@@ -26,6 +26,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface UserDetailsFinder {
 
     @Nullable
-    public UserDetails find(String username, String password) throws AuthenticationException;
+    public UserDetails loadUserByUsernameAndPassword(String username, String password) throws AuthenticationException;
 
 }

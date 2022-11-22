@@ -87,7 +87,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
             final String username = basicToken.getUsername();
             final String password = basicToken.getPassword();
 
-            final UserDetails user = userDetailsFinder.find(username, password);
+            final UserDetails user = userDetailsFinder.loadUserByUsernameAndPassword(username, password);
             if (user == null) {
                 filterChain.doFilter(request, response);
                 return;
