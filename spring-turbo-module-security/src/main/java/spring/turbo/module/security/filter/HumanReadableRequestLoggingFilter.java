@@ -9,6 +9,7 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
@@ -26,11 +27,15 @@ import java.io.IOException;
  * @see RequestLoggingFilter
  * @see org.springframework.web.filter.CommonsRequestLoggingFilter
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
+ * @see RequestMatcher
  * @since 1.1.3
  */
 public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
 
     private final Logger log;
+
+    @Nullable
+    private RequestMatcher skipRequestMatcher;
 
     /**
      * 构造方法
@@ -50,6 +55,12 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             doLog(request);
         } catch (Exception ignored) {
@@ -66,6 +77,10 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
                     .forEach(log::log);
             log.log(StringPool.HYPHEN_X_80);
         }
+    }
+
+    public void setSkipRequestMatcher(RequestMatcher skipRequestMatcher) {
+        this.skipRequestMatcher = skipRequestMatcher;
     }
 
 }
