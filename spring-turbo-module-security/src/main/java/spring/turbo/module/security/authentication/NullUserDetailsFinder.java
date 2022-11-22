@@ -34,7 +34,7 @@ public final class NullUserDetailsFinder implements UserDetailsFinder {
 
     @Nullable
     @Override
-    public UserDetails find(String username, String password) throws AuthenticationException {
+    public UserDetails loadUserByUsernameAndPassword(String username, String password) throws AuthenticationException {
         return null;
     }
 

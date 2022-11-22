@@ -58,6 +58,11 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
+        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         Asserts.notNull(this.tokenResolver);
         Asserts.notNull(this.tokenToUserConverter);
 

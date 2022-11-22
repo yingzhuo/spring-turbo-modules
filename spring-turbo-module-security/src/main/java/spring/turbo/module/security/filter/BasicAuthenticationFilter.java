@@ -14,6 +14,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.NullUserDetailsFinder;
@@ -35,6 +36,7 @@ import java.io.IOException;
  *
  * @author 应卓
  * @see TokenAuthenticationFilter
+ * @see RequestMatcher
  * @since 1.2.3
  */
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
@@ -55,6 +57,11 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (!super.authenticationIsRequired()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -80,7 +87,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
             final String username = basicToken.getUsername();
             final String password = basicToken.getPassword();
 
-            final UserDetails user = userDetailsFinder.find(username, password);
+            final UserDetails user = userDetailsFinder.loadUserByUsernameAndPassword(username, password);
             if (user == null) {
                 filterChain.doFilter(request, response);
                 return;

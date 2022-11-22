@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.util.Asserts;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author 应卓
  * @see BasicAuthenticationFilter
  * @see TokenAuthenticationFilter
+ * @see RequestMatcher
  * @since 1.2.3
  */
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
@@ -46,6 +48,9 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     @Nullable
     protected AuthenticationEntryPoint authenticationEntryPoint;
+
+    @Nullable
+    protected RequestMatcher skipRequestMatcher;
 
     protected final boolean authenticationIsRequired() {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,6 +87,10 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     public final void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
+        this.skipRequestMatcher = skipRequestMatcher;
     }
 
 }

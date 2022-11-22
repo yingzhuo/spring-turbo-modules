@@ -20,11 +20,11 @@ import spring.turbo.module.misc.javassist.PojoTypeGeneratorImpl;
  * @since 1.3.0
  */
 @AutoConfiguration
+@ConditionalOnMissingBean(PojoTypeGenerator.class)
 @ConditionalOnClass(name = "javassist.ClassPool")
 public class PojoTypeGeneratorAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public PojoTypeGenerator pojoTypeGenerator() {
         return new PojoTypeGeneratorImpl();
     }

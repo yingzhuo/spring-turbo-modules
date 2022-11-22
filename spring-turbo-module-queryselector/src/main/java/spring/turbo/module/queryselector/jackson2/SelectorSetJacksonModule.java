@@ -8,8 +8,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector.jackson2;
 
-import com.fasterxml.jackson.core.json.PackageVersion;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import spring.turbo.SpringTurboVersion;
 import spring.turbo.module.queryselector.SelectorSet;
 
 /**
@@ -18,8 +20,14 @@ import spring.turbo.module.queryselector.SelectorSet;
  */
 public class SelectorSetJacksonModule extends SimpleModule {
 
+    public static final Version VERSION = VersionUtil.parseVersion(
+            SpringTurboVersion.VERSION,
+            "com.github.yingzhuo",
+            "spring-turbo-module-queryselector"
+    );
+
     public SelectorSetJacksonModule() {
-        super(SelectorSetJacksonModule.class.getName(), PackageVersion.VERSION);
+        super(SelectorSetJacksonModule.class.getName(), VERSION);
     }
 
     @Override

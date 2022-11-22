@@ -8,13 +8,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import spring.turbo.webmvc.token.BearerTokenResolver;
 
 /**
  * @author 应卓
+ * @see RequestMatcher
  * @since 1.0.1
  */
-public class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
+public final class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
     /**
      * 构造方法

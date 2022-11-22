@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * @author 应卓
+ * @see WebSecurity
+ * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
  * @since 1.2.3
  */
 public class SpringSecurityDebugModeCustomizer implements WebSecurityCustomizer, Ordered {

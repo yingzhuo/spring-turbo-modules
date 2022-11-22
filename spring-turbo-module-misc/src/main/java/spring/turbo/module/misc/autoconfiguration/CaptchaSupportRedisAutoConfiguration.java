@@ -21,11 +21,11 @@ import spring.turbo.module.misc.captcha.support.RedisCaptchaDao;
  * @since 1.3.0
  */
 @AutoConfiguration
+@ConditionalOnMissingBean(CaptchaDao.class)
 @ConditionalOnBean(type = "org.springframework.data.redis.core.StringRedisTemplate")
 public class CaptchaSupportRedisAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public CaptchaDao captchaDao(StringRedisTemplate template) {
         return new RedisCaptchaDao(template);
     }
