@@ -22,6 +22,9 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  */
 public class SHA384PasswordEncoder implements PasswordEncoder {
 
+    /**
+     * 构造方法
+     */
     public SHA384PasswordEncoder() {
         super();
     }

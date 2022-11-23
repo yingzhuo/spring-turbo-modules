@@ -20,15 +20,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 public class SpringSecurityDebugModeCustomizer implements WebSecurityCustomizer, Ordered {
 
-    private final boolean debugMode;
+    private final boolean enableDebug;
 
-    public SpringSecurityDebugModeCustomizer(boolean debugMode) {
-        this.debugMode = debugMode;
+    public SpringSecurityDebugModeCustomizer(boolean enableDebug) {
+        this.enableDebug = enableDebug;
     }
 
     @Override
     public void customize(WebSecurity web) {
-        web.debug(debugMode);
+        web.debug(enableDebug);
     }
 
     @Override
