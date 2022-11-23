@@ -32,7 +32,7 @@ public class ObjectMapperEditingAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        this.objectMapper.registerModule(new SelectorSetJacksonModule());
+        this.objectMapper.registerModules(new SelectorSetJacksonModule());
     }
 
 }
