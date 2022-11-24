@@ -67,7 +67,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- zookeeper-client -->
+        <!-- zookeeper-client (high level) -->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
