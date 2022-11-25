@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import spring.turbo.bean.injection.IsTraceOrDebugMode;
-import spring.turbo.module.security.customizer.SpringSecurityDebugModeCustomizer;
 
 /**
  * @author 应卓
@@ -26,8 +25,10 @@ import spring.turbo.module.security.customizer.SpringSecurityDebugModeCustomizer
 public class WebSecurityCustomizerAutoConfiguration {
 
     @Bean
-    public SpringSecurityDebugModeCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
-        return new SpringSecurityDebugModeCustomizer(debugMode);
+    public WebSecurityCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
+        return web -> {
+            web.debug(debugMode);
+        };
     }
 
 }

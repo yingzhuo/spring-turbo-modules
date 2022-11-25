@@ -22,6 +22,9 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  */
 public class SHA512PasswordEncoder implements PasswordEncoder {
 
+    /**
+     * 构造方法
+     */
     public SHA512PasswordEncoder() {
         super();
     }

@@ -15,8 +15,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import spring.turbo.module.queryselector.property.QuerySelectorProperties;
 import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
-import spring.turbo.module.queryselector.resolver.SelectorSetResolverImpl;
-import spring.turbo.module.queryselector.resolver.StringToSelectorSetConverter;
 
 /**
  * @author 应卓
@@ -25,12 +23,12 @@ import spring.turbo.module.queryselector.resolver.StringToSelectorSetConverter;
 @AutoConfiguration
 @EnableConfigurationProperties(QuerySelectorProperties.class)
 @ConditionalOnProperty(prefix = "springturbo.queryselector", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnMissingBean(SelectorSetResolver.class)
 public class QuerySetCoreAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public SelectorSetResolver selectorSetResolver(final QuerySelectorProperties properties) {
-        final SelectorSetResolverImpl bean = new SelectorSetResolverImpl();
+        final SelectorSetResolver bean = new SelectorSetResolver();
         bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
         bean.setSeparatorInSelector(properties.getSeparatorInSelector());
         bean.setSeparatorInRange(properties.getSeparatorInRange());
@@ -39,12 +37,6 @@ public class QuerySetCoreAutoConfiguration {
         bean.setDatetimePattern(properties.getDatetimePattern());
         bean.setSkipErrorIfUnableToResolve(properties.isSkipErrorIfUnableToResolve());
         return bean;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public StringToSelectorSetConverter stringToSelectorSetConverter(SelectorSetResolver resolver) {
-        return new StringToSelectorSetConverter(resolver);
     }
 
 }
