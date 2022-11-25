@@ -24,7 +24,7 @@ import static spring.turbo.module.security.encoder.EncodingIds.SM3;
  * @see spring.turbo.module.security.encoder.EncodingIds#SM3
  * @since 1.0.1
  */
-public class SM3PasswordEncoder implements PasswordEncoder {
+public final class SM3PasswordEncoder implements PasswordEncoder {
 
     /**
      * 构造方法
