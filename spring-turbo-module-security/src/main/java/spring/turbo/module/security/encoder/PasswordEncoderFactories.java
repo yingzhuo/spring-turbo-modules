@@ -28,6 +28,7 @@ import java.util.Optional;
  * @see EncodingIds
  * @since 1.0.0
  */
+@SuppressWarnings("deprecation")
 public final class PasswordEncoderFactories {
 
     /**
@@ -56,7 +57,6 @@ public final class PasswordEncoderFactories {
         return encoder;
     }
 
-    @SuppressWarnings("deprecation")
     private static Map<String, PasswordEncoder> getEncoders() {
         final Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put(EncodingIds.bcrypt, new BCryptPasswordEncoder()); // default
