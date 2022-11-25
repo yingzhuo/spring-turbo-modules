@@ -8,15 +8,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector.jsr380;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.DataType;
 import spring.turbo.module.queryselector.LogicType;
 import spring.turbo.module.queryselector.Selector;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.util.Asserts;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 /**
  * @author 应卓

@@ -19,19 +19,19 @@ import org.springframework.security.web.firewall.HttpFirewall;
 public final class NullHttpFirewall extends DefaultHttpFirewall implements HttpFirewall {
 
     /**
+     * 私有构造方法
+     */
+    private NullHttpFirewall() {
+        super.setAllowUrlEncodedSlash(true);
+    }
+
+    /**
      * 获取单例
      *
      * @return 单例实例
      */
     public static NullHttpFirewall getInstance() {
         return SyncAvoid.INSTANCE;
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private NullHttpFirewall() {
-        super.setAllowUrlEncodedSlash(true);
     }
 
     private static class SyncAvoid {
