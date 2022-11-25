@@ -9,9 +9,12 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringUtils;
@@ -55,18 +58,17 @@ public final class PasswordEncoderFactories {
     }
 
     private static Map<String, PasswordEncoder> getEncoders() {
-        // TODO: 研究API不兼容的问题
-        final Map<String, PasswordEncoder> encoders = new HashMap<>();
+        final var encoders = new HashMap<String, PasswordEncoder>();
         encoders.put(EncodingIds.bcrypt, new BCryptPasswordEncoder()); // default
+        encoders.put(EncodingIds.noop, NullPasswordEncoder.getInstance());
         encoders.put(EncodingIds.ldap, new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
         encoders.put(EncodingIds.MD4, new org.springframework.security.crypto.password.Md4PasswordEncoder());
         encoders.put(EncodingIds.MD5, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
-        encoders.put(EncodingIds.noop, NullPasswordEncoder.getInstance());
-//        encoders.put(EncodingIds.pbkdf2, new Pbkdf2PasswordEncoder());
-//        encoders.put(EncodingIds.scrypt, new SCryptPasswordEncoder());
         encoders.put(EncodingIds.SHA_1, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
         encoders.put(EncodingIds.SHA_256, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-256"));
-//        encoders.put(EncodingIds.argon2, new Argon2PasswordEncoder());
+        encoders.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
+        encoders.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
+        encoders.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
 
         PasswordEncoder encoder = null;
 

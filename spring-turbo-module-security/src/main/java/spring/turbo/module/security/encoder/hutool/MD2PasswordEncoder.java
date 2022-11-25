@@ -20,7 +20,7 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * @see spring.turbo.module.security.encoder.EncodingIds#MD2
  * @since 1.0.1
  */
-public class MD2PasswordEncoder implements PasswordEncoder {
+public final class MD2PasswordEncoder implements PasswordEncoder {
 
     /**
      * 构造方法
