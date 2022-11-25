@@ -63,7 +63,7 @@ public final class PasswordEncoderFactories {
         encoders.put(EncodingIds.ldap, new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
         encoders.put(EncodingIds.MD4, new org.springframework.security.crypto.password.Md4PasswordEncoder());
         encoders.put(EncodingIds.MD5, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
-        encoders.put(EncodingIds.noop, org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance());
+        encoders.put(EncodingIds.noop, NullPasswordEncoder.getInstance());
         encoders.put(EncodingIds.pbkdf2, new Pbkdf2PasswordEncoder());
         encoders.put(EncodingIds.scrypt, new SCryptPasswordEncoder());
         encoders.put(EncodingIds.SHA_1, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
