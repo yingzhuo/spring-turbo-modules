@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.autoconfiguration;
 
+import jakarta.servlet.Filter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.FilterConfiguration;
 
-import javax.servlet.Filter;
 import java.util.List;
 
 /**

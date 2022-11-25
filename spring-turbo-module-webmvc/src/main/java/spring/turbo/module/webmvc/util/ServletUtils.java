@@ -8,13 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.util;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import spring.turbo.util.Asserts;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.*;
 
 /**
  * Servlet相关工具

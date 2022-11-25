@@ -1,0 +1,5 @@
+spring.turbo.module.security.autoconfiguration.HttpFirewallAutoConfiguration
+spring.turbo.module.security.autoconfiguration.SecurityExceptionHandlerAutoConfiguration
+spring.turbo.module.security.autoconfiguration.WebSecurityCustomizerAutoConfiguration
+spring.turbo.module.security.autoconfiguration.AuthenticationEventPublisherEditingAutoConfiguration
+spring.turbo.module.security.autoconfiguration.JwtTokenFactoryAutoConfiguration

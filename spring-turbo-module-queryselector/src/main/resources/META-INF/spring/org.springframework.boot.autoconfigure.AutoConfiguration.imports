@@ -1,0 +1,3 @@
+spring.turbo.module.queryselector.autoconfiguration.QuerySetCoreAutoConfiguration
+spring.turbo.module.queryselector.autoconfiguration.ObjectMapperEditingAutoConfiguration
+spring.turbo.module.queryselector.autoconfiguration.WhereClauseBuilderAutoConfiguration

@@ -18,19 +18,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public final class NullPasswordEncoder implements PasswordEncoder {
 
     /**
+     * 私有构造方法
+     */
+    private NullPasswordEncoder() {
+        super();
+    }
+
+    /**
      * 获取单例
      *
      * @return 单例实例
      */
     public static NullPasswordEncoder getInstance() {
         return SyncAvoid.INSTANCE;
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private NullPasswordEncoder() {
-        super();
     }
 
     @Override

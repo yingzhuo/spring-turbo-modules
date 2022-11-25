@@ -8,11 +8,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security;
 
+import jakarta.servlet.Filter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.bean.Factory;
-
-import javax.servlet.Filter;
 
 /**
  * Filter配置单元

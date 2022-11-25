@@ -8,11 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.qrcode;
 
+import jakarta.annotation.Nullable;
 import org.springframework.core.io.Resource;
 import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.util.Asserts;
 
-import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;

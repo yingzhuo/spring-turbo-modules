@@ -8,14 +8,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.details.AuthenticationDetailsImpl;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 import spring.turbo.webmvc.token.Token;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * {@code RequestDetails} 创建器

@@ -8,12 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication.details;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.RemoteAddressUtils;
 import spring.turbo.webmvc.token.Token;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
