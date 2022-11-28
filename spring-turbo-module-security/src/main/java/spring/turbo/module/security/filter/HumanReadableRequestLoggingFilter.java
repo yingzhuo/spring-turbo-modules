@@ -15,12 +15,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
-import spring.turbo.util.StringPool;
+import spring.turbo.util.StringUtils;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
 import java.io.IOException;
+
+import static spring.turbo.util.StringPool.HYPHEN_X_80;
+import static spring.turbo.util.StringPool.LF;
 
 /**
  * @author 应卓
@@ -71,11 +75,11 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
 
     private void doLog(HttpServletRequest request) {
         if (log.isEnabled()) {
-            log.log(StringPool.HYPHEN_X_80);
-            HttpRequestSnapshot.of(request)
-                    .getLines()
-                    .forEach(log::log);
-            log.log(StringPool.HYPHEN_X_80);
+            final var lines = HttpRequestSnapshot.of(request).getLinesList();
+            if (CollectionUtils.isNotEmpty(lines)) {
+                final var text = LF + HYPHEN_X_80 + LF + StringUtils.nullSafeJoin(lines, LF) + LF + HYPHEN_X_80;
+                log.log(text);
+            }
         }
     }
 
