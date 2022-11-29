@@ -87,6 +87,11 @@ public final class EncodingIds {
     public static final String SM3 = "SM3";
 
     /**
+     * HEX
+     */
+    public static final String HEX = "HEX";
+
+    /**
      * 私有构造方法
      */
     private EncodingIds() {

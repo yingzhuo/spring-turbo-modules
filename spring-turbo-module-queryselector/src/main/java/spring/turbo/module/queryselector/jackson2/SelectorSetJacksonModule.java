@@ -20,14 +20,14 @@ import spring.turbo.module.queryselector.SelectorSet;
  */
 public class SelectorSetJacksonModule extends SimpleModule {
 
-    public static final Version VERSION = VersionUtil.parseVersion(
+    public static final Version MODULE_VERSION = VersionUtil.parseVersion(
             SpringTurboVersion.VERSION,
             "com.github.yingzhuo",
             "spring-turbo-module-queryselector"
     );
 
     public SelectorSetJacksonModule() {
-        super(SelectorSetJacksonModule.class.getName(), VERSION);
+        super(SelectorSetJacksonModule.class.getName(), MODULE_VERSION);
     }
 
     @Override
