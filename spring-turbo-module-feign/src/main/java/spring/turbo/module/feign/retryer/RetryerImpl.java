@@ -68,7 +68,7 @@ public final class RetryerImpl implements Retryer {
 
     private long nextMaxInterval() {
         long interval = (long) (period * Math.pow(1.5, attempt - 1));
-        return interval > maxPeriod ? maxPeriod : interval;
+        return Math.min(interval, maxPeriod);
     }
 
     @Override
