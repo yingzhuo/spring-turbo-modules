@@ -35,20 +35,8 @@ public interface TokenToUserConverter extends Converter<Token, UserDetails> {
      * @return {@link UserDetails} 实例，为 {@code null}时，等同于认证失败
      * @throws AuthenticationException 认证失败
      */
+    @Nullable
     @Override
-    @Nullable
     public UserDetails convert(@Nullable Token token) throws AuthenticationException;
-
-    /**
-     * 将令牌转换为UserDetails
-     *
-     * @param rawToken 令牌字符串
-     * @return {@link UserDetails} 实例，为 {@code null}时，等同于认证失败
-     * @throws AuthenticationException 认证失败
-     */
-    @Nullable
-    public default UserDetails convert(String rawToken) throws AuthenticationException {
-        return convert(StringToken.of(rawToken));
-    }
 
 }

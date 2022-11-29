@@ -69,7 +69,7 @@ public final class PasswordEncoderFactories {
         encoders.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
         encoders.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
         encoders.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        encoders.put(EncodingIds.HEX, new HEXPasswordEncoder());
+        encoders.put(EncodingIds.HEX, HEXPasswordEncoder.getInstance());
 
         PasswordEncoder encoder = null;
 

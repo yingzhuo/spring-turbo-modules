@@ -11,6 +11,7 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @see spring.turbo.module.security.user.UserDetailsPlus
  * @since 1.2.3
  */
+@Singleton
 public final class NullUserDetailsFinder implements UserDetailsFinder {
 
     /**
@@ -28,6 +30,11 @@ public final class NullUserDetailsFinder implements UserDetailsFinder {
         super();
     }
 
+    /**
+     * 获取单例的实例
+     *
+     * @return 实例
+     */
     public static NullUserDetailsFinder getInstance() {
         return SyncAvoid.INSTANCE;
     }

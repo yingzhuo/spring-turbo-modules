@@ -9,12 +9,14 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
  * @see #getInstance()
  * @since 1.3.1
  */
+@Singleton
 public final class NullPasswordEncoder implements PasswordEncoder {
 
     /**
