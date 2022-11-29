@@ -4,10 +4,60 @@ image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[link="http://ww
 
 == 需求
 
-* Java 17+
-* SpringFramework 6.0.0+
-* SpringBoot 3.0.0+
-* SpringSecurity 6.0.0+
+[options="header",format="psv"]
+|==========================
+| 软件             | 版本
+| JDK             | 17+
+| SpringFramework | 6.0.0+
+| SpringBoot      | 3.0.0+
+| SpringSecurity  | 6.0.0+
+|==========================
+
+== 安装
+
+[maven,xml]
+----
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-data-accessing</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-data-handling</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-feign</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-misc</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-queryselector</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-security</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-webmvc</artifactId>
+    <version>${spring.turbo.latest}</version>
+</dependency>
+----
 
 == 关联项目
 
@@ -21,6 +71,6 @@ image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[link="http://ww
 
 * link:{docdir}/LICENSE[Apache 2]
 
-== 作者
+== 联系我
 
-* link:https://github.com/yingzhuo[应卓]
+* mailto:yingzhor@gmail.com[GMAIL]
