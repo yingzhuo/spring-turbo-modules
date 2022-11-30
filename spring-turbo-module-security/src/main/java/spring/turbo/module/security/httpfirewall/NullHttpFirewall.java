@@ -10,12 +10,14 @@ package spring.turbo.module.security.httpfirewall;
 
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
+import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
  * @see #getInstance()
  * @since 1.3.1
  */
+@Singleton
 public final class NullHttpFirewall extends DefaultHttpFirewall implements HttpFirewall {
 
     /**
@@ -34,6 +36,7 @@ public final class NullHttpFirewall extends DefaultHttpFirewall implements HttpF
         return SyncAvoid.INSTANCE;
     }
 
+    // 延迟加载
     private static class SyncAvoid {
         public static final NullHttpFirewall INSTANCE = new NullHttpFirewall();
     }
