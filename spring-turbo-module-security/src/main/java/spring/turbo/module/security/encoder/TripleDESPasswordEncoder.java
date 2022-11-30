@@ -9,45 +9,30 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.lang.Singleton;
+import spring.turbo.util.crypto.TripleDES;
 
 /**
  * @author 应卓
- * @see #getInstance()
- * @since 1.3.1
+ * @since 2.0.1
  */
-@Singleton
-public final class NullPasswordEncoder implements PasswordEncoder {
+public final class TripleDESPasswordEncoder implements PasswordEncoder {
 
-    /**
-     * 私有构造方法
-     */
-    private NullPasswordEncoder() {
-        super();
-    }
+    private final TripleDES _3des;
 
-    /**
-     * 获取单例
-     *
-     * @return 单例实例
-     */
-    public static NullPasswordEncoder getInstance() {
-        return SyncAvoid.INSTANCE;
+    public TripleDESPasswordEncoder(String password, String salt) {
+        this._3des = TripleDES.builder()
+                .passwordAndSalt(password, salt)
+                .build();
     }
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return rawPassword.toString();
+        return this._3des.encrypt(rawPassword.toString());
     }
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return rawPassword.toString().equals(encodedPassword);
-    }
-
-    // 延迟加载
-    private static final class SyncAvoid {
-        private static final NullPasswordEncoder INSTANCE = new NullPasswordEncoder();
+        return this._3des.decrypt(encodedPassword).equals(rawPassword.toString());
     }
 
 }

@@ -20,6 +20,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.turbo.module.security.SkippableFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.TokenResolver;
@@ -31,7 +32,7 @@ import spring.turbo.webmvc.token.TokenResolver;
  * @see RequestMatcher
  * @since 1.2.3
  */
-public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
+public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter implements SkippableFilter {
 
     @Nullable
     protected TokenResolver tokenResolver;
@@ -88,6 +89,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
+    @Override
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;
     }

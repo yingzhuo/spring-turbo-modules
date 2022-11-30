@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.turbo.module.security.SkippableFilter;
 import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
@@ -34,7 +35,7 @@ import static spring.turbo.util.StringPool.LF;
  * @see RequestMatcher
  * @since 1.1.3
  */
-public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
+public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter implements SkippableFilter {
 
     private final Logger log;
 
@@ -83,7 +84,8 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
         }
     }
 
-    public void setSkipRequestMatcher(RequestMatcher skipRequestMatcher) {
+    @Override
+    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;
     }
 

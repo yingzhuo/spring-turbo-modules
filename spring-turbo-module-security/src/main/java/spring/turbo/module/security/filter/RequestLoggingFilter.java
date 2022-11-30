@@ -17,6 +17,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
+import spring.turbo.module.security.SkippableFilter;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 
@@ -31,7 +32,7 @@ import java.io.IOException;
  * @see HumanReadableRequestLoggingFilter
  * @since 1.0.0
  */
-public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
+public class RequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
 
     private final Logger log;
 
@@ -77,6 +78,7 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
         log.log(message);
     }
 
+    @Override
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;
     }

@@ -31,9 +31,7 @@ public class AuthenticationEventPublisherEditingAutoConfiguration {
 
     @Autowired(required = false)
     public void configAuthenticationEventPublisher(AuthenticationEventPublisher authenticationEventPublisher) {
-        if (authenticationEventPublisher instanceof DefaultAuthenticationEventPublisher) {
-            final DefaultAuthenticationEventPublisher publisher = (DefaultAuthenticationEventPublisher) authenticationEventPublisher;
-
+        if (authenticationEventPublisher instanceof DefaultAuthenticationEventPublisher publisher) {
             final Map<Class<? extends AuthenticationException>, Class<? extends AbstractAuthenticationFailureEvent>> mappings =
                     new HashMap<>();
             mappings.put(MaliciousRequestException.class, MaliciousRequestFailureEvent.class);
