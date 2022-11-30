@@ -9,27 +9,36 @@
 package spring.turbo.module.misc.captcha;
 
 import spring.turbo.io.ImageUtils;
+import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.ImageFormatPool;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * 经过编码的人机验证码
+ *
  * @author 应卓
  * @see Captcha
+ * @see #of(Captcha)
  * @since 1.0.0
  */
+@Immutable
 public final class EncodedCaptcha implements Serializable {
-
-    private static final String IMAGE_FORMAT = "png";
 
     private final Captcha captcha;
     private final String encodedImage;
 
+    /**
+     * 私有构造方法
+     *
+     * @param captcha 人机验证码
+     */
     private EncodedCaptcha(Captcha captcha) {
         this.captcha = captcha;
-        this.encodedImage = ImageUtils.encodeToBase64(captcha.getImage(), IMAGE_FORMAT);
+        this.encodedImage = ImageUtils.encodeToBase64(captcha.getImage(), ImageFormatPool.PNG);
     }
 
     public static EncodedCaptcha of(Captcha captcha) {

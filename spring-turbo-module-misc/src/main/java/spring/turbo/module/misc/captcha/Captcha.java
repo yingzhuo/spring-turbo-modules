@@ -16,7 +16,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * 人机验证码
+ *
  * @author 应卓
+ * @see spring.turbo.module.webmvc.entity.ImageResponseEntity
  * @since 1.0.0
  */
 @Immutable
@@ -26,7 +29,7 @@ public final class Captcha implements Serializable {
     private final BufferedImage image;
 
     public Captcha(String word, BufferedImage image) {
-        Asserts.notNull(word);
+        Asserts.hasLength(word);
         Asserts.notNull(image);
         this.word = word;
         this.image = image;
