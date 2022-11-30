@@ -44,9 +44,4 @@ public final class SM3PasswordEncoder implements PasswordEncoder {
         return encode(rawPassword).equals(encodedPassword);
     }
 
-    @Override
-    public boolean upgradeEncoding(String encodedPassword) {
-        return false;
-    }
-
 }

@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.module.security.encoder.PasswordEncoderFactories;
 
 /**
+ * MD2 算法实现 {@link PasswordEncoder}
+ *
  * @author 应卓
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
@@ -38,11 +40,6 @@ public final class MD2PasswordEncoder implements PasswordEncoder {
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return encode(rawPassword).equals(encodedPassword);
-    }
-
-    @Override
-    public boolean upgradeEncoding(String encodedPassword) {
-        return false;
     }
 
 }

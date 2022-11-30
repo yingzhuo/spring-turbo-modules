@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.lang.Singleton;
 
 /**
+ * 无动作 {@link PasswordEncoder}
+ *
  * @author 应卓
  * @see #getInstance()
  * @since 1.3.1

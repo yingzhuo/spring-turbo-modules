@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.util.crypto.TripleDES;
 
 /**
+ * 3DES {@link PasswordEncoder}
+ *
  * @author 应卓
  * @since 2.0.1
  */
