@@ -12,13 +12,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
+import spring.turbo.module.webmvc.locale.SystemDefaultLocaleResolver;
 import spring.turbo.module.webmvc.params.RemoteAddressHandlerMethodArgumentResolver;
 import spring.turbo.module.webmvc.rest.JsonEncoder;
 import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
@@ -49,6 +52,12 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnBean({JsonEncoder.class, ObjectMapper.class})
     public JsonEncodingResponseAdvice jsonEncodingResponseAdvice(JsonEncoder encoder, ObjectMapper objectMapper) {
         return new JsonEncodingResponseAdvice(encoder, objectMapper);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LocaleResolver localeResolver() {
+        return SystemDefaultLocaleResolver.getInstance();
     }
 
 }
