@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.util.matcher.*;
@@ -15,6 +16,7 @@ import spring.turbo.util.Asserts;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -101,6 +103,12 @@ public final class RequestMatcherBuilder {
         return this;
     }
 
+    public RequestMatcherBuilder warpPredicate(Predicate<HttpServletRequest> predicate) {
+        Asserts.notNull(predicate);
+        matchers.add(predicate::test);
+        return this;
+    }
+
     public RequestMatcher any() {
         if (matchers.size() == 0) {
             return request -> false;
@@ -123,8 +131,7 @@ public final class RequestMatcherBuilder {
         }
     }
 
-    public RequestMatcher unique() {
-        Asserts.isTrue(matchers.size() == 1);
+    public RequestMatcher first() {
         return matchers.get(0);
     }
 
