@@ -23,6 +23,7 @@ import spring.turbo.util.StringUtils;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static spring.turbo.util.StringPool.HYPHEN_X_80;
 import static spring.turbo.util.StringPool.LF;
@@ -55,7 +56,8 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
      * @param log 日志记录器
      */
     public HumanReadableRequestLoggingFilter(@Nullable Logger log) {
-        this.log = log != null ? log : new Logger(HumanReadableRequestLoggingFilter.class, LogLevel.DEBUG);
+        this.log = Objects.requireNonNullElseGet(log,
+                () -> new Logger(HumanReadableRequestLoggingFilter.class, LogLevel.DEBUG));
     }
 
     @Override
@@ -69,7 +71,7 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
         try {
             doLog(request);
         } catch (Exception ignored) {
-            // NOP
+            // NoOp
         }
         filterChain.doFilter(request, response);
     }

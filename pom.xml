@@ -97,7 +97,6 @@
 
     <properties>
         <encoding>UTF-8</encoding>
-
         <java.version>17</java.version>
 
         <spring.turbo.version>2.0.0</spring.turbo.version>
@@ -727,6 +726,7 @@
                 <version>3.3.0</version>
                 <configuration>
                     <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
                             <Name>${project.artifactId}</Name>
                             <Implementation-Title>Another tool of SpringBoot and SpringFramework</Implementation-Title>

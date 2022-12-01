@@ -52,6 +52,7 @@ public final class HEXPasswordEncoder implements PasswordEncoder {
         return encode(rawPassword).equals(encodedPassword);
     }
 
+    // 延迟加载
     private static class SyncAvoid {
         private static final HEXPasswordEncoder INSTANCE = new HEXPasswordEncoder();
     }
