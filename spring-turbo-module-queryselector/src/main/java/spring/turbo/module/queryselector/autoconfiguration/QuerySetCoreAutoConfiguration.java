@@ -27,8 +27,8 @@ import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
 public class QuerySetCoreAutoConfiguration {
 
     @Bean
-    public SelectorSetResolver selectorSetResolver(final QuerySelectorProperties properties) {
-        final SelectorSetResolver bean = new SelectorSetResolver();
+    public SelectorSetResolver selectorSetResolver(QuerySelectorProperties properties) {
+        final var bean = new SelectorSetResolver();
         bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
         bean.setSeparatorInSelector(properties.getSeparatorInSelector());
         bean.setSeparatorInRange(properties.getSeparatorInRange());
