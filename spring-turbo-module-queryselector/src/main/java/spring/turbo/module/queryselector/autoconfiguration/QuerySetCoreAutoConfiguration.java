@@ -42,7 +42,7 @@ public class QuerySetCoreAutoConfiguration {
     @ConditionalOnMissingBean
     public SelectorSetFormatter selectorSetResolver(SelectorSetProperties properties, SelectorFormatter selectorFormatter) {
         final SelectorSetFormatter bean = new SelectorSetFormatter();
-        bean.setSeparatorBetweenSelectors(properties.getSeparatorInSelector());
+        bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
         bean.setIgnoreErrorIfUnableToParse(properties.isIgnoreErrorIfUnableToParse());
         bean.setIgnoreErrorIfUnableToPrint(properties.isIgnoreErrorIfUnableToPrint());
         bean.setSelectorFormatter(selectorFormatter);

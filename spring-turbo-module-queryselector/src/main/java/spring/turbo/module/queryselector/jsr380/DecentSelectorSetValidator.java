@@ -24,15 +24,15 @@ import spring.turbo.util.Asserts;
  */
 public class DecentSelectorSetValidator implements ConstraintValidator<DecentSelectorSet, SelectorSet> {
 
+    @Nullable
+    private DecentSelectorSet annotation;
+
     /**
      * 构造方法
      */
     public DecentSelectorSetValidator() {
         super();
     }
-
-    @Nullable
-    private DecentSelectorSet annotation;
 
     @Override
     public void initialize(DecentSelectorSet constraintAnnotation) {

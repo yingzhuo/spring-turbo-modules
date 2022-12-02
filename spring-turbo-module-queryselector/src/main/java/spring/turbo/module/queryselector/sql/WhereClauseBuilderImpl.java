@@ -13,6 +13,7 @@ import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.lang.Nullable;
+import spring.turbo.module.queryselector.Selector;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
 import spring.turbo.util.ClassPathDirUtils;
@@ -23,6 +24,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author 应卓
@@ -34,7 +36,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     private static final String TEMPLATE_NAME = THIS_TYPE.getSimpleName() + ".ftl";
     private static final String TEMPLATE_CLASS_PATH = ClassPathDirUtils.getClassPathDir(THIS_TYPE);
 
-    private final Map<String, String> itemNameToTableColumnMap;
+    private final Map<String, String> itemNameToTableColumnMappings;
     private final Configuration freemarkerConfiguration;
 
     /**
@@ -47,17 +49,19 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     /**
      * 构造方法
      *
-     * @param itemNameToTableColumnMap item名称于数据库字段映射关系
+     * @param mappings item名称于数据库字段映射关系
      */
-    public WhereClauseBuilderImpl(@Nullable Map<String, String> itemNameToTableColumnMap) {
-        itemNameToTableColumnMap = itemNameToTableColumnMap != null ? itemNameToTableColumnMap : Collections.emptyMap();
-        this.itemNameToTableColumnMap = itemNameToTableColumnMap;
+    public WhereClauseBuilderImpl(@Nullable Map<String, String> mappings) {
+        this.freemarkerConfiguration = createFreemarkerConfiguration();
+        this.itemNameToTableColumnMappings = Objects.requireNonNullElse(mappings, Collections.emptyMap());
+    }
 
+    private Configuration createFreemarkerConfiguration() {
         final Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         cfg.setTemplateLoader(new ClassTemplateLoader(THIS_TYPE, TEMPLATE_CLASS_PATH));
         cfg.setAPIBuiltinEnabled(true);
         cfg.setCacheStorage(NullCacheStorage.INSTANCE);
-        this.freemarkerConfiguration = cfg;
+        return cfg;
     }
 
     @Override
@@ -68,12 +72,13 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 
         try {
             final Map<String, String> map = new HashMap<>();
-            map.putAll(this.itemNameToTableColumnMap);
+            map.putAll(createItemNameMap(selectors));
+            map.putAll(this.itemNameToTableColumnMappings);
             map.putAll(itemNameToTableColumnMap);
 
             final StringObjectMap data = StringObjectMap.newInstance()
-                    .add("selectorList", selectors.toList())
-                    .add("itemNameToTableColumnMap", Collections.unmodifiableMap(map));
+                    .add("itemNameToTableColumnMap", Collections.unmodifiableMap(map))
+                    .add("selectorList", selectors.toList());
 
             final StringWriter writer = new StringWriter();
             final Template template = this.freemarkerConfiguration.getTemplate(TEMPLATE_NAME);
@@ -85,8 +90,15 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     private String formatSql(String sql) {
-        return sql.replaceAll("\n", StringPool.EMPTY)     // 消除换行
+        return sql.replaceAll("\n", StringPool.EMPTY)   // 消除换行
                 .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
     }
 
+    private Map<String, String> createItemNameMap(SelectorSet selectors) {
+        Map<String, String> ret = new HashMap<>();
+        for (Selector selector : selectors) {
+            ret.put(selector.getItem().getName(), selector.getItem().getName());
+        }
+        return ret;
+    }
 }
