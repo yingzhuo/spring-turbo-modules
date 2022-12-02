@@ -12,6 +12,9 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import spring.turbo.module.queryselector.formatter.SelectorFormatter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author 应卓
  * @since 2.0.1
@@ -45,6 +48,11 @@ public class SelectorSetProperties {
      */
     private boolean ignoreErrorIfUnableToPrint = false;
 
+    /**
+     * SQL片段转换工具相关
+     */
+    private SQL sql = new SQL();
+
     @Data
     public static class SelectorProperties {
 
@@ -77,6 +85,20 @@ public class SelectorSetProperties {
          * datetime格式
          */
         private String datetimePattern = "yyyy-MM-dd HH:mm:ss";
+    }
+
+    @Data
+    public static class SQL {
+
+        /**
+         * 是否启用SQL片段转换工具
+         */
+        private boolean enabled = true;
+
+        /**
+         * item 到 数据库column的映射
+         */
+        private Map<String, String> itemNameToTableColumnMappings = new HashMap<>();
     }
 
 }
