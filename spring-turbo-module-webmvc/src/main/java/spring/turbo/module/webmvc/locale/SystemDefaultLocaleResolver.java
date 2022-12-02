@@ -21,15 +21,15 @@ import java.util.TimeZone;
 @Singleton
 public final class SystemDefaultLocaleResolver extends FixedLocaleResolver {
 
-    public static SystemDefaultLocaleResolver getInstance( ) {
-        return SyncAvoid.INSTANCE;
-    }
-
     /**
      * 私有构造方法
      */
     private SystemDefaultLocaleResolver() {
         super(Locale.getDefault(), TimeZone.getDefault());
+    }
+
+    public static SystemDefaultLocaleResolver getInstance() {
+        return SyncAvoid.INSTANCE;
     }
 
     // 延迟加载
