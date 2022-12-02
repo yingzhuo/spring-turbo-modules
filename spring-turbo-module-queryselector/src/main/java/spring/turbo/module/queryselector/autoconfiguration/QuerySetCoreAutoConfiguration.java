@@ -13,29 +13,39 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import spring.turbo.module.queryselector.property.QuerySelectorProperties;
-import spring.turbo.module.queryselector.resolver.SelectorSetResolver;
+import spring.turbo.module.queryselector.formatter.SelectorFormatter;
+import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
+import spring.turbo.module.queryselector.property.SelectorSetProperties;
 
 /**
  * @author 应卓
  * @since 1.3.0
  */
 @AutoConfiguration
-@EnableConfigurationProperties(QuerySelectorProperties.class)
-@ConditionalOnProperty(prefix = "springturbo.queryselector", name = "enabled", havingValue = "true", matchIfMissing = true)
-@ConditionalOnMissingBean(SelectorSetResolver.class)
+@ConditionalOnProperty(prefix = "springturbo.selector-set-formatter", name = "enabled", havingValue = "true", matchIfMissing = true)
+@EnableConfigurationProperties(SelectorSetProperties.class)
 public class QuerySetCoreAutoConfiguration {
 
     @Bean
-    public SelectorSetResolver selectorSetResolver(QuerySelectorProperties properties) {
-        final var bean = new SelectorSetResolver();
-        bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
-        bean.setSeparatorInSelector(properties.getSeparatorInSelector());
-        bean.setSeparatorInRange(properties.getSeparatorInRange());
-        bean.setSeparatorInSet(properties.getSeparatorInSet());
-        bean.setDatePattern(properties.getDatePattern());
-        bean.setDatetimePattern(properties.getDatetimePattern());
-        bean.setSkipErrorIfUnableToResolve(properties.isSkipErrorIfUnableToResolve());
+    @ConditionalOnMissingBean
+    public SelectorFormatter selectorFormatter(SelectorSetProperties properties) {
+        final SelectorFormatter bean = new SelectorFormatter();
+        bean.setSeparatorInSelector(properties.getSelectorFormatter().getSeparatorInSelector());
+        bean.setSeparatorInRange(properties.getSelectorFormatter().getSeparatorInRange());
+        bean.setSeparatorInSet(properties.getSelectorFormatter().getSeparatorInSet());
+        bean.setDatePattern(properties.getSelectorFormatter().getDatePattern());
+        bean.setDatetimePattern(properties.getSelectorFormatter().getDatetimePattern());
+        return bean;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SelectorSetFormatter selectorSetResolver(SelectorSetProperties properties, SelectorFormatter selectorFormatter) {
+        final SelectorSetFormatter bean = new SelectorSetFormatter();
+        bean.setSeparatorBetweenSelectors(properties.getSeparatorInSelector());
+        bean.setIgnoreErrorIfUnableToParse(properties.isIgnoreErrorIfUnableToParse());
+        bean.setIgnoreErrorIfUnableToPrint(properties.isIgnoreErrorIfUnableToPrint());
+        bean.setSelectorFormatter(selectorFormatter);
         return bean;
     }
 

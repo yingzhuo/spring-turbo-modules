@@ -6,96 +6,72 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.resolver;
+package spring.turbo.module.queryselector.formatter;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
-import spring.turbo.module.queryselector.*;
-import spring.turbo.module.queryselector.exception.SelectorResolvingException;
+import org.springframework.format.Formatter;
+import spring.turbo.module.queryselector.DataType;
+import spring.turbo.module.queryselector.LogicType;
+import spring.turbo.module.queryselector.Selector;
+import spring.turbo.module.queryselector.SelectorImpl;
 import spring.turbo.util.*;
-import spring.turbo.util.collection.StreamFactories;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * {@code SelectorSet}解析器默认实现
+ * {@link Selector} 专属 {@link Formatter}
  *
  * @author 应卓
- * @since 1.1.0
+ * @since 2.0.1
  */
-public class SelectorSetResolver implements Converter<String, SelectorSet>, InitializingBean {
+public class SelectorFormatter implements Formatter<Selector>, InitializingBean {
 
-    private String separatorBetweenSelectors = "@@";
     private String separatorInSelector = "#";
     private String separatorInRange = "<==>";
     private String separatorInSet = "'";
     private String datePattern = "yyyy-MM-dd";
     private String datetimePattern = "yyyy-MM-dd HH:mm:ss";
-    private boolean skipErrorIfUnableToResolve = false;
 
     /**
      * 构造方法
      */
-    public SelectorSetResolver() {
+    public SelectorFormatter() {
         super();
     }
 
     @Override
-    @Nullable
-    public SelectorSet convert(@Nullable String string) {
-        if (StringUtils.isBlank(string)) {
-            return null;
-        }
-
-        final List<Selector> selectors = new ArrayList<>();
-
-        for (String selectorString : resolveSelectorStrings(string)) {
-            if (StringUtils.isBlank(selectorString)) {
-                continue;
-            }
-
-            final Optional<Selector> selectorOption = this.resolveSelector(selectorString);
-            selectorOption.ifPresent(selectors::add);
-        }
-
-        return new SelectorSetImpl(selectors);
-    }
-
-    @Override
     public void afterPropertiesSet() {
-        Asserts.hasText(this.separatorBetweenSelectors);
         Asserts.hasText(this.separatorInSelector);
         Asserts.hasText(this.separatorInRange);
         Asserts.hasText(this.separatorInSet);
+        Asserts.hasText(this.datePattern);
+        Asserts.hasText(this.datetimePattern);
     }
 
-    private List<String> resolveSelectorStrings(String string) {
-        final String[] array = string.split(this.separatorBetweenSelectors);
-        return StreamFactories.newStream(array)
-                .map(String::trim)
-                .collect(Collectors.toList());
-    }
-
-    private Optional<Selector> resolveSelector(String string) {
-        try {
-            return doResolveSelector(string);
-        } catch (Exception e) {
-            if (this.skipErrorIfUnableToResolve) {
-                return Optional.empty();
-            } else {
-                throw new SelectorResolvingException(e.getMessage());
-            }
+    @Override
+    public Selector parse(String text, Locale locale) throws ParseException {
+        var selectorOption = doResolveSelector(text);
+        if (selectorOption.isPresent()) {
+            return selectorOption.get();
+        } else {
+            final String msg = StringFormatter.format("\"{}\" can not parsed as selector", text);
+            throw new ParseException(msg, 0);
         }
     }
 
-    private Optional<Selector> doResolveSelector(String string) {
-        final String[] array = string.split(this.separatorInSelector);
+    @Override
+    public String print(Selector object, Locale locale) {
+        // TODO
+        return object.toString();
+    }
+
+    private Optional<Selector> doResolveSelector(String text) {
+        final String[] array = text.split(this.separatorInSelector);
 
         // index 0: name
         final String name = array[0];
@@ -121,7 +97,6 @@ public class SelectorSetResolver implements Converter<String, SelectorSet>, Init
             return Optional.empty();
         }
 
-        Selector selector = null;
         switch (logicType) {
             case IS:
             case NOT:
@@ -186,8 +161,8 @@ public class SelectorSetResolver implements Converter<String, SelectorSet>, Init
 
                 switch (dataType) {
                     case STRING:
-                        // 无意义是
-                        return Optional.empty();
+                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null,
+                                Stream.of(elements).collect(Collectors.toSet())));
                     case NUMBER:
                         return Optional.of(
                                 new SelectorImpl(name, logicType, dataType, null, null, null,
@@ -215,11 +190,7 @@ public class SelectorSetResolver implements Converter<String, SelectorSet>, Init
                 }
         }
 
-        return Optional.ofNullable(selector);
-    }
-
-    public void setSeparatorBetweenSelectors(String separatorBetweenSelectors) {
-        this.separatorBetweenSelectors = separatorBetweenSelectors;
+        return Optional.empty();
     }
 
     public void setSeparatorInSelector(String separatorInSelector) {
@@ -240,10 +211,6 @@ public class SelectorSetResolver implements Converter<String, SelectorSet>, Init
 
     public void setDatetimePattern(String datetimePattern) {
         this.datetimePattern = datetimePattern;
-    }
-
-    public void setSkipErrorIfUnableToResolve(boolean skipErrorIfUnableToResolve) {
-        this.skipErrorIfUnableToResolve = skipErrorIfUnableToResolve;
     }
 
 }

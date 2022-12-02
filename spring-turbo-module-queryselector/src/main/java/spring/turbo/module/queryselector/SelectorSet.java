@@ -52,4 +52,7 @@ public interface SelectorSet extends Iterable<Selector>, Serializable {
 
     public boolean isEmpty();
 
+    @Override
+    public String toString();
+
 }
