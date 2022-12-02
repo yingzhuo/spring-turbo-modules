@@ -57,11 +57,6 @@ public class SelectorSetProperties {
     public static class SelectorProperties {
 
         /**
-         * selector之间的分隔符
-         */
-        private String separatorBetweenSelectors = "@@";
-
-        /**
          * selector内部分隔符
          */
         private String separatorInSelector = "#";
