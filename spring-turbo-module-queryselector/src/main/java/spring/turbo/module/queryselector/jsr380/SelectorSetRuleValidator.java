@@ -22,6 +22,7 @@ import spring.turbo.util.Asserts;
  * @see SelectorSetRule
  * @since 1.1.0
  */
+@Deprecated(forRemoval = true, since = "2.0.1")
 public class SelectorSetRuleValidator implements ConstraintValidator<SelectorSetRule, SelectorSet> {
 
     @Nullable

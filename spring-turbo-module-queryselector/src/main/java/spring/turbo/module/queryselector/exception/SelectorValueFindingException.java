@@ -10,22 +10,14 @@ package spring.turbo.module.queryselector.exception;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 2.0.1
  */
-public class SelectorValueFindingException extends IllegalArgumentException {
+public class SelectorValueFindingException extends RuntimeException {
 
-    /**
-     * 构造方法
-     */
     public SelectorValueFindingException() {
         super();
     }
 
-    /**
-     * 构造方法
-     *
-     * @param message 错误信息
-     */
     public SelectorValueFindingException(String message) {
         super(message);
     }

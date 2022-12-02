@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * 选择器集合
  *
  * @author 应卓
- * @since 1.1.0
+ * @since 2.0.1
  */
 public interface SelectorSet extends Iterable<Selector>, Serializable {
 

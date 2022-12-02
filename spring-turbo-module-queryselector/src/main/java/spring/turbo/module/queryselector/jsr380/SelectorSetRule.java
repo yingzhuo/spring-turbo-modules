@@ -25,6 +25,7 @@ import static java.lang.annotation.ElementType.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Constraint(validatedBy = SelectorSetRuleValidator.class)
+@Deprecated(forRemoval = true, since = "2.0.1")
 public @interface SelectorSetRule {
 
     public int min() default 0;
