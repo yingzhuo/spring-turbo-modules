@@ -19,17 +19,23 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- * @see SelectorSetRule
- * @since 1.1.0
+ * @see DecentSelectorSet
+ * @since 2.0.1
  */
-@Deprecated(forRemoval = true, since = "2.0.1")
-public class SelectorSetRuleValidator implements ConstraintValidator<SelectorSetRule, SelectorSet> {
+public class DecentSelectorSetValidator implements ConstraintValidator<DecentSelectorSet, SelectorSet> {
+
+    /**
+     * 构造方法
+     */
+    public DecentSelectorSetValidator() {
+        super();
+    }
 
     @Nullable
-    private SelectorSetRule annotation;
+    private DecentSelectorSet annotation;
 
     @Override
-    public void initialize(SelectorSetRule constraintAnnotation) {
+    public void initialize(DecentSelectorSet constraintAnnotation) {
         this.annotation = constraintAnnotation;
     }
 
@@ -53,7 +59,6 @@ public class SelectorSetRuleValidator implements ConstraintValidator<SelectorSet
                 }
             }
         }
-
         return false;
     }
 
