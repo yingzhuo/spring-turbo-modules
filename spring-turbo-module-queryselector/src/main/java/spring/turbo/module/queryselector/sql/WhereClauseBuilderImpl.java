@@ -10,8 +10,6 @@ package spring.turbo.module.queryselector.sql;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.NullCacheStorage;
-import freemarker.core.HTMLOutputFormat;
-import freemarker.core.PlainTextOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.lang.Nullable;

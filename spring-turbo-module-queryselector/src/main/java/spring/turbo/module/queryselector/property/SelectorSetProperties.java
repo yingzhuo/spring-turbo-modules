@@ -31,7 +31,7 @@ public class SelectorSetProperties {
     /**
      * 多个 {@link spring.turbo.module.queryselector.Selector} 之间的分隔符
      */
-    private String separatorInSelector = "#";
+    private String separatorBetweenSelectors = "@@";
 
     /**
      * {@link SelectorFormatter} 配置
