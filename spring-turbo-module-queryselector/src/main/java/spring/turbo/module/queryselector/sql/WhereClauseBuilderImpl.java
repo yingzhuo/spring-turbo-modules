@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 2.0.1
  */
 public class WhereClauseBuilderImpl implements WhereClauseBuilder {
 

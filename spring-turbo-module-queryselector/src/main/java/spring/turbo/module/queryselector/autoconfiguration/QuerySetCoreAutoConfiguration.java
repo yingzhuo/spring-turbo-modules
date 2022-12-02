@@ -19,7 +19,7 @@ import spring.turbo.module.queryselector.property.SelectorSetProperties;
 
 /**
  * @author 应卓
- * @since 1.3.0
+ * @since 2.0.1
  */
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "springturbo.selector-set-formatter", name = "enabled", havingValue = "true", matchIfMissing = true)

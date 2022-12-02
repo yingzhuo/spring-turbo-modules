@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 2.0.1
  */
 @FunctionalInterface
 public interface WhereClauseBuilder extends BiFunction<SelectorSet, Map<String, String>, String> {

@@ -17,7 +17,7 @@ import spring.turbo.module.queryselector.SelectorSet;
 
 /**
  * @author 应卓
- * @since 1.3.0
+ * @since 2.0.1
  */
 public class SelectorSetJacksonModule extends SimpleModule {
 

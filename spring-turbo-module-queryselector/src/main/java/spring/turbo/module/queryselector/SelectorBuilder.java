@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 2.0.1
  */
 public final class SelectorBuilder implements Builder<Selector> {
 

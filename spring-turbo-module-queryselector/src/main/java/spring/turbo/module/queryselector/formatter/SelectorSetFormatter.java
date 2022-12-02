@@ -10,10 +10,12 @@ package spring.turbo.module.queryselector.formatter;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.format.Formatter;
+import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.Selector;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.SelectorSetImpl;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.StringUtils;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -22,14 +24,21 @@ import java.util.Locale;
 
 /**
  * @author 应卓
+ * @see Selector
+ * @see SelectorSet
+ * @see SelectorFormatter
  * @since 2.0.1
  */
 public class SelectorSetFormatter implements Formatter<SelectorSet>, InitializingBean {
 
     private String separatorBetweenSelectors = "@@";
-    private SelectorFormatter selectorFormatter;
+
     private boolean ignoreErrorIfUnableToParse = false;
+
     private boolean ignoreErrorIfUnableToPrint = false;
+
+    @Nullable
+    private SelectorFormatter selectorFormatter;
 
     /**
      * 构造方法
@@ -40,6 +49,7 @@ public class SelectorSetFormatter implements Formatter<SelectorSet>, Initializin
 
     @Override
     public SelectorSet parse(String text, Locale locale) throws ParseException {
+        Asserts.notNull(selectorFormatter);
         List<Selector> selectorList = new ArrayList<>();
         for (String selectorString : text.split(this.separatorBetweenSelectors)) {
             try {
@@ -56,8 +66,19 @@ public class SelectorSetFormatter implements Formatter<SelectorSet>, Initializin
 
     @Override
     public String print(SelectorSet object, Locale locale) {
-        // TODO
-        return object.toString();
+        Asserts.notNull(selectorFormatter);
+        final List<String> toStringList = new ArrayList<>();
+
+        for (Selector selector : object) {
+            try {
+                toStringList.add(selectorFormatter.print(selector, locale));
+            } catch (Exception e) {
+                if (!ignoreErrorIfUnableToPrint) {
+                    throw e;
+                }
+            }
+        }
+        return StringUtils.nullSafeJoin(toStringList, this.separatorBetweenSelectors);
     }
 
     @Override

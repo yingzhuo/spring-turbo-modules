@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author 应卓
- * @since 1.1.0
+ * @since 2.0.1
  */
 public class SelectorSetImpl implements SelectorSet {
 

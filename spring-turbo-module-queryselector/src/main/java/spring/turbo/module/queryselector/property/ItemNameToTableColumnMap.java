@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 /**
  * @author 应卓
- * @since 1.1.2
+ * @since 2.0.1
  */
 @ConfigurationProperties(prefix = "springturbo.queryselector.sql.column-mapping")
 public class ItemNameToTableColumnMap extends HashMap<String, String> {

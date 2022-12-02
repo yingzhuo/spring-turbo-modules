@@ -15,14 +15,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import spring.turbo.module.queryselector.property.ItemNameToTableColumnMap;
 import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
+import spring.turbo.module.queryselector.property.ItemNameToTableColumnMap;
 import spring.turbo.module.queryselector.sql.WhereClauseBuilder;
 import spring.turbo.module.queryselector.sql.WhereClauseBuilderImpl;
 
 /**
  * @author 应卓
- * @since 1.3.0
+ * @since 2.0.1
  */
 @AutoConfiguration
 @EnableConfigurationProperties(ItemNameToTableColumnMap.class)

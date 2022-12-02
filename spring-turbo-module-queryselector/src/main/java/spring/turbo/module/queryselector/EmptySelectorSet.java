@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author 应卓
  * @see #getInstance()
- * @since 1.1.2
+ * @since 2.0.1
  */
 @Singleton
 public final class EmptySelectorSet implements SelectorSet {

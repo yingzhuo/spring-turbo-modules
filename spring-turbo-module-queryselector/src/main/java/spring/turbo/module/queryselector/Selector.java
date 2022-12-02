@@ -21,7 +21,7 @@ import java.util.Set;
  * @see SelectorBuilder
  * @see SelectorBuilder#newInstance()
  * @see #builder()
- * @since 1.1.0
+ * @since 2.0.1
  */
 public interface Selector extends Serializable {
 

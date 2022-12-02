@@ -17,15 +17,15 @@ import static java.lang.annotation.ElementType.*;
 
 /**
  * @author 应卓
- * @see SelectorSetRuleValidator
- * @since 1.1.0
+ * @see DecentSelectorSetValidator
+ * @since 2.0.1
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
-@Constraint(validatedBy = SelectorSetRuleValidator.class)
-public @interface SelectorSetRule {
+@Constraint(validatedBy = DecentSelectorSetValidator.class)
+public @interface DecentSelectorSet {
 
     public int min() default 0;
 
