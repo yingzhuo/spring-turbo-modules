@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.queryselector.resolver;
+package spring.turbo.module.queryselector.formatter;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

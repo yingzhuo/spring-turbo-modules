@@ -11,9 +11,7 @@ package spring.turbo.module.queryselector.jsr380;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static java.lang.annotation.ElementType.*;
 
@@ -22,6 +20,8 @@ import static java.lang.annotation.ElementType.*;
  * @see SelectorSetRuleValidator
  * @since 1.1.0
  */
+@Inherited
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Constraint(validatedBy = SelectorSetRuleValidator.class)
@@ -31,7 +31,7 @@ public @interface SelectorSetRule {
 
     public int max() default Integer.MAX_VALUE;
 
-    public String message() default "invalid selector set";
+    public String message();
 
     public Class<?>[] groups() default {};
 

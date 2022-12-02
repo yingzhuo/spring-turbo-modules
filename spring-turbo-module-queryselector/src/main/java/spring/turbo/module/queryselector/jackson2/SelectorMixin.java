@@ -12,26 +12,26 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import spring.turbo.jackson2.support.ParserJsonDeserializer;
 import spring.turbo.jackson2.support.PrinterJsonSerializer;
-import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
+import spring.turbo.module.queryselector.formatter.SelectorFormatter;
 
 /**
  * @author 应卓
- * @see SelectorSetFormatter
+ * @see SelectorFormatter
  * @since 2.0.1
  */
-@JsonSerialize(using = SelectorSetMixin.S.class)
-@JsonDeserialize(using = SelectorSetMixin.D.class)
-public abstract class SelectorSetMixin {
+@JsonSerialize(using = SelectorMixin.S.class)
+@JsonDeserialize(using = SelectorMixin.D.class)
+public abstract class SelectorMixin {
 
     public static class S extends PrinterJsonSerializer {
         public S() {
-            super(SelectorSetFormatter.class, new SelectorSetFormatter());
+            super(SelectorFormatter.class, new SelectorFormatter());
         }
     }
 
     public static class D extends ParserJsonDeserializer {
         public D() {
-            super(SelectorSetFormatter.class, new SelectorSetFormatter());
+            super(SelectorFormatter.class, new SelectorFormatter());
         }
     }
 

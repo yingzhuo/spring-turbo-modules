@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import spring.turbo.SpringTurboVersion;
+import spring.turbo.module.queryselector.Selector;
 import spring.turbo.module.queryselector.SelectorSet;
 
 /**
@@ -33,6 +34,7 @@ public class SelectorSetJacksonModule extends SimpleModule {
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
+        context.setMixInAnnotations(Selector.class, SelectorMixin.class);
         context.setMixInAnnotations(SelectorSet.class, SelectorSetMixin.class);
     }
 
