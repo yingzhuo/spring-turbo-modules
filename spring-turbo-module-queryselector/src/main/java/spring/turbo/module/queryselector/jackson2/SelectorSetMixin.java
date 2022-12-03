@@ -23,12 +23,18 @@ import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
 @JsonDeserialize(using = SelectorSetMixin.D.class)
 public abstract class SelectorSetMixin {
 
+    /**
+     * 序列化器
+     */
     public static class S extends PrinterJsonSerializer {
         public S() {
             super(SelectorSetFormatter.class, new SelectorSetFormatter());
         }
     }
 
+    /**
+     * 反序列化器
+     */
     public static class D extends ParserJsonDeserializer {
         public D() {
             super(SelectorSetFormatter.class, new SelectorSetFormatter());

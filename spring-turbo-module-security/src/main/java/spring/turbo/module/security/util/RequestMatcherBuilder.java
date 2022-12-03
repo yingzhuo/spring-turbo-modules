@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 /**
  * @author 应卓
  * @see org.springframework.security.web.util.matcher.RequestMatcher
+ * @see #newInstance()
  * @since 1.3.1
  */
 public final class RequestMatcherBuilder {
@@ -132,7 +133,7 @@ public final class RequestMatcherBuilder {
     }
 
     public RequestMatcher first() {
-        return matchers.get(0);
+        return matchers.isEmpty() ? alwaysFalse() : matchers.get(0);
     }
 
 }

@@ -72,7 +72,7 @@ image:https://img.shields.io/maven-central/v/com.github.yingzhuo/spring-turbo.sv
 
 === ISSUES
 
-* link:https://github.com/yingzhuo/spring-turbo/issues[Github Issues]
+* link:https://github.com/yingzhuo/spring-turbo-modules/issues[Github Issues]
 
 === 许可证
 
