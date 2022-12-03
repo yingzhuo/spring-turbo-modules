@@ -62,8 +62,8 @@
     </distributionManagement>
 
     <issueManagement>
-        <url>https://github.com/yingzhuo/spring-turbo-modules/issues</url>
         <system>GitHub Issues</system>
+        <url>https://github.com/yingzhuo/spring-turbo-modules/issues</url>
     </issueManagement>
 
     <repositories>
