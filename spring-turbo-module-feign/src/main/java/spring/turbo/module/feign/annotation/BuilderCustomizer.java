@@ -9,17 +9,22 @@
 package spring.turbo.module.feign.annotation;
 
 import feign.Feign.Builder;
+import org.springframework.core.Ordered;
 import spring.turbo.bean.Customizer;
 
 /**
  * @author 应卓
  * @since 1.0.0
  */
-public interface BuilderCustomizer extends Customizer<Builder> {
+@FunctionalInterface
+public interface BuilderCustomizer extends Customizer<Builder>, Ordered {
 
     @Override
-    public default Builder customize(Builder builder) {
-        return builder;
+    public Builder customize(Builder builder);
+
+    @Override
+    default int getOrder() {
+        return 0;
     }
 
 }
