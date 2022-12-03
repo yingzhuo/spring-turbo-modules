@@ -28,32 +28,31 @@ import java.util.List;
 public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
     @Override
-    public void configure(HttpSecurity http) {
+    public void configure(HttpSecurity http) throws Exception {
         final SpringContext ctx = this.getSpringContext(http);
 
         final List<FilterConfiguration> configurations = ctx.getBeanList(FilterConfiguration.class);
 
         for (final FilterConfiguration configuration : configurations) {
 
+            // 如果已被禁用则跳过
             if (!configuration.isEnabled()) {
                 continue;
             }
 
+            // 获取过滤器实例
             final Filter filter = configuration.create();
             if (filter == null) {
                 continue;
             }
 
-            if (filter instanceof InitializingBean) {
-                try {
-                    ((InitializingBean) filter).afterPropertiesSet();
-                } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                }
+            // 尝试初始化
+            if (filter instanceof InitializingBean initializingBeanFilter) {
+                initializingBeanFilter.afterPropertiesSet();
             }
 
-            final FilterConfiguration.Position beforeOrAfter = configuration.position();
-            final Class<Filter> position = configuration.positionInChain();
+            final var position = configuration.positionInChain();
+            final var beforeOrAfter = configuration.position();
 
             switch (beforeOrAfter) {
                 case BEFORE -> http.addFilterBefore(filter, position);

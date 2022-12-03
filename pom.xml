@@ -8,13 +8,13 @@
     <artifactId>spring-turbo-modules</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <modules>
-        <module>spring-turbo-module-feign</module>
-        <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
+        <module>spring-turbo-module-queryselector</module>
+        <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-misc</module>
-        <module>spring-turbo-module-data-handling</module>
         <module>spring-turbo-module-data-accessing</module>
+        <module>spring-turbo-module-data-handling</module>
     </modules>
     <packaging>pom</packaging>
 

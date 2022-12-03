@@ -13,7 +13,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
+ * 可跳过的过滤器
+ *
  * @author 应卓
+ * @see jakarta.servlet.http.HttpServletRequest
  * @see spring.turbo.module.security.util.RequestMatcherBuilder
  * @since 2.0.1
  */

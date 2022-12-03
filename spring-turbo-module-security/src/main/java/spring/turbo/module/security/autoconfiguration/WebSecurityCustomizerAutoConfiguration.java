@@ -26,9 +26,7 @@ public class WebSecurityCustomizerAutoConfiguration {
 
     @Bean
     public WebSecurityCustomizer springSecurityDebugModeCustomizer(@IsTraceOrDebugMode boolean debugMode) {
-        return web -> {
-            web.debug(debugMode);
-        };
+        return web -> web.debug(debugMode);
     }
 
 }

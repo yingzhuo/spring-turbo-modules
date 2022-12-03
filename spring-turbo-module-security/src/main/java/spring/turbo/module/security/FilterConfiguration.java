@@ -18,7 +18,7 @@ import spring.turbo.bean.Factory;
  * <p>
  * 本类用来配置SpringSecurity扩展过滤器，必须把此类的实现加入 {@link org.springframework.context.ApplicationContext}。
  *
- * @param <T> FilterType
+ * @param <T> {@link Filter} 的类型
  * @author 应卓
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
  * @see spring.turbo.module.security.filter.RequestLoggingFilter
@@ -40,10 +40,16 @@ public interface FilterConfiguration<T extends Filter> extends Factory<T> {
         return BasicAuthenticationFilter.class;
     }
 
+    /**
+     * 需要配置的{@link Filter}在{@link org.springframework.security.web.SecurityFilterChain}中的位置
+     */
     public default Position position() {
         return Position.AFTER;
     }
 
+    /**
+     * 需要配置的{@link Filter}在{@link org.springframework.security.web.SecurityFilterChain}中的位置
+     */
     public enum Position {
         BEFORE, AFTER, REPLACE
     }
