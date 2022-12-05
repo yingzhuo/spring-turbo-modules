@@ -37,6 +37,7 @@ import static feign.Feign.Builder;
  * @author 应卓
  * @since 1.0.0
  */
+@SuppressWarnings("deprecation")
 class FeignClientFactoryBean extends AbstractFactoryBean
         implements InitializingBean, ApplicationContextAware, EnvironmentAware {
 
@@ -44,7 +45,9 @@ class FeignClientFactoryBean extends AbstractFactoryBean
     private Environment environment; // 回调
     private InstanceCache instanceCache; // 回调
 
-    // 本类必须有public默认构造
+    /**
+     * 默认构造方法
+     */
     public FeignClientFactoryBean() {
         super();
     }
