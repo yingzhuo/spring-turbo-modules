@@ -31,7 +31,7 @@ public @interface DecentSelectorSet {
 
     public int max() default Integer.MAX_VALUE;
 
-    public String message();
+    public String message() default "{spring.turbo.module.queryselector.jsr380.DecentSelectorSet.message}";
 
     public Class<?>[] groups() default {};
 
