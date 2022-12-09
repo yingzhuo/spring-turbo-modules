@@ -11,9 +11,7 @@ package spring.turbo.module.security.convention.spi;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.module.security.encoder.EncodingIds;
@@ -29,7 +27,6 @@ import java.util.Optional;
  * @author 应卓
  * @since 2.0.3
  */
-@SuppressWarnings("deprecation")
 public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEncoderConvention {
 
     /**
@@ -39,26 +36,17 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         super();
     }
 
-    @Nullable
-    private static PasswordEncoder getInstance(String classname) {
-        try {
-            final Optional<PasswordEncoder> oo = InstanceUtils.newInstance(classname);
-            return oo.orElse(null);
-        } catch (Throwable ignored) {
-            return null;
-        }
-    }
-
     @Override
+    @SuppressWarnings("deprecation")
     public Map<String, PasswordEncoder> getExtraPasswordEncoderWithName() {
         final var map = new HashMap<String, PasswordEncoder>();
         map.put(EncodingIds.bcrypt, new BCryptPasswordEncoder());
         map.put(EncodingIds.noop, NoOpPasswordEncoder.getInstance());
-        map.put(EncodingIds.ldap, new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
-        map.put(EncodingIds.MD4, new org.springframework.security.crypto.password.Md4PasswordEncoder());
-        map.put(EncodingIds.MD5, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
-        map.put(EncodingIds.SHA_1, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
-        map.put(EncodingIds.SHA_256, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-256"));
+        map.put(EncodingIds.ldap, new LdapShaPasswordEncoder());
+        map.put(EncodingIds.MD4, new Md4PasswordEncoder());
+        map.put(EncodingIds.MD5, new MessageDigestPasswordEncoder("MD5"));
+        map.put(EncodingIds.SHA_1, new MessageDigestPasswordEncoder("SHA-1"));
+        map.put(EncodingIds.SHA_256, new MessageDigestPasswordEncoder("SHA-256"));
         map.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
@@ -91,6 +79,16 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         }
 
         return Collections.unmodifiableMap(map);
+    }
+
+    @Nullable
+    private PasswordEncoder getInstance(String classname) {
+        try {
+            final Optional<PasswordEncoder> oo = InstanceUtils.newInstance(classname);
+            return oo.orElse(null);
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 
 }
