@@ -9,26 +9,23 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.lang.Nullable;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.InstanceUtils;
+import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.ServiceLoaderUtils;
 import spring.turbo.util.StringUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author 应卓
  * @see EncodingIds
  * @since 1.0.0
  */
-@SuppressWarnings("deprecation")
 public final class PasswordEncoderFactories {
 
     /**
@@ -58,56 +55,12 @@ public final class PasswordEncoderFactories {
     }
 
     private static Map<String, PasswordEncoder> getEncoders() {
-        final var encoders = new HashMap<String, PasswordEncoder>();
-        encoders.put(EncodingIds.bcrypt, new BCryptPasswordEncoder()); // default
-        encoders.put(EncodingIds.noop, NullPasswordEncoder.getInstance());
-        encoders.put(EncodingIds.ldap, new org.springframework.security.crypto.password.LdapShaPasswordEncoder());
-        encoders.put(EncodingIds.MD4, new org.springframework.security.crypto.password.Md4PasswordEncoder());
-        encoders.put(EncodingIds.MD5, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("MD5"));
-        encoders.put(EncodingIds.SHA_1, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-1"));
-        encoders.put(EncodingIds.SHA_256, new org.springframework.security.crypto.password.MessageDigestPasswordEncoder("SHA-256"));
-        encoders.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        encoders.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
-        encoders.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        encoders.put(EncodingIds.HEX, HEXPasswordEncoder.getInstance());
-
-        PasswordEncoder encoder = null;
-
-        // MD2
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.MD2PasswordEncoder");
-        if (encoder != null) {
-            encoders.put(EncodingIds.MD2, encoder);
+        final var map = new HashMap<String, PasswordEncoder>();
+        final var services = ServiceLoaderUtils.loadQuietly(ExtraPasswordEncoderConvention.class);
+        for (final var service : services) {
+            CollectionUtils.nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
         }
-
-        // SHA384
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA384PasswordEncoder");
-        if (encoder != null) {
-            encoders.put(EncodingIds.SHA_384, encoder);
-        }
-
-        // SHA512
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA512PasswordEncoder");
-        if (encoder != null) {
-            encoders.put(EncodingIds.SHA_512, encoder);
-        }
-
-        // SM3
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SM3PasswordEncoder");
-        if (encoder != null) {
-            encoders.put(EncodingIds.SM3, encoder);
-        }
-
-        return encoders;
-    }
-
-    @Nullable
-    private static PasswordEncoder getInstance(String classname) {
-        try {
-            final Optional<PasswordEncoder> oo = InstanceUtils.newInstance(classname);
-            return oo.orElse(null);
-        } catch (Throwable ignored) {
-            return null;
-        }
+        return Collections.unmodifiableMap(map);
     }
 
 }

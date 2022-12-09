@@ -12,8 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.module.security.encoder.NullPasswordEncoder;
 import spring.turbo.util.Asserts;
 
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService, @Nullable PasswordEncoder passwordEncoder) {
         Asserts.notNull(userDetailsService);
         this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder != null ? passwordEncoder : NullPasswordEncoder.getInstance();
+        this.passwordEncoder = passwordEncoder != null ? passwordEncoder : NoOpPasswordEncoder.getInstance();
     }
 
     @Nullable
