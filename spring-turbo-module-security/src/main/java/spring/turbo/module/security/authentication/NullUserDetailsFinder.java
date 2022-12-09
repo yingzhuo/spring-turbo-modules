@@ -45,6 +45,7 @@ public final class NullUserDetailsFinder implements UserDetailsFinder {
         return null;
     }
 
+    // 延迟加载
     private static class SyncAvoid {
         private static final NullUserDetailsFinder INSTANCE = new NullUserDetailsFinder();
     }

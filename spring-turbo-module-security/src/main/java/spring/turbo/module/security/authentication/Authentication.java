@@ -16,6 +16,7 @@ import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.webmvc.token.Token;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -42,10 +43,28 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @Nullable
     private final Token token;
 
+    /**
+     * 默认构造方法
+     */
     public Authentication() {
         this(null, null);
     }
 
+    /**
+     * 认证对象
+     *
+     * @param userDetails 用户信息
+     */
+    public Authentication(@Nullable UserDetails userDetails) {
+        this(userDetails, null);
+    }
+
+    /**
+     * 认证对象
+     *
+     * @param userDetails 用户信息
+     * @param token       令牌
+     */
     public Authentication(@Nullable UserDetails userDetails, @Nullable Token token) {
         super(AuthorityUtils.getAuthorities(userDetails));
         this.userDetails = userDetails;
@@ -57,11 +76,7 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @NonNull
     @Override
     public Object getPrincipal() {
-        if (userDetails != null) {
-            return userDetails;
-        } else {
-            return Long.toString(System.identityHashCode(this));
-        }
+        return Objects.requireNonNullElse(userDetails, Long.toString(System.identityHashCode(this)));
     }
 
     @NonNull

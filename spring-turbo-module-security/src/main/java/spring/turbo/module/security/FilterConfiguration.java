@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import spring.turbo.bean.Factory;
 
 /**
- * Filter配置单元
+ * {@link Filter} 配置单元
  * <p>
  * 本类用来配置SpringSecurity扩展过滤器，必须把此类的实现加入 {@link org.springframework.context.ApplicationContext}。
  *
