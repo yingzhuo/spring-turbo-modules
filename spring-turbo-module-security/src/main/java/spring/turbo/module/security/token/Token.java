@@ -6,28 +6,30 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.convention.spi;
+package spring.turbo.module.security.token;
 
-import org.springframework.core.Ordered;
-import spring.turbo.convention.ExtraMessageSourceBasenameConvention;
-
-import java.util.Collection;
-import java.util.List;
+import java.io.Serializable;
 
 /**
+ * 令牌
+ *
  * @author 应卓
- * @since 2.0.3
+ * @see #ofString(String)
+ * @since 1.0.0
  */
-public final class ExtraMessageSourceBasenameConventionImpl implements ExtraMessageSourceBasenameConvention {
+public interface Token extends Serializable {
 
-    @Override
-    public Collection<String> getExtraMessageSourceBasename() {
-        return List.of("spring.turbo.module.queryselector.ValidationMessages");
+    public static Token ofString(String string) {
+        return StringToken.of(string);
     }
 
+    /**
+     * @return 将令牌转换为 {@link String}
+     * @since 1.0.5
+     */
+    public String asString();
+
     @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 100;
-    }
+    public String toString();
 
 }

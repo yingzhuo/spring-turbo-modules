@@ -6,35 +6,35 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.jackson2;
+package spring.turbo.module.security.jackson2;
 
 import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import spring.turbo.SpringTurboVersion;
-import spring.turbo.module.queryselector.Selector;
-import spring.turbo.module.queryselector.SelectorSet;
+import spring.turbo.module.security.token.BasicToken;
+import spring.turbo.module.security.token.StringToken;
 
 /**
  * @author 应卓
- * @since 2.0.1
+ * @since 2.0.3
  */
-public class SelectorSetJacksonModule extends SimpleModule {
+public class SecurityModuleJackson2Module extends SimpleModule {
 
     /**
      * 默认构造方法
      */
-    public SelectorSetJacksonModule() {
+    public SecurityModuleJackson2Module() {
         super(
-                SelectorSetJacksonModule.class.getName(),
-                VersionUtil.parseVersion(SpringTurboVersion.VERSION, "com.github.yingzhuo", "spring-turbo-module-queryselector")
+                SecurityModuleJackson2Module.class.getName(),
+                VersionUtil.parseVersion(SpringTurboVersion.VERSION, "com.github.yingzhuo", "spring-turbo-module-security")
         );
     }
 
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
-        context.setMixInAnnotations(Selector.class, SelectorMixin.class);
-        context.setMixInAnnotations(SelectorSet.class, SelectorSetMixin.class);
+        context.setMixInAnnotations(StringToken.class, StringTokenMixin.class);
+        context.setMixInAnnotations(BasicToken.class, BasicTokenMixin.class);
     }
 
 }

@@ -6,28 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.convention.spi;
+package spring.turbo.module.security.jackson2;
 
-import org.springframework.core.Ordered;
-import spring.turbo.convention.ExtraMessageSourceBasenameConvention;
-
-import java.util.Collection;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import spring.turbo.module.security.token.StringToken;
 
 /**
+ * {@link StringToken} Jackson Mixin
+ *
  * @author 应卓
+ * @see StringToken
  * @since 2.0.3
  */
-public final class ExtraMessageSourceBasenameConventionImpl implements ExtraMessageSourceBasenameConvention {
+public abstract class StringTokenMixin {
 
-    @Override
-    public Collection<String> getExtraMessageSourceBasename() {
-        return List.of("spring.turbo.module.queryselector.ValidationMessages");
+    // 反序列化
+    @JsonCreator
+    public static StringToken toToken(String tokenValue) {
+        return StringToken.of(tokenValue);
     }
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 100;
-    }
+    @JsonValue
+    public abstract String asString();
 
 }

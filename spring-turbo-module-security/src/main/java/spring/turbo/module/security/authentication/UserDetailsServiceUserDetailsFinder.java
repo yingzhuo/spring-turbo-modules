@@ -31,6 +31,7 @@ public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
         this(userDetailsService, null);
     }
 
+    @SuppressWarnings("deprecation")
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService, @Nullable PasswordEncoder passwordEncoder) {
         Asserts.notNull(userDetailsService);
         this.userDetailsService = userDetailsService;

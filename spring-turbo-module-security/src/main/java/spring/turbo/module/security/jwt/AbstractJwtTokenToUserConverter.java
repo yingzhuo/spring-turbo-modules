@@ -19,8 +19,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
+import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.token.Token;
 
 import java.util.Optional;
 

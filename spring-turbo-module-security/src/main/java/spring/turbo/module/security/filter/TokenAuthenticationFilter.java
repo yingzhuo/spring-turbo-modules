@@ -22,10 +22,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
+import spring.turbo.module.security.token.BearerTokenResolver;
+import spring.turbo.module.security.token.StringToken;
+import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.token.BearerTokenResolver;
-import spring.turbo.webmvc.token.StringToken;
-import spring.turbo.webmvc.token.Token;
 
 import java.io.IOException;
 
@@ -47,7 +47,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
      * 构造方法
      */
     public TokenAuthenticationFilter() {
-        super();
         super.setTokenResolver(new BearerTokenResolver());
     }
 
