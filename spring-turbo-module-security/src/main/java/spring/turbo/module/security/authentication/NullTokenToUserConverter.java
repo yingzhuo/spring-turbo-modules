@@ -12,8 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Singleton;
-import spring.turbo.webmvc.token.StringToken;
-import spring.turbo.webmvc.token.Token;
+import spring.turbo.module.security.token.StringToken;
+import spring.turbo.module.security.token.Token;
 
 /**
  * @author 应卓

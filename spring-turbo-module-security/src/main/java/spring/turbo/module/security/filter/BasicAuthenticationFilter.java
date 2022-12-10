@@ -24,10 +24,10 @@ import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.NullUserDetailsFinder;
 import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
+import spring.turbo.module.security.token.BasicToken;
+import spring.turbo.module.security.token.BasicTokenResolver;
+import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.token.BasicToken;
-import spring.turbo.webmvc.token.BasicTokenResolver;
-import spring.turbo.webmvc.token.Token;
 
 import java.io.IOException;
 
@@ -71,7 +71,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request, response)).orElse(null);
-            if (!(token instanceof BasicToken)) {
+            if (!(token instanceof final BasicToken basicToken)) {
                 filterChain.doFilter(request, response);
                 return;
             } else {
@@ -83,7 +83,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 }
             }
 
-            final BasicToken basicToken = (BasicToken) token;
             final String username = basicToken.getUsername();
             final String password = basicToken.getPassword();
 

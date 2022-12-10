@@ -10,9 +10,9 @@ package spring.turbo.module.security.authentication.details;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
+import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.RemoteAddressUtils;
-import spring.turbo.webmvc.token.Token;
 
 import java.util.Date;
 

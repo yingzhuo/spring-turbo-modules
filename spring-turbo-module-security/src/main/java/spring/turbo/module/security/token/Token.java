@@ -6,23 +6,31 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.token;
 
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import spring.turbo.module.security.token.BearerTokenResolver;
+import java.io.Serializable;
 
 /**
+ * 令牌
+ *
  * @author 应卓
- * @see RequestMatcher
- * @since 1.0.1
+ * @see #ofString(String)
+ * @since 1.0.0
  */
-public final class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
+@FunctionalInterface
+public interface Token extends Serializable {
+
+    static Token ofString(String string) {
+        return StringToken.of(string);
+    }
 
     /**
-     * 构造方法
+     * @return 将令牌转换为 {@link String}
+     * @since 1.0.5
      */
-    public JwtTokenAuthenticationFilter() {
-        super.setTokenResolver(new BearerTokenResolver());
-    }
+    String asString();
+
+    @Override
+    String toString();
 
 }

@@ -13,8 +13,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Mutable;
+import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
-import spring.turbo.webmvc.token.Token;
 
 import java.util.Objects;
 import java.util.Optional;

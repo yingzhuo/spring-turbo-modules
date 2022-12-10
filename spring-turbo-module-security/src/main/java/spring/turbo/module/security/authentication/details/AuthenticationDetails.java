@@ -9,7 +9,7 @@
 package spring.turbo.module.security.authentication.details;
 
 import org.springframework.lang.Nullable;
-import spring.turbo.webmvc.token.Token;
+import spring.turbo.module.security.token.Token;
 
 import java.io.Serializable;
 import java.util.Date;
