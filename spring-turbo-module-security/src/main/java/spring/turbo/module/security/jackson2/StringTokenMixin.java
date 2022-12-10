@@ -6,30 +6,28 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.token;
+package spring.turbo.module.security.jackson2;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import spring.turbo.module.security.token.StringToken;
 
 /**
- * 令牌
+ * {@link StringToken} Jackson Mixin
  *
  * @author 应卓
- * @see #ofString(String)
- * @since 1.0.0
+ * @see StringToken
+ * @since 2.0.3
  */
-public interface Token extends Serializable {
+public abstract class StringTokenMixin {
 
-    public static Token ofString(String string) {
-        return StringToken.of(string);
+    // 反序列化
+    @JsonCreator
+    public static StringToken toToken(String tokenValue) {
+        return StringToken.of(tokenValue);
     }
 
-    /**
-     * @return 将令牌转换为 {@link String}
-     * @since 1.0.5
-     */
-    public String asString();
-
-    @Override
-    public String toString();
+    @JsonValue
+    public abstract String asString();
 
 }
