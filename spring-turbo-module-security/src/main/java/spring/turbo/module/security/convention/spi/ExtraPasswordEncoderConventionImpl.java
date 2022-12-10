@@ -58,7 +58,7 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         map.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.HEX, HEXPasswordEncoder.getInstance());
 
-        PasswordEncoder encoder = null;
+        PasswordEncoder encoder;
 
         // MD2
         encoder = getInstance("spring.turbo.module.security.encoder.hutool.MD2PasswordEncoder");

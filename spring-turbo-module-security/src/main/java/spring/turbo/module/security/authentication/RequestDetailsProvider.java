@@ -55,7 +55,7 @@ public interface RequestDetailsProvider {
     /**
      * 无动作实现
      */
-    public static final RequestDetailsProvider NULL = (request, token) -> null;
+    public static final RequestDetailsProvider ALWAYS_NULL = (request, token) -> null;
 
     /**
      * 默认
