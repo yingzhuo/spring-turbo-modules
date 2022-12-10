@@ -17,7 +17,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
-import spring.turbo.module.security.SkippableFilter;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 

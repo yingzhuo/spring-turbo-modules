@@ -25,6 +25,9 @@ import spring.turbo.module.security.exception.MaliciousRequestException;
  */
 final class VerificationExceptionTransformer {
 
+    /**
+     * 私有构造方法
+     */
     private VerificationExceptionTransformer() {
         super();
     }

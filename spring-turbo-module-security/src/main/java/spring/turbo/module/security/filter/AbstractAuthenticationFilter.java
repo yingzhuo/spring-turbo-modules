@@ -20,7 +20,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import spring.turbo.module.security.SkippableFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.token.TokenResolver;

@@ -21,8 +21,8 @@ final class ECDSA256AlgorithmFactory extends ECDSAAlgorithmFactory {
     private final String privateKey;
 
     public ECDSA256AlgorithmFactory(String publicKey, String privateKey) {
-        Asserts.hasText(publicKey, "publicKey is blank");
-        Asserts.hasText(privateKey, "privateKey is blank");
+        Asserts.hasText(publicKey);
+        Asserts.hasText(privateKey);
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }
