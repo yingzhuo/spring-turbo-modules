@@ -70,23 +70,23 @@ public final class RequestMatcherFactories {
         return new AntPathRequestMatcher(pattern, method.name(), caseSensitive);
     }
 
-    public RequestMatcher ipAddress(String ipAddress) {
+    public static RequestMatcher ipAddress(String ipAddress) {
         return new IpAddressMatcher(ipAddress);
     }
 
-    public RequestMatcher mediaType(MediaType... mediaTypes) {
+    public static RequestMatcher mediaType(MediaType... mediaTypes) {
         return new MediaTypeRequestMatcher(mediaTypes);
     }
 
-    public RequestMatcher dispatcherType(DispatcherType dispatcherType) {
+    public static RequestMatcher dispatcherType(DispatcherType dispatcherType) {
         return new DispatcherTypeRequestMatcher(dispatcherType);
     }
 
-    public RequestMatcher dispatcherType(DispatcherType dispatcherType, HttpMethod httpMethod) {
+    public static RequestMatcher dispatcherType(DispatcherType dispatcherType, HttpMethod httpMethod) {
         return new DispatcherTypeRequestMatcher(dispatcherType, httpMethod);
     }
 
-    public RequestMatcher header(String headerName, String regex) {
+    public static RequestMatcher header(String headerName, String regex) {
         return request -> {
             final String headerValue = request.getHeader(headerName);
             if (headerValue == null) {
@@ -96,7 +96,7 @@ public final class RequestMatcherFactories {
         };
     }
 
-    public RequestMatcher query(String parameterName, String regex) {
+    public static RequestMatcher query(String parameterName, String regex) {
         return request -> {
             final String parameterValue = request.getParameter(parameterName);
             if (parameterValue == null) {
