@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.util;
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -107,6 +108,19 @@ public final class RequestMatcherBuilder {
     public RequestMatcherBuilder warpPredicate(Predicate<HttpServletRequest> predicate) {
         Asserts.notNull(predicate);
         matchers.add(predicate::test);
+        return this;
+    }
+
+    public RequestMatcherBuilder dispatcher(DispatcherType dispatcherType) {
+        Asserts.notNull(dispatcherType);
+        matchers.add(new DispatcherTypeRequestMatcher(dispatcherType));
+        return this;
+    }
+
+    public RequestMatcherBuilder dispatcher(DispatcherType dispatcherType, HttpMethod httpMethod) {
+        Asserts.notNull(dispatcherType);
+        Asserts.notNull(httpMethod);
+        matchers.add(new DispatcherTypeRequestMatcher(dispatcherType, httpMethod));
         return this;
     }
 
