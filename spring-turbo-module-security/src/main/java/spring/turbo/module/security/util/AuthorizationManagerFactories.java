@@ -16,15 +16,15 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
-import spring.turbo.lang.Beta;
 
 import java.util.Objects;
 
 /**
+ * {@link AuthorizationManager} 创建用工具类
+ *
  * @author 应卓
  * @since 2.0.4
  */
-@Beta
 public final class AuthorizationManagerFactories {
 
     /**
@@ -96,8 +96,6 @@ public final class AuthorizationManagerFactories {
         };
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     public static <T> AuthorizationManager<T> hasRole(String role) {
         return hasRole(null, role);
     }
@@ -157,5 +155,4 @@ public final class AuthorizationManagerFactories {
                 new NullRoleHierarchy()
         );
     }
-
 }

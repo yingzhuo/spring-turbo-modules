@@ -50,6 +50,7 @@ public final class NullTokenToUserConverter implements TokenToUserConverter {
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    // 延迟加载
     private static class AsyncAvoid {
         private static final NullTokenToUserConverter INSTANCE = new NullTokenToUserConverter();
     }
