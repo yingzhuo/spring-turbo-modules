@@ -12,7 +12,9 @@ import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.*;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import spring.turbo.util.Asserts;
 
 import java.util.function.Predicate;
@@ -106,6 +108,25 @@ public final class RequestMatcherFactories {
         Asserts.notNull(dispatcherType);
         Asserts.notNull(method);
         return new DispatcherTypeRequestMatcher(dispatcherType, method);
+    }
+
+    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String servletPath, String pattern) {
+        Asserts.notNull(introspector);
+        Asserts.notNull(servletPath);
+        Asserts.hasText(pattern);
+        return new MvcRequestMatcher.Builder(introspector)
+                .servletPath(servletPath)
+                .pattern(pattern);
+    }
+
+    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String servletPath, HttpMethod method, String pattern) {
+        Asserts.notNull(introspector);
+        Asserts.notNull(servletPath);
+        Asserts.notNull(method);
+        Asserts.hasText(pattern);
+        return new MvcRequestMatcher.Builder(introspector)
+                .servletPath(servletPath)
+                .pattern(method, pattern);
     }
 
     public static RequestMatcher header(String headerName, String regex) {

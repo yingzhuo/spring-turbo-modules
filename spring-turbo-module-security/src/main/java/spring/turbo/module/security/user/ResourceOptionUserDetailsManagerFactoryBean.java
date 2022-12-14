@@ -25,18 +25,19 @@ import spring.turbo.util.Asserts;
  */
 public class ResourceOptionUserDetailsManagerFactoryBean implements FactoryBean<InMemoryUserDetailsManager> {
 
+    private final PropertiesFormat format;
     private final ResourceOption resourceOption;
 
-    public ResourceOptionUserDetailsManagerFactoryBean(ResourceOption resourceOption) {
-        Asserts.notNull(resourceOption);
-        this.resourceOption = resourceOption;
-        this.enforcePresent();
+    public ResourceOptionUserDetailsManagerFactoryBean(String... resourceLocations) {
+        this(PropertiesFormat.PROPERTIES, resourceLocations);
     }
 
-    public ResourceOptionUserDetailsManagerFactoryBean(String... resourceLocations) {
+    public ResourceOptionUserDetailsManagerFactoryBean(PropertiesFormat format, String... resourceLocations) {
+        Asserts.notNull(format);
         Asserts.notNull(resourceLocations);
         Asserts.noNullElements(resourceLocations);
         Asserts.isTrue(resourceLocations.length > 0);
+        this.format = format;
         this.resourceOption = ResourceOptions.builder()
                 .add(resourceLocations)
                 .build();
@@ -52,7 +53,7 @@ public class ResourceOptionUserDetailsManagerFactoryBean implements FactoryBean<
     @Override
     public InMemoryUserDetailsManager getObject() {
         try {
-            return new InMemoryUserDetailsManager(this.resourceOption.toProperties(PropertiesFormat.PROPERTIES));
+            return new InMemoryUserDetailsManager(resourceOption.toProperties(format));
         } catch (Exception e) {
             throw new BeanCreationException(e.getMessage());
         }
