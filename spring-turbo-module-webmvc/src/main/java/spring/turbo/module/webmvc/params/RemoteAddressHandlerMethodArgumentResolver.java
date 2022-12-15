@@ -29,15 +29,14 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        final boolean c1 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class;
-        final boolean c2 = parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == Optional.class;
-        return c1 || c2;
+        return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class ||
+                parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == Optional.class;
     }
 
     @Nullable
     @Override
     public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
-        final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        final var request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         String ip = null;
 

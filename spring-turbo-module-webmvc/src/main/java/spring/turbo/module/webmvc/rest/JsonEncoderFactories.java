@@ -24,7 +24,7 @@ public final class JsonEncoderFactories {
     }
 
     public static JsonEncoder noop() {
-        return NullJsonEncoder.INSTANCE;
+        return NullJsonEncoder.getInstance();
     }
 
     public static JsonEncoder aes(AES.Mode mode, String password, String salt) {

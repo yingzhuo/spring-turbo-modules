@@ -30,24 +30,23 @@ public final class ServletUtils {
         super();
     }
 
+    @Nullable
     public static HttpServletRequest getRequest() {
-        final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        final var attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attributes.getRequest();
     }
 
     public static HttpServletRequest getRequiredRequest() {
-        final HttpServletRequest request = getRequest();
+        final var request = getRequest();
         Asserts.notNull(request);
         return request;
     }
 
     public static HttpServletRequest getUnwrappedRequest() {
-        HttpServletRequest request = getRequest();
-
-        while (request instanceof HttpServletRequestWrapper) {
-            request = (HttpServletRequest) ((HttpServletRequestWrapper) request).getRequest();
+        var request = getRequiredRequest();
+        while (request instanceof HttpServletRequestWrapper wrapper) {
+            request = (HttpServletRequest) (wrapper).getRequest();
         }
-
         return request;
     }
 
@@ -63,14 +62,11 @@ public final class ServletUtils {
         return response;
     }
 
-    @Nullable
     public static HttpServletResponse getUnwrappedResponse() {
-        HttpServletResponse response = getResponse();
-
-        while (response instanceof HttpServletResponseWrapper) {
-            response = (HttpServletResponse) ((HttpServletResponseWrapper) response).getResponse();
+        var response = getRequiredResponse();
+        while (response instanceof HttpServletResponseWrapper wrapper) {
+            response = (HttpServletResponse) (wrapper).getResponse();
         }
-
         return response;
     }
 
@@ -79,7 +75,7 @@ public final class ServletUtils {
     }
 
     public static HttpSession getSession(boolean create) {
-        return getRequest().getSession(create);
+        return getRequiredRequest().getSession(create);
     }
 
     public static String getSessionId() {
@@ -87,7 +83,7 @@ public final class ServletUtils {
     }
 
     public static ServletContext getServletContext() {
-        return getRequest().getServletContext();
+        return getRequiredRequest().getServletContext();
     }
 
 }
