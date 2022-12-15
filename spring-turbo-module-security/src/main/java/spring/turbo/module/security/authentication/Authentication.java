@@ -15,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
+import spring.turbo.util.collection.StringObjectMap;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,6 +44,8 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
      */
     @Nullable
     private final Token token;
+
+    private Map<String, Object> variables = StringObjectMap.newInstance();
 
     /**
      * 默认构造方法
@@ -95,6 +99,19 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @Nullable
     public Token getToken() {
         return token;
+    }
+
+    @Nullable
+    public Map<String, Object> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(@Nullable Map<String, Object> variables) {
+        this.variables = variables != null ? variables : StringObjectMap.newInstance();
+    }
+
+    public void clearVariables() {
+        setVariables(null);
     }
 
 }
