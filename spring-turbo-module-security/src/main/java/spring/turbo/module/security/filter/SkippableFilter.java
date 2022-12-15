@@ -9,8 +9,14 @@
 package spring.turbo.module.security.filter;
 
 import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.function.Predicate;
+
+import static spring.turbo.module.security.util.RequestMatcherFactories.fromPredicate;
+import static spring.turbo.module.security.util.RequestMatcherFactories.none;
 
 /**
  * 可跳过的过滤器
@@ -18,10 +24,19 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  * @author 应卓
  * @see jakarta.servlet.http.HttpServletRequest
  * @see spring.turbo.module.security.util.RequestMatcherFactories
+ * @see Predicate
  * @since 2.0.1
  */
 public interface SkippableFilter extends Filter {
 
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher);
+
+    public default void setSkipRequestPredicate(@Nullable Predicate<HttpServletRequest> predicate) {
+        if (predicate != null) {
+            setSkipRequestMatcher(fromPredicate(predicate));
+        } else {
+            setSkipRequestMatcher(none());
+        }
+    }
 
 }

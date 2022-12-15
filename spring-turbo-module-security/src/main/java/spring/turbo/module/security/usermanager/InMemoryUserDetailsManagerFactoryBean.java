@@ -8,7 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.usermanager;
 
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.FactoryBeanNotInitializedException;
+import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
@@ -18,10 +19,12 @@ import spring.turbo.io.ResourceOptions;
 import spring.turbo.util.Asserts;
 
 /**
+ * {@link InMemoryUserDetailsManager} 工厂
+ *
  * @author 应卓
  * @since 2.0.4
  */
-public class InMemoryUserDetailsManagerFactoryBean implements FactoryBean<InMemoryUserDetailsManager>, ResourceLoaderAware {
+public class InMemoryUserDetailsManagerFactoryBean implements SmartFactoryBean<InMemoryUserDetailsManager>, ResourceLoaderAware {
 
     @Nullable
     private ResourceLoader resourceLoader;
@@ -32,28 +35,48 @@ public class InMemoryUserDetailsManagerFactoryBean implements FactoryBean<InMemo
     @Nullable
     private PropertiesFormat propertiesFormat = PropertiesFormat.PROPERTIES;
 
+    private boolean lazyInit = false;
+
+    private boolean prototype = false;
+
     /**
-     * 构造方法
+     * 默认构造方法
      */
     public InMemoryUserDetailsManagerFactoryBean() {
         super();
     }
 
     @Override
-    public InMemoryUserDetailsManager getObject() {
+    public InMemoryUserDetailsManager getObject() throws FactoryBeanNotInitializedException {
         Asserts.notNull(resourceLoader);
         Asserts.notNull(propertiesFormat);
         Asserts.hasText(resourceLocation);
-        final var props = ResourceOptions.builder()
-                .add(resourceLocation)
-                .build()
-                .toProperties(propertiesFormat);
-        return new InMemoryUserDetailsManager(props);
+
+        try {
+            final var props = ResourceOptions.builder()
+                    .add(resourceLocation)
+                    .build()
+                    .toProperties(propertiesFormat);
+            return new InMemoryUserDetailsManager(props);
+        } catch (Exception e) {
+            throw new FactoryBeanNotInitializedException(e.getMessage());
+        }
+
     }
 
     @Override
     public Class<?> getObjectType() {
         return InMemoryUserDetailsManager.class;
+    }
+
+    @Override
+    public boolean isPrototype() {
+        return this.prototype;
+    }
+
+    @Override
+    public boolean isEagerInit() {
+        return !this.lazyInit;
     }
 
     @Override
@@ -67,6 +90,14 @@ public class InMemoryUserDetailsManagerFactoryBean implements FactoryBean<InMemo
 
     public void setPropertiesFormat(PropertiesFormat propertiesFormat) {
         this.propertiesFormat = propertiesFormat;
+    }
+
+    public void setLazyInit(boolean lazyInit) {
+        this.lazyInit = lazyInit;
+    }
+
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
     }
 
 }
