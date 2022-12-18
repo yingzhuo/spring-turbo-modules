@@ -49,7 +49,7 @@ public final class RequestMatcherFactories {
 
     public static RequestMatcher not(RequestMatcher matcher) {
         Asserts.notNull(matcher);
-        return request -> !matcher.matches(request);
+        return new NegatedRequestMatcher(matcher);
     }
 
     // ------------------------------------------------------------------------------------------------------------------
