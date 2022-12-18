@@ -34,4 +34,12 @@ public final class SM2AlgorithmFactory implements AlgorithmFactory {
         return new SM2Algorithm(publicKey, privateKey);
     }
 
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
 }
