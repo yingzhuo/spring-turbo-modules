@@ -110,22 +110,18 @@ public final class RequestMatcherFactories {
         return new DispatcherTypeRequestMatcher(dispatcherType, method);
     }
 
-    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String servletPath, String pattern) {
+    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String pattern) {
         Asserts.notNull(introspector);
-        Asserts.notNull(servletPath);
         Asserts.hasText(pattern);
         return new MvcRequestMatcher.Builder(introspector)
-                .servletPath(servletPath)
                 .pattern(pattern);
     }
 
-    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String servletPath, HttpMethod method, String pattern) {
+    public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, HttpMethod method, String pattern) {
         Asserts.notNull(introspector);
-        Asserts.notNull(servletPath);
         Asserts.notNull(method);
         Asserts.hasText(pattern);
         return new MvcRequestMatcher.Builder(introspector)
-                .servletPath(servletPath)
                 .pattern(method, pattern);
     }
 
