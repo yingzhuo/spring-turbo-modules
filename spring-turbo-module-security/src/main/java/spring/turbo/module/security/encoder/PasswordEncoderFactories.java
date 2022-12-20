@@ -8,13 +8,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
+import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
-import spring.turbo.util.ServiceLoaderUtils;
 import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
@@ -56,7 +56,10 @@ public final class PasswordEncoderFactories {
 
     private static Map<String, PasswordEncoder> getEncoders() {
         final var map = new HashMap<String, PasswordEncoder>();
-        final var services = ServiceLoaderUtils.loadQuietly(ExtraPasswordEncoderConvention.class);
+        final var services = SpringFactoriesLoader.forDefaultResourceLocation()
+                .load(ExtraPasswordEncoderConvention.class, (factoryType, factoryImplementationName, failure) -> {
+                    // nop
+                });
         for (final var service : services) {
             CollectionUtils.nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
         }
