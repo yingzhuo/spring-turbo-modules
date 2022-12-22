@@ -102,14 +102,14 @@
         <spring.turbo.version>2.0.5-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>3.0.0</spring.boot.version>
         <spring.version>6.0.3</spring.version>
-        <spring.security.version>6.0.0</spring.security.version>
+        <spring.security.version>6.0.1</spring.security.version>
         <spring.kafka.version>3.0.0</spring.kafka.version>
         <spring.data.commons.version>3.0.0</spring.data.commons.version>
         <feign.version>12.1</feign.version>
         <resilience4j.version>2.0.2</resilience4j.version>
         <slf4j.version>2.0.6</slf4j.version>
         <hutool.version>5.8.10</hutool.version>
-        <netty.version>4.1.85.Final</netty.version>
+        <netty.version>4.1.86.Final</netty.version>
         <curator.version>5.4.0</curator.version>
         <logback.version>1.4.5</logback.version>
         <lombok.version>1.18.24</lombok.version>
