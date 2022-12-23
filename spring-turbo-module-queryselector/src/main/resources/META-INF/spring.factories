@@ -1,0 +1,2 @@
+spring.turbo.convention.ExtraMessageSourceBasenameConvention=\
+spring.turbo.module.queryselector.convention.spi.ExtraMessageSourceBasenameConventionImpl
