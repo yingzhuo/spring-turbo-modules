@@ -128,11 +128,20 @@ public final class RequestMatcherFactories {
                 .pattern(method, pattern);
     }
 
+    public static RequestMatcher regexPattern(String pattern) {
+        Asserts.hasText(pattern);
+        return RegexRequestMatcher.regexMatcher(pattern);
+    }
+
     public static RequestMatcher regexPattern(String pattern, HttpMethod method) {
+        Asserts.notNull(method);
+        Asserts.hasText(pattern);
         return new RegexRequestMatcher(pattern, method.name(), false);
     }
 
     public static RequestMatcher regexPattern(String pattern, HttpMethod method, boolean caseInsensitive) {
+        Asserts.notNull(method);
+        Asserts.hasText(pattern);
         return new RegexRequestMatcher(pattern, method.name(), caseInsensitive);
     }
 
