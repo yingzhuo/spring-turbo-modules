@@ -68,26 +68,26 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
             if (token == null) {
-                log.debug("token cannot be resolved");
+                log.trace("token cannot be resolved");
                 filterChain.doFilter(request, response);
                 return;
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("token resolved");
+                if (log.isTraceEnabled()) {
+                    log.trace("token resolved");
                     if (token instanceof StringToken) {
-                        log.debug("token value (string): {}", token.asString());
+                        log.trace("token value (string): {}", token.asString());
                     }
                 }
             }
 
             final UserDetails user = tokenToUserConverter.convert(token);
             if (user == null) {
-                log.debug("cannot convert token to UserDetails instance");
+                log.trace("cannot convert token to UserDetails instance");
                 filterChain.doFilter(request, response);
                 return;
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("UserDetails converted. (username: {})", user.getUsername());
+                if (log.isTraceEnabled()) {
+                    log.trace("UserDetails converted. (username: {})", user.getUsername());
                 }
             }
 
