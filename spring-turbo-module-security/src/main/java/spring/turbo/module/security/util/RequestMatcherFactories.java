@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.*;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import spring.turbo.lang.Recommended;
 import spring.turbo.util.Asserts;
 
 import java.util.function.Predicate;
@@ -110,6 +111,7 @@ public final class RequestMatcherFactories {
         return new DispatcherTypeRequestMatcher(dispatcherType, method);
     }
 
+    @Recommended
     public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, String pattern) {
         Asserts.notNull(introspector);
         Asserts.hasText(pattern);
@@ -117,12 +119,21 @@ public final class RequestMatcherFactories {
                 .pattern(pattern);
     }
 
+    @Recommended
     public static RequestMatcher mvcPattern(HandlerMappingIntrospector introspector, HttpMethod method, String pattern) {
         Asserts.notNull(introspector);
         Asserts.notNull(method);
         Asserts.hasText(pattern);
         return new MvcRequestMatcher.Builder(introspector)
                 .pattern(method, pattern);
+    }
+
+    public static RequestMatcher regexPattern(String pattern, HttpMethod method) {
+        return new RegexRequestMatcher(pattern, method.name(), false);
+    }
+
+    public static RequestMatcher regexPattern(String pattern, HttpMethod method, boolean caseInsensitive) {
+        return new RegexRequestMatcher(pattern, method.name(), caseInsensitive);
     }
 
     public static RequestMatcher header(String headerName, String regex) {

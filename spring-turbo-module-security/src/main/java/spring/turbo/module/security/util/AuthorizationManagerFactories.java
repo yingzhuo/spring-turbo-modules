@@ -30,7 +30,6 @@ import java.util.Objects;
 public final class AuthorizationManagerFactories {
 
     private static final RoleHierarchy DEFAULT_ROLE_HIERARCHY = new NullRoleHierarchy();
-
     private static final AuthenticationTrustResolver DEFAULT_AUTHENTICATION_TRUST_RESOLVER = new AuthenticationTrustResolverImpl();
 
     /**
