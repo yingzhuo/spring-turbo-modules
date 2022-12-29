@@ -107,7 +107,7 @@
         <spring.data.commons.version>3.0.0</spring.data.commons.version>
         <feign.version>12.1</feign.version>
         <slf4j.version>2.0.6</slf4j.version>
-        <hutool.version>5.8.10</hutool.version>
+        <hutool.version>5.8.11</hutool.version>
         <netty.version>4.1.86.Final</netty.version>
         <curator.version>5.4.0</curator.version>
         <logback.version>1.4.5</logback.version>
