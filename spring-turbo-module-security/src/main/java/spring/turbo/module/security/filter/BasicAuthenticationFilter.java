@@ -72,6 +72,11 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request, response)).orElse(null);
+
+            if (this.tokenBlacklistManager != null && token != null) {
+                this.tokenBlacklistManager.verify(token);
+            }
+
             if (!(token instanceof final BasicToken basicToken)) {
                 filterChain.doFilter(request, response);
                 return;

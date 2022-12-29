@@ -6,29 +6,19 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.token;
+package spring.turbo.module.security.token.blacklist;
 
-import spring.turbo.util.Asserts;
-
-import java.io.Serializable;
+import spring.turbo.module.security.exception.BlacklistTokenException;
+import spring.turbo.module.security.token.Token;
 
 /**
- * 令牌
- *
  * @author 应卓
- * @see #ofString(CharSequence)
- * @since 1.0.0
+ * @since 2.0.5
  */
-public interface Token extends Serializable {
+public interface TokenBlacklistManager {
 
-    public static Token ofString(CharSequence string) {
-        Asserts.notNull(string);
-        return StringToken.of(string.toString());
-    }
+    public void save(Token token);
 
-    public String asString();
-
-    @Override
-    public String toString();
+    public void verify(Token token) throws BlacklistTokenException;
 
 }

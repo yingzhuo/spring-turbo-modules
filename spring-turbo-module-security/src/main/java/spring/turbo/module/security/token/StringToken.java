@@ -24,12 +24,12 @@ public class StringToken implements Token {
 
     private final String string;
 
-    public StringToken(String string) {
-        Asserts.hasText(string);
-        this.string = string;
+    public StringToken(CharSequence string) {
+        Asserts.notNull(string);
+        this.string = string.toString();
     }
 
-    public static StringToken of(String token) {
+    public static StringToken of(CharSequence token) {
         return new StringToken(token);
     }
 
