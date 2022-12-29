@@ -18,6 +18,11 @@ import spring.turbo.module.security.token.Token;
  */
 public final class NullTokenBlacklistManager implements TokenBlacklistManager {
 
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
     public static NullTokenBlacklistManager getInstance() {
         return SyncAvoid.INSTANCE;
     }
@@ -30,8 +35,13 @@ public final class NullTokenBlacklistManager implements TokenBlacklistManager {
     }
 
     @Override
+    public void save(Token token) {
+        // 无动作
+    }
+
+    @Override
     public void verify(Token token) throws BlacklistTokenException {
-        // nop
+        // 无动作
     }
 
     // 延迟加载

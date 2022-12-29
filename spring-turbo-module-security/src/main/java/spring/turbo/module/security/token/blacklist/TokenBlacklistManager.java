@@ -15,8 +15,9 @@ import spring.turbo.module.security.token.Token;
  * @author 应卓
  * @since 2.0.5
  */
-@FunctionalInterface
 public interface TokenBlacklistManager {
+
+    public void save(Token token);
 
     public void verify(Token token) throws BlacklistTokenException;
 
