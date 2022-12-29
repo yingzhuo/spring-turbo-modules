@@ -10,9 +10,9 @@ package spring.turbo.module.security.filter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,10 +43,10 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     protected RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.DEFAULT;
 
     @Nullable
-    protected AuthenticationEventPublisher authenticationEventPublisher;
+    protected AuthenticationEntryPoint authenticationEntryPoint;
 
     @Nullable
-    protected AuthenticationEntryPoint authenticationEntryPoint;
+    protected ApplicationEventPublisher applicationEventPublisher;
 
     @Nullable
     protected RequestMatcher skipRequestMatcher;
@@ -80,12 +80,12 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         this.requestDetailsProvider = requestDetailsProvider;
     }
 
-    public final void setAuthenticationEventPublisher(@Nullable AuthenticationEventPublisher authenticationEventPublisher) {
-        this.authenticationEventPublisher = authenticationEventPublisher;
-    }
-
     public final void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    public void setApplicationEventPublisher(@Nullable ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override

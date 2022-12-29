@@ -22,20 +22,20 @@ import java.util.Objects;
  * @author 应卓
  * @since 1.3.1
  */
+@SuppressWarnings("deprecation")
 public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService) {
-        this(userDetailsService, null);
+        this(userDetailsService, NoOpPasswordEncoder.getInstance());
     }
 
-    @SuppressWarnings("deprecation")
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService, @Nullable PasswordEncoder passwordEncoder) {
         Asserts.notNull(userDetailsService);
         this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder != null ? passwordEncoder : NoOpPasswordEncoder.getInstance();
+        this.passwordEncoder = Objects.requireNonNullElseGet(passwordEncoder, NoOpPasswordEncoder::getInstance);
     }
 
     @Nullable

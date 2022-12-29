@@ -22,8 +22,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.NullUserDetailsFinder;
-import spring.turbo.module.security.authentication.RequestAuthentication;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
+import spring.turbo.module.security.event.AuthenticationFailureEvent;
+import spring.turbo.module.security.event.AuthenticationSuccessEvent;
 import spring.turbo.module.security.token.BasicToken;
 import spring.turbo.module.security.token.BasicTokenResolver;
 import spring.turbo.module.security.token.Token;
@@ -107,9 +108,13 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
             onSuccessfulAuthentication(request, response, auth);
 
-            if (this.authenticationEventPublisher != null) {
-                authenticationEventPublisher.publishAuthenticationSuccess(auth);
+            if (this.applicationEventPublisher != null) {
+                final var event = new AuthenticationSuccessEvent(auth, token);
+                event.setRequest(request);
+                event.setResponse(response);
+                this.applicationEventPublisher.publishEvent(event);
             }
+
         } catch (AuthenticationException e) {
             if (log.isDebugEnabled()) {
                 log.debug(e.getMessage(), e);
@@ -123,10 +128,11 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
             onUnsuccessfulAuthentication(request, response, e);
 
-            if (this.authenticationEventPublisher != null) {
-                // 注意第二参数如果传null会导致spring-security不能顺利new出event对象
-                // 因此拉一个垫背的
-                authenticationEventPublisher.publishAuthenticationFailure(e, RequestAuthentication.newInstance(new ServletWebRequest(request, response)));
+            if (this.applicationEventPublisher != null) {
+                final var event = new AuthenticationFailureEvent(e);
+                event.setRequest(request);
+                event.setResponse(response);
+                this.applicationEventPublisher.publishEvent(event);
             }
 
             if (authenticationEntryPoint != null) {
