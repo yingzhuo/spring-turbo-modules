@@ -68,6 +68,11 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
 
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
+
+            if (this.tokenBlacklistManager != null && token != null) {
+                this.tokenBlacklistManager.verify(token);
+            }
+
             if (token == null) {
                 log.trace("token cannot be resolved");
                 filterChain.doFilter(request, response);

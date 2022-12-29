@@ -22,6 +22,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.token.TokenResolver;
+import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
 import spring.turbo.util.Asserts;
 
 /**
@@ -35,6 +36,9 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     @Nullable
     protected TokenResolver tokenResolver;
+
+    @Nullable
+    protected TokenBlacklistManager tokenBlacklistManager;
 
     @Nullable
     protected RememberMeServices rememberMeServices;
@@ -70,6 +74,10 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     public final void setTokenResolver(TokenResolver tokenResolver) {
         Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
+    }
+
+    public void setTokenBlacklistManager(@Nullable TokenBlacklistManager tokenBlacklistManager) {
+        this.tokenBlacklistManager = tokenBlacklistManager;
     }
 
     public final void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
