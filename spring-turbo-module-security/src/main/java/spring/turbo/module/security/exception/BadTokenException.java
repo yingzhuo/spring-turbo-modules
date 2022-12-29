@@ -8,24 +8,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.exception;
 
-import org.springframework.lang.Nullable;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AccountStatusException;
 
 /**
- * 恶意的请求
- *
  * @author 应卓
- * @see spring.turbo.module.security.event.MaliciousRequestFailureEvent
- * @since 1.0.4
+ * @since 2.0.5
  */
-public class MaliciousRequestException extends AuthenticationException {
+public class BadTokenException extends AccountStatusException {
 
-    public MaliciousRequestException() {
-        this(null);
+    public BadTokenException(String msg) {
+        super(msg);
     }
 
-    public MaliciousRequestException(@Nullable String msg) {
-        super(msg);
+    public BadTokenException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
 }

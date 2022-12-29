@@ -15,7 +15,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.AuthenticationException;
-import spring.turbo.module.security.exception.MaliciousRequestException;
+import spring.turbo.module.security.exception.BadTokenException;
 
 /**
  * 内部工具，完成JWT相关异常转换
@@ -25,13 +25,6 @@ import spring.turbo.module.security.exception.MaliciousRequestException;
  */
 final class VerificationExceptionTransformer {
 
-    /**
-     * 私有构造方法
-     */
-    private VerificationExceptionTransformer() {
-        super();
-    }
-
     public static AuthenticationException transform(JWTVerificationException e) {
         if (e instanceof TokenExpiredException) {
             // 令牌过期
@@ -39,11 +32,11 @@ final class VerificationExceptionTransformer {
         }
         if (e instanceof AlgorithmMismatchException) {
             // 签名算法不匹配 (疑似恶意请求)
-            throw new MaliciousRequestException(e.getMessage());
+            throw new BadTokenException(e.getMessage());
         }
         if (e instanceof SignatureVerificationException) {
             // 签名被篡改 (疑似恶意请求)
-            throw new MaliciousRequestException(e.getMessage());
+            throw new BadTokenException(e.getMessage());
         }
         return new BadCredentialsException(e.getMessage());
     }

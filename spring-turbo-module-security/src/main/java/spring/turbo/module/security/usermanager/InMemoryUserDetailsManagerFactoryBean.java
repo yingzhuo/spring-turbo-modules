@@ -74,6 +74,10 @@ public class InMemoryUserDetailsManagerFactoryBean implements SmartFactoryBean<I
         return this.prototype;
     }
 
+    public void setPrototype(boolean prototype) {
+        this.prototype = prototype;
+    }
+
     @Override
     public boolean isEagerInit() {
         return !this.lazyInit;
@@ -94,10 +98,6 @@ public class InMemoryUserDetailsManagerFactoryBean implements SmartFactoryBean<I
 
     public void setLazyInit(boolean lazyInit) {
         this.lazyInit = lazyInit;
-    }
-
-    public void setPrototype(boolean prototype) {
-        this.prototype = prototype;
     }
 
 }
