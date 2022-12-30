@@ -19,19 +19,19 @@ import spring.turbo.module.security.token.Token;
 public final class NullTokenBlacklistManager implements TokenBlacklistManager {
 
     /**
+     * 私有构造方法
+     */
+    private NullTokenBlacklistManager() {
+        super();
+    }
+
+    /**
      * 获取实例
      *
      * @return 实例
      */
     public static NullTokenBlacklistManager getInstance() {
         return SyncAvoid.INSTANCE;
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private NullTokenBlacklistManager() {
-        super();
     }
 
     @Override

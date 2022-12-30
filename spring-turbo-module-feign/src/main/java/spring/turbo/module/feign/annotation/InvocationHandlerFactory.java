@@ -12,12 +12,14 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 2.0.6
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-@Deprecated(forRemoval = false)
-public @interface Decoded404 {
+public @interface InvocationHandlerFactory {
+
+    public Class<? extends feign.InvocationHandlerFactory> value();
+
 }

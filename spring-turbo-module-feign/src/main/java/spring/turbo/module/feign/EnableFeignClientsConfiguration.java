@@ -78,6 +78,8 @@ class EnableFeignClientsConfiguration implements
     }
 
     private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDefinition classDefinition) {
+
+        // 二次检查
         final FeignClient primaryAnnotation = classDefinition.findAnnotation(FeignClient.class);
         if (primaryAnnotation == null) {
             return;
@@ -135,7 +137,8 @@ class EnableFeignClientsConfiguration implements
      * @author 应卓
      * @since 1.0.1
      */
-    private static class IncludeTypeFilter implements TypeFilter {
+    private static final class IncludeTypeFilter implements TypeFilter {
+
         @Override
         public boolean match(MetadataReader reader, MetadataReaderFactory readerFactory) {
             final boolean condition1 = reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName());

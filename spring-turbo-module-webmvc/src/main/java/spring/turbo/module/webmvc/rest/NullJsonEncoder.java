@@ -14,15 +14,15 @@ package spring.turbo.module.webmvc.rest;
  */
 public final class NullJsonEncoder implements JsonEncoder {
 
-    public static NullJsonEncoder getInstance() {
-        return SyncAvoid.INSTANCE;
-    }
-
     /**
      * 私有构造方法
      */
     private NullJsonEncoder() {
         super();
+    }
+
+    public static NullJsonEncoder getInstance() {
+        return SyncAvoid.INSTANCE;
     }
 
     @Override

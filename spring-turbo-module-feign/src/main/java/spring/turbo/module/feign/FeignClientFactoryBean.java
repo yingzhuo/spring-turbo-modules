@@ -12,7 +12,6 @@ import feign.Request;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -37,13 +36,12 @@ import static feign.Feign.Builder;
  * @author 应卓
  * @since 1.0.0
  */
-@SuppressWarnings("deprecation")
 class FeignClientFactoryBean extends AbstractFactoryBean
         implements InitializingBean, ApplicationContextAware, EnvironmentAware {
 
     private String url; // setter
-    private Environment environment; // 回调
-    private InstanceCache instanceCache; // 回调
+    private Environment environment; //  XxxAware 回调
+    private InstanceCache instanceCache; //  XxxAware 回调
 
     /**
      * 默认构造方法
@@ -54,29 +52,38 @@ class FeignClientFactoryBean extends AbstractFactoryBean
 
     @Override
     public Object getObject() {
-        Builder builder = new Builder();
-        this.decoded404(builder, classDefinitionResolvable.getBeanClass());
-        this.logging(builder, classDefinitionResolvable.getBeanClass());
-        this.encoderAndDecoder(builder, classDefinitionResolvable.getBeanClass());
-        this.errorDecoder(builder, classDefinitionResolvable.getBeanClass());
-        this.queryMapEncoder(builder, classDefinitionResolvable.getBeanClass());
-        this.client(builder, classDefinitionResolvable.getBeanClass());
-        this.contract(builder, classDefinitionResolvable.getBeanClass());
-        this.capabilities(builder, classDefinitionResolvable.getBeanClass());
-        this.options(builder, classDefinitionResolvable.getBeanClass());
-        this.doNotCloseAfterDecode(builder, classDefinitionResolvable.getBeanClass());
-        this.requestInterceptors(builder, classDefinitionResolvable.getBeanClass());
-        this.retryer(builder, classDefinitionResolvable.getBeanClass());
-        this.customizer(builder, classDefinitionResolvable.getBeanClass());
-        return builder.target(classDefinitionResolvable.getBeanClass(), url);
+        Asserts.notNull(classDefinitionResolvable);
+
+        // client 类型 (interface)
+        final var clientType = classDefinitionResolvable.getBeanClass();
+
+        final var builder = new Builder();
+        this.client(builder, clientType);
+        this.contract(builder, clientType); // 合约
+        this.decoded404(builder, clientType);
+        this.logging(builder, clientType);
+        this.encoderAndDecoder(builder, clientType);
+        this.errorDecoder(builder, clientType);
+        this.queryMapEncoder(builder, clientType);
+        this.capabilities(builder, clientType);
+        this.options(builder, clientType);
+        this.doNotCloseAfterDecode(builder, clientType);
+        this.requestInterceptors(builder, clientType);
+        this.retryer(builder, clientType);
+        this.exceptionPropagationPolicy(builder, clientType);
+        this.invocationHandlerFactory(builder, clientType);
+        this.customizer(builder, clientType);
+        return builder.target(clientType, url);
     }
 
+    @SuppressWarnings("deprecation")
     private void decoded404(final Builder builder, final Class<?> clientType) {
         if (AnnotationUtils.findAnnotation(clientType, Decoded404.class) != null) {
             builder.decode404();
         }
     }
 
+    // logging
     private void logging(final Builder builder, final Class<?> clientType) {
         Logging annotation = AnnotationUtils.findAnnotation(clientType, Logging.class);
         if (annotation != null) {
@@ -85,6 +92,8 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // encoder
+    // decoder
     private void encoderAndDecoder(final Builder builder, final Class<?> clientType) {
         EncoderAndDecoder annotation = AnnotationUtils.findAnnotation(clientType, EncoderAndDecoder.class);
         if (annotation != null) {
@@ -95,6 +104,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 错误处理
     private void errorDecoder(final Builder builder, final Class<?> clientType) {
         ErrorDecoder annotation = AnnotationUtils.findAnnotation(clientType, ErrorDecoder.class);
         if (annotation != null) {
@@ -102,6 +112,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 客户端
     private void client(final Builder builder, final Class<?> clientType) {
         Client annotation = AnnotationUtils.findAnnotation(clientType, Client.class);
         if (annotation != null) {
@@ -109,6 +120,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 指定QueryMapperEncoder
     private void queryMapEncoder(final Builder builder, final Class<?> clientType) {
         QueryMapEncoder annotation = AnnotationUtils.findAnnotation(clientType, QueryMapEncoder.class);
         if (annotation != null) {
@@ -116,6 +128,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 合约
     private void contract(final Builder builder, final Class<?> clientType) {
         Contract annotation = AnnotationUtils.findAnnotation(clientType, Contract.class);
         if (annotation != null) {
@@ -123,6 +136,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 监控相关
     private void capabilities(final Builder builder, final Class<?> clientType) {
         Capabilities annotation = AnnotationUtils.findAnnotation(clientType, Capabilities.class);
         if (annotation != null) {
@@ -134,6 +148,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 性能选项
     private void options(final Builder builder, final Class<?> clientType) {
         Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
         if (annotation != null) {
@@ -148,6 +163,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 关闭连接选项
     private void doNotCloseAfterDecode(final Builder builder, final Class<?> clientType) {
         DoNotCloseAfterDecode annotation = AnnotationUtils.findAnnotation(clientType, DoNotCloseAfterDecode.class);
         if (annotation != null) {
@@ -155,6 +171,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 拦截器
     private void requestInterceptors(final Builder builder, final Class<?> clientType) {
         RequestInterceptors annotation = AnnotationUtils.findAnnotation(clientType, RequestInterceptors.class);
         if (annotation != null) {
@@ -169,6 +186,23 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 异常传播策略
+    private void exceptionPropagationPolicy(final Builder builder, final Class<?> clientType) {
+        ExceptionPropagationPolicy annotation = AnnotationUtils.findAnnotation(clientType, ExceptionPropagationPolicy.class);
+        if (annotation != null) {
+            builder.exceptionPropagationPolicy(annotation.value());
+        }
+    }
+
+    // 代理相关
+    private void invocationHandlerFactory(final Builder builder, final Class<?> clientType) {
+        InvocationHandlerFactory annotation = AnnotationUtils.findAnnotation(clientType, InvocationHandlerFactory.class);
+        if (annotation != null) {
+            builder.invocationHandlerFactory(instanceCache.findOrCreate(annotation.value()));
+        }
+    }
+
+    // 重试相关
     private void retryer(final Builder builder, final Class<?> clientType) {
         Retryer annotation = AnnotationUtils.findAnnotation(clientType, Retryer.class);
         if (annotation != null) {
@@ -182,9 +216,10 @@ class FeignClientFactoryBean extends AbstractFactoryBean
         }
     }
 
+    // 自由客制化
     private void customizer(final Builder builder, final Class<?> clientType) {
         Customizer annotation = AnnotationUtils.findAnnotation(clientType, Customizer.class);
-        if (annotation != null && annotation.value() != null) {
+        if (annotation != null) {
             BuilderCustomizer bean = instanceCache.findOrCreate(annotation.value());
             bean.customize(builder);
         }
@@ -199,7 +234,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.instanceCache = InstanceCache.newInstance(applicationContext);
     }
 
