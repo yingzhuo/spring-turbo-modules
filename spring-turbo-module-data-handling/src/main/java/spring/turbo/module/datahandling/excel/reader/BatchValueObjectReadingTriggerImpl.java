@@ -8,8 +8,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.datahandling.excel.reader;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.format.support.DefaultFormattingConversionService;
@@ -25,7 +27,6 @@ import spring.turbo.bean.valueobject.ProcessPayload;
 import spring.turbo.bean.valueobject.ValueObjectFilter;
 import spring.turbo.core.AnnotationUtils;
 import spring.turbo.core.SpringContext;
-import spring.turbo.core.SpringContextAware;
 import spring.turbo.module.datahandling.excel.ExcelType;
 import spring.turbo.module.datahandling.excel.cellparser.CellParser;
 import spring.turbo.module.datahandling.excel.cellparser.DefaultCellParser;
@@ -47,7 +48,7 @@ import static spring.turbo.util.StringPool.ANNOTATION_STRING_NULL;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigger, InitializingBean, SpringContextAware {
+public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadingTrigger, InitializingBean, ApplicationContextAware {
 
     private static final int DEFAULT_BATCH_SIZE = 1000;
 
@@ -144,8 +145,9 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     @Override
-    public void setSpringContext(SpringContext springContext) {
-        this.applicationContext = springContext.getApplicationContext();
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        var springContext = SpringContext.of(applicationContext);
+        this.applicationContext = applicationContext;
         this.conversionService = springContext.getBean(ConversionService.class).orElseGet(DefaultFormattingConversionService::new);
         this.injectedValidator = springContext.getBean(Validator.class).orElseGet(NullValidator::getInstance);
         this.instanceCache = InstanceCache.newInstance(springContext.getApplicationContext());
