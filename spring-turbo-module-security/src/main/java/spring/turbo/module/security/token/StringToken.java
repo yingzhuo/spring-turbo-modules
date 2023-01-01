@@ -20,7 +20,7 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Immutable
-public class StringToken implements Token {
+public final class StringToken implements Token {
 
     private final String string;
 

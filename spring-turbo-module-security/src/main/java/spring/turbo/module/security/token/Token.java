@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @see #ofString(CharSequence)
  * @since 1.0.0
  */
-public interface Token extends Serializable {
+public sealed interface Token extends Serializable permits StringToken, BasicToken, BytesToken {
 
     public static Token ofString(CharSequence string) {
         Asserts.notNull(string);

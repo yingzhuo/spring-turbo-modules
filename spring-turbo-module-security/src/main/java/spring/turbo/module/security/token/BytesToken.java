@@ -10,59 +10,50 @@ package spring.turbo.module.security.token;
 
 import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.HexUtils;
 
-import java.util.Objects;
+import java.util.Arrays;
 
 /**
  * @author 应卓
- * @see BasicTokenResolver
- * @since 1.2.3
+ * @since 2.0.6
  */
 @Immutable
-public final class BasicToken implements Token {
+public final class BytesToken implements Token {
 
-    private final String username;
-    private final String password;
-    private final String string;
+    private final byte[] bytes;
 
-    public BasicToken(String stringValue, String username, String password) {
-        Asserts.hasText(stringValue);
-        Asserts.hasText(username);
-        Asserts.hasText(password);
-        this.username = username;
-        this.password = password;
-        this.string = stringValue;
+    public BytesToken(byte[] bytes) {
+        Asserts.notNull(bytes);
+        Asserts.isTrue(bytes.length > 0);
+        this.bytes = bytes;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public byte[] getBytes() {
+        return bytes;
     }
 
     @Override
     public String asString() {
-        return string;
+        return HexUtils.encodeToString(bytes);
     }
 
     @Override
     public String toString() {
-        return string;
+        return asString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BasicToken that = (BasicToken) o;
-        return string.equals(that.string);
+        BytesToken that = (BytesToken) o;
+        return Arrays.equals(bytes, that.bytes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(string);
+        return Arrays.hashCode(bytes);
     }
 
 }
