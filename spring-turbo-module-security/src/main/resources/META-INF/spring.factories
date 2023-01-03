@@ -1,4 +1,11 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Spring / SpringBoot
+# ----------------------------------------------------------------------------------------------------------------------
 org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
 spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL
+
+# ----------------------------------------------------------------------------------------------------------------------
+# SpringTurbo convention(s)
+# ----------------------------------------------------------------------------------------------------------------------
 spring.turbo.convention.ExtraPasswordEncoderConvention=\
 spring.turbo.module.security.convention.spi.ExtraPasswordEncoderConventionImpl
