@@ -10,7 +10,7 @@ package spring.turbo.module.security.jackson2;
 
 import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import spring.turbo.SpringTurboVersion;
+import spring.turbo.Version;
 import spring.turbo.module.security.token.BasicToken;
 import spring.turbo.module.security.token.StringToken;
 
@@ -26,7 +26,7 @@ public class SecurityModuleJackson2Module extends SimpleModule {
     public SecurityModuleJackson2Module() {
         super(
                 SecurityModuleJackson2Module.class.getName(),
-                VersionUtil.parseVersion(SpringTurboVersion.VERSION, "com.github.yingzhuo", "spring-turbo-module-security")
+                VersionUtil.parseVersion(Version.CURRENT, "com.github.yingzhuo", "spring-turbo-module-security")
         );
     }
 
