@@ -1,3 +1,5 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Spring / SpringBoot
 # ----------------------------------------------------------------------------------------------------------------------
+org.springframework.boot.env.EnvironmentPostProcessor=\
+spring.turbo.module.datahandling.autoconfiguration.ModuleEnvironmentPostProcessor

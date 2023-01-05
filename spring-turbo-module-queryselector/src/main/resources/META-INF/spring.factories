@@ -1,4 +1,9 @@
 # ----------------------------------------------------------------------------------------------------------------------
+# Spring / SpringBoot
+# ----------------------------------------------------------------------------------------------------------------------
+org.springframework.boot.env.EnvironmentPostProcessor=\
+spring.turbo.module.queryselector.autoconfiguration.ModuleEnvironmentPostProcessor
+# ----------------------------------------------------------------------------------------------------------------------
 # SpringTurbo convention(s)
 # ----------------------------------------------------------------------------------------------------------------------
 spring.turbo.convention.ExtraMessageSourceBasenameConvention=\
