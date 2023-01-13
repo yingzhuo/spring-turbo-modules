@@ -101,7 +101,7 @@
 
         <spring.turbo.version>2.0.8-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>3.0.1</spring.boot.version>
-        <spring.version>6.0.3</spring.version>
+        <spring.version>6.0.4</spring.version>
         <spring.security.version>6.0.1</spring.security.version>
         <spring.kafka.version>3.0.1</spring.kafka.version>
         <spring.data.commons.version>3.0.0</spring.data.commons.version>
@@ -583,24 +583,24 @@
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>1.12.20</version>
+                <version>1.12.21</version>
             </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
-                <version>1.12.20</version>
+                <version>1.12.21</version>
             </dependency>
 
             <!-- micrometer -->
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-commons</artifactId>
-                <version>1.10.2</version>
+                <version>1.10.3</version>
             </dependency>
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-observation</artifactId>
-                <version>1.10.2</version>
+                <version>1.10.3</version>
             </dependency>
 
             <!-- jsr305 -->
