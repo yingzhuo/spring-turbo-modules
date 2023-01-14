@@ -17,8 +17,7 @@ import org.springframework.validation.Validator;
 import spring.turbo.bean.valueobject.*;
 import spring.turbo.io.CloseUtils;
 import spring.turbo.io.LineIterator;
-import spring.turbo.io.ResourceOption;
-import spring.turbo.io.ResourceOptions;
+import spring.turbo.io.RichResource;
 import spring.turbo.module.datahandling.csv.reader.function.*;
 import spring.turbo.module.datahandling.csv.vistor.BatchVisitor;
 import spring.turbo.module.datahandling.csv.vistor.NullBatchVisitor;
@@ -107,13 +106,15 @@ public final class CSVReader<T> {
         Asserts.notNull(this.resource);
         Asserts.notNull(this.charset);
 
-        final ResourceOption resourceOption = ResourceOptions.of(this.resource);
+        final Optional<RichResource> resourceOption = RichResource.builder()
+                .nullSafeAddResources(this.resource)
+                .build();
 
-        if (resourceOption.isAbsent()) {
+        if (resourceOption.isEmpty()) {
             throw new UncheckedIOException(new IOException("cannot open resource"));
         }
 
-        final LineIterator lineIterator = resourceOption.getLineIterator(this.charset);
+        final LineIterator lineIterator = resourceOption.get().asLineIterator(this.charset);
 
         try {
             doRead(lineIterator, Optional.ofNullable(payload).orElseGet(ProcessPayload::newInstance));
