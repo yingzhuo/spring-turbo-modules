@@ -408,7 +408,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
         if (listAnnotation != null) {
             for (ColumnBasedCellParser annotation : listAnnotation.value()) {
                 list.add(
-                        Tuple.of(
+                        Tuple.ofNonNull(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
                                 instanceCache.findOrCreate(annotation.type())
@@ -419,7 +419,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
             ColumnBasedCellParser annotation = AnnotationUtils.findAnnotation(visitorType, ColumnBasedCellParser.class);
             if (annotation != null) {
                 list.add(
-                        Tuple.of(
+                        Tuple.ofNonNull(
                                 annotation.sheetIndex(),
                                 annotation.columnIndex(),
                                 instanceCache.findOrCreate(annotation.type())
