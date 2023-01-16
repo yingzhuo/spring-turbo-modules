@@ -1,5 +1,4 @@
 spring.turbo.module.misc.autoconfiguration.QRCodeGeneratorAutoConfiguration
-spring.turbo.module.misc.autoconfiguration.WatermarkGeneratorAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.PojoTypeGeneratorAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.CaptchaServiceAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.CaptchaSupportAutoConfiguration
