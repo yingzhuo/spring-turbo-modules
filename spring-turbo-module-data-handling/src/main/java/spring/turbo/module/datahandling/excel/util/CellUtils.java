@@ -39,7 +39,7 @@ public final class CellUtils {
         Row row = cell.getRow();
         Sheet sheet = row.getSheet();
         Workbook workbook = sheet.getWorkbook();
-        return Tuple.of(workbook, sheet, row);
+        return Tuple.ofNullable(workbook, sheet, row);
     }
 
     public static String toString(Cell cell) {

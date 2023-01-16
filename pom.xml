@@ -571,12 +571,12 @@
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>1.12.21</version>
+                <version>1.12.22</version>
             </dependency>
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy-agent</artifactId>
-                <version>1.12.21</version>
+                <version>1.12.22</version>
             </dependency>
 
             <!-- micrometer -->
@@ -682,6 +682,12 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <parameters>true</parameters>
+                    <compilerArgs>
+                        <!--
+                        <arg>-verbose</arg>
+                        -->
+                        <arg>-Xlint:deprecation,unchecked</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
