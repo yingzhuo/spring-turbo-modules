@@ -1,8 +1,6 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Spring / SpringBoot
 # ----------------------------------------------------------------------------------------------------------------------
-org.springframework.boot.env.EnvironmentPostProcessor=\
-spring.turbo.module.security.autoconfiguration.ModuleEnvironmentPostProcessor
 org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
 spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL
 # ----------------------------------------------------------------------------------------------------------------------
