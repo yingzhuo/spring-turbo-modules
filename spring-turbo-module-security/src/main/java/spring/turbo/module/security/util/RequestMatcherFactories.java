@@ -9,6 +9,7 @@
 package spring.turbo.module.security.util;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -68,13 +69,6 @@ public final class RequestMatcherFactories {
 
     // ------------------------------------------------------------------------------------------------------------------
 
-    /**
-     * 包装Predicate
-     *
-     * @param predicate {@link Predicate} 实例
-     * @return {@link RequestMatcher} 实例
-     * @see Predicate
-     */
     public static RequestMatcher fromPredicate(Predicate<HttpServletRequest> predicate) {
         Asserts.notNull(predicate);
         return predicate::test;
@@ -222,6 +216,14 @@ public final class RequestMatcherFactories {
             }
             return Pattern.matches(regex, parameterValue);
         };
+    }
+
+    public static RequestMatcher isSecure() {
+        return ServletRequest::isSecure;
+    }
+
+    public static RequestMatcher isNotSecure() {
+        return request -> !request.isSecure();
     }
 
 }

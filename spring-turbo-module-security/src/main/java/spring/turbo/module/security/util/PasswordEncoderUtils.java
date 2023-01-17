@@ -32,10 +32,10 @@ public final class PasswordEncoderUtils {
         return SpringUtils.getRequiredBean(PasswordEncoder.class).encode(rawPwd);
     }
 
-    public boolean matches(CharSequence rawPwd, String encodedPassword) {
+    public boolean matches(CharSequence rawPwd, String encodedPwd) {
         Asserts.notNull(rawPwd);
-        Asserts.notNull(encodedPassword);
-        return SpringUtils.getRequiredBean(PasswordEncoder.class).matches(rawPwd, encodedPassword);
+        Asserts.notNull(encodedPwd);
+        return SpringUtils.getRequiredBean(PasswordEncoder.class).matches(rawPwd, encodedPwd);
     }
 
 }
