@@ -40,8 +40,18 @@ public final class VersionResolverBuilder implements Builder<VersionResolver> {
         return this;
     }
 
+    public VersionResolverBuilder fromHttpHeaderWithDefaults() {
+        resolvers.add(new HeaderVersionResolver());
+        return this;
+    }
+
     public VersionResolverBuilder fromHttpQuery(String parameterName) {
         resolvers.add(new QueryVersionResolver(parameterName));
+        return this;
+    }
+
+    public VersionResolverBuilder fromHttpQueryWithDefaults() {
+        resolvers.add(new QueryVersionResolver());
         return this;
     }
 

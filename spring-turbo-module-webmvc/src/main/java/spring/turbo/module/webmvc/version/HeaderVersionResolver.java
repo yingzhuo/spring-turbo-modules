@@ -17,7 +17,16 @@ import spring.turbo.util.Asserts;
  */
 public class HeaderVersionResolver implements VersionResolver {
 
+    private static final String DEFAULT_HEADER_NAME = "X-Api-Version";
+
     private final String headerName;
+
+    /**
+     * 默认构造方法
+     */
+    public HeaderVersionResolver() {
+        this(DEFAULT_HEADER_NAME);
+    }
 
     public HeaderVersionResolver(String headerName) {
         Asserts.hasText(headerName);

@@ -17,7 +17,16 @@ import spring.turbo.util.Asserts;
  */
 public class QueryVersionResolver implements VersionResolver {
 
+    public static final String DEFAULT_PARAMETER_NAME = "_api_version";
+
     private final String parameterName;
+
+    /**
+     * 默认构造方法
+     */
+    public QueryVersionResolver() {
+        this(DEFAULT_PARAMETER_NAME);
+    }
 
     public QueryVersionResolver(String parameterName) {
         Asserts.hasText(parameterName);
