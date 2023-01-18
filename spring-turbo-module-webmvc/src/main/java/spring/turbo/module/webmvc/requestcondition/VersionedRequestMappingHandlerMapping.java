@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.requestcondition;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import spring.turbo.core.AnnotationUtils;
@@ -29,11 +30,13 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
         this.versionResolver = versionResolver;
     }
 
+    @Nullable
     @Override
     protected RequestCondition<?> getCustomMethodCondition(Method method) {
-        Versioned annotation = AnnotationUtils.findAnnotation(method, Versioned.class);
+        final var annotation = AnnotationUtils.findAnnotation(method, Versioned.class);
+
         if (annotation == null) {
-            return super.getCustomMethodCondition(method);
+            return null;
         } else {
             return new VersionedRequestCondition(
                     this.versionResolver,
