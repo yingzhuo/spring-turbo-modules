@@ -9,27 +9,38 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.Ordered;
-import org.springframework.lang.Nullable;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- * @see #builder()
  * @since 2.0.9
  */
-@FunctionalInterface
-public interface VersionResolver extends Ordered {
+public class HeaderVersionResolver implements VersionResolver {
 
-    public static VersionResolverBuilder builder() {
-        return new VersionResolverBuilder();
+    private static final String DEFAULT_HEADER_NAME = "X-Api-Version";
+
+    private final String headerName;
+
+    /**
+     * 默认构造方法
+     */
+    public HeaderVersionResolver() {
+        this(DEFAULT_HEADER_NAME);
     }
 
-    @Nullable
-    public String resolve(HttpServletRequest request);
+    public HeaderVersionResolver(String headerName) {
+        Asserts.hasText(headerName);
+        this.headerName = headerName;
+    }
 
     @Override
-    public default int getOrder() {
-        return 0;
+    public String resolve(HttpServletRequest request) {
+        var version = request.getHeader(this.headerName);
+        if (version == null || version.isBlank()) {
+            return null;
+        } else {
+            return version;
+        }
     }
 
 }

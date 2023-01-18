@@ -14,20 +14,34 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import spring.turbo.util.Asserts;
 
+import static spring.turbo.util.StringPool.SLASH;
+
 /**
  * @author 应卓
  * @since 2.0.9
  */
-public class RequestVersionResolver implements VersionResolver {
+public class PathVersionResolver implements VersionResolver {
 
     private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
-    private static final String TEMPLATE_SUFFIX = "/{version:.*}/**";
+    private static final String PATTERN_SUFFIX = "/{version:.*}/**";
 
     private final String contextPath;
 
-    public RequestVersionResolver(String contextPath) {
-        Asserts.hasText(contextPath);
-        this.contextPath = contextPath;
+    public PathVersionResolver(String contextPath) {
+        this.contextPath = betterContextPath(contextPath);
+    }
+
+    private String betterContextPath(String contextPath) {
+        Asserts.notNull(contextPath);
+
+        if (contextPath.isBlank()) {
+            return SLASH;
+        }
+
+        if (!SLASH.equals(contextPath) && contextPath.endsWith(SLASH)) {
+            contextPath = contextPath.substring(0, contextPath.length() - 1);
+        }
+        return contextPath;
     }
 
     @Nullable
@@ -35,16 +49,27 @@ public class RequestVersionResolver implements VersionResolver {
     public String resolve(HttpServletRequest request) {
         var path = request.getRequestURI();
 
-        String templateToUse = null;
-        if (this.contextPath.equals("/")) {
-            templateToUse = TEMPLATE_SUFFIX;
+        String patternToUse = null;
+
+        if (this.contextPath.equals(SLASH)) {
+            patternToUse = PATTERN_SUFFIX;
         } else {
-            templateToUse = contextPath + TEMPLATE_SUFFIX;
+            patternToUse = contextPath + PATTERN_SUFFIX;
         }
 
-        var map = PATH_MATCHER.extractUriTemplateVariables(templateToUse, path);
+        var map = PATH_MATCHER.extractUriTemplateVariables(patternToUse, path);
         var version = map.get("version");
-        return version != null ? version.trim() : null;
+
+        if (version == null || version.isBlank()) {
+            return null;
+        } else {
+            return version;
+        }
+    }
+
+    @Override
+    public int getOrder() {
+        return -100;
     }
 
 }

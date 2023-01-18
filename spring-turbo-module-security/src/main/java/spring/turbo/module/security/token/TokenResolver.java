@@ -39,7 +39,7 @@ public interface TokenResolver extends Ordered {
      * @param request HTTP请求
      * @return 令牌Optional，不能成功解析时返回empty-optional
      */
-    Optional<Token> resolve(WebRequest request);
+    public Optional<Token> resolve(WebRequest request);
 
     /**
      * 获取排序值
@@ -54,7 +54,7 @@ public interface TokenResolver extends Ordered {
      * @see org.springframework.core.OrderComparator
      */
     @Override
-    default int getOrder() {
+    public default int getOrder() {
         return 0;
     }
 

@@ -9,27 +9,42 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
+import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
- * @see #builder()
+ * @see #getInstance()
  * @since 2.0.9
  */
-@FunctionalInterface
-public interface VersionResolver extends Ordered {
+@Singleton
+public final class NullVersionResolver implements VersionResolver {
 
-    public static VersionResolverBuilder builder() {
-        return new VersionResolverBuilder();
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
+    public static NullVersionResolver getInstance() {
+        return SyncAvoid.INSTANCE;
+    }
+
+    /**
+     * 私有构造方法
+     */
+    private NullVersionResolver() {
+        super();
     }
 
     @Nullable
-    public String resolve(HttpServletRequest request);
-
     @Override
-    public default int getOrder() {
-        return 0;
+    public String resolve(HttpServletRequest request) {
+        return null;
+    }
+
+    // 延迟加载
+    private static class SyncAvoid {
+        private static final NullVersionResolver INSTANCE = new NullVersionResolver();
     }
 
 }
