@@ -67,4 +67,9 @@ public class PathVersionResolver implements VersionResolver {
         }
     }
 
+    @Override
+    public int getOrder() {
+        return -100;
+    }
+
 }

@@ -9,27 +9,29 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.Ordered;
-import org.springframework.lang.Nullable;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- * @see #builder()
  * @since 2.0.9
  */
-@FunctionalInterface
-public interface VersionResolver extends Ordered {
+public class QueryVersionResolver implements VersionResolver {
 
-    public static VersionResolverBuilder builder() {
-        return new VersionResolverBuilder();
+    private final String parameterName;
+
+    public QueryVersionResolver(String parameterName) {
+        Asserts.hasText(parameterName);
+        this.parameterName = parameterName;
     }
 
-    @Nullable
-    public String resolve(HttpServletRequest request);
-
     @Override
-    public default int getOrder() {
-        return 0;
+    public String resolve(HttpServletRequest request) {
+        var version = request.getParameter(this.parameterName);
+        if (version == null || version.isBlank()) {
+            return null;
+        } else {
+            return version;
+        }
     }
 
 }
