@@ -52,10 +52,10 @@ class FeignClientFactoryBean extends AbstractFactoryBean
 
     @Override
     public Object getObject() {
-        Asserts.notNull(classDefinitionResolvable);
+        Asserts.notNull(classDef);
 
         // client 类型 (interface)
-        final var clientType = classDefinitionResolvable.getBeanClass();
+        final var clientType = classDef.getBeanClass();
 
         final var builder = new Builder();
         this.client(builder, clientType);
@@ -227,7 +227,7 @@ class FeignClientFactoryBean extends AbstractFactoryBean
 
     @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(classDefinitionResolvable);
+        Asserts.notNull(classDef);
         Asserts.notNull(environment);
         Asserts.notNull(url);
         this.url = environment.resolvePlaceholders(url);
