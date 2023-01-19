@@ -22,12 +22,11 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
-import spring.turbo.bean.ClassDefinition;
-import spring.turbo.bean.ClassPathScanner;
+import spring.turbo.bean.classpath.ClassDef;
+import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.StringUtils;
 
@@ -58,7 +57,7 @@ class EnableFeignClientsConfiguration implements
             return;
         }
 
-        for (ClassDefinition definition : scanClasspath(basePackages)) {
+        for (var definition : scanClasspath(basePackages)) {
             registerFeignClient(
                     registry,
                     beanNameGenerator,
@@ -77,24 +76,23 @@ class EnableFeignClientsConfiguration implements
         this.resourceLoader = resourceLoader;
     }
 
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDefinition classDefinition) {
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDef classDef) {
 
         // 二次检查
-        final FeignClient primaryAnnotation = classDefinition.findAnnotation(FeignClient.class);
+        final FeignClient primaryAnnotation = classDef.getAnnotation(FeignClient.class);
         if (primaryAnnotation == null) {
             return;
         }
 
         final AbstractBeanDefinition factoryBeanDefinition =
                 BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class)
-                        .addPropertyValue("classDefinition", classDefinition)
+                        .addPropertyValue("classDef", classDef)
                         .addPropertyValue("url", primaryAnnotation.url())
                         .getBeanDefinition();
 
         factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
-        factoryBeanDefinition.setPrimary(classDefinition.isPrimary());
-        factoryBeanDefinition.setAbstract(classDefinition.isAbstractDefinition());
-        factoryBeanDefinition.setRole(classDefinition.getRole());
+        factoryBeanDefinition.setPrimary(classDef.isPrimary());
+        factoryBeanDefinition.setRole(classDef.getRole());
         factoryBeanDefinition.setResourceDescription("spring-turbo-module-feign"); // 彩蛋
 
         String beanName = primaryAnnotation.value();
@@ -122,13 +120,13 @@ class EnableFeignClientsConfiguration implements
         return Collections.unmodifiableSet(set);
     }
 
-    private List<ClassDefinition> scanClasspath(@NonNull Set<String> basePackages) {
+    private List<ClassDef> scanClasspath(Set<String> basePackages) {
         Asserts.notNull(environment);
         Asserts.notNull(resourceLoader);
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
-                .includeFilter(new IncludeTypeFilter())
+                .includeFilter(new IncludeFilter())
                 .build()
                 .scan(basePackages);
     }
@@ -137,13 +135,12 @@ class EnableFeignClientsConfiguration implements
      * @author 应卓
      * @since 1.0.1
      */
-    private static final class IncludeTypeFilter implements TypeFilter {
+    private static final class IncludeFilter implements TypeFilter {
 
         @Override
         public boolean match(MetadataReader reader, MetadataReaderFactory readerFactory) {
-            final boolean condition1 = reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName());
-            final boolean condition2 = reader.getClassMetadata().isInterface();
-            return condition1 && condition2;
+            return reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName()) &&
+                    reader.getClassMetadata().isInterface();
         }
     }
 

@@ -9,9 +9,10 @@
 package spring.turbo.module.feign;
 
 import spring.turbo.module.feign.annotation.*;
-import spring.turbo.util.StringPool;
 
 import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
@@ -40,7 +41,7 @@ public @interface FeignClient {
      *
      * @return Bean Name
      */
-    public String value() default StringPool.EMPTY;
+    public String value() default EMPTY;
 
     /**
      * URL

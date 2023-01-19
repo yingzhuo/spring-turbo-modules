@@ -13,13 +13,21 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
+ * API 版本解析器
+ *
  * @author 应卓
  * @see #builder()
+ * @see VersionResolverBuilder
  * @since 2.0.9
  */
 @FunctionalInterface
 public interface VersionResolver extends Ordered {
 
+    /**
+     * 新建创建器
+     *
+     * @return 创建器实例
+     */
     public static VersionResolverBuilder builder() {
         return new VersionResolverBuilder();
     }

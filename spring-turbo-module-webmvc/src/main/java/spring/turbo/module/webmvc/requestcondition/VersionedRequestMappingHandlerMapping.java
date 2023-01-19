@@ -23,6 +23,11 @@ import java.lang.reflect.Method;
  */
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 本类型不会被本starter自动注册
+     * 用户必须自行注册
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     private final VersionResolver versionResolver;
 
     public VersionedRequestMappingHandlerMapping(VersionResolver versionResolver) {
