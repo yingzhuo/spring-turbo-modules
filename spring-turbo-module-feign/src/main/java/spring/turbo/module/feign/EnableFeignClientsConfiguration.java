@@ -22,7 +22,6 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
@@ -121,13 +120,13 @@ class EnableFeignClientsConfiguration implements
         return Collections.unmodifiableSet(set);
     }
 
-    private List<ClassDef> scanClasspath(@NonNull Set<String> basePackages) {
+    private List<ClassDef> scanClasspath(Set<String> basePackages) {
         Asserts.notNull(environment);
         Asserts.notNull(resourceLoader);
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
-                .includeFilter(new IncludeTypeFilter())
+                .includeFilter(new IncludeFilter())
                 .build()
                 .scan(basePackages);
     }
@@ -136,13 +135,12 @@ class EnableFeignClientsConfiguration implements
      * @author 应卓
      * @since 1.0.1
      */
-    private static final class IncludeTypeFilter implements TypeFilter {
+    private static final class IncludeFilter implements TypeFilter {
 
         @Override
         public boolean match(MetadataReader reader, MetadataReaderFactory readerFactory) {
-            final boolean condition1 = reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName());
-            final boolean condition2 = reader.getClassMetadata().isInterface();
-            return condition1 && condition2;
+            return reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName()) &&
+                    reader.getClassMetadata().isInterface();
         }
     }
 
