@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -20,9 +21,6 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.classpath.ClassDef;
@@ -34,21 +32,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static spring.turbo.bean.classpath.TypeFilterFactories.*;
+
 /**
  * @author 应卓
  * @since 2.0.9
  */
 class EnableFeignClientsConfiguration implements
-        ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
+        ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
 
-    // 实际不为null
     private Environment environment;
-
-    // 实际不为null
     private ResourceLoader resourceLoader;
-
-    // 实际不为null
-    private BeanFactory beanFactory; // TODO: 考虑如何将InstanceCache与BeanFactory整合，暂时没有用到
+    private BeanFactory beanFactory;
+    private ClassLoader classLoader;
 
     /**
      * 默认构造方法
@@ -61,7 +57,7 @@ class EnableFeignClientsConfiguration implements
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
         final Set<String> basePackages = getBasePackages(importingClassMetadata);
 
-        for (var definition : scanClasspath(basePackages)) {
+        for (var definition : doScan(basePackages)) {
             registerFeignClient(
                     registry,
                     beanNameGenerator,
@@ -76,14 +72,14 @@ class EnableFeignClientsConfiguration implements
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();
 
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          * 从 spring-turbo 2.0.9版本开始
          * 放弃使用 FactoryBean<T> 来创建对象实例
          * 此方式更直截了当，代码更容易理解。
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         var supplier = new FeignClientSupplier(
-                InstanceCache.newInstance(),
+                InstanceCache.newInstance(beanFactory),
                 classDef.getBeanClass(),
                 environment.resolveRequiredPlaceholders(metaAnnotation.url())
         );
@@ -120,11 +116,19 @@ class EnableFeignClientsConfiguration implements
         return Collections.unmodifiableSet(set);
     }
 
-    private List<ClassDef> scanClasspath(Set<String> basePackages) {
+    private List<ClassDef> doScan(Set<String> basePackages) {
+
+        // 必须能查找到元注释并且本身是一个接口类型
+        var typeFilter = all(
+                isInterface(),
+                hasAnnotation(FeignClient.class)
+        );
+
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
-                .includeFilter(new IncludeFilter())
+                .classLoader(this.classLoader)
+                .includeFilter(typeFilter)
                 .build()
                 .scan(basePackages);
     }
@@ -144,19 +148,9 @@ class EnableFeignClientsConfiguration implements
         this.beanFactory = beanFactory;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * @author 应卓
-     * @since 1.0.1
-     */
-    private static final class IncludeFilter implements TypeFilter {
-
-        @Override
-        public boolean match(MetadataReader reader, MetadataReaderFactory readerFactory) {
-            return reader.getAnnotationMetadata().hasAnnotation(FeignClient.class.getName()) &&
-                    reader.getClassMetadata().isInterface();
-        }
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
 }
