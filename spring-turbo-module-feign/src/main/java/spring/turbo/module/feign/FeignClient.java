@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import org.springframework.core.annotation.AliasFor;
 import spring.turbo.module.feign.annotation.*;
 
 import java.lang.annotation.*;
@@ -33,15 +34,29 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface FeignClient {
+
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 从 spring-turbo 2.0.10版本开始
+     * 本元注释也是一个 MetaAnnotation!
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     /**
      * Bean Name
      *
      * @return Bean Name
      */
+    @AliasFor("beanName")
     public String value() default EMPTY;
+
+    /**
+     * Bean Name
+     *
+     * @return Bean Name
+     */
+    @AliasFor("value")
+    public String beanName() default EMPTY;
 
     /**
      * URL
