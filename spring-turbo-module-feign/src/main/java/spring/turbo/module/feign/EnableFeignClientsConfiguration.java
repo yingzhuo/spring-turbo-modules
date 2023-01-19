@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -38,11 +39,12 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
  * @since 2.0.9
  */
 class EnableFeignClientsConfiguration implements
-        ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
+        ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
 
     private Environment environment;
     private ResourceLoader resourceLoader;
     private BeanFactory beanFactory;
+    private ClassLoader classLoader;
 
     /**
      * 默认构造方法
@@ -125,6 +127,7 @@ class EnableFeignClientsConfiguration implements
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
+                .classLoader(this.classLoader)
                 .includeFilter(typeFilter)
                 .build()
                 .scan(basePackages);
@@ -143,6 +146,11 @@ class EnableFeignClientsConfiguration implements
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
 }
