@@ -452,7 +452,7 @@ public final class BatchWalker<T> {
         }
 
         public Builder<T> visitor(Class<? extends BatchVisitor<T>> visitorType) {
-            this.visitor = InstanceUtils.newInstanceOrThrow(visitorType);
+            this.visitor = InstanceUtils.newInstanceElseThrow(visitorType);
             return this;
         }
 
