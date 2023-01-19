@@ -8,7 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
@@ -22,13 +23,11 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
-import spring.turbo.util.Asserts;
-import spring.turbo.util.StringUtils;
+import spring.turbo.util.InstanceCache;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -37,25 +36,30 @@ import java.util.Set;
 
 /**
  * @author 应卓
- * @since 1.0.0
+ * @since 2.0.9
  */
 class EnableFeignClientsConfiguration implements
-        ImportBeanDefinitionRegistrar, EnvironmentAware, ResourceLoaderAware {
+        ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
 
-    @Nullable
+    // 实际不为null
     private Environment environment;
 
-    @Nullable
+    // 实际不为null
     private ResourceLoader resourceLoader;
+
+    // 实际不为null
+    private BeanFactory beanFactory; // TODO: 考虑如何将InstanceCache与BeanFactory整合，暂时没有用到
+
+    /**
+     * 默认构造方法
+     */
+    public EnableFeignClientsConfiguration() {
+        super();
+    }
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
-
         final Set<String> basePackages = getBasePackages(importingClassMetadata);
-
-        if (CollectionUtils.isEmpty(basePackages)) {
-            return;
-        }
 
         for (var definition : scanClasspath(basePackages)) {
             registerFeignClient(
@@ -66,41 +70,37 @@ class EnableFeignClientsConfiguration implements
         }
     }
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
+    @SuppressWarnings("unchecked")
     private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDef classDef) {
 
-        // 二次检查
-        final FeignClient primaryAnnotation = classDef.getAnnotation(FeignClient.class);
-        if (primaryAnnotation == null) {
-            return;
-        }
+        var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
+        var clientType = classDef.getBeanClass();
 
-        final AbstractBeanDefinition factoryBeanDefinition =
-                BeanDefinitionBuilder.genericBeanDefinition(FeignClientFactoryBean.class)
-                        .addPropertyValue("classDef", classDef)
-                        .addPropertyValue("url", primaryAnnotation.url())
-                        .getBeanDefinition();
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         * 从 spring-turbo 2.0.9版本开始
+         * 放弃使用 FactoryBean<T> 来创建对象实例
+         * 此方式更直截了当，代码更容易理解。
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-        factoryBeanDefinition.setAttribute(FeignClientFactoryBean.OBJECT_TYPE_ATTRIBUTE, FeignClientFactoryBean.class.getName());
-        factoryBeanDefinition.setPrimary(classDef.isPrimary());
-        factoryBeanDefinition.setRole(classDef.getRole());
-        factoryBeanDefinition.setResourceDescription("spring-turbo-module-feign"); // 彩蛋
+        var supplier = new FeignClientSupplier(
+                InstanceCache.newInstance(),
+                classDef.getBeanClass(),
+                environment.resolveRequiredPlaceholders(metaAnnotation.url())
+        );
 
-        String beanName = primaryAnnotation.value();
-        if (StringUtils.isBlank(beanName)) {
+        var clientBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(clientType, supplier)
+                .setLazyInit(classDef.isLazyInit())
+                .setAbstract(false)
+                .setRole(classDef.getRole())
+                .getBeanDefinition();
+
+        var beanName = metaAnnotation.value();
+        if (beanName.isBlank()) {
             // 没有指定beanName，则生成一个
-            beanName = beanNameGenerator.generateBeanName(factoryBeanDefinition, registry);
+            beanName = beanNameGenerator.generateBeanName(clientBeanDefinition, registry);
         }
-        registry.registerBeanDefinition(beanName, factoryBeanDefinition);
+
+        registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
     private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
@@ -121,8 +121,6 @@ class EnableFeignClientsConfiguration implements
     }
 
     private List<ClassDef> scanClasspath(Set<String> basePackages) {
-        Asserts.notNull(environment);
-        Asserts.notNull(resourceLoader);
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
@@ -130,6 +128,23 @@ class EnableFeignClientsConfiguration implements
                 .build()
                 .scan(basePackages);
     }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * @author 应卓
