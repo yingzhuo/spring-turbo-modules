@@ -41,14 +41,9 @@ import java.util.Set;
 class EnableFeignClientsConfiguration implements
         ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
 
-    // 实际不为null
     private Environment environment;
-
-    // 实际不为null
     private ResourceLoader resourceLoader;
-
-    // 实际不为null
-    private BeanFactory beanFactory; // TODO: 考虑如何将InstanceCache与BeanFactory整合，暂时没有用到
+    private BeanFactory beanFactory;
 
     /**
      * 默认构造方法
@@ -83,7 +78,7 @@ class EnableFeignClientsConfiguration implements
          * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
         var supplier = new FeignClientSupplier(
-                InstanceCache.newInstance(),
+                InstanceCache.newInstance(beanFactory),
                 classDef.getBeanClass(),
                 environment.resolveRequiredPlaceholders(metaAnnotation.url())
         );
