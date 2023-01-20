@@ -21,7 +21,6 @@ import static spring.turbo.util.StringPool.EMPTY;
  * @see EncoderAndDecoder
  * @see ErrorDecoder
  * @see QueryMapEncoder
- * @see Decoded404
  * @see Client
  * @see Contract
  * @see Capabilities
@@ -29,6 +28,7 @@ import static spring.turbo.util.StringPool.EMPTY;
  * @see DoNotCloseAfterDecode
  * @see RequestInterceptors
  * @see Customizer
+ * @see Decoded404
  * @since 1.0.0
  */
 @Inherited
@@ -46,6 +46,7 @@ public @interface FeignClient {
      * Bean Name
      *
      * @return Bean Name
+     * @see #beanName()
      */
     @AliasFor("beanName")
     public String value() default EMPTY;
@@ -54,6 +55,7 @@ public @interface FeignClient {
      * Bean Name
      *
      * @return Bean Name
+     * @see #value()
      */
     @AliasFor("value")
     public String beanName() default EMPTY;
