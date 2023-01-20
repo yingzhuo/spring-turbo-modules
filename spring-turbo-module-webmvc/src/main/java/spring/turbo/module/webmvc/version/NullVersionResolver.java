@@ -21,19 +21,19 @@ import spring.turbo.lang.Singleton;
 public final class NullVersionResolver implements VersionResolver {
 
     /**
+     * 私有构造方法
+     */
+    private NullVersionResolver() {
+        super();
+    }
+
+    /**
      * 获取实例
      *
      * @return 实例
      */
     public static NullVersionResolver getInstance() {
         return SyncAvoid.INSTANCE;
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private NullVersionResolver() {
-        super();
     }
 
     @Nullable

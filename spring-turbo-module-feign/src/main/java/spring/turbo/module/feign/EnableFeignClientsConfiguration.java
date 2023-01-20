@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.util.InstanceCache;
+import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -100,12 +101,14 @@ class EnableFeignClientsConfiguration implements
     }
 
     private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
-        final Set<String> set = new HashSet<>();
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
+        var set = new HashSet<String>();
+
+        var attributes = AnnotationAttributes.fromMap(
+                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName(), false)
         );
+
         if (!CollectionUtils.isEmpty(attributes)) {
-            Collections.addAll(set, attributes.getStringArray("value"));
+            StringUtils.blankSafeAddAll(set, attributes.getStringArray("value"));
             for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
                 set.add(clz.getPackage().getName());
             }
