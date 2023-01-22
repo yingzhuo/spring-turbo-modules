@@ -22,11 +22,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
-import org.springframework.util.CollectionUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
+import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.InstanceCache;
-import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -104,18 +103,22 @@ class EnableFeignClientsConfiguration implements
         var set = new HashSet<String>();
 
         var attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName(), false)
+                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
         );
 
-        if (!CollectionUtils.isEmpty(attributes)) {
-            StringUtils.blankSafeAddAll(set, attributes.getStringArray("value"));
-            for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
-                set.add(clz.getPackage().getName());
-            }
+        if (attributes == null) {
+            return Set.of();
         }
-        if (CollectionUtils.isEmpty(set)) {
+
+        CollectionUtils.nullSafeAddAll(set, attributes.getStringArray("value"));
+        for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
+            set.add(clz.getPackage().getName());
+        }
+
+        if (set.isEmpty()) {
             set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
+
         return Collections.unmodifiableSet(set);
     }
 
