@@ -24,15 +24,13 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
-import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.InstanceCache;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
+import static spring.turbo.util.StringUtils.blankSafeAdd;
+import static spring.turbo.util.StringUtils.blankSafeAddAll;
 
 /**
  * @author 应卓
@@ -41,10 +39,10 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 class EnableFeignClientsConfiguration implements
         ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
 
+    private ClassLoader classLoader;
+    private BeanFactory beanFactory;
     private Environment environment;
     private ResourceLoader resourceLoader;
-    private BeanFactory beanFactory;
-    private ClassLoader classLoader;
 
     /**
      * 默认构造方法
@@ -54,20 +52,20 @@ class EnableFeignClientsConfiguration implements
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator) {
         final Set<String> basePackages = getBasePackages(importingClassMetadata);
 
         for (var definition : doScan(basePackages)) {
             registerFeignClient(
                     registry,
-                    beanNameGenerator,
+                    nameGenerator,
                     definition
             );
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDef classDef) {
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator, ClassDef classDef) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();
@@ -92,15 +90,14 @@ class EnableFeignClientsConfiguration implements
 
         var beanName = metaAnnotation.value();
         if (beanName.isBlank()) {
-            // 没有指定beanName，则生成一个
-            beanName = beanNameGenerator.generateBeanName(clientBeanDefinition, registry);
+            beanName = nameGenerator.generateBeanName(clientBeanDefinition, registry);
         }
 
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
     private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
-        var set = new HashSet<String>();
+        var set = new TreeSet<String>(Comparator.naturalOrder());
 
         var attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
@@ -110,10 +107,12 @@ class EnableFeignClientsConfiguration implements
             return Set.of();
         }
 
-        CollectionUtils.nullSafeAddAll(set, attributes.getStringArray("value"));
-        for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
-            set.add(clz.getPackage().getName());
-        }
+        blankSafeAddAll(set, attributes.getStringArray("value"));
+
+        Arrays.stream(attributes.getClassArray("basePackageClasses"))
+                .filter(Objects::nonNull)
+                .map(ClassUtils::getPackageName)
+                .forEach(p -> blankSafeAdd(set, p));
 
         if (set.isEmpty()) {
             set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
@@ -123,8 +122,6 @@ class EnableFeignClientsConfiguration implements
     }
 
     private List<ClassDef> doScan(Set<String> basePackages) {
-
-        // 必须能查找到元注释并且本身是一个接口类型
         var typeFilter = all(
                 isInterface(),
                 hasAnnotation(FeignClient.class)
