@@ -12,10 +12,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import spring.turbo.core.AnnotationUtils;
+import spring.turbo.module.webmvc.version.ServletPathVersionResolver;
 import spring.turbo.module.webmvc.version.VersionResolver;
-import spring.turbo.util.Asserts;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * @author 应卓
@@ -30,8 +31,12 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
 
     private final VersionResolver versionResolver;
 
-    public VersionedRequestMappingHandlerMapping(VersionResolver versionResolver) {
-        Asserts.notNull(versionResolver);
+    public VersionedRequestMappingHandlerMapping() {
+        this(null);
+    }
+
+    public VersionedRequestMappingHandlerMapping(@Nullable VersionResolver versionResolver) {
+        versionResolver = Objects.requireNonNullElse(versionResolver, new ServletPathVersionResolver());
         this.versionResolver = versionResolver;
     }
 
