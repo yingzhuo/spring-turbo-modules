@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>2.0.10</version>
+    <version>2.0.10-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
@@ -102,7 +102,7 @@
         <encoding>UTF-8</encoding>
         <java.version>17</java.version>
 
-        <spring.turbo.version>2.0.10</spring.turbo.version>
+        <spring.turbo.version>2.0.10-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>3.0.2</spring.boot.version>
         <spring.version>6.0.4</spring.version>
         <spring.security.version>6.0.1</spring.security.version>
