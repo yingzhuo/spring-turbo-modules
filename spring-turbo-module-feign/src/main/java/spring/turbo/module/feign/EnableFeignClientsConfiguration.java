@@ -21,16 +21,15 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.util.ClassUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.bean.classpath.PackageSet;
+import spring.turbo.util.ClassUtils;
 import spring.turbo.util.InstanceCache;
 
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
@@ -41,10 +40,10 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 class EnableFeignClientsConfiguration implements
         ImportBeanDefinitionRegistrar, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, BeanClassLoaderAware {
 
+    private ClassLoader classLoader;
+    private BeanFactory beanFactory;
     private Environment environment;
     private ResourceLoader resourceLoader;
-    private BeanFactory beanFactory;
-    private ClassLoader classLoader;
 
     /**
      * 默认构造方法
@@ -54,20 +53,20 @@ class EnableFeignClientsConfiguration implements
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
-        final Set<String> basePackages = getBasePackages(importingClassMetadata);
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator) {
+        var basePackages = getBasePackages(importingClassMetadata);
 
         for (var definition : doScan(basePackages)) {
             registerFeignClient(
                     registry,
-                    beanNameGenerator,
+                    nameGenerator,
                     definition
             );
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator, ClassDef classDef) {
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator, ClassDef classDef) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();
@@ -92,39 +91,35 @@ class EnableFeignClientsConfiguration implements
 
         var beanName = metaAnnotation.value();
         if (beanName.isBlank()) {
-            // 没有指定beanName，则生成一个
-            beanName = beanNameGenerator.generateBeanName(clientBeanDefinition, registry);
+            beanName = nameGenerator.generateBeanName(clientBeanDefinition, registry);
         }
 
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
-    private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
-        var set = new HashSet<String>();
+    private Iterable<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
+        var packageSet = PackageSet.newInstance();
 
         var attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
         );
 
-        if (attributes == null) {
-            return Set.of();
+        if (attributes != null) {
+            packageSet.add(attributes.getStringArray("value"));
+            Arrays.stream(attributes.getClassArray("basePackageClasses"))
+                    .filter(Objects::nonNull)
+                    .map(ClassUtils::getPackageName)
+                    .forEach(packageSet::add);
         }
 
-        CollectionUtils.nullSafeAddAll(set, attributes.getStringArray("value"));
-        for (Class<?> clz : attributes.getClassArray("basePackageClasses")) {
-            set.add(clz.getPackage().getName());
+        if (packageSet.isEmpty()) {
+            packageSet.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
 
-        if (set.isEmpty()) {
-            set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
-        }
-
-        return Collections.unmodifiableSet(set);
+        return packageSet;
     }
 
-    private List<ClassDef> doScan(Set<String> basePackages) {
-
-        // 必须能查找到元注释并且本身是一个接口类型
+    private List<ClassDef> doScan(Iterable<String> basePackages) {
         var typeFilter = all(
                 isInterface(),
                 hasAnnotation(FeignClient.class)
