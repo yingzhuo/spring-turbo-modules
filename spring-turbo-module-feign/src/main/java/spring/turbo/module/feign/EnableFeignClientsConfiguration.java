@@ -21,16 +21,17 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.util.ClassUtils;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
+import spring.turbo.bean.classpath.PackageSet;
+import spring.turbo.util.ClassUtils;
 import spring.turbo.util.InstanceCache;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
-import static spring.turbo.util.StringUtils.blankSafeAdd;
-import static spring.turbo.util.StringUtils.blankSafeAddAll;
 
 /**
  * @author 应卓
@@ -53,7 +54,7 @@ class EnableFeignClientsConfiguration implements
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator) {
-        final Set<String> basePackages = getBasePackages(importingClassMetadata);
+        var basePackages = getBasePackages(importingClassMetadata);
 
         for (var definition : doScan(basePackages)) {
             registerFeignClient(
@@ -96,32 +97,29 @@ class EnableFeignClientsConfiguration implements
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
-    private Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
-        var set = new TreeSet<String>(Comparator.naturalOrder());
+    private Iterable<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
+        var packageSet = PackageSet.newInstance();
 
         var attributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
         );
 
-        if (attributes == null) {
-            return Set.of();
+        if (attributes != null) {
+            packageSet.add(attributes.getStringArray("value"));
+            Arrays.stream(attributes.getClassArray("basePackageClasses"))
+                    .filter(Objects::nonNull)
+                    .map(ClassUtils::getPackageName)
+                    .forEach(packageSet::add);
         }
 
-        blankSafeAddAll(set, attributes.getStringArray("value"));
-
-        Arrays.stream(attributes.getClassArray("basePackageClasses"))
-                .filter(Objects::nonNull)
-                .map(ClassUtils::getPackageName)
-                .forEach(p -> blankSafeAdd(set, p));
-
-        if (set.isEmpty()) {
-            set.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
+        if (packageSet.isEmpty()) {
+            packageSet.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
 
-        return Collections.unmodifiableSet(set);
+        return packageSet;
     }
 
-    private List<ClassDef> doScan(Set<String> basePackages) {
+    private List<ClassDef> doScan(Iterable<String> basePackages) {
         var typeFilter = all(
                 isInterface(),
                 hasAnnotation(FeignClient.class)
