@@ -11,12 +11,14 @@ package spring.turbo.module.webmvc.requestcondition;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.webmvc.version.ServletPathVersionResolver;
 import spring.turbo.module.webmvc.version.VersionResolver;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNullElseGet;
+import static org.springframework.core.annotation.AnnotationUtils.findAnnotation;
+import static org.springframework.core.annotation.AnnotationUtils.getAnnotationAttributes;
 
 /**
  * @author 应卓
@@ -31,29 +33,38 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
 
     private final VersionResolver versionResolver;
 
+    /**
+     * 默认构造方法
+     */
     public VersionedRequestMappingHandlerMapping() {
         this(null);
     }
 
+    /**
+     * 构造方法
+     *
+     * @param versionResolver 版本号解析器
+     */
     public VersionedRequestMappingHandlerMapping(@Nullable VersionResolver versionResolver) {
-        versionResolver = Objects.requireNonNullElse(versionResolver, new ServletPathVersionResolver());
-        this.versionResolver = versionResolver;
+        this.versionResolver = requireNonNullElseGet(versionResolver, ServletPathVersionResolver::new);
     }
 
     @Nullable
     @Override
     protected RequestCondition<?> getCustomMethodCondition(Method method) {
-        final var annotation = AnnotationUtils.findAnnotation(method, Versioned.class);
+        var annotation = findAnnotation(method, Versioned.class);
 
         if (annotation == null) {
             return null;
-        } else {
-            return new VersionedRequestCondition(
-                    this.versionResolver,
-                    annotation.value(),
-                    annotation.ignoreCase()
-            );
         }
+
+        var annotationAttributes = getAnnotationAttributes(annotation, false, false);
+
+        return new VersionedRequestCondition(
+                versionResolver,
+                annotationAttributes.getString("value"),
+                annotationAttributes.getBoolean("ignoreCase")
+        );
     }
 
 }

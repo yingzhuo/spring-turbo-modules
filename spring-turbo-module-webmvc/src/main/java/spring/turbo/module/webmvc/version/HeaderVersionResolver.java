@@ -9,6 +9,7 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
 /**
@@ -33,13 +34,18 @@ public class HeaderVersionResolver implements VersionResolver {
         this.headerName = headerName;
     }
 
+    @Nullable
     @Override
     public String resolve(HttpServletRequest request) {
-        var version = request.getHeader(this.headerName);
-        if (version == null || version.isBlank()) {
+        try {
+            var version = request.getHeader(this.headerName);
+            if (version == null || version.isBlank()) {
+                return null;
+            } else {
+                return version;
+            }
+        } catch (Throwable e) {
             return null;
-        } else {
-            return version;
         }
     }
 
