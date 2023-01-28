@@ -30,8 +30,8 @@ public final class VersionResolverBuilder implements Builder<VersionResolver> {
         super();
     }
 
-    public VersionResolverBuilder fromRequestPath(String servletContextPath) {
-        resolvers.add(new PathVersionResolver(servletContextPath));
+    public VersionResolverBuilder fromServletPath() {
+        resolvers.add(new ServletPathVersionResolver());
         return this;
     }
 
