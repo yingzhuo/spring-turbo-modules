@@ -42,6 +42,11 @@ public final class NullVersionResolver implements VersionResolver {
         return null;
     }
 
+    @Override
+    public int getOrder() {
+        return LOWEST_PRECEDENCE;
+    }
+
     // 延迟加载
     private static class SyncAvoid {
         private static final NullVersionResolver INSTANCE = new NullVersionResolver();

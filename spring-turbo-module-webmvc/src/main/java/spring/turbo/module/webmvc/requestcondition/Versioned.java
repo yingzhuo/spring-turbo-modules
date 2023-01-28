@@ -8,7 +8,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.requestcondition;
 
+import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
@@ -20,7 +24,11 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface Versioned {
 
-    public String value();
+    @AliasFor("version")
+    public String value() default EMPTY;
+
+    @AliasFor("value")
+    public String version() default EMPTY;
 
     public boolean ignoreCase() default false;
 

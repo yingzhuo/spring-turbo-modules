@@ -18,6 +18,7 @@ import org.springframework.lang.Nullable;
  * @author 应卓
  * @see #builder()
  * @see VersionResolverBuilder
+ * @see ServletPathVersionResolver
  * @since 2.0.9
  */
 @FunctionalInterface
