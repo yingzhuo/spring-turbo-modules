@@ -9,7 +9,6 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.OrderComparator;
 import spring.turbo.util.CollectionUtils;
 
@@ -21,7 +20,6 @@ import java.util.List;
  * @author 应卓
  * @since 2.0.9
  */
-@Slf4j
 public class CompositeVersionResolver implements VersionResolver {
 
     private final List<VersionResolver> resolvers = new ArrayList<>();
@@ -44,9 +42,8 @@ public class CompositeVersionResolver implements VersionResolver {
                 if (version != null) {
                     return version;
                 }
-            } catch (Exception e) {
-                log.debug(e.getMessage(), e);
-                continue;
+            } catch (Exception ignored) {
+                // nop
             }
         }
         return null;

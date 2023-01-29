@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
+import static spring.turbo.util.StringUtils.isNotBlank;
+
 /**
  * @author 应卓
  * @since 2.0.9
@@ -39,11 +41,7 @@ public class QueryVersionResolver implements VersionResolver {
     public String resolve(HttpServletRequest request) {
         try {
             var version = request.getParameter(this.parameterName);
-            if (version == null || version.isBlank()) {
-                return null;
-            } else {
-                return version;
-            }
+            return isNotBlank(version) ? version : null;
         } catch (Throwable e) {
             return null;
         }
