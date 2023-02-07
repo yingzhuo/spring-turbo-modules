@@ -16,7 +16,6 @@ import org.springframework.lang.Nullable;
 import spring.turbo.module.queryselector.Selector;
 import spring.turbo.module.queryselector.SelectorSet;
 import spring.turbo.module.queryselector.sql.exception.SQLBuildingException;
-import spring.turbo.util.ClassPathDirUtils;
 import spring.turbo.util.StringPool;
 import spring.turbo.util.collection.StringObjectMap;
 
@@ -40,7 +39,7 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     private final Configuration freemarkerConfiguration;
 
     /**
-     * 构造方法
+     * 默认构造方法
      */
     public WhereClauseBuilderImpl() {
         this(null);
