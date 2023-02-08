@@ -53,4 +53,9 @@ public class ServletPathVersionResolver implements VersionResolver {
         }
     }
 
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE;
+    }
+
 }

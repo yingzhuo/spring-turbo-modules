@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import spring.turbo.webmvc.api.Json;
 
+import java.util.Objects;
+
 /**
  * @author 应卓
  * @since 1.2.2
@@ -36,7 +38,7 @@ public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
 
     public JsonEncodingResponseAdvice(@Nullable JsonEncoder encoder, @Nullable ObjectMapper objectMapper) {
         this.encoder = encoder != null ? encoder : JsonEncoderFactories.noop();
-        this.objectMapper = objectMapper != null ? objectMapper : new ObjectMapper();
+        this.objectMapper = Objects.requireNonNullElseGet(objectMapper, ObjectMapper::new);
     }
 
     @Override

@@ -47,4 +47,9 @@ public class QueryVersionResolver implements VersionResolver {
         }
     }
 
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE + 100;
+    }
+
 }

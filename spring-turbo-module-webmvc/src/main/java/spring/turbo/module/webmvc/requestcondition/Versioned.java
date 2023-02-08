@@ -30,6 +30,6 @@ public @interface Versioned {
     @AliasFor("value")
     public String version() default EMPTY;
 
-    public boolean ignoreCase() default false;
+    public boolean ignoreCase() default true;
 
 }

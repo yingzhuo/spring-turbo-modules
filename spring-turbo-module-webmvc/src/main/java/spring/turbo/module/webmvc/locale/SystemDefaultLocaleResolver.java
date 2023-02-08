@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 /**
  * @author 应卓
+ * @see #getInstance()
  * @since 2.0.1
  */
 @Singleton
