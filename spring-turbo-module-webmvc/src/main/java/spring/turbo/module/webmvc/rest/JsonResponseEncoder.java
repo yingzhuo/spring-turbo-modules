@@ -12,7 +12,6 @@ import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
- * @see JsonResponseEncoderFactories#noop()
  * @see JsonResponseEncoderFactories#aes(AES)
  * @see JsonResponseEncoderFactories#aes(AES.Mode, String, String)
  * @see JsonResponseEncoderFactories#base64()
