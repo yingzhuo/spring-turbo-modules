@@ -8,19 +8,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import spring.turbo.util.crypto.AES;
+import spring.turbo.util.crypto.Base64;
+
+import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
- * @see JsonResponseEncoderFactories#noop()
- * @see JsonResponseEncoderFactories#aes(AES)
- * @see JsonResponseEncoderFactories#aes(AES.Mode, String, String)
- * @see JsonResponseEncoderFactories#base64()
- * @since 1.2.2
+ * @since 2.0.11
  */
-@FunctionalInterface
-public interface JsonResponseEncoder {
+public class Base64JsonResponseEncoder implements JsonResponseEncoder {
 
-    public String encode(String jsonContent);
+    @Override
+    public String encode(String jsonContent) {
+        return Base64.encode(jsonContent.getBytes(UTF_8));
+    }
 
 }

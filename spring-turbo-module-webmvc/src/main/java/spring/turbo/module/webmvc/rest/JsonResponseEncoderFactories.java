@@ -23,16 +23,16 @@ public final class JsonResponseEncoderFactories {
         super();
     }
 
-    public static JsonResponseEncoder noop() {
-        return s -> s;
-    }
-
     public static JsonResponseEncoder aes(AES aes) {
         return new AESJsonResponseEncoder(aes);
     }
 
     public static JsonResponseEncoder aes(AES.Mode mode, String password, String salt) {
         return new AESJsonResponseEncoder(mode, password, salt);
+    }
+
+    public static JsonResponseEncoder base64() {
+        return new Base64JsonResponseEncoder();
     }
 
 }

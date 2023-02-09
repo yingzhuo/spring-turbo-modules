@@ -19,6 +19,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import spring.turbo.util.Asserts;
 import spring.turbo.webmvc.api.Json;
 
 import java.util.Objects;
@@ -33,12 +34,13 @@ public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
     private final JsonResponseEncoder encoder;
     private final ObjectMapper objectMapper;
 
-    public JsonEncodingResponseAdvice(@Nullable JsonResponseEncoder encoder) {
+    public JsonEncodingResponseAdvice(JsonResponseEncoder encoder) {
         this(encoder, new ObjectMapper());
     }
 
-    public JsonEncodingResponseAdvice(@Nullable JsonResponseEncoder encoder, @Nullable ObjectMapper objectMapper) {
-        this.encoder = encoder != null ? encoder : JsonResponseEncoderFactories.noop();
+    public JsonEncodingResponseAdvice(JsonResponseEncoder encoder, @Nullable ObjectMapper objectMapper) {
+        Asserts.notNull(encoder);
+        this.encoder = encoder;
         this.objectMapper = Objects.requireNonNullElseGet(objectMapper, ObjectMapper::new);
     }
 

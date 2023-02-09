@@ -22,8 +22,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import spring.turbo.module.webmvc.locale.SystemDefaultLocaleResolver;
 import spring.turbo.module.webmvc.params.RemoteAddressHandlerMethodArgumentResolver;
-import spring.turbo.module.webmvc.rest.JsonResponseEncoder;
 import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
+import spring.turbo.module.webmvc.rest.JsonResponseEncoder;
 
 import java.util.List;
 
