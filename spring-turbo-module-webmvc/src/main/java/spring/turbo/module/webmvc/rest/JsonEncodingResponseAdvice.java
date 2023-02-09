@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.Nullable;
@@ -29,28 +30,29 @@ import java.util.Objects;
 @RestControllerAdvice
 public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
 
-    private final JsonEncoder encoder;
+    private final JsonResponseEncoder encoder;
     private final ObjectMapper objectMapper;
 
-    public JsonEncodingResponseAdvice(@Nullable JsonEncoder encoder) {
-        this(encoder, null);
+    public JsonEncodingResponseAdvice(@Nullable JsonResponseEncoder encoder) {
+        this(encoder, new ObjectMapper());
     }
 
-    public JsonEncodingResponseAdvice(@Nullable JsonEncoder encoder, @Nullable ObjectMapper objectMapper) {
-        this.encoder = encoder != null ? encoder : JsonEncoderFactories.noop();
+    public JsonEncodingResponseAdvice(@Nullable JsonResponseEncoder encoder, @Nullable ObjectMapper objectMapper) {
+        this.encoder = encoder != null ? encoder : JsonResponseEncoderFactories.noop();
         this.objectMapper = Objects.requireNonNullElseGet(objectMapper, ObjectMapper::new);
     }
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return searchAnnotation(returnType) != null;
+        return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType) &&
+                searchAnnotation(returnType) != null;
     }
 
     @Override
     @Nullable
     public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
-        final JsonEncoding annotation = searchAnnotation(returnType);
+        final JsonResponseEncoding annotation = searchAnnotation(returnType);
         if (annotation == null || body == null) {
             return body;
         }
@@ -63,15 +65,15 @@ public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
     }
 
     @Nullable
-    private JsonEncoding searchAnnotation(MethodParameter returnType) {
-        JsonEncoding annotation = returnType.getMethodAnnotation(JsonEncoding.class);
+    private JsonResponseEncoding searchAnnotation(MethodParameter returnType) {
+        JsonResponseEncoding annotation = returnType.getMethodAnnotation(JsonResponseEncoding.class);
 
         if (annotation != null) {
             return annotation;
         }
 
         return returnType.getContainingClass()
-                .getAnnotation(JsonEncoding.class);
+                .getAnnotation(JsonResponseEncoding.class);
     }
 
     private String doEncode(Json json) {

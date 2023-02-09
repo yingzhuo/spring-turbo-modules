@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -23,10 +22,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import spring.turbo.module.webmvc.locale.SystemDefaultLocaleResolver;
 import spring.turbo.module.webmvc.params.RemoteAddressHandlerMethodArgumentResolver;
-import spring.turbo.module.webmvc.rest.JsonEncoder;
+import spring.turbo.module.webmvc.rest.JsonResponseEncoder;
 import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
 
 import java.util.List;
+
+import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
  * @author 应卓
@@ -39,7 +40,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Autowired(required = false)
     public void config(@Nullable BeanNameViewResolver resolver) {
         if (resolver != null) {
-            resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+            resolver.setOrder(HIGHEST_PRECEDENCE);
         }
     }
 
@@ -49,8 +50,8 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    @ConditionalOnBean({JsonEncoder.class, ObjectMapper.class})
-    public JsonEncodingResponseAdvice jsonEncodingResponseAdvice(JsonEncoder encoder, ObjectMapper objectMapper) {
+    @ConditionalOnBean({JsonResponseEncoder.class, ObjectMapper.class})
+    public JsonEncodingResponseAdvice jsonEncodingResponseAdvice(JsonResponseEncoder encoder, ObjectMapper objectMapper) {
         return new JsonEncodingResponseAdvice(encoder, objectMapper);
     }
 

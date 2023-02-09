@@ -8,16 +8,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import java.lang.annotation.*;
+import spring.turbo.util.Asserts;
+import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
- * @see spring.turbo.webmvc.api.Json
  * @since 1.2.2
  */
-@Documented
-@Inherited
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
-public @interface JsonEncoding {
+public class AESJsonResponseEncoder implements JsonResponseEncoder {
+
+    private final AES aes;
+
+    public AESJsonResponseEncoder(AES aes) {
+        Asserts.notNull(aes);
+        this.aes = aes;
+    }
+
+    public AESJsonResponseEncoder(AES.Mode mode, String password, String salt) {
+        this.aes = AES.builder()
+                .mode(mode)
+                .passwordAndSalt(password, salt)
+                .build();
+    }
+
+    @Override
+    public String encode(String jsonContent) {
+        return aes.encrypt(jsonContent);
+    }
+
 }

@@ -14,20 +14,25 @@ import spring.turbo.util.crypto.AES;
  * @author 应卓
  * @since 1.2.2
  */
-class AESJsonEncoder implements JsonEncoder {
+public final class JsonResponseEncoderFactories {
 
-    private final AES aes;
-
-    public AESJsonEncoder(AES.Mode mode, String password, String salt) {
-        this.aes = AES.builder()
-                .mode(mode)
-                .passwordAndSalt(password, salt)
-                .build();
+    /**
+     * 私有构造方法
+     */
+    private JsonResponseEncoderFactories() {
+        super();
     }
 
-    @Override
-    public String encode(String json) {
-        return aes.encrypt(json);
+    public static JsonResponseEncoder noop() {
+        return s -> s;
+    }
+
+    public static JsonResponseEncoder aes(AES aes) {
+        return new AESJsonResponseEncoder(aes);
+    }
+
+    public static JsonResponseEncoder aes(AES.Mode mode, String password, String salt) {
+        return new AESJsonResponseEncoder(mode, password, salt);
     }
 
 }

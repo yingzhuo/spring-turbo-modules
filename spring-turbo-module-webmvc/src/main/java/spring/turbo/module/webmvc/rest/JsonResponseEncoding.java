@@ -8,27 +8,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import spring.turbo.util.crypto.AES;
+import java.lang.annotation.*;
 
 /**
  * @author 应卓
+ * @see spring.turbo.webmvc.api.Json
  * @since 1.2.2
  */
-public final class JsonEncoderFactories {
-
-    /**
-     * 私有构造方法
-     */
-    private JsonEncoderFactories() {
-        super();
-    }
-
-    public static JsonEncoder noop() {
-        return NullJsonEncoder.getInstance();
-    }
-
-    public static JsonEncoder aes(AES.Mode mode, String password, String salt) {
-        return new AESJsonEncoder(mode, password, salt);
-    }
-
+@Inherited
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface JsonResponseEncoding {
 }
