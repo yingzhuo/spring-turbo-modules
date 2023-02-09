@@ -25,7 +25,7 @@ import spring.turbo.bean.valueobject.Alias;
 import spring.turbo.bean.valueobject.NullValidator;
 import spring.turbo.bean.valueobject.ProcessPayload;
 import spring.turbo.bean.valueobject.ValueObjectFilter;
-import spring.turbo.core.AnnotationUtils;
+import spring.turbo.core.AnnotationFinder;
 import spring.turbo.core.SpringContext;
 import spring.turbo.module.datahandling.excel.ExcelType;
 import spring.turbo.module.datahandling.excel.cellparser.CellParser;
@@ -173,7 +173,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
         final Class<?> visitorType = visitor.getClass();
 
         final BatchProcessor primaryAnnotation =
-                AnnotationUtils.findAnnotation(visitorType, BatchProcessor.class);
+                AnnotationFinder.findAnnotation(visitorType, BatchProcessor.class);
 
         if (primaryAnnotation == null) {
             return null;
@@ -203,7 +203,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     private int getBatchSize(Class<?> visitorType) {
-        final BatchSize annotation = AnnotationUtils.findAnnotation(visitorType, BatchSize.class);
+        final BatchSize annotation = AnnotationFinder.findAnnotation(visitorType, BatchSize.class);
         if (annotation == null) {
             return DEFAULT_BATCH_SIZE;
         }
@@ -228,14 +228,14 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private List<Pair<Integer, Integer>> getHeader(Class<?> visitorType) {
         List<Pair<Integer, Integer>> headerConfig = new ArrayList<>();
-        Header.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Header.List.class);
+        Header.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, Header.List.class);
 
         if (listAnnotation != null) {
             for (Header annotation : listAnnotation.value()) {
                 headerConfig.add(Pair.ofNonNull(annotation.sheetIndex(), annotation.rowIndex()));
             }
         } else {
-            Header annotation = AnnotationUtils.findAnnotation(visitorType, Header.class);
+            Header annotation = AnnotationFinder.findAnnotation(visitorType, Header.class);
             if (annotation != null) {
                 headerConfig.add(Pair.ofNonNull(annotation.sheetIndex(), annotation.rowIndex()));
             }
@@ -245,7 +245,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private List<Tuple<Integer, Integer, String[]>> getHeaderlessList(Class<?> visitorType) {
         final List<Tuple<Integer, Integer, String[]>> headerlessConfig = new ArrayList<>();
-        Headerless.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Headerless.List.class);
+        Headerless.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, Headerless.List.class);
 
         if (listAnnotation != null) {
             for (Headerless annotation : listAnnotation.value()) {
@@ -254,7 +254,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
                 );
             }
         } else {
-            Headerless annotation = AnnotationUtils.findAnnotation(visitorType, Headerless.class);
+            Headerless annotation = AnnotationFinder.findAnnotation(visitorType, Headerless.class);
             if (annotation != null) {
                 headerlessConfig.add(
                         Tuple.ofNullable(annotation.sheetIndex(), annotation.offset(), annotation.fixed())
@@ -266,7 +266,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     private Set<Integer> getIncludeSheetSet(Class<?> visitorType) {
-        IncludeSheetSet annotation = AnnotationUtils.findAnnotation(visitorType, IncludeSheetSet.class);
+        IncludeSheetSet annotation = AnnotationFinder.findAnnotation(visitorType, IncludeSheetSet.class);
         if (annotation == null) {
             return Collections.emptySet();
         } else {
@@ -277,13 +277,13 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     @Nullable
     private String getIncludeSheetPattern(Class<?> visitorType) {
-        IncludeSheetPattern annotation = AnnotationUtils.findAnnotation(visitorType, IncludeSheetPattern.class);
+        IncludeSheetPattern annotation = AnnotationFinder.findAnnotation(visitorType, IncludeSheetPattern.class);
         return annotation != null ? annotation.value() : null;
     }
 
     @Nullable
     private String getPassword(Class<?> visitorType) {
-        Password annotation = AnnotationUtils.findAnnotation(visitorType, Password.class);
+        Password annotation = AnnotationFinder.findAnnotation(visitorType, Password.class);
         if (annotation == null) {
             return null;
         } else {
@@ -294,7 +294,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     @Nullable
     private PasswordProvider getPasswordProvider(Class<?> visitorType) {
-        Password annotation = AnnotationUtils.findAnnotation(visitorType, Password.class);
+        Password annotation = AnnotationFinder.findAnnotation(visitorType, Password.class);
         if (annotation == null) {
             return null;
         } else {
@@ -308,7 +308,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     private ExcelType getExcelType(Class<?> visitorType) {
-        Type annotation = AnnotationUtils.findAnnotation(visitorType, Type.class);
+        Type annotation = AnnotationFinder.findAnnotation(visitorType, Type.class);
         if (annotation == null) {
             return ExcelType.XSSF;
         } else {
@@ -318,14 +318,14 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private List<Pair<Integer, Set<Integer>>> getExcludeRowSets(Class<?> visitorType) {
         List<Pair<Integer, Set<Integer>>> list = new ArrayList<>();
-        ExcludeRowSet.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowSet.List.class);
+        ExcludeRowSet.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, ExcludeRowSet.List.class);
         if (listAnnotation != null) {
             for (ExcludeRowSet annotation : listAnnotation.value()) {
                 Set<Integer> set = Arrays.stream(annotation.rowIndexes()).boxed().collect(Collectors.toSet());
                 list.add(Pair.ofNonNull(annotation.sheetIndex(), set));
             }
         } else {
-            ExcludeRowSet annotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowSet.class);
+            ExcludeRowSet annotation = AnnotationFinder.findAnnotation(visitorType, ExcludeRowSet.class);
             if (annotation != null) {
                 Set<Integer> set = Arrays.stream(annotation.rowIndexes()).boxed().collect(Collectors.toSet());
                 list.add(Pair.ofNonNull(annotation.sheetIndex(), set));
@@ -337,7 +337,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private List<Tuple<Integer, Integer, Integer>> getExcludeRowRanges(Class<?> visitorType) {
         List<Tuple<Integer, Integer, Integer>> list = new ArrayList<>();
-        ExcludeRowRange.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowRange.List.class);
+        ExcludeRowRange.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, ExcludeRowRange.List.class);
         if (listAnnotation != null) {
             for (ExcludeRowRange annotation : listAnnotation.value()) {
                 list.add(
@@ -349,7 +349,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
                 );
             }
         } else {
-            ExcludeRowRange annotation = AnnotationUtils.findAnnotation(visitorType, ExcludeRowRange.class);
+            ExcludeRowRange annotation = AnnotationFinder.findAnnotation(visitorType, ExcludeRowRange.class);
             if (annotation != null) {
                 list.add(
                         Tuple.ofNullable(
@@ -366,7 +366,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private GlobalCellParser getGlobalCellParser(Class<?> visitorType) {
         spring.turbo.module.datahandling.excel.reader.annotation.GlobalCellParser annotation =
-                AnnotationUtils.findAnnotation(visitorType, spring.turbo.module.datahandling.excel.reader.annotation.GlobalCellParser.class);
+                AnnotationFinder.findAnnotation(visitorType, spring.turbo.module.datahandling.excel.reader.annotation.GlobalCellParser.class);
 
         if (annotation != null) {
             return instanceCache.findOrCreate(annotation.type());
@@ -378,7 +378,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     private AliasConfig getAliasConfig(Class<?> visitorType) {
         AliasConfig aliasConfig = AliasConfig.newInstance();
 
-        Alias.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, Alias.List.class);
+        Alias.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, Alias.List.class);
         if (listAnnotation != null) {
             for (Alias annotation : listAnnotation.value()) {
                 final String from = annotation.from();
@@ -388,7 +388,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
                 }
             }
         } else {
-            Alias annotation = AnnotationUtils.findAnnotation(visitorType, Alias.class);
+            Alias annotation = AnnotationFinder.findAnnotation(visitorType, Alias.class);
             if (annotation != null) {
                 final String from = annotation.from();
                 final String to = annotation.to();
@@ -404,7 +404,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     private List<Tuple<Integer, Integer, CellParser>> getColumnBasedCellParser(Class<?> visitorType) {
         List<Tuple<Integer, Integer, CellParser>> list = new ArrayList<>();
-        ColumnBasedCellParser.List listAnnotation = AnnotationUtils.findAnnotation(visitorType, ColumnBasedCellParser.List.class);
+        ColumnBasedCellParser.List listAnnotation = AnnotationFinder.findAnnotation(visitorType, ColumnBasedCellParser.List.class);
         if (listAnnotation != null) {
             for (ColumnBasedCellParser annotation : listAnnotation.value()) {
                 list.add(
@@ -416,7 +416,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
                 );
             }
         } else {
-            ColumnBasedCellParser annotation = AnnotationUtils.findAnnotation(visitorType, ColumnBasedCellParser.class);
+            ColumnBasedCellParser annotation = AnnotationFinder.findAnnotation(visitorType, ColumnBasedCellParser.class);
             if (annotation != null) {
                 list.add(
                         Tuple.ofNonNull(
@@ -431,7 +431,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     private List<Validator> getAdditionalValidators(Class<?> visitorType) {
-        AdditionalValidators annotation = AnnotationUtils.findAnnotation(visitorType, AdditionalValidators.class);
+        AdditionalValidators annotation = AnnotationFinder.findAnnotation(visitorType, AdditionalValidators.class);
         if (annotation != null && !ArrayUtils.isNullOrEmpty(annotation.value())) {
             return Arrays.stream(annotation.value())
                     .map(type -> (Validator) instanceCache.findOrCreate(type))
@@ -442,7 +442,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
 
     @Nullable
     private ValueObjectFilter getValueObjectFilter(Class<?> visitorType) {
-        Filter annotation = AnnotationUtils.findAnnotation(visitorType, Filter.class);
+        Filter annotation = AnnotationFinder.findAnnotation(visitorType, Filter.class);
         if (annotation != null) {
             return instanceCache.findOrCreate(annotation.type());
         }
@@ -450,7 +450,7 @@ public class BatchValueObjectReadingTriggerImpl implements BatchValueObjectReadi
     }
 
     private BuilderCustomizer getBuilderCustomizer(Class<?> visitorType) {
-        Customizer customizer = AnnotationUtils.findAnnotation(visitorType, Customizer.class);
+        Customizer customizer = AnnotationFinder.findAnnotation(visitorType, Customizer.class);
         return customizer != null ? instanceCache.findOrCreate(customizer.type()) : null;
     }
 

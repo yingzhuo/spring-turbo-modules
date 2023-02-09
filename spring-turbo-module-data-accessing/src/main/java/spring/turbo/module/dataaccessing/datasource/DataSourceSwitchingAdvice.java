@@ -15,9 +15,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import spring.turbo.core.AnnotationUtils;
 
 import java.lang.reflect.Method;
+
+import static spring.turbo.core.AnnotationFinder.findAnnotation;
 
 /**
  * 动态数据源切换用切面
@@ -36,7 +37,7 @@ public class DataSourceSwitchingAdvice {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
         final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        final DataSourceSwitch annotation = AnnotationUtils.findAnnotation(method, ANNOTATION_TYPE);
+        final DataSourceSwitch annotation = findAnnotation(method, ANNOTATION_TYPE);
 
         if (annotation != null) {
             final String key = annotation.value();
