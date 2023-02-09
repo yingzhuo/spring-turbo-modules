@@ -22,6 +22,7 @@ import static org.springframework.core.annotation.AnnotationUtils.getAnnotationA
 
 /**
  * @author 应卓
+ * @see ServletPathVersionResolver
  * @since 2.0.9
  */
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
@@ -37,7 +38,7 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
      * 默认构造方法
      */
     public VersionedRequestMappingHandlerMapping() {
-        this(null);
+        this(new ServletPathVersionResolver());
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * @author 应卓
+ * @see CompositeVersionResolver
  * @since 2.0.9
  */
 public final class VersionResolverBuilder implements Builder<VersionResolver> {

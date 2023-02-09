@@ -15,9 +15,9 @@ import java.lang.annotation.*;
  * @see spring.turbo.webmvc.api.Json
  * @since 1.2.2
  */
-@Documented
 @Inherited
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-public @interface JsonEncoding {
+public @interface JsonResponseEncoding {
 }

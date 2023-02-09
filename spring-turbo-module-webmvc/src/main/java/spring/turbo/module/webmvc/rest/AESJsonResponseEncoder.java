@@ -8,30 +8,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
+import spring.turbo.util.Asserts;
+import spring.turbo.util.crypto.AES;
+
 /**
  * @author 应卓
  * @since 1.2.2
  */
-public final class NullJsonEncoder implements JsonEncoder {
+public class AESJsonResponseEncoder implements JsonResponseEncoder {
 
-    /**
-     * 私有构造方法
-     */
-    private NullJsonEncoder() {
-        super();
+    private final AES aes;
+
+    public AESJsonResponseEncoder(AES aes) {
+        Asserts.notNull(aes);
+        this.aes = aes;
     }
 
-    public static NullJsonEncoder getInstance() {
-        return SyncAvoid.INSTANCE;
+    public AESJsonResponseEncoder(AES.Mode mode, String password, String salt) {
+        this.aes = AES.builder()
+                .mode(mode)
+                .passwordAndSalt(password, salt)
+                .build();
     }
 
     @Override
-    public String encode(String json) {
-        return json;
+    public String encode(String jsonContent) {
+        return aes.encrypt(jsonContent);
     }
 
-    // 延迟加载
-    private static class SyncAvoid {
-        private static final NullJsonEncoder INSTANCE = new NullJsonEncoder();
-    }
 }
