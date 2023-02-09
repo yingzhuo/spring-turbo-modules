@@ -14,7 +14,6 @@ import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import org.springframework.core.OrderComparator;
-import spring.turbo.core.AnnotationUtils;
 import spring.turbo.module.feign.annotation.*;
 import spring.turbo.module.feign.retryer.RetryerImpl;
 import spring.turbo.util.DurationParseUtils;
@@ -24,6 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+
+import static spring.turbo.core.AnnotationFinder.findAnnotation;
 
 /**
  * @author 应卓
@@ -64,14 +65,14 @@ final class FeignClientSupplier implements Supplier {
     }
 
     private void setupDecoded404(final Feign.Builder builder, final Class<?> clientType) {
-        if (AnnotationUtils.findAnnotation(clientType, Decoded404.class) != null) {
+        if (findAnnotation(clientType, Decoded404.class) != null) {
             builder.decode404();
         }
     }
 
     // logging
     private void setupLogging(final Feign.Builder builder, final Class<?> clientType) {
-        Logging annotation = AnnotationUtils.findAnnotation(clientType, Logging.class);
+        Logging annotation = findAnnotation(clientType, Logging.class);
         if (annotation != null) {
             builder.logger(instanceCache.findOrCreate(annotation.type()));
             builder.logLevel(annotation.level());
@@ -81,7 +82,7 @@ final class FeignClientSupplier implements Supplier {
     // encoder
     // decoder
     private void setupEncoderAndDecoder(final Feign.Builder builder, final Class<?> clientType) {
-        EncoderAndDecoder annotation = AnnotationUtils.findAnnotation(clientType, EncoderAndDecoder.class);
+        EncoderAndDecoder annotation = findAnnotation(clientType, EncoderAndDecoder.class);
         if (annotation != null) {
             Encoder encoder = instanceCache.findOrCreate(annotation.encoderType());
             Decoder decoder = instanceCache.findOrCreate(annotation.decoderType());
@@ -92,7 +93,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 错误处理
     private void setupErrorDecoder(final Feign.Builder builder, final Class<?> clientType) {
-        ErrorDecoder annotation = AnnotationUtils.findAnnotation(clientType, ErrorDecoder.class);
+        ErrorDecoder annotation = findAnnotation(clientType, ErrorDecoder.class);
         if (annotation != null) {
             builder.errorDecoder(instanceCache.findOrCreate(annotation.type()));
         }
@@ -100,7 +101,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 客户端
     private void setupClient(final Feign.Builder builder, final Class<?> clientType) {
-        Client annotation = AnnotationUtils.findAnnotation(clientType, Client.class);
+        Client annotation = findAnnotation(clientType, Client.class);
         if (annotation != null) {
             builder.client(instanceCache.findOrCreate(annotation.type()));
         }
@@ -108,7 +109,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 指定QueryMapperEncoder
     private void setupQueryMapEncoder(final Feign.Builder builder, final Class<?> clientType) {
-        QueryMapEncoder annotation = AnnotationUtils.findAnnotation(clientType, QueryMapEncoder.class);
+        QueryMapEncoder annotation = findAnnotation(clientType, QueryMapEncoder.class);
         if (annotation != null) {
             builder.queryMapEncoder(instanceCache.findOrCreate(annotation.type()));
         }
@@ -116,7 +117,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 合约
     private void setupContract(final Feign.Builder builder, final Class<?> clientType) {
-        Contract annotation = AnnotationUtils.findAnnotation(clientType, Contract.class);
+        Contract annotation = findAnnotation(clientType, Contract.class);
         if (annotation != null) {
             builder.contract(instanceCache.findOrCreate(annotation.type()));
         }
@@ -124,7 +125,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 监控相关
     private void setupCapabilities(final Feign.Builder builder, final Class<?> clientType) {
-        Capabilities annotation = AnnotationUtils.findAnnotation(clientType, Capabilities.class);
+        Capabilities annotation = findAnnotation(clientType, Capabilities.class);
         if (annotation != null) {
             for (Class<? extends feign.Capability> type : annotation.types()) {
                 if (type != null) {
@@ -136,7 +137,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 性能选项
     private void setupOptions(final Feign.Builder builder, final Class<?> clientType) {
-        Options annotation = AnnotationUtils.findAnnotation(clientType, Options.class);
+        Options annotation = findAnnotation(clientType, Options.class);
         if (annotation != null) {
             Request.Options ops = new Request.Options(
                     DurationParseUtils.parse(annotation.connectTimeout()).toMillis(),
@@ -151,7 +152,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 关闭连接选项
     private void setupDoNotCloseAfterDecode(final Feign.Builder builder, final Class<?> clientType) {
-        DoNotCloseAfterDecode annotation = AnnotationUtils.findAnnotation(clientType, DoNotCloseAfterDecode.class);
+        DoNotCloseAfterDecode annotation = findAnnotation(clientType, DoNotCloseAfterDecode.class);
         if (annotation != null) {
             builder.doNotCloseAfterDecode();
         }
@@ -159,7 +160,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 拦截器
     private void setupRequestInterceptors(final Feign.Builder builder, final Class<?> clientType) {
-        RequestInterceptors annotation = AnnotationUtils.findAnnotation(clientType, RequestInterceptors.class);
+        RequestInterceptors annotation = findAnnotation(clientType, RequestInterceptors.class);
         if (annotation != null) {
             List<RequestInterceptor> interceptors = new LinkedList<>();
             for (Class<? extends feign.RequestInterceptor> type : annotation.types()) {
@@ -174,7 +175,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 异常传播策略
     private void setupExceptionPropagationPolicy(final Feign.Builder builder, final Class<?> clientType) {
-        ExceptionPropagationPolicy annotation = AnnotationUtils.findAnnotation(clientType, ExceptionPropagationPolicy.class);
+        ExceptionPropagationPolicy annotation = findAnnotation(clientType, ExceptionPropagationPolicy.class);
         if (annotation != null) {
             builder.exceptionPropagationPolicy(annotation.value());
         }
@@ -182,7 +183,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 代理相关
     private void setupInvocationHandlerFactory(final Feign.Builder builder, final Class<?> clientType) {
-        InvocationHandlerFactory annotation = AnnotationUtils.findAnnotation(clientType, InvocationHandlerFactory.class);
+        InvocationHandlerFactory annotation = findAnnotation(clientType, InvocationHandlerFactory.class);
         if (annotation != null) {
             builder.invocationHandlerFactory(instanceCache.findOrCreate(annotation.value()));
         }
@@ -190,7 +191,7 @@ final class FeignClientSupplier implements Supplier {
 
     // 重试相关
     private void setupRetryer(final Feign.Builder builder, final Class<?> clientType) {
-        Retryer annotation = AnnotationUtils.findAnnotation(clientType, Retryer.class);
+        Retryer annotation = findAnnotation(clientType, Retryer.class);
         if (annotation != null) {
             builder.retryer(new RetryerImpl(
                     DurationParseUtils.parse(annotation.period()).toMillis(),
@@ -204,10 +205,11 @@ final class FeignClientSupplier implements Supplier {
 
     // 自由客制化
     private void setupCustomizer(final Feign.Builder builder, final Class<?> clientType) {
-        Customizer annotation = AnnotationUtils.findAnnotation(clientType, Customizer.class);
+        Customizer annotation = findAnnotation(clientType, Customizer.class);
         if (annotation != null) {
             BuilderCustomizer bean = instanceCache.findOrCreate(annotation.value());
             bean.customize(builder);
         }
     }
+
 }
