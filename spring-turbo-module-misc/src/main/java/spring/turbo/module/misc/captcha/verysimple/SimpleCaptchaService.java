@@ -32,6 +32,9 @@ public class SimpleCaptchaService implements CaptchaService {
     private String characters = "absdegkmnopwxABSDEGKMNOPWX23456789";
     private String font = "Times New Roman";
 
+    /**
+     * 默认构造方法
+     */
     public SimpleCaptchaService() {
         super();
     }
