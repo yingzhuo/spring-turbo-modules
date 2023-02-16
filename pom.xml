@@ -104,7 +104,7 @@
 
         <spring.turbo.version>2.0.12-SNAPSHOT</spring.turbo.version>
         <spring.boot.version>3.0.2</spring.boot.version>
-        <spring.version>6.0.4</spring.version>
+        <spring.version>6.0.5</spring.version>
         <spring.security.version>6.0.1</spring.security.version>
         <spring.kafka.version>3.0.2</spring.kafka.version>
         <spring.data.commons.version>3.0.1</spring.data.commons.version>

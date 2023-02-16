@@ -19,8 +19,9 @@ import java.lang.annotation.*;
  * @see RemoteAddressUtils
  * @since 1.0.0
  */
+@Inherited
 @Documented
-@Target({ElementType.ANNOTATION_TYPE, ElementType.PARAMETER})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RemoteAddress {
 }
