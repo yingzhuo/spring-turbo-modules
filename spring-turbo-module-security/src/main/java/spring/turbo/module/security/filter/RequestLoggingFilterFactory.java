@@ -9,7 +9,6 @@
 package spring.turbo.module.security.filter;
 
 import jakarta.servlet.Filter;
-import org.springframework.lang.NonNull;
 import spring.turbo.module.security.FilterConfiguration;
 
 /**
@@ -18,15 +17,8 @@ import spring.turbo.module.security.FilterConfiguration;
  * @see RequestLoggingFilter
  * @since 1.0.0
  */
-@FunctionalInterface
 public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {
 
-    @Override
-    public default Filter get() {
-        return new HumanReadableRequestLoggingFilter();
-    }
-
-    @NonNull
     @Override
     public default Position position() {
         return Position.BEFORE;

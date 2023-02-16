@@ -9,7 +9,6 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import spring.turbo.bean.Factory;
 
 /**
  * @author 应卓
@@ -17,9 +16,8 @@ import spring.turbo.bean.Factory;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface AlgorithmFactory extends Factory<Algorithm> {
+public interface AlgorithmFactory {
 
-    @Override
     public Algorithm create();
 
 }

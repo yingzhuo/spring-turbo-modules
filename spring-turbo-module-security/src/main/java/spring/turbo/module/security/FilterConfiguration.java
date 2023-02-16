@@ -11,7 +11,6 @@ package spring.turbo.module.security;
 import jakarta.servlet.Filter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import spring.turbo.bean.Factory;
 
 /**
  * {@link Filter} 配置单元
@@ -26,14 +25,13 @@ import spring.turbo.bean.Factory;
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface FilterConfiguration<T extends Filter> extends Factory<T> {
+public interface FilterConfiguration<T extends Filter> {
 
     public default boolean isEnabled() {
         return true;
     }
 
     @Nullable
-    @Override
     public T create();
 
     public default Class<? extends Filter> positionInChain() {
