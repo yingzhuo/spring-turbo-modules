@@ -8,20 +8,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.captcha;
 
-import java.util.function.Supplier;
-
 /**
  * @author 应卓
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface CaptchaService extends Supplier<Captcha> {
+public interface CaptchaService {
 
     public Captcha create();
-
-    @Override
-    public default Captcha get() {
-        return create();
-    }
 
 }
