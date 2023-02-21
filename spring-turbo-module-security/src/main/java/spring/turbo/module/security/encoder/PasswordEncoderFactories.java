@@ -55,8 +55,8 @@ public final class PasswordEncoderFactories {
     }
 
     private static Map<String, PasswordEncoder> getEncoders() {
-        final var map = new HashMap<String, PasswordEncoder>();
-        final var services = SpringFactoriesUtils.loadQuietly(ExtraPasswordEncoderConvention.class);
+        var map = new HashMap<String, PasswordEncoder>();
+        var services = SpringFactoriesUtils.loadQuietly(ExtraPasswordEncoderConvention.class);
         for (final var service : services) {
             CollectionUtils.nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
         }

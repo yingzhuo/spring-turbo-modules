@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.convention.spi;
 
-import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,7 +41,7 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return HIGHEST_PRECEDENCE;
     }
 
     @Override
