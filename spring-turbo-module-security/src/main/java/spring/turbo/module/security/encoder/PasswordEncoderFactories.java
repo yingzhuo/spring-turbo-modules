@@ -12,18 +12,20 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
-import spring.turbo.core.SpringFactoriesUtils;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
-import spring.turbo.util.StringUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
+import static spring.turbo.util.StringUtils.isNotBlank;
+
 /**
  * @author 应卓
  * @see EncodingIds
+ * @see DelegatingPasswordEncoder
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {
@@ -48,7 +50,7 @@ public final class PasswordEncoderFactories {
         final Map<String, PasswordEncoder> encoders = getEncoders();
         final DelegatingPasswordEncoder encoder = new DelegatingPasswordEncoder(encodingId, encoders);
 
-        if (StringUtils.isNotBlank(defaultPasswordEncoderForMatches)) {
+        if (isNotBlank(defaultPasswordEncoderForMatches)) {
             encoder.setDefaultPasswordEncoderForMatches(encoders.get(defaultPasswordEncoderForMatches));
         }
         return encoder;
@@ -56,7 +58,7 @@ public final class PasswordEncoderFactories {
 
     private static Map<String, PasswordEncoder> getEncoders() {
         var map = new HashMap<String, PasswordEncoder>();
-        var services = SpringFactoriesUtils.loadQuietly(ExtraPasswordEncoderConvention.class);
+        var services = loadQuietly(ExtraPasswordEncoderConvention.class);
         for (final var service : services) {
             CollectionUtils.nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
         }
