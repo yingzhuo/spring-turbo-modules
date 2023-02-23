@@ -26,8 +26,6 @@ import static spring.turbo.util.CharsetPool.UTF_8;
 @Singleton
 public final class HEXPasswordEncoder implements PasswordEncoder {
 
-    // 这个东西只防君子，不防小人
-
     /**
      * 私有构造方法
      */
