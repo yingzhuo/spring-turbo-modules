@@ -30,6 +30,7 @@ import java.util.Optional;
  * @see DelegatingPasswordEncoder
  * @since 2.0.3
  */
+@SuppressWarnings("deprecation")
 public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEncoderConvention {
 
     /**
@@ -45,7 +46,6 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public Map<String, PasswordEncoder> getExtraPasswordEncoderWithName() {
         final var map = new HashMap<String, PasswordEncoder>();
         map.put(EncodingIds.bcrypt, new BCryptPasswordEncoder());
