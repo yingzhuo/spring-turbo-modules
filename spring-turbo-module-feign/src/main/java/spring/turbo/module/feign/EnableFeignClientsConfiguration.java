@@ -27,9 +27,7 @@ import spring.turbo.bean.classpath.PackageSet;
 import spring.turbo.util.ClassUtils;
 import spring.turbo.util.InstanceCache;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
@@ -97,7 +95,7 @@ class EnableFeignClientsConfiguration implements
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
-    private Iterable<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
+    private PackageSet getBasePackages(AnnotationMetadata importingClassMetadata) {
         var packageSet = PackageSet.newInstance();
 
         var attributes = AnnotationAttributes.fromMap(
@@ -105,21 +103,18 @@ class EnableFeignClientsConfiguration implements
         );
 
         if (attributes != null) {
-            packageSet.add(attributes.getStringArray("value"));
-            Arrays.stream(attributes.getClassArray("basePackageClasses"))
-                    .filter(Objects::nonNull)
-                    .map(ClassUtils::getPackageName)
-                    .forEach(packageSet::add);
+            packageSet.addPackages(attributes.getStringArray("value"));
+            packageSet.addBaseClasses(attributes.getClassArray("basePackageClasses"));
         }
 
         if (packageSet.isEmpty()) {
-            packageSet.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
+            packageSet.addPackages(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
 
         return packageSet;
     }
 
-    private List<ClassDef> doScan(Iterable<String> basePackages) {
+    private List<ClassDef> doScan(PackageSet basePackages) {
         var typeFilter = all(
                 isInterface(),
                 hasAnnotation(FeignClient.class)
