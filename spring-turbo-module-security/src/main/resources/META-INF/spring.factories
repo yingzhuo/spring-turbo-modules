@@ -6,5 +6,7 @@ spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDS
 # ----------------------------------------------------------------------------------------------------------------------
 # SpringTurbo convention(s)
 # ----------------------------------------------------------------------------------------------------------------------
+spring.turbo.convention.ModulesConvention=\
+spring.turbo.module.security.convention.spi.ModulesConventionImpl
 spring.turbo.convention.ExtraPasswordEncoderConvention=\
 spring.turbo.module.security.convention.spi.ExtraPasswordEncoderConventionImpl
