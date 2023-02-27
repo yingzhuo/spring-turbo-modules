@@ -15,7 +15,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.function.Predicate;
 
-import static spring.turbo.module.security.util.RequestMatcherFactories.alwaysTrue;
+import static spring.turbo.module.security.util.RequestMatcherFactories.alwaysFalse;
 import static spring.turbo.module.security.util.RequestMatcherFactories.fromPredicate;
 
 /**
@@ -35,7 +35,7 @@ public interface SkippableFilter extends Filter {
         if (predicate != null) {
             setSkipRequestMatcher(fromPredicate(predicate));
         } else {
-            setSkipRequestMatcher(alwaysTrue());
+            setSkipRequestMatcher(alwaysFalse());
         }
     }
 
