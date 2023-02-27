@@ -19,7 +19,7 @@ import spring.turbo.module.security.token.BearerTokenResolver;
 public final class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
     /**
-     * 构造方法
+     * 默认构造方法
      */
     public JwtTokenAuthenticationFilter() {
         super.setTokenResolver(new BearerTokenResolver());
