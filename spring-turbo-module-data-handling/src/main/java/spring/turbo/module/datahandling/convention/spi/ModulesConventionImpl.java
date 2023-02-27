@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.datahandling.convention.spi;
 
+import spring.turbo.SpringTurboModules;
 import spring.turbo.convention.ModulesConvention;
 
 /**
@@ -18,7 +19,7 @@ public class ModulesConventionImpl implements ModulesConvention {
 
     @Override
     public String getModuleName() {
-        return "spring-turbo-module-data-handling";
+        return SpringTurboModules.SPRING_TURBO_MODULE_DATA_HANDLING;
     }
 
 }
