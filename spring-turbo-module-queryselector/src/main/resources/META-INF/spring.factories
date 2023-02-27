@@ -4,5 +4,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # SpringTurbo convention(s)
 # ----------------------------------------------------------------------------------------------------------------------
+spring.turbo.convention.ModulesConvention=\
+spring.turbo.module.queryselector.convention.spi.ModulesConventionImpl
 spring.turbo.convention.ExtraMessageSourceBasenameConvention=\
 spring.turbo.module.queryselector.convention.spi.ExtraMessageSourceBasenameConventionImpl
