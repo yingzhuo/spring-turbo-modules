@@ -10,6 +10,7 @@ package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.OrderComparator;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class CompositeVersionResolver implements VersionResolver {
         OrderComparator.sort(this.resolvers);
     }
 
+    @Nullable
     @Override
     public String resolve(HttpServletRequest request) {
         for (var resolver : resolvers) {
