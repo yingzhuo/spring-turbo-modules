@@ -586,12 +586,12 @@
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-commons</artifactId>
-                <version>1.10.3</version>
+                <version>1.10.4</version>
             </dependency>
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-observation</artifactId>
-                <version>1.10.3</version>
+                <version>1.10.4</version>
             </dependency>
 
             <!-- jsr305 -->
