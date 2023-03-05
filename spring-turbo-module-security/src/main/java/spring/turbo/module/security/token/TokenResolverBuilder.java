@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import spring.turbo.bean.Builder;
 import spring.turbo.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
-public final class TokenResolverBuilder implements Builder<TokenResolver> {
+public final class TokenResolverBuilder {
 
     private final List<TokenResolver> list = new ArrayList<>();
 
@@ -127,7 +126,6 @@ public final class TokenResolverBuilder implements Builder<TokenResolver> {
      *
      * @return 解析器实例
      */
-    @Override
     public TokenResolver build() {
         if (list.isEmpty()) {
             return NullTokenResolver.getInstance();

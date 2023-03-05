@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
-import spring.turbo.bean.Builder;
 import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.util.AuthorityUtils;
 
@@ -31,7 +30,7 @@ import java.util.function.Function;
  * @since 1.0.0
  */
 @Mutable
-public final class UserDetailsPlusBuilder implements Builder<UserDetailsPlus> {
+public final class UserDetailsPlusBuilder {
 
     private static final String DEFAULT_PASSWORD = "<NO PASSWORD>";
 
@@ -212,7 +211,6 @@ public final class UserDetailsPlusBuilder implements Builder<UserDetailsPlus> {
         return this;
     }
 
-    @Override
     public UserDetailsPlus build() {
         if (!passwordFlag) {
             userBuilder.password(DEFAULT_PASSWORD);

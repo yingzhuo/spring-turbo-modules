@@ -52,7 +52,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public static class Builder implements spring.turbo.bean.Builder<DynamicDataSource> {
+    public static final class Builder {
 
         private final Map<Object, Object> targetDataSources = new HashMap<>();
 
@@ -79,7 +79,6 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
             return this;
         }
 
-        @Override
         public DynamicDataSource build() {
             Asserts.notNull(defaultTargetDataSource);
             Asserts.notEmpty(targetDataSources);

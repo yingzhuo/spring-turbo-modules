@@ -38,7 +38,7 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
     /**
      * 创建器
      */
-    public final static class Builder implements spring.turbo.bean.Builder<ImageResponseEntity> {
+    public final static class Builder {
 
         private HttpStatus status = HttpStatus.OK;
 
@@ -66,7 +66,6 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
             return this;
         }
 
-        @Override
         public ImageResponseEntity build() {
             Asserts.notNull(status);
             Asserts.notNull(image);

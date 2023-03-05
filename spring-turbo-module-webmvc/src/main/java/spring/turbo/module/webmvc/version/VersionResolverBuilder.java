@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.version;
 
-import spring.turbo.bean.Builder;
 import spring.turbo.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.List;
  * @see CompositeVersionResolver
  * @since 2.0.9
  */
-public final class VersionResolverBuilder implements Builder<VersionResolver> {
+public final class VersionResolverBuilder {
 
     private final List<VersionResolver> resolvers = new ArrayList<>();
 
@@ -66,7 +65,6 @@ public final class VersionResolverBuilder implements Builder<VersionResolver> {
         return this;
     }
 
-    @Override
     public VersionResolver build() {
         return new CompositeVersionResolver(resolvers);
     }

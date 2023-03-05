@@ -160,7 +160,7 @@ public final class JwtTokenMetadata implements Serializable {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public static class Builder implements spring.turbo.bean.Builder<JwtTokenMetadata> {
+    public final static class Builder {
 
         private final Payload payloadClaims = Payload.newInstance();
         private String keyId;

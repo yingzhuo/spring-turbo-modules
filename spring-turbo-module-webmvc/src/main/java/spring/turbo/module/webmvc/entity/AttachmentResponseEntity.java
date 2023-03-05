@@ -43,7 +43,7 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
     /**
      * 创建器
      */
-    public final static class Builder implements spring.turbo.bean.Builder<AttachmentResponseEntity> {
+    public final static class Builder {
 
         private HttpStatus status = HttpStatus.OK;
 
@@ -98,7 +98,6 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
             return this;
         }
 
-        @Override
         public AttachmentResponseEntity build() {
             Asserts.notNull(content);
             Asserts.notNull(attachmentName);

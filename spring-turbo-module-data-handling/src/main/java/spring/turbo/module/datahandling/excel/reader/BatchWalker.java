@@ -373,7 +373,7 @@ public final class BatchWalker<T> {
     /**
      * 创建器
      */
-    public final static class Builder<T> implements spring.turbo.bean.Builder<BatchWalker<T>> {
+    public final static class Builder<T> {
         private final Class<T> valueObjectType;
         private final Supplier<T> valueObjectSupplier;
         private final AliasConfig aliasConfig = AliasConfig.newInstance();
