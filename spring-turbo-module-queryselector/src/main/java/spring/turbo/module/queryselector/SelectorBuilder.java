@@ -10,7 +10,6 @@ package spring.turbo.module.queryselector;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import spring.turbo.bean.Builder;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
 
@@ -21,7 +20,7 @@ import java.util.Set;
  * @author 应卓
  * @since 2.0.1
  */
-public final class SelectorBuilder implements Builder<Selector> {
+public final class SelectorBuilder {
 
     @NonNull
     private final Set<Object> setValue = new HashSet<>();
@@ -86,7 +85,6 @@ public final class SelectorBuilder implements Builder<Selector> {
         return this;
     }
 
-    @Override
     public Selector build() {
         Asserts.notNull(itemName);
         Asserts.notNull(logicType);

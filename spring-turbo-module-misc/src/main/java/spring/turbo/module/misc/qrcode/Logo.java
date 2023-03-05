@@ -60,7 +60,7 @@ public final class Logo implements Serializable {
     /**
      * 创建器
      */
-    public static class Builder implements spring.turbo.bean.Builder<Logo> {
+    public static final class Builder {
 
         @Nullable
         private Image image;
@@ -124,4 +124,5 @@ public final class Logo implements Serializable {
             return logo;
         }
     }
+
 }
