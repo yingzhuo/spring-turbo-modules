@@ -103,14 +103,14 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>2.0.14-SNAPSHOT</spring.turbo.version>
-        <spring.boot.version>3.0.3</spring.boot.version>
-        <spring.version>6.0.5</spring.version>
+        <spring.boot.version>3.0.4</spring.boot.version>
+        <spring.version>6.0.6</spring.version>
         <spring.security.version>6.0.2</spring.security.version>
-        <spring.kafka.version>3.0.3</spring.kafka.version>
-        <spring.data.commons.version>3.0.2</spring.data.commons.version>
+        <spring.kafka.version>3.0.4</spring.kafka.version>
+        <spring.data.commons.version>3.0.3</spring.data.commons.version>
         <feign.version>12.2</feign.version>
         <slf4j.version>2.0.6</slf4j.version>
-        <hutool.version>5.8.12</hutool.version>
+        <hutool.version>5.8.13</hutool.version>
         <netty.version>4.1.89.Final</netty.version>
         <curator.version>5.4.0</curator.version>
         <logback.version>1.4.5</logback.version>
