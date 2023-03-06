@@ -43,7 +43,11 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @Nullable
     private final Token token;
 
-    private Map<String, Object> variables = StringObjectMap.newInstance();
+    /**
+     * 其他变量/附加信息
+     */
+    @Nullable
+    private Map<String, Object> variables;
 
     /**
      * 默认构造方法

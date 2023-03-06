@@ -27,6 +27,13 @@ import spring.turbo.module.security.jwt.JwtTokenFactoryImpl;
 @ConditionalOnBean(type = "spring.turbo.module.security.jwt.AlgorithmFactory")
 public class JwtTokenFactoryAutoConfiguration {
 
+    /**
+     * 默认构造方法
+     */
+    public JwtTokenFactoryAutoConfiguration() {
+        super();
+    }
+
     @Bean
     public JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
         return new JwtTokenFactoryImpl(algorithmFactory);

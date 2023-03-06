@@ -24,9 +24,16 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class HttpFirewallAutoConfiguration {
 
+    /**
+     * 默认构造方法
+     */
+    public HttpFirewallAutoConfiguration() {
+        super();
+    }
+
     @Bean
     public HttpFirewall httpFirewall() {
-        final StrictHttpFirewall bean = new StrictHttpFirewall();
+        var bean = new StrictHttpFirewall();
         bean.setAllowSemicolon(true);
         return bean;
     }

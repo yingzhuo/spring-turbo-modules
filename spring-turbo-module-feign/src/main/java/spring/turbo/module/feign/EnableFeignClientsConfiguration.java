@@ -103,12 +103,12 @@ class EnableFeignClientsConfiguration implements
         );
 
         if (attributes != null) {
-            packageSet.addPackages(attributes.getStringArray("value"));
-            packageSet.addBaseClasses(attributes.getClassArray("basePackageClasses"));
+            packageSet.acceptPackages(attributes.getStringArray("value"));
+            packageSet.acceptBaseClasses(attributes.getClassArray("basePackageClasses"));
         }
 
         if (packageSet.isEmpty()) {
-            packageSet.addPackages(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
+            packageSet.acceptPackages(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         }
 
         return packageSet;
