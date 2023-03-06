@@ -10,14 +10,12 @@ package spring.turbo.module.security.httpfirewall;
 
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
-import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
  * @see #getInstance()
  * @since 1.3.1
  */
-@Singleton
 public final class NullHttpFirewall extends DefaultHttpFirewall implements HttpFirewall {
 
     /**

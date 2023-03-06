@@ -11,7 +11,6 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.lang.Singleton;
 import spring.turbo.module.security.token.StringToken;
 import spring.turbo.module.security.token.Token;
 
@@ -23,7 +22,6 @@ import spring.turbo.module.security.token.Token;
  * @see spring.turbo.module.security.user.UserDetailsPlus
  * @since 1.1.3
  */
-@Singleton
 public final class NullTokenToUserConverter implements TokenToUserConverter {
 
     /**

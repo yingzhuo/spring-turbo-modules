@@ -11,7 +11,6 @@ package spring.turbo.module.datahandling.excel.config;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import spring.turbo.lang.Mutable;
 
 import java.io.Serializable;
 
@@ -19,7 +18,6 @@ import java.io.Serializable;
  * @author 应卓
  * @since 1.0.0
  */
-@Mutable
 @Getter
 @Setter
 @NoArgsConstructor

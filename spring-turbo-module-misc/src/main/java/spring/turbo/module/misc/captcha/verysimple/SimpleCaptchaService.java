@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.captcha.verysimple;
 
-import spring.turbo.lang.Beta;
 import spring.turbo.module.misc.captcha.Captcha;
 import spring.turbo.module.misc.captcha.CaptchaService;
 
@@ -22,7 +21,6 @@ import java.util.Random;
  * @author 应卓
  * @since 1.0.0
  */
-@Beta
 public class SimpleCaptchaService implements CaptchaService {
 
     private static final Random RANDOM = new Random();

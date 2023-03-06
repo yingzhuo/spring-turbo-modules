@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.bean.Attributes;
-import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.util.AuthorityUtils;
 
 import java.util.Collection;
@@ -29,7 +28,6 @@ import java.util.function.Function;
  * @see UserDetailsPlus
  * @since 1.0.0
  */
-@Mutable
 public final class UserDetailsPlusBuilder {
 
     private static final String DEFAULT_PASSWORD = "<NO PASSWORD>";

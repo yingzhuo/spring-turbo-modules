@@ -10,7 +10,6 @@ package spring.turbo.module.datahandling.csv.vistor;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.NonNull;
-import spring.turbo.lang.Mutable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -19,7 +18,6 @@ import java.io.Serializable;
  * @author 应卓
  * @since 1.0.9
  */
-@Mutable
 public final class ProcessingContext implements Serializable {
 
     private Resource resource;

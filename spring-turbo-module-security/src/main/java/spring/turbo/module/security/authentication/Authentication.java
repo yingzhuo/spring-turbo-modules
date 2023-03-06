@@ -12,7 +12,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.lang.Mutable;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.util.collection.StringObjectMap;
@@ -28,7 +27,6 @@ import java.util.Optional;
  * @see org.springframework.security.core.Authentication
  * @since 1.0.0
  */
-@Mutable
 public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
 
     /**

@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
 import java.util.Objects;
@@ -19,7 +18,6 @@ import java.util.Objects;
  * @author 应卓
  * @since 1.0.0
  */
-@Immutable
 public final class StringToken implements Token {
 
     private final String string;

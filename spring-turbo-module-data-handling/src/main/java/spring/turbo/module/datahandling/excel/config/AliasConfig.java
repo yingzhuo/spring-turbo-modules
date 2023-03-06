@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.datahandling.excel.config;
 
-import spring.turbo.lang.Mutable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -18,7 +17,6 @@ import java.util.HashMap;
  * @author 应卓
  * @since 1.0.0
  */
-@Mutable
 public final class AliasConfig extends HashMap<String, String> implements Serializable {
 
     private AliasConfig() {

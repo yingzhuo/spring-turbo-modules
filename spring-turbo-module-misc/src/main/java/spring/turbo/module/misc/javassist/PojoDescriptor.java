@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.comparator.ComparableComparator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
-import spring.turbo.lang.Mutable;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.CollectionUtils;
 
@@ -23,7 +22,6 @@ import java.util.*;
  * @see #newInstance(String)
  * @since 1.2.2
  */
-@Mutable
 @SuppressWarnings("rawtypes")
 public class PojoDescriptor extends TreeMap<String, Class<?>> implements Map<String, Class<?>> {
 
