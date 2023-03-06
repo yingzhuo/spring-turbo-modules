@@ -9,8 +9,6 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.lang.Beta;
-import spring.turbo.lang.Singleton;
 import spring.turbo.util.HexUtils;
 
 import static spring.turbo.util.CharsetPool.UTF_8;
@@ -22,8 +20,6 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * @see PasswordEncoder
  * @since 2.0.0
  */
-@Beta
-@Singleton
 public final class HEXPasswordEncoder implements PasswordEncoder {
 
     /**

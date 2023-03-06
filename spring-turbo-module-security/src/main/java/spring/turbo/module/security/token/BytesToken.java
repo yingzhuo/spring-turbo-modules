@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.HexUtils;
 
@@ -18,7 +17,6 @@ import java.util.Arrays;
  * @author 应卓
  * @since 2.0.6
  */
-@Immutable
 public final class BytesToken implements Token {
 
     private final byte[] bytes;

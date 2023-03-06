@@ -10,14 +10,12 @@ package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
-import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
  * @see #getInstance()
  * @since 2.0.9
  */
-@Singleton
 public final class NullVersionResolver implements VersionResolver {
 
     /**

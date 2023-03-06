@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.queryselector;
 
-import spring.turbo.lang.Singleton;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +17,6 @@ import java.util.List;
  * @see #getInstance()
  * @since 2.0.1
  */
-@Singleton
 public final class EmptySelectorSet implements SelectorSet {
 
     /**

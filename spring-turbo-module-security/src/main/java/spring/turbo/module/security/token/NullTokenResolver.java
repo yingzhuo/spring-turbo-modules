@@ -11,7 +11,6 @@ package spring.turbo.module.security.token;
 import org.springframework.core.Ordered;
 import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.WebRequest;
-import spring.turbo.lang.Singleton;
 
 import java.util.Optional;
 
@@ -22,7 +21,6 @@ import java.util.Optional;
  * @see #getInstance()
  * @since 1.0.0
  */
-@Singleton
 public final class NullTokenResolver implements TokenResolver {
 
     /**

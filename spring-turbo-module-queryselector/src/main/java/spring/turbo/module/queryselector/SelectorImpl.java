@@ -10,7 +10,6 @@ package spring.turbo.module.queryselector;
 
 import org.springframework.lang.Nullable;
 import spring.turbo.bean.Pair;
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
 import java.util.Set;
@@ -19,7 +18,6 @@ import java.util.Set;
  * @author 应卓
  * @since 2.0.1
  */
-@Immutable
 @SuppressWarnings("unchecked")
 public class SelectorImpl implements Selector {
 

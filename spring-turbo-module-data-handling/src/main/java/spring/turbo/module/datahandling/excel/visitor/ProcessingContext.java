@@ -13,7 +13,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
-import spring.turbo.lang.Mutable;
 
 import java.io.Serializable;
 
@@ -21,7 +20,6 @@ import java.io.Serializable;
  * @author 应卓
  * @since 1.0.0
  */
-@Mutable
 public final class ProcessingContext implements Serializable {
 
     @Nullable

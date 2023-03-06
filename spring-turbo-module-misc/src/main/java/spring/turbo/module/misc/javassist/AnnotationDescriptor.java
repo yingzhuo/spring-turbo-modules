@@ -9,7 +9,6 @@
 package spring.turbo.module.misc.javassist;
 
 import org.springframework.lang.Nullable;
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -60,7 +59,6 @@ public final class AnnotationDescriptor implements Serializable {
         return values;
     }
 
-    @Immutable
     public static final class AnnotationValue implements Serializable {
         private final String name;
         private final Object value;

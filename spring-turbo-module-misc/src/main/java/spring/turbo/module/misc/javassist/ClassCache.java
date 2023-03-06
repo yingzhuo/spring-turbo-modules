@@ -9,7 +9,6 @@
 package spring.turbo.module.misc.javassist;
 
 import org.springframework.lang.Nullable;
-import spring.turbo.lang.Mutable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 应卓
  * @since 1.2.2
  */
-@Mutable
 public class ClassCache extends ConcurrentHashMap<String, Class<?>> {
 
     public void set(@Nullable Class<?> clz) {

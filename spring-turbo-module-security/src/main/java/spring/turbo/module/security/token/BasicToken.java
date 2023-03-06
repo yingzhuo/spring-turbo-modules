@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
 import java.util.Objects;
@@ -18,7 +17,6 @@ import java.util.Objects;
  * @see BasicTokenResolver
  * @since 1.2.3
  */
-@Immutable
 public final class BasicToken implements Token {
 
     private final String username;

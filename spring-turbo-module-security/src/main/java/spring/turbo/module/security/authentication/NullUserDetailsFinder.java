@@ -11,7 +11,6 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.lang.Singleton;
 
 /**
  * @author 应卓
@@ -20,7 +19,6 @@ import spring.turbo.lang.Singleton;
  * @see spring.turbo.module.security.user.UserDetailsPlus
  * @since 1.2.3
  */
-@Singleton
 public final class NullUserDetailsFinder implements UserDetailsFinder {
 
     /**

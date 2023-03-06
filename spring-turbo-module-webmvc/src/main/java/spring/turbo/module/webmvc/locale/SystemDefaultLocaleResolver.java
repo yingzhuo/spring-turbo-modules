@@ -9,7 +9,6 @@
 package spring.turbo.module.webmvc.locale;
 
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
-import spring.turbo.lang.Singleton;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -19,7 +18,6 @@ import java.util.TimeZone;
  * @see #getInstance()
  * @since 2.0.1
  */
-@Singleton
 public final class SystemDefaultLocaleResolver extends FixedLocaleResolver {
 
     /**

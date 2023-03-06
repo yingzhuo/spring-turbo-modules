@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.captcha;
 
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 
 import java.awt.image.BufferedImage;
@@ -22,7 +21,6 @@ import java.util.Objects;
  * @see spring.turbo.module.webmvc.entity.ImageResponseEntity
  * @since 1.0.0
  */
-@Immutable
 public final class Captcha implements Serializable {
 
     private final String word;

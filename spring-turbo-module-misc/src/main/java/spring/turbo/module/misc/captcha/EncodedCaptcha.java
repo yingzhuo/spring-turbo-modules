@@ -9,7 +9,6 @@
 package spring.turbo.module.misc.captcha;
 
 import spring.turbo.io.ImageUtils;
-import spring.turbo.lang.Immutable;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.ImageFormatPool;
 
@@ -25,7 +24,6 @@ import java.util.Objects;
  * @see #of(Captcha)
  * @since 1.0.0
  */
-@Immutable
 public final class EncodedCaptcha implements Serializable {
 
     private final Captcha captcha;

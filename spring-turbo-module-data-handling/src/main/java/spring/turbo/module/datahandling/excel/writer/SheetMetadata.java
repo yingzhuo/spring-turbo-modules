@@ -12,7 +12,6 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import spring.turbo.core.AnnotationFinder;
-import spring.turbo.lang.Immutable;
 import spring.turbo.module.datahandling.excel.style.StyleProvider;
 import spring.turbo.module.datahandling.excel.writer.annotation.*;
 import spring.turbo.util.Asserts;
@@ -30,7 +29,6 @@ import static spring.turbo.util.StringUtils.blankSafeAddAll;
  * @author 应卓
  * @since 1.0.7
  */
-@Immutable
 public final class SheetMetadata<T> implements Serializable, Ordered {
 
     private final Class<T> valueObjectType;

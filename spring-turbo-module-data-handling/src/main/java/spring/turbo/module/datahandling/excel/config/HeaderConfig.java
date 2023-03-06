@@ -10,7 +10,6 @@ package spring.turbo.module.datahandling.excel.config;
 
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
-import spring.turbo.lang.Mutable;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -21,7 +20,6 @@ import java.util.List;
  * @author 应卓
  * @since 1.0.0
  */
-@Mutable
 public final class HeaderConfig implements Serializable {
 
     private final List<Pair<String, Integer>> sheetNameConfig = new ArrayList<>();
