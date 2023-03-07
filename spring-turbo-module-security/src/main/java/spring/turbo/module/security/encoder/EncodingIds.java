@@ -94,6 +94,7 @@ public final class EncodingIds {
     /**
      * BROKEN !!!
      */
+    @Deprecated
     public static final String BROKEN = "broken";
 
     /**

@@ -60,8 +60,12 @@ public final class PasswordEncoderFactories {
     private static Map<String, PasswordEncoder> getEncoders() {
         var map = new HashMap<String, PasswordEncoder>();
         var services = loadQuietly(ExtraPasswordEncoderConvention.class);
-        for (final var service : services) {
-            nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
+        for (var service : services) {
+            try {
+                nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
+            } catch (Throwable ignored) {
+                // 无动作
+            }
         }
         return Collections.unmodifiableMap(map);
     }
