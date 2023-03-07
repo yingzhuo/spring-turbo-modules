@@ -13,19 +13,20 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
+import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
 import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
- * @see EncodingIds
+ * @see PasswordEncoder
  * @see DelegatingPasswordEncoder
+ * @see EncodingIds
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {
@@ -60,7 +61,7 @@ public final class PasswordEncoderFactories {
         var map = new HashMap<String, PasswordEncoder>();
         var services = loadQuietly(ExtraPasswordEncoderConvention.class);
         for (final var service : services) {
-            CollectionUtils.nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
+            nullSafeAddAll(map, service.getExtraPasswordEncoderWithName());
         }
         return Collections.unmodifiableMap(map);
     }
