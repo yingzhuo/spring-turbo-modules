@@ -16,6 +16,7 @@ import spring.turbo.module.security.token.Token;
 
 /**
  * @author 应卓
+ * @see #getInstance()
  * @see Token
  * @see StringToken
  * @see UserDetails

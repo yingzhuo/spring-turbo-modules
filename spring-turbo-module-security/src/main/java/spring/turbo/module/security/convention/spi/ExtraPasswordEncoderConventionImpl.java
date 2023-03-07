@@ -92,8 +92,8 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
     @Nullable
     private PasswordEncoder getInstance(String classname) {
         try {
-            final Optional<PasswordEncoder> oo = InstanceUtils.newInstance(classname);
-            return oo.orElse(null);
+            final Optional<PasswordEncoder> option = InstanceUtils.newInstance(classname);
+            return option.orElse(null);
         } catch (Throwable ignored) {
             return null;
         }

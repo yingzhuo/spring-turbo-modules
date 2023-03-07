@@ -85,7 +85,7 @@ public final class RequestMatcherFactories {
         Asserts.notEmpty(patterns);
         Asserts.noNullElements(patterns);
 
-        if (ArrayUtils.size(patterns) == 1) {
+        if (ArrayUtils.length(patterns) == 1) {
             return new AntPathRequestMatcher(patterns[0], method.name(), caseSensitive);
         } else {
             var list = new ArrayList<RequestMatcher>();
@@ -102,7 +102,7 @@ public final class RequestMatcherFactories {
         Asserts.notEmpty(patterns);
         Asserts.noNullElements(patterns);
 
-        if (ArrayUtils.size(patterns) == 1) {
+        if (ArrayUtils.length(patterns) == 1) {
             return new MvcRequestMatcher.Builder(introspector)
                     .pattern(patterns[0]);
         } else {
@@ -122,7 +122,7 @@ public final class RequestMatcherFactories {
         Asserts.notEmpty(patterns);
         Asserts.noNullElements(patterns);
 
-        if (ArrayUtils.size(patterns) == 1) {
+        if (ArrayUtils.length(patterns) == 1) {
             return new MvcRequestMatcher.Builder(introspector)
                     .pattern(method, patterns[0]);
         } else {
@@ -140,7 +140,7 @@ public final class RequestMatcherFactories {
         Asserts.notEmpty(patterns);
         Asserts.noNullElements(patterns);
 
-        if (ArrayUtils.size(patterns) == 1) {
+        if (ArrayUtils.length(patterns) == 1) {
             return RegexRequestMatcher.regexMatcher(patterns[0]);
         } else {
             var list = new ArrayList<RequestMatcher>();
@@ -161,7 +161,7 @@ public final class RequestMatcherFactories {
         Asserts.notEmpty(patterns);
         Asserts.noNullElements(patterns);
 
-        if (ArrayUtils.size(patterns) == 1) {
+        if (ArrayUtils.length(patterns) == 1) {
             return new RegexRequestMatcher(patterns[0], method.name(), caseInsensitive);
         } else {
             var list = new ArrayList<RequestMatcher>();
