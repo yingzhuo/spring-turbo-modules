@@ -14,7 +14,7 @@ image:https://img.shields.io/maven-central/v/com.github.yingzhuo/spring-turbo.sv
 | SpringSecurity  | 6.0.0+
 |==========================
 
-=== 安装
+=== 安装 (Maven)
 
 [maven,xml]
 ----
@@ -58,6 +58,15 @@ image:https://img.shields.io/maven-central/v/com.github.yingzhuo/spring-turbo.sv
     <artifactId>spring-turbo-module-webmvc</artifactId>
     <version>${spring.turbo.latest}</version>
 </dependency>
+----
+
+=== 安装 (Source Code)
+
+[maven,xml]
+----
+git clone git@github.com:yingzhuo/spring-turbo-modules.git
+cd spring-turbo-modules/
+mvn install
 ----
 
 === 关联项目

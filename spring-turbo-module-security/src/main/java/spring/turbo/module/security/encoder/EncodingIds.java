@@ -92,6 +92,11 @@ public final class EncodingIds {
     public static final String HEX = "HEX";
 
     /**
+     * BROKEN !!!
+     */
+    public static final String BROKEN = "broken";
+
+    /**
      * 私有构造方法
      */
     private EncodingIds() {
