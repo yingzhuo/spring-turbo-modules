@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.feign;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.AliasFor;
 import spring.turbo.module.feign.annotation.*;
 
@@ -35,6 +36,7 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Qualifier
 public @interface FeignClient {
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -65,6 +67,6 @@ public @interface FeignClient {
      *
      * @return url
      */
-    public String url();
+    public String url() default EMPTY;
 
 }
