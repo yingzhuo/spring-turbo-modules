@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.entity;
+package spring.turbo.module.webmvc.support.response;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,11 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
         super(body, headers, status);
     }
 
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
     public static Builder builder() {
         return new Builder();
     }

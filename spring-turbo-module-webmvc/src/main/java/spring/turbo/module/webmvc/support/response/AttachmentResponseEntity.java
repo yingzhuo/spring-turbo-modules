@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.entity;
+package spring.turbo.module.webmvc.support.response;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -36,6 +36,11 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         super(body, headers, status);
     }
 
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
     public static Builder builder() {
         return new Builder();
     }

@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.locale;
+package spring.turbo.module.webmvc.support.locale;
 
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
@@ -27,6 +27,11 @@ public final class SystemDefaultLocaleResolver extends FixedLocaleResolver {
         super(Locale.getDefault(), TimeZone.getDefault());
     }
 
+    /**
+     * 获取实例
+     *
+     * @return 实例 (单例)
+     */
     public static SystemDefaultLocaleResolver getInstance() {
         return SyncAvoid.INSTANCE;
     }

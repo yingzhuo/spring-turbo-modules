@@ -41,7 +41,7 @@ public class HeaderVersionResolver implements VersionResolver {
     public String resolve(HttpServletRequest request) {
         try {
             var version = request.getHeader(this.headerName);
-            return isNotBlank(version) ? version : null;
+            return isNotBlank(version) ? version : null; // blank -> null
         } catch (Throwable e) {
             return null;
         }
