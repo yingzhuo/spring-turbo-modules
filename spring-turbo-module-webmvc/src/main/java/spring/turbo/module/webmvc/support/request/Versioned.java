@@ -6,20 +6,30 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.dataaccessing.convention.spi;
+package spring.turbo.module.webmvc.support.request;
 
-import spring.turbo.SpringTurboModules;
-import spring.turbo.convention.ModulesConvention;
+import org.springframework.core.annotation.AliasFor;
+
+import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- * @since 2.0.13
+ * @since 2.0.9
  */
-public final class ModulesConventionImpl implements ModulesConvention {
+@Inherited
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+public @interface Versioned {
 
-    @Override
-    public String getModuleName() {
-        return SpringTurboModules.SPRING_TURBO_MODULE_DATA_ACCESSING;
-    }
+    @AliasFor("version")
+    public String value() default EMPTY;
+
+    @AliasFor("value")
+    public String version() default EMPTY;
+
+    public boolean ignoreCase() default true;
 
 }

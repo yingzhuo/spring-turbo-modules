@@ -13,12 +13,13 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
- * API 版本解析器
+ * Rest API 版本解析器
  *
  * @author 应卓
  * @see #builder()
  * @see VersionResolverBuilder
  * @see ServletPathVersionResolver
+ * @see CompositeVersionResolver
  * @since 2.0.9
  */
 @FunctionalInterface

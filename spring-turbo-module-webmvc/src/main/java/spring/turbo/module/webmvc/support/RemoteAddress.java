@@ -6,20 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.dataaccessing.convention.spi;
+package spring.turbo.module.webmvc.support;
 
-import spring.turbo.SpringTurboModules;
-import spring.turbo.convention.ModulesConvention;
+import spring.turbo.webmvc.RemoteAddressUtils;
+
+import java.lang.annotation.*;
 
 /**
+ * 客户端IP地址
+ *
  * @author 应卓
- * @since 2.0.13
+ * @see RemoteAddressUtils
+ * @since 1.0.0
  */
-public final class ModulesConventionImpl implements ModulesConvention {
-
-    @Override
-    public String getModuleName() {
-        return SpringTurboModules.SPRING_TURBO_MODULE_DATA_ACCESSING;
-    }
-
+@Inherited
+@Documented
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RemoteAddress {
 }

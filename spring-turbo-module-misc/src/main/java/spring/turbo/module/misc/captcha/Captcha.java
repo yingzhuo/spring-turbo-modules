@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.captcha;
 
+import spring.turbo.module.webmvc.support.response.ImageResponseEntity;
 import spring.turbo.util.Asserts;
 
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ import java.util.Objects;
  * 人机验证码
  *
  * @author 应卓
- * @see spring.turbo.module.webmvc.entity.ImageResponseEntity
+ * @see ImageResponseEntity
  * @since 1.0.0
  */
 public final class Captcha implements Serializable {

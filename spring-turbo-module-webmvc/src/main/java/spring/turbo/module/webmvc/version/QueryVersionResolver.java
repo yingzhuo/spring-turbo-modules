@@ -41,7 +41,7 @@ public class QueryVersionResolver implements VersionResolver {
     public String resolve(HttpServletRequest request) {
         try {
             var version = request.getParameter(this.parameterName);
-            return isNotBlank(version) ? version : null;
+            return isNotBlank(version) ? version : null; // blank -> null
         } catch (Throwable e) {
             return null;
         }

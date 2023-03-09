@@ -6,20 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.dataaccessing.convention.spi;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.webmvc.support.request;
 
-import spring.turbo.SpringTurboModules;
-import spring.turbo.convention.ModulesConvention;
-
-/**
- * @author 应卓
- * @since 2.0.13
- */
-public final class ModulesConventionImpl implements ModulesConvention {
-
-    @Override
-    public String getModuleName() {
-        return SpringTurboModules.SPRING_TURBO_MODULE_DATA_ACCESSING;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

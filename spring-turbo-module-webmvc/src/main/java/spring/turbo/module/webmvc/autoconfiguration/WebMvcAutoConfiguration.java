@@ -8,10 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.autoconfiguration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +18,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
-import spring.turbo.module.webmvc.locale.SystemDefaultLocaleResolver;
-import spring.turbo.module.webmvc.params.RemoteAddressHandlerMethodArgumentResolver;
-import spring.turbo.module.webmvc.rest.JsonEncodingResponseAdvice;
-import spring.turbo.module.webmvc.rest.JsonResponseEncoder;
+import spring.turbo.module.webmvc.support.RemoteAddressHandlerMethodArgumentResolver;
+import spring.turbo.module.webmvc.support.locale.SystemDefaultLocaleResolver;
 
 import java.util.List;
 
@@ -49,11 +45,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
     }
 
-    @Bean
-    @ConditionalOnBean({JsonResponseEncoder.class, ObjectMapper.class})
-    public JsonEncodingResponseAdvice jsonEncodingResponseAdvice(JsonResponseEncoder encoder, ObjectMapper objectMapper) {
-        return new JsonEncodingResponseAdvice(encoder, objectMapper);
-    }
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Bean
     @ConditionalOnMissingBean

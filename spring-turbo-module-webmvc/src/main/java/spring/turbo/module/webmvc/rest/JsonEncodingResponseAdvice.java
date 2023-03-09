@@ -31,6 +31,12 @@ import java.util.Objects;
 @RestControllerAdvice
 public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
 
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 由于使用场景非常有限
+     * 从 2.1.0版本开始不再在 AutoConfig 中尝试自动配置
+     * 需要用到时，用户自行配置
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     private final JsonResponseEncoder encoder;
     private final ObjectMapper objectMapper;
 

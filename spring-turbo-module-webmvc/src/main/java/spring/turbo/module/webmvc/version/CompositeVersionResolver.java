@@ -28,11 +28,17 @@ public class CompositeVersionResolver implements VersionResolver {
     public CompositeVersionResolver(VersionResolver... resolvers) {
         CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
         OrderComparator.sort(this.resolvers);
+        if (this.resolvers.isEmpty()) {
+            this.resolvers.add(NullVersionResolver.getInstance());
+        }
     }
 
     public CompositeVersionResolver(Collection<VersionResolver> resolvers) {
         CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
         OrderComparator.sort(this.resolvers);
+        if (this.resolvers.isEmpty()) {
+            this.resolvers.add(NullVersionResolver.getInstance());
+        }
     }
 
     @Nullable
