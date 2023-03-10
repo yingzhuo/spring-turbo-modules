@@ -35,6 +35,11 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
         super.setTargetDataSources(targetDataSources);
     }
 
+    /**
+     * 新建创建器
+     *
+     * @return 创建器实例
+     */
     public static Builder builder() {
         return new Builder();
     }
@@ -52,6 +57,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * 创建器
+     */
     public static final class Builder {
 
         private final Map<Object, Object> targetDataSources = new HashMap<>();

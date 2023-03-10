@@ -9,35 +9,40 @@
 package spring.turbo.module.webmvc.version;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.OrderComparator;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.springframework.core.OrderComparator.sort;
+import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
+
 /**
  * @author 应卓
  * @since 2.0.9
  */
-public class CompositeVersionResolver implements VersionResolver {
+public class CompositeVersionResolver implements VersionResolver, InitializingBean {
 
     private final List<VersionResolver> resolvers = new ArrayList<>();
 
     public CompositeVersionResolver(VersionResolver... resolvers) {
-        CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
-        OrderComparator.sort(this.resolvers);
-        if (this.resolvers.isEmpty()) {
-            this.resolvers.add(NullVersionResolver.getInstance());
-        }
+        nullSafeAddAll(this.resolvers, resolvers);
+        sort(this.resolvers);
+        afterPropertiesSet();
     }
 
     public CompositeVersionResolver(Collection<VersionResolver> resolvers) {
-        CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
-        OrderComparator.sort(this.resolvers);
-        if (this.resolvers.isEmpty()) {
-            this.resolvers.add(NullVersionResolver.getInstance());
+        nullSafeAddAll(this.resolvers, resolvers);
+        sort(this.resolvers);
+        afterPropertiesSet();
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        if (resolvers.isEmpty()) {
+            resolvers.add(NullVersionResolver.getInstance());
         }
     }
 

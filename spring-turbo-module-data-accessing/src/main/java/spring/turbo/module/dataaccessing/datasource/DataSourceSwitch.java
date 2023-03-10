@@ -17,7 +17,7 @@ import java.lang.annotation.*;
  * @since 1.1.0
  */
 @Documented
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataSourceSwitch {
 

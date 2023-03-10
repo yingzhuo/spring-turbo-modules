@@ -12,7 +12,7 @@ package spring.turbo.module.webmvc.version;
  * @author 应卓
  * @since 2.1.0
  */
-public class DefaultVersionResolver extends CompositeVersionResolver implements VersionResolver {
+public class DefaultVersionResolver extends CompositeVersionResolver {
 
     /**
      * 默认构造方法

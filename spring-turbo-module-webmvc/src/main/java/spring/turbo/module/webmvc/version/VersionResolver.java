@@ -16,21 +16,11 @@ import org.springframework.lang.Nullable;
  * Rest API 版本解析器
  *
  * @author 应卓
- * @see #builder()
  * @see DefaultVersionResolver
  * @since 2.0.9
  */
 @FunctionalInterface
 public interface VersionResolver extends Ordered {
-
-    /**
-     * 新建创建器
-     *
-     * @return 创建器实例
-     */
-    public static VersionResolverBuilder builder() {
-        return new VersionResolverBuilder();
-    }
 
     @Nullable
     public String resolve(HttpServletRequest request);
