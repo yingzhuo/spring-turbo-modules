@@ -54,4 +54,5 @@ public final class Captcha implements Serializable {
     public BufferedImage getImage() {
         return image;
     }
+
 }

@@ -16,8 +16,9 @@ import java.lang.annotation.*;
  * @author 应卓
  * @since 1.1.0
  */
+@Inherited
 @Documented
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataSourceSwitch {
 
