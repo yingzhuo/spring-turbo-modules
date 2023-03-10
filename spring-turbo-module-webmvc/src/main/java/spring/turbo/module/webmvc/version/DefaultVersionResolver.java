@@ -8,36 +8,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.version;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.Ordered;
-import org.springframework.lang.Nullable;
-
 /**
- * Rest API 版本解析器
- *
  * @author 应卓
- * @see #builder()
- * @see DefaultVersionResolver
- * @since 2.0.9
+ * @since 2.1.0
  */
-@FunctionalInterface
-public interface VersionResolver extends Ordered {
+public class DefaultVersionResolver extends CompositeVersionResolver implements VersionResolver {
 
     /**
-     * 新建创建器
-     *
-     * @return 创建器实例
+     * 默认构造方法
      */
-    public static VersionResolverBuilder builder() {
-        return new VersionResolverBuilder();
-    }
-
-    @Nullable
-    public String resolve(HttpServletRequest request);
-
-    @Override
-    public default int getOrder() {
-        return 0;
+    public DefaultVersionResolver() {
+        super(
+                new ServletPathVersionResolver(),
+                new HeaderVersionResolver(),
+                new QueryVersionResolver()
+        );
     }
 
 }
