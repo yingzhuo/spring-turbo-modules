@@ -35,7 +35,10 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Target({
+        ElementType.TYPE,
+        ElementType.ANNOTATION_TYPE
+})
 @Qualifier
 public @interface FeignClient {
 

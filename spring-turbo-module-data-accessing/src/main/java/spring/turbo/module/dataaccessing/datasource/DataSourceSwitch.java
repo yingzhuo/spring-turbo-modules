@@ -14,11 +14,12 @@ import java.lang.annotation.*;
  * 切换用元注释
  *
  * @author 应卓
+ * @see DataSourceSwitchingAdvice
  * @since 1.1.0
  */
 @Inherited
 @Documented
-@Target({ElementType.METHOD, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataSourceSwitch {
 
