@@ -12,13 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-import java.lang.reflect.Method;
-
-import static spring.turbo.core.AnnotationFinder.findAnnotation;
+import static spring.turbo.aop.AopUtils.getTargetMethodOrClassAnnotation;
 
 /**
  * 动态数据源切换用切面
@@ -31,13 +29,18 @@ import static spring.turbo.core.AnnotationFinder.findAnnotation;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class DataSourceSwitchingAdvice {
 
-    private static final Class<DataSourceSwitch> ANNOTATION_TYPE = DataSourceSwitch.class;
+    @Pointcut("@annotation(spring.turbo.module.dataaccessing.datasource.DataSourceSwitch)")
+    public void annotationPointcut() {
+    }
 
-    @Around("@annotation(spring.turbo.module.dataaccessing.datasource.DataSourceSwitch)")
+    @Pointcut("execution(@(@spring.turbo.module.dataaccessing.datasource.DataSourceSwitch *) * *(..))")
+    public void inheritedAnnotation() {
+    }
+
+    @Around("annotationPointcut() || inheritedAnnotation()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        final Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        final DataSourceSwitch annotation = findAnnotation(method, ANNOTATION_TYPE);
+        var annotation = getTargetMethodOrClassAnnotation(joinPoint, DataSourceSwitch.class);
 
         if (annotation != null) {
             final String key = annotation.value();
