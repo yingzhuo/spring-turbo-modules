@@ -51,7 +51,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
      * 构造方法
      */
     public BasicAuthenticationFilter() {
-        super();
         super.setTokenResolver(new BasicTokenResolver());
     }
 
@@ -77,7 +76,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 this.tokenBlacklistManager.verify(token);
             }
 
-            if (!(token instanceof final BasicToken basicToken)) {
+            if (!(token instanceof BasicToken basicToken)) {
                 filterChain.doFilter(request, response);
                 return;
             } else {
