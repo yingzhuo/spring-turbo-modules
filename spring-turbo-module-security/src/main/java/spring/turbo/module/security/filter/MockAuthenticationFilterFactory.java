@@ -6,29 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.token;
+package spring.turbo.module.security.filter;
 
-import spring.turbo.util.Asserts;
-
-import java.io.Serializable;
+import jakarta.servlet.Filter;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import spring.turbo.module.security.FilterConfiguration;
 
 /**
- * 令牌
- *
  * @author 应卓
- * @see #ofString(CharSequence)
- * @since 1.0.0
+ * @since 2.1.0
  */
-public interface Token extends Serializable {
-
-    public static Token ofString(CharSequence string) {
-        Asserts.notNull(string);
-        return StringToken.of(string.toString());
-    }
-
-    public String asString();
+public interface MockAuthenticationFilterFactory extends FilterConfiguration<MockAuthenticationFilter> {
 
     @Override
-    public String toString();
+    public default Position position() {
+        return Position.AFTER;
+    }
+
+    @Override
+    public default Class<? extends Filter> positionInChain() {
+        return ChannelProcessingFilter.class;
+    }
 
 }
