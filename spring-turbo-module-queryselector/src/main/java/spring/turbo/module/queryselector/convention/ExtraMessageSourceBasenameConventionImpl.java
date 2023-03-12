@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.queryselector.convention.spi;
+package spring.turbo.module.queryselector.convention;
 
 import org.springframework.core.Ordered;
 import spring.turbo.convention.ExtraMessageSourceBasenameConvention;

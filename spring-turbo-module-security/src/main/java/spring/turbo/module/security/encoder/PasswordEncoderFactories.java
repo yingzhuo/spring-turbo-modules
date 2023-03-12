@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.encoder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +17,8 @@ import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.util.Asserts;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
 import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
@@ -30,6 +32,8 @@ import static spring.turbo.util.StringUtils.isNotBlank;
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {
+
+    private static final Logger log = LoggerFactory.getLogger(PasswordEncoderFactories.class);
 
     /**
      * 私有构造方法
@@ -48,17 +52,21 @@ public final class PasswordEncoderFactories {
 
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId, @Nullable String defaultPasswordEncoderForMatches) {
         Asserts.hasText(encodingId);
-        final Map<String, PasswordEncoder> encoders = getEncoders();
-        final DelegatingPasswordEncoder encoder = new DelegatingPasswordEncoder(encodingId, encoders);
+
+        var encodersMap = getEncoders();
+        var ret = new DelegatingPasswordEncoder(encodingId, encodersMap);
+
+        log.info("supported encoder ids: {}", String.join(", ", encodersMap.keySet()));
 
         if (isNotBlank(defaultPasswordEncoderForMatches)) {
-            encoder.setDefaultPasswordEncoderForMatches(encoders.get(defaultPasswordEncoderForMatches));
+            ret.setDefaultPasswordEncoderForMatches(encodersMap.get(defaultPasswordEncoderForMatches));
         }
-        return encoder;
+
+        return ret;
     }
 
     private static Map<String, PasswordEncoder> getEncoders() {
-        var map = new HashMap<String, PasswordEncoder>();
+        var map = new TreeMap<String, PasswordEncoder>();
         var services = loadQuietly(ExtraPasswordEncoderConvention.class);
         for (var service : services) {
             try {

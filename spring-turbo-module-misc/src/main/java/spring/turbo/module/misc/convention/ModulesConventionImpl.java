@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.dataaccessing.convention.spi;
+package spring.turbo.module.misc.convention;
 
 import spring.turbo.SpringTurboModules;
 import spring.turbo.convention.ModulesConvention;
@@ -19,7 +19,7 @@ public final class ModulesConventionImpl implements ModulesConvention {
 
     @Override
     public String getModuleName() {
-        return SpringTurboModules.SPRING_TURBO_MODULE_DATA_ACCESSING;
+        return SpringTurboModules.SPRING_TURBO_MODULE_MISC;
     }
 
 }
