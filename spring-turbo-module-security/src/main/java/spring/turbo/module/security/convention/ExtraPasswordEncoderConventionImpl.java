@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.convention.spi;
+package spring.turbo.module.security.convention;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;

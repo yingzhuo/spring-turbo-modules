@@ -1,10 +1,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
-# Spring / SpringBoot
-# ----------------------------------------------------------------------------------------------------------------------
-# ----------------------------------------------------------------------------------------------------------------------
-# SpringTurbo convention(s)
+# SpringTurbo
 # ----------------------------------------------------------------------------------------------------------------------
 spring.turbo.convention.ModulesConvention=\
-spring.turbo.module.queryselector.convention.spi.ModulesConventionImpl
+spring.turbo.module.queryselector.convention.ModulesConventionImpl
 spring.turbo.convention.ExtraMessageSourceBasenameConvention=\
-spring.turbo.module.queryselector.convention.spi.ExtraMessageSourceBasenameConventionImpl
+spring.turbo.module.queryselector.convention.ExtraMessageSourceBasenameConventionImpl
