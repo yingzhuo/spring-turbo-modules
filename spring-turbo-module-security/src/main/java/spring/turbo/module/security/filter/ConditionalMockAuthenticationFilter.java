@@ -57,9 +57,19 @@ public class ConditionalMockAuthenticationFilter extends OncePerRequestFilter im
         filterChain.doFilter(request, response);
     }
 
+    @Nullable
+    public RequestMatcher getSkipRequestMatcher() {
+        return skipRequestMatcher;
+    }
+
     @Override
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;
+    }
+
+    @Nullable
+    public Condition getCondition() {
+        return condition;
     }
 
     public void setCondition(@Nullable Condition condition) {
@@ -70,8 +80,10 @@ public class ConditionalMockAuthenticationFilter extends OncePerRequestFilter im
 
     @FunctionalInterface
     public static interface Condition {
+
         @Nullable
         public Authentication match(HttpServletRequest request, HttpServletResponse response);
+
     }
 
 }
