@@ -131,9 +131,9 @@ class EnableFeignClientsConfiguration implements
                 .scan(basePackages);
     }
 
-    private void addQualifiers(AbstractBeanDefinition beanDefinition, String[] qualifiers) {
-        for (var qualifier : qualifiers) {
-            beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, qualifier));
+    public void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {
+        for (var q : qualifiers) {
+            beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, q));
         }
     }
 
