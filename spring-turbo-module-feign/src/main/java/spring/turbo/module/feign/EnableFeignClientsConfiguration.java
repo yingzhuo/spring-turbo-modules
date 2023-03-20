@@ -11,9 +11,8 @@ package spring.turbo.module.feign;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanNameGenerator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.support.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -82,10 +81,13 @@ class EnableFeignClientsConfiguration implements
         );
 
         var clientBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(clientType, supplier)
+                .setPrimary(metaAnnotation.primary())
                 .setLazyInit(classDef.isLazyInit())
                 .setAbstract(false)
                 .setRole(classDef.getRole())
                 .getBeanDefinition();
+
+        addQualifiers(clientBeanDefinition, metaAnnotation.qualifiers());
 
         var beanName = metaAnnotation.value();
         if (beanName.isBlank()) {
@@ -127,6 +129,12 @@ class EnableFeignClientsConfiguration implements
                 .includeFilter(typeFilter)
                 .build()
                 .scan(basePackages);
+    }
+
+    private void addQualifiers(AbstractBeanDefinition beanDefinition, String[] qualifiers) {
+        for (var qualifier : qualifiers) {
+            beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, qualifier));
+        }
     }
 
     @Override

@@ -62,8 +62,7 @@ public @interface FeignClient {
      * @return Bean Name
      * @see #value()
      */
-    @AliasFor("value")
-    public String beanName() default EMPTY;
+    @AliasFor("value") public String beanName() default EMPTY;
 
     /**
      * URL
@@ -71,5 +70,21 @@ public @interface FeignClient {
      * @return url
      */
     public String url() default EMPTY;
+
+    /**
+     * Bean qualifiers
+     *
+     * @return Bean qualifiers
+     * @see Qualifier
+     */
+    public String[] qualifiers() default {};
+
+    /**
+     * 是否为primary
+     *
+     * @return primary
+     * @see org.springframework.context.annotation.Primary
+     */
+    public boolean primary() default true;
 
 }
