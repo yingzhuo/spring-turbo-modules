@@ -101,7 +101,7 @@
         <encoding>UTF-8</encoding>
         <java.version>17</java.version>
 
-        <spring.turbo.version>2.1.2-SNAPSHOT</spring.turbo.version>
+        <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.0.4</spring.boot.version>
         <feign.version>12.2</feign.version>
         <hutool.version>5.8.15</hutool.version>
