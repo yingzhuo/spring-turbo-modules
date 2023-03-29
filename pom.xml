@@ -348,10 +348,10 @@
                 <executions>
                     <execution>
                         <id>copy-license-file</id>
-                        <phase>compile</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <phase>compile</phase>
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF">
@@ -415,7 +415,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
                 </configuration>
@@ -441,8 +441,14 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration/>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.0.0</version>
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
