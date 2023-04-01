@@ -273,6 +273,7 @@
                 <version>3.3.0</version>
                 <executions>
                     <!-- setup构建时间戳变量 (helper.build.timestamp) -->
+                    <!--
                     <execution>
                         <id>setup-buildts-var</id>
                         <phase>validate</phase>
@@ -286,6 +287,7 @@
                             <locale>zh_CN</locale>
                         </configuration>
                     </execution>
+                    -->
                     <!-- setup构建根目录变量 (helper.build.root) -->
                     <execution>
                         <id>setup-rootlocation-var</id>
@@ -341,6 +343,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -362,6 +365,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
