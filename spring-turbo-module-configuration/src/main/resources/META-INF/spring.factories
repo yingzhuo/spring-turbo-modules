@@ -1,0 +1,8 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Spring
+# ----------------------------------------------------------------------------------------------------------------------
+org.springframework.boot.env.PropertySourceLoader=\
+spring.turbo.module.configuration.env.HoconPropertySourceLoader,\
+spring.turbo.module.configuration.env.TomlPropertySourceLoader
+org.springframework.boot.env.EnvironmentPostProcessor=\
+spring.turbo.module.configuration.env.processor.LoadmeEnvironmentPostProcessor
