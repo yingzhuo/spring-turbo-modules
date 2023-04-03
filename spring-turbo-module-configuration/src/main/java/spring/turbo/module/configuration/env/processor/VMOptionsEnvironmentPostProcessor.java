@@ -9,6 +9,7 @@
 package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.ClassPathResource;
@@ -29,11 +30,12 @@ import static spring.turbo.util.StringFormatter.format;
  * @author 应卓
  * @since 2.1.3
  */
-public class LoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
+public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport
+        implements EnvironmentPostProcessor {
 
     private static final Properties EMPTY_PROPS = new Properties();
 
-    public LoadmeEnvironmentPostProcessor(DeferredLogFactory logFactory) {
+    public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory) {
         super(logFactory);
     }
 
@@ -48,16 +50,16 @@ public class LoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupp
         for (var key : newProps.keySet()) {
             var value = newProps.get(key);
             if (System.getProperty(key) == null) {
-                trace("adding system-property: \"{}\":\"{}\"", key, value);
+                trace("adding vm-options: \"{}\":\"{}\"", key, value);
                 System.setProperty(key, value);
             }
         }
     }
 
     private Properties loadFromClassPath() {
-        var resource = new ClassPathResource("loadme.properties");
+        var resource = new ClassPathResource("vmoptions.properties");
         if (resource.exists() && resource.isReadable()) {
-            debug("loading \"classpath:loadme.properties\"");
+            debug("loading \"classpath:vmoptions.properties\"");
             return resourceToProperties(resource);
         } else {
             return EMPTY_PROPS;
@@ -65,7 +67,7 @@ public class LoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupp
     }
 
     private Properties loadFromHomeDir(SpringApplication application) {
-        var location = format("{}/loadme.properties", getHomePath(application));
+        var location = format("{}/vmoptions.properties", getHomePath(application));
         var resource = new FileSystemResource(location);
         if (resource.exists() && resource.isReadable()) {
             debug("loading \"file:{}\"", location);

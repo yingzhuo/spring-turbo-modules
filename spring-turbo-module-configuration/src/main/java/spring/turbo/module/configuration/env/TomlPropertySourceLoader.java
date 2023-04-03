@@ -23,6 +23,7 @@ import java.util.*;
  * @author 应卓
  * @since 2.1.3
  */
+@Deprecated
 @SuppressWarnings("unchecked")
 public class TomlPropertySourceLoader implements PropertySourceLoader {
 

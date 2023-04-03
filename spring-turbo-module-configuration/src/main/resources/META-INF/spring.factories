@@ -1,8 +1,13 @@
 # ----------------------------------------------------------------------------------------------------------------------
+# SpringTurbo
+# ----------------------------------------------------------------------------------------------------------------------
+spring.turbo.convention.ModulesConvention=\
+spring.turbo.module.configuration.convention.ModulesConventionImpl
+# ----------------------------------------------------------------------------------------------------------------------
 # Spring
 # ----------------------------------------------------------------------------------------------------------------------
 org.springframework.boot.env.PropertySourceLoader=\
 spring.turbo.module.configuration.env.HoconPropertySourceLoader,\
 spring.turbo.module.configuration.env.TomlPropertySourceLoader
 org.springframework.boot.env.EnvironmentPostProcessor=\
-spring.turbo.module.configuration.env.processor.LoadmeEnvironmentPostProcessor
+spring.turbo.module.configuration.env.processor.VMOptionsEnvironmentPostProcessor

@@ -6,24 +6,20 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.configuration.env;
+package spring.turbo.module.configuration.convention;
 
-import org.springframework.core.io.support.PropertySourceFactory;
+import spring.turbo.SpringTurboModules;
+import spring.turbo.convention.ModulesConvention;
 
 /**
  * @author 应卓
- * @see YamlPropertySourceFactory
- * @see HoconPropertySourceFactory
- * @since 2.1.3
+ * @since 2.2.0
  */
-@Deprecated
-public class TomlPropertySourceFactory extends AbstractPropertySourceFactory implements PropertySourceFactory {
+public final class ModulesConventionImpl implements ModulesConvention {
 
-    /**
-     * 默认构造方法
-     */
-    public TomlPropertySourceFactory() {
-        super(new TomlPropertySourceLoader());
+    @Override
+    public String getModuleName() {
+        return SpringTurboModules.SPRING_TURBO_MODULE_CONFIGURATION;
     }
 
 }
