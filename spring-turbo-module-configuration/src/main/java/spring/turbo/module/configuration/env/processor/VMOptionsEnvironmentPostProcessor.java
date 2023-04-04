@@ -9,7 +9,6 @@
 package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.ClassPathResource;
@@ -30,13 +29,13 @@ import static spring.turbo.util.StringFormatter.format;
  * @author 应卓
  * @since 2.1.3
  */
-public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport
-        implements EnvironmentPostProcessor {
+public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
 
     private static final Properties EMPTY_PROPS = new Properties();
 
     public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory) {
         super(logFactory);
+        super.setOrder(HIGHEST_PRECEDENCE);
     }
 
     @Override
