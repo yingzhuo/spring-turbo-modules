@@ -15,7 +15,7 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @since 1.0.0
  */
-final class RSA384AlgorithmFactory extends RSAAlgorithmFactory {
+public final class RSA384AlgorithmFactory extends RSAAlgorithmFactory {
 
     private final String publicKey;
     private final String privateKey;

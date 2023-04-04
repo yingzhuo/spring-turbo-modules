@@ -15,7 +15,7 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @since 1.0.0
  */
-final class ECDSA512AlgorithmFactory extends ECDSAAlgorithmFactory {
+public final class ECDSA512AlgorithmFactory extends ECDSAAlgorithmFactory {
 
     private final String publicKey;
     private final String privateKey;
