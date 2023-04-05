@@ -13,8 +13,8 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- * @see AlgorithmFactory
  * @see Algorithm
+ * @see AlgorithmFactory
  * @see ECDSA256AlgorithmFactory
  * @see ECDSA384AlgorithmFactory
  * @see ECDSA512AlgorithmFactory

@@ -22,7 +22,7 @@ import java.security.spec.X509EncodedKeySpec;
  * @author 应卓
  * @since 1.0.0
  */
-abstract class RSAAlgorithmFactory implements AlgorithmFactory {
+public abstract class RSAAlgorithmFactory implements AlgorithmFactory {
 
     private final static String RSA = "RSA";
 
