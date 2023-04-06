@@ -68,6 +68,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- avatar-generator -->
+        <dependency>
+            <groupId>com.github.yingzhuo</groupId>
+            <artifactId>avatar-generator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
