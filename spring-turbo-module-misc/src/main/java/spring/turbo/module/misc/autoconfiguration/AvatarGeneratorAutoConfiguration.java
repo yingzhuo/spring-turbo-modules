@@ -10,13 +10,12 @@ package spring.turbo.module.misc.autoconfiguration;
 
 import com.github.yingzhuo.avatargenerator.Avatar;
 import com.github.yingzhuo.avatargenerator.IdenticonAvatar;
-import com.github.yingzhuo.avatargenerator.layers.backgrounds.ColorPaintBackgroundLayer;
+import com.github.yingzhuo.avatargenerator.layers.masks.RoundRectMaskLayer;
+import com.github.yingzhuo.avatargenerator.layers.shadows.ScoreShadowLayer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-
-import java.awt.*;
 
 /**
  * @author 应卓
@@ -30,7 +29,7 @@ public class AvatarGeneratorAutoConfiguration {
     @ConditionalOnMissingBean
     public Avatar avatar() {
         return IdenticonAvatar.newAvatarBuilder()
-                .layers(new ColorPaintBackgroundLayer(Color.WHITE))
+                .layers(new ScoreShadowLayer(), new RoundRectMaskLayer())
                 .build();
     }
 
