@@ -15,6 +15,7 @@
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-misc</module>
         <module>spring-turbo-module-data-accessing</module>
+        <module>spring-turbo-module-mapstruct</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -257,6 +258,13 @@
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>3.29.2-GA</version>
+            </dependency>
+
+            <!-- mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>1.5.3.Final</version>
             </dependency>
 
             <!-- jsr305 -->
