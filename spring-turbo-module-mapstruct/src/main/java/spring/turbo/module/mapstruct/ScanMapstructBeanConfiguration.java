@@ -6,9 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.feign;
+package spring.turbo.module.mapstruct;
 
-import org.springframework.beans.factory.BeanFactory;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.*;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -19,85 +19,44 @@ import org.springframework.core.type.AnnotationMetadata;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.bean.classpath.PackageSet;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.ClassUtils;
-import spring.turbo.util.InstanceCache;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
 /**
  * @author 应卓
- * @since 2.0.9
+ * @since 2.2.0
  */
-class EnableFeignClientsConfiguration implements
-        ImportBeanDefinitionRegistrar {
+@SuppressWarnings({"rawtypes", "unchecked"})
+class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
 
-    private final ClassLoader classLoader;
-    private final BeanFactory beanFactory;
     private final Environment environment;
+    private final ClassLoader classLoader;
     private final ResourceLoader resourceLoader;
 
-    public EnableFeignClientsConfiguration(ClassLoader classLoader, BeanFactory beanFactory, Environment environment, ResourceLoader resourceLoader) {
-        this.classLoader = classLoader;
-        this.beanFactory = beanFactory;
+    public ScanMapstructBeanConfiguration(Environment environment, ClassLoader classLoader, ResourceLoader resourceLoader) {
         this.environment = environment;
+        this.classLoader = classLoader;
         this.resourceLoader = resourceLoader;
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator) {
-        var basePackages = getBasePackages(importingClassMetadata);
-
-        for (var definition : doScan(basePackages)) {
-            registerFeignClient(
-                    registry,
-                    nameGenerator,
-                    definition
-            );
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
+        var packageSet = getBasePackages(importingClassMetadata);
+        for (var clzDef : doScan(packageSet)) {
+            this.registerMapper(clzDef, beanNameGenerator, registry);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator, ClassDef classDef) {
-
-        var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
-        var clientType = classDef.getBeanClass();
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * 从 spring-turbo 2.0.9版本开始
-         * 放弃使用 FactoryBean<T> 来创建对象实例
-         * 此方式更直截了当，代码更容易理解。
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-        var supplier = new FeignClientSupplier(
-                InstanceCache.newInstance(beanFactory),
-                classDef.getBeanClass(),
-                environment.resolveRequiredPlaceholders(metaAnnotation.url())
-        );
-
-        var clientBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(clientType, supplier)
-                .setPrimary(metaAnnotation.primary())
-                .setLazyInit(classDef.isLazyInit())
-                .setAbstract(false)
-                .setRole(classDef.getRole())
-                .getBeanDefinition();
-
-        addQualifiers(clientBeanDefinition, metaAnnotation.qualifiers());
-
-        var beanName = metaAnnotation.value();
-        if (beanName.isBlank()) {
-            beanName = nameGenerator.generateBeanName(clientBeanDefinition, registry);
-        }
-
-        registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
     private PackageSet getBasePackages(AnnotationMetadata importingClassMetadata) {
         var packageSet = PackageSet.newInstance();
 
         var attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
+                importingClassMetadata.getAnnotationAttributes(ScanMapstructBean.class.getName())
         );
 
         if (attributes != null) {
@@ -115,7 +74,7 @@ class EnableFeignClientsConfiguration implements
     private List<ClassDef> doScan(PackageSet basePackages) {
         var typeFilter = all(
                 isInterface(),
-                hasAnnotation(FeignClient.class)
+                hasAnnotation(MapstructBean.class)
         );
 
         return ClassPathScanner.builder()
@@ -127,9 +86,44 @@ class EnableFeignClientsConfiguration implements
                 .scan(basePackages);
     }
 
+    private void registerMapper(ClassDef classDef, BeanNameGenerator beanNameGenerator, BeanDefinitionRegistry registry) {
+
+        var attributes = classDef.getAnnotationAttributes(MapstructBean.class);
+
+        var supplier = new MapperSupplier(classDef.getBeanClass());
+        var beanDef = BeanDefinitionBuilder.genericBeanDefinition(classDef.getBeanClass(), supplier)
+                .setPrimary(attributes.getBoolean("primary"))
+                .setLazyInit(classDef.isLazyInit())
+                .setAbstract(false)
+                .setRole(classDef.getRole())
+                .getBeanDefinition();
+
+        var beanName = attributes.getString("beanName");
+        if (beanName.isBlank()) {
+            beanName = beanNameGenerator.generateBeanName(beanDef, registry);
+        }
+
+        addQualifiers(beanDef, attributes.getStringArray("qualifiers"));
+
+        registry.registerBeanDefinition(beanName, beanDef);
+    }
+
     public void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {
         for (var q : qualifiers) {
             beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, q));
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    private record MapperSupplier(Class<?> mapperClass) implements Supplier {
+
+        private MapperSupplier {
+            Asserts.notNull(mapperClass);
+        }
+
+        @Override
+        public Object get() {
+            return Mappers.getMapper(this.mapperClass);
         }
     }
 
