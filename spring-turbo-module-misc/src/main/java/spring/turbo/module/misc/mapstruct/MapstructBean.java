@@ -6,9 +6,32 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-@NonNullApi
-@NonNullFields
-package spring.turbo.module.mapstruct;
+package spring.turbo.module.misc.mapstruct;
 
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
+import org.springframework.core.annotation.AliasFor;
+
+import java.lang.annotation.*;
+
+import static spring.turbo.util.StringPool.EMPTY;
+
+/**
+ * @author 应卓
+ * @since 2.2.0
+ */
+@Inherited
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface MapstructBean {
+
+    @AliasFor("value")
+    public String beanName() default EMPTY;
+
+    @AliasFor("beanName")
+    public String value() default EMPTY;
+
+    public boolean primary() default true;
+
+    public String[] qualifiers() default {};
+
+}

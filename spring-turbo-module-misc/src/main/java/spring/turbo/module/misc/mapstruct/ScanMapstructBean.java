@@ -6,14 +6,12 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.mapstruct;
+package spring.turbo.module.misc.mapstruct;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
-
-import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
@@ -22,24 +20,16 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Qualifier("MapstructBean")
-public @interface MapstructBean {
+@Target(ElementType.TYPE)
+@Import(ScanMapstructBeanConfiguration.class)
+public @interface ScanMapstructBean {
+
+    @AliasFor("basePackages")
+    public String[] value() default {};
 
     @AliasFor("value")
-    public String beanName() default EMPTY;
+    public String[] basePackages() default {};
 
-    @AliasFor("beanName")
-    public String value() default EMPTY;
-
-    public boolean primary() default true;
-
-    /**
-     * Bean qualifiers
-     *
-     * @return Bean qualifiers
-     * @see Qualifier
-     */
-    public String[] qualifiers() default {};
+    public Class<?>[] basePackageClasses() default {};
 
 }
