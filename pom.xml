@@ -245,6 +245,13 @@
                 </exclusions>
             </dependency>
 
+            <!-- avatar-generator -->
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>avatar-generator</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
             <!-- javassist -->
             <dependency>
                 <groupId>org.javassist</groupId>
