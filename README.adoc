@@ -73,6 +73,7 @@ mvn install
 === 关联项目
 
 * link:https://github.com/yingzhuo/spring-turbo[spring-turbo]
+* link:https://github.com/yingzhuo/spring-turbo-uberjar[spring-turbo-uberjar]
 
 === 例子
 

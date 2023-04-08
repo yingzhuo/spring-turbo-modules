@@ -13,9 +13,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import spring.turbo.autoconfiguration.properties.SelectorSetProps;
 import spring.turbo.module.queryselector.formatter.SelectorFormatter;
 import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
-import spring.turbo.module.queryselector.property.SelectorSetProperties;
 
 /**
  * @author 应卓
@@ -23,12 +23,12 @@ import spring.turbo.module.queryselector.property.SelectorSetProperties;
  */
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "springturbo.selector-set-formatter", name = "enabled", havingValue = "true", matchIfMissing = true)
-@EnableConfigurationProperties(SelectorSetProperties.class)
+@EnableConfigurationProperties(SelectorSetProps.class)
 public class QuerySetCoreAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SelectorFormatter selectorFormatter(SelectorSetProperties properties) {
+    public SelectorFormatter selectorFormatter(SelectorSetProps properties) {
         final SelectorFormatter bean = new SelectorFormatter();
         bean.setSeparatorInSelector(properties.getSelectorFormatter().getSeparatorInSelector());
         bean.setSeparatorInRange(properties.getSelectorFormatter().getSeparatorInRange());
@@ -40,7 +40,7 @@ public class QuerySetCoreAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SelectorSetFormatter selectorSetResolver(SelectorSetProperties properties, SelectorFormatter selectorFormatter) {
+    public SelectorSetFormatter selectorSetResolver(SelectorSetProps properties, SelectorFormatter selectorFormatter) {
         final SelectorSetFormatter bean = new SelectorSetFormatter();
         bean.setSeparatorBetweenSelectors(properties.getSeparatorBetweenSelectors());
         bean.setIgnoreErrorIfUnableToParse(properties.isIgnoreErrorIfUnableToParse());

@@ -34,8 +34,9 @@
             <name>應卓</name>
             <email>yingzhor@gmail.com</email>
             <roles>
-                <role>Java Developer</role>
+                <role>Owner</role>
             </roles>
+            <timezone>+8</timezone>
         </developer>
     </developers>
 
@@ -379,7 +380,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -401,7 +401,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
