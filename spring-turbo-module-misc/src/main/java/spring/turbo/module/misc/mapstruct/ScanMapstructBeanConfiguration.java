@@ -72,16 +72,19 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
     }
 
     private List<ClassDef> doScan(PackageSet basePackages) {
-        var typeFilter = all(
+        var includeFilter = all(
                 isInterface(),
                 hasAnnotation(MapstructBean.class)
         );
+
+        var excludeFilter = isPackageInfo();
 
         return ClassPathScanner.builder()
                 .environment(this.environment)
                 .resourceLoader(this.resourceLoader)
                 .classLoader(this.classLoader)
-                .includeFilter(typeFilter)
+                .includeFilter(includeFilter)
+                .excludeFilter(excludeFilter)
                 .build()
                 .scan(basePackages);
     }
