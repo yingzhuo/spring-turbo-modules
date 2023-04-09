@@ -13,7 +13,6 @@ import org.springframework.boot.env.YamlPropertySourceLoader;
 /**
  * @author 应卓
  * @see HoconPropertySourceFactory
- * @see TomlPropertySourceFactory
  * @since 2.1.3
  */
 public class YamlPropertySourceFactory extends AbstractPropertySourceFactory {
