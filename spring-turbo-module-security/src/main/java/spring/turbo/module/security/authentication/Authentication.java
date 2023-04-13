@@ -27,7 +27,7 @@ import java.util.Optional;
  * @see org.springframework.security.core.Authentication
  * @since 1.0.0
  */
-public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
+public class Authentication extends AbstractAuthenticationToken {
 
     /**
      * 当前用户
@@ -36,7 +36,7 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     private final UserDetails userDetails;
 
     /**
-     * 当前认证的令牌 (Optional)
+     * 当前认证的令牌 (optional)
      *
      * @since 1.2.3
      */
@@ -44,7 +44,7 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     private final Token token;
 
     /**
-     * 其他变量/附加信息
+     * 其他变量/附加信息 (optional)
      */
     @Nullable
     private Map<String, Object> variables;
