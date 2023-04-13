@@ -238,7 +238,7 @@ public final class RequestMatcherFactories {
     public static RequestMatcher kubernetesProps(HandlerMappingIntrospector introspector, HttpMethod method, String... patterns) {
         return and(
                 mvcPatterns(introspector, method, patterns),
-                header(USER_AGENT, "^.*kube.*$")
+                header(USER_AGENT, "^.*kube-probe/.*$")
         );
     }
 
