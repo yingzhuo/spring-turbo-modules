@@ -39,7 +39,7 @@ public final class BasicTokenResolver extends HeaderTokenResolver {
     public Optional<Token> resolve(WebRequest request) {
         final Optional<Token> tokenOption = super.resolve(request);
 
-        if (!tokenOption.isPresent()) {
+        if (tokenOption.isEmpty()) {
             return tokenOption;
         }
 

@@ -11,6 +11,7 @@ package spring.turbo.module.security.encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
@@ -42,6 +43,10 @@ public final class PasswordEncoderFactories {
         super();
     }
 
+    public static BCryptPasswordEncoder createBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder() {
         return createDelegatingPasswordEncoder(EncodingIds.bcrypt, EncodingIds.noop);
     }
@@ -67,6 +72,7 @@ public final class PasswordEncoderFactories {
 
     private static Map<String, PasswordEncoder> getEncoders() {
         var map = new TreeMap<String, PasswordEncoder>();
+        // spi加载
         var services = loadQuietly(ExtraPasswordEncoderConvention.class);
         for (var service : services) {
             try {

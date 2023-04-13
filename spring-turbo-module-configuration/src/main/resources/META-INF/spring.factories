@@ -9,4 +9,7 @@ spring.turbo.module.configuration.convention.ModulesConventionImpl
 org.springframework.boot.env.PropertySourceLoader=\
 spring.turbo.module.configuration.env.HoconPropertySourceLoader
 org.springframework.boot.env.EnvironmentPostProcessor=\
-spring.turbo.module.configuration.env.processor.VMOptionsEnvironmentPostProcessor
+spring.turbo.module.configuration.env.processor.VMOptionsEnvironmentPostProcessor,\
+spring.turbo.module.configuration.env.processor.LoadmePropertiesEnvironmentPostProcessor,\
+spring.turbo.module.configuration.env.processor.LoadmeYamlEnvironmentPostProcessor,\
+spring.turbo.module.configuration.env.processor.LoadmeHoconEnvironmentPostProcessor

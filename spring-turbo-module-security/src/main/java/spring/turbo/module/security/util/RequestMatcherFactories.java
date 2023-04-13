@@ -23,7 +23,12 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import static org.springframework.http.HttpHeaders.USER_AGENT;
+import static org.springframework.http.HttpMethod.GET;
+
 /**
+ * {@link RequestMatcher} 相关生成工具
+ *
  * @author 应卓
  * @since 2.0.4
  */
@@ -224,6 +229,17 @@ public final class RequestMatcherFactories {
 
     public static RequestMatcher isNotSecure() {
         return request -> !request.isSecure();
+    }
+
+    public static RequestMatcher defaultKubernetesProps(HandlerMappingIntrospector introspector) {
+        return kubernetesProps(introspector, GET, "/actuator", "/actuator/*", "/actuator/*/*");
+    }
+
+    public static RequestMatcher kubernetesProps(HandlerMappingIntrospector introspector, HttpMethod method, String... patterns) {
+        return and(
+                mvcPatterns(introspector, method, patterns),
+                header(USER_AGENT, "^.*kube.*$")
+        );
     }
 
 }

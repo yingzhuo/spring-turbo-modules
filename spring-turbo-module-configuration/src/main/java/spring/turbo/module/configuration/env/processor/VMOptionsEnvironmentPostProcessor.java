@@ -8,7 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.configuration.env.processor;
 
+import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.ClassPathResource;
@@ -27,14 +29,13 @@ import static spring.turbo.util.StringFormatter.format;
 
 /**
  * @author 应卓
+ * @see spring.turbo.core.SpringApplicationUtils
  * @since 2.1.3
  */
-public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
+public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport implements EnvironmentPostProcessor {
 
-    private static final Properties EMPTY_PROPS = new Properties();
-
-    public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory) {
-        super(logFactory);
+    public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
+        super(logFactory, bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE);
     }
 
@@ -61,7 +62,7 @@ public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorS
             debug("loading \"classpath:vmoptions.properties\"");
             return resourceToProperties(resource);
         } else {
-            return EMPTY_PROPS;
+            return new Properties();
         }
     }
 
@@ -72,7 +73,7 @@ public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorS
             debug("loading \"file:{}\"", location);
             return resourceToProperties(resource);
         } else {
-            return EMPTY_PROPS;
+            return new Properties();
         }
     }
 
