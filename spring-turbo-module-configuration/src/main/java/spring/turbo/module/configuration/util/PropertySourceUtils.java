@@ -15,7 +15,6 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 import spring.turbo.io.IOExceptionUtils;
-import spring.turbo.module.configuration.env.EmptyPropertySource;
 import spring.turbo.module.configuration.env.HoconPropertySourceLoader;
 import spring.turbo.util.CollectionUtils;
 
@@ -38,15 +37,16 @@ public final class PropertySourceUtils {
         super();
     }
 
+    @Nullable
     public static PropertySource<?> loadPropertiesFormat(@Nullable Resource resource, String propertySourceName) {
         if (resource == null || !resource.exists() || !resource.isReadable()) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
 
         try {
             var list = PROPERTIES_FORMAT_LOADER.load(propertySourceName, resource);
             if (CollectionUtils.size(list) == 0) {
-                return EmptyPropertySource.of(propertySourceName);
+                return null;
             }
             if (CollectionUtils.size(list) == 1) {
                 return list.get(0);
@@ -54,19 +54,20 @@ public final class PropertySourceUtils {
                 throw IOExceptionUtils.toUnchecked("multiple document is NOT supported yet.");
             }
         } catch (IOException e) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
     }
 
+    @Nullable
     public static PropertySource<?> loadYamlFormat(@Nullable Resource resource, String propertySourceName) {
         if (resource == null || !resource.exists() || !resource.isReadable()) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
 
         try {
             var list = YAML_FORMAT_LOADER.load(propertySourceName, resource);
             if (CollectionUtils.size(list) == 0) {
-                return EmptyPropertySource.of(propertySourceName);
+                return null;
             }
             if (CollectionUtils.size(list) == 1) {
                 return list.get(0);
@@ -74,19 +75,20 @@ public final class PropertySourceUtils {
                 throw IOExceptionUtils.toUnchecked("multiple document is NOT supported yet.");
             }
         } catch (IOException e) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
     }
 
+    @Nullable
     public static PropertySource<?> loadHoconFormat(@Nullable Resource resource, String propertySourceName) {
         if (resource == null || !resource.exists() || !resource.isReadable()) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
 
         try {
             var list = HOCON_FORMAT_LOADER.load(propertySourceName, resource);
             if (CollectionUtils.size(list) == 0) {
-                return EmptyPropertySource.of(propertySourceName);
+                return null;
             }
             if (CollectionUtils.size(list) == 1) {
                 return list.get(0);
@@ -94,7 +96,7 @@ public final class PropertySourceUtils {
                 throw IOExceptionUtils.toUnchecked("multiple document is NOT supported yet.");
             }
         } catch (IOException e) {
-            return EmptyPropertySource.of(propertySourceName);
+            return null;
         }
     }
 

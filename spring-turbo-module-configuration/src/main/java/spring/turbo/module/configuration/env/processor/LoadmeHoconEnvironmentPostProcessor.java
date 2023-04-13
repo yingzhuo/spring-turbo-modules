@@ -12,8 +12,8 @@ import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.PropertySource;
-import spring.turbo.module.configuration.util.PropertySourceUtils;
+
+import static spring.turbo.module.configuration.util.PropertySourceUtils.loadHoconFormat;
 
 /**
  * @author 应卓
@@ -30,23 +30,31 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
 
         var option = LoadmeOption.HOCON;
 
-        if (handlingIsRequired()) {
+        if (super.handlingIsRequired()) {
             var pair = option.load(application);
 
             if (pair.nothingToRead()) {
                 return;
             }
 
-            PropertySource<?> fromClzPath = PropertySourceUtils.loadHoconFormat(pair.getClasspathResource(), LOADME + " (classpath)");
-            PropertySource<?> fromAppHome = PropertySourceUtils.loadHoconFormat(pair.getApplicationHomeResource(), LOADME + " (application home)");
+            var propertySources = environment.getPropertySources();
+            var fromClzPath = loadHoconFormat(pair.getClasspathResource(), LOADME + " (classpath)");
+            var fromAppHome = loadHoconFormat(pair.getApplicationHomeResource(), LOADME + " (application home)");
 
-            environment.getPropertySources()
-                    .addLast(fromAppHome);
+            int addedCount = 0;
+            if (fromAppHome != null) {
+                propertySources.addLast(fromAppHome);
+                addedCount++;
+            }
 
-            environment.getPropertySources()
-                    .addLast(fromClzPath);
+            if (fromClzPath != null) {
+                propertySources.addLast(fromClzPath);
+                addedCount++;
+            }
 
-            handled(option);
+            if (addedCount > 0) {
+                super.handled(option);
+            }
         }
     }
 

@@ -9,9 +9,7 @@
 package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.logging.DeferredLogFactory;
-import org.springframework.core.env.ConfigurableEnvironment;
 import spring.turbo.core.env.EnvironmentPostProcessorSupport;
 
 /**
@@ -24,10 +22,8 @@ abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostPro
 
     public AbstractLoadmeEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
+        super.setOrder(LOWEST_PRECEDENCE);
     }
-
-    @Override
-    protected abstract void execute(ConfigurableEnvironment environment, SpringApplication application);
 
     protected final boolean handlingIsRequired() {
         return !bootstrapContext.isRegistered(LoadmeOption.class);
