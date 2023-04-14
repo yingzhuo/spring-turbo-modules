@@ -149,6 +149,11 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
         filterChain.doFilter(request, response);
     }
 
+    @Nullable
+    public TokenToUserConverter getTokenToUserConverter() {
+        return tokenToUserConverter;
+    }
+
     public void setTokenToUserConverter(TokenToUserConverter converter) {
         Asserts.notNull(converter);
         this.tokenToUserConverter = converter;
