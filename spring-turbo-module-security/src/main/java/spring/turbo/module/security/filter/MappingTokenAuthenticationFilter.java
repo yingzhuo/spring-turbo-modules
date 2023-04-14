@@ -9,26 +9,40 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import spring.turbo.module.security.authentication.MapTokenToUserConverter;
+import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.token.BearerTokenResolver;
+import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
  * @see MapTokenToUserConverter
+ * @see TokenAuthenticationFilter
+ * @see TokenAuthenticationFilterFactory
+ * @see RequestMatcher
  * @since 2.2.2
  */
-public class SimpleTokenAuthenticationFilter extends TokenAuthenticationFilter {
+public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
-    public SimpleTokenAuthenticationFilter() {
-        super();
+    /**
+     * 默认构造方法
+     */
+    public MappingTokenAuthenticationFilter() {
         super.setTokenResolver(new BearerTokenResolver());
         super.setTokenToUserConverter(new MapTokenToUserConverter());
     }
 
-    public void addUserDetails(String rawToken, UserDetails userDetails) {
-        if (getTokenToUserConverter() instanceof MapTokenToUserConverter converter) {
-            converter.add(rawToken, userDetails);
-        }
+    public MappingTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {
+        var converter = (MapTokenToUserConverter) getTokenToUserConverter();
+        Asserts.notNull(converter);
+        converter.add(rawToken, userDetails);
+        return this;
+    }
+
+    @Override
+    public void setTokenToUserConverter(TokenToUserConverter converter) {
+        throw new UnsupportedOperationException();
     }
 
 }
