@@ -45,9 +45,16 @@ public final class MappingTokenAuthenticationFilter extends TokenAuthenticationF
         super.setTokenToUserConverter(new MapTokenToUserConverter());
     }
 
-    public MappingTokenAuthenticationFilter addUserDetails(String rawToken, String... roles) {
+    public MappingTokenAuthenticationFilter addUserDetails(String rawToken, String... authorities) {
         var uuid = RandomStringUtils.randomUUID(true);
-        return addUserDetails(rawToken, UserDetailsPlus.builder().id(uuid).username(uuid).password(uuid).roles(roles).build());
+        return addUserDetails(rawToken,
+                UserDetailsPlus.builder()
+                        .id(uuid)
+                        .username(uuid)
+                        .password(uuid)
+                        .authorities(authorities)
+                        .build()
+        );
     }
 
     public MappingTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {
