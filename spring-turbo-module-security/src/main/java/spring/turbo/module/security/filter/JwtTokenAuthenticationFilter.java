@@ -9,10 +9,14 @@
 package spring.turbo.module.security.filter;
 
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import spring.turbo.module.security.authentication.MapTokenToUserConverter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 
 /**
  * @author 应卓
+ * @see MapTokenToUserConverter
+ * @see TokenAuthenticationFilter
+ * @see TokenAuthenticationFilterFactory
  * @see RequestMatcher
  * @since 1.0.1
  */
