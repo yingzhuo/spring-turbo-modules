@@ -23,17 +23,17 @@ import spring.turbo.util.Asserts;
  * @see RequestMatcher
  * @since 2.2.2
  */
-public final class SimpleTokenAuthenticationFilter extends TokenAuthenticationFilter {
+public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
     /**
      * 默认构造方法
      */
-    public SimpleTokenAuthenticationFilter() {
+    public MappingTokenAuthenticationFilter() {
         super.setTokenResolver(new BearerTokenResolver());
         super.setTokenToUserConverter(new MapTokenToUserConverter());
     }
 
-    public SimpleTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {
+    public MappingTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {
         var converter = (MapTokenToUserConverter) getTokenToUserConverter();
         Asserts.notNull(converter);
         converter.add(rawToken, userDetails);
