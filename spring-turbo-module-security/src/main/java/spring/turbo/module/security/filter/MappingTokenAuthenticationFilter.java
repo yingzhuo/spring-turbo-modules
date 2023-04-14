@@ -13,7 +13,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import spring.turbo.module.security.authentication.MapTokenToUserConverter;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.token.BearerTokenResolver;
+import spring.turbo.module.security.user.UserDetailsPlus;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.RandomStringUtils;
 
 /**
  * @author 应卓
@@ -21,16 +23,38 @@ import spring.turbo.util.Asserts;
  * @see TokenAuthenticationFilter
  * @see TokenAuthenticationFilterFactory
  * @see RequestMatcher
+ * @see #newInstance()
  * @since 2.2.2
  */
 public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
     /**
-     * 默认构造方法
+     * 获取实例
+     *
+     * @return 实例
      */
-    public MappingTokenAuthenticationFilter() {
+    public static MappingTokenAuthenticationFilter newInstance() {
+        return new MappingTokenAuthenticationFilter();
+    }
+
+    /**
+     * 私有构造方法
+     */
+    private MappingTokenAuthenticationFilter() {
         super.setTokenResolver(new BearerTokenResolver());
         super.setTokenToUserConverter(new MapTokenToUserConverter());
+    }
+
+    public MappingTokenAuthenticationFilter addUserDetails(String rawToken, String... authorities) {
+        var uuid = RandomStringUtils.randomUUID(true);
+        return addUserDetails(rawToken,
+                UserDetailsPlus.builder()
+                        .id(uuid)
+                        .username(uuid)
+                        .password(uuid)
+                        .authorities(authorities)
+                        .build()
+        );
     }
 
     public MappingTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {
