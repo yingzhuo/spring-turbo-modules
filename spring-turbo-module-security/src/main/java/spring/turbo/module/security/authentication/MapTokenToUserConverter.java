@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.token.StringToken;
 import spring.turbo.module.security.token.Token;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class MapTokenToUserConverter implements TokenToUserConverter {
 
     @Nullable
     @Override
-    public UserDetails convert(Token token) throws AuthenticationException {
+    public UserDetails convert(@Nullable Token token) throws AuthenticationException {
         if (tokenToUserMap.isEmpty()) {
             return null;
         }
@@ -58,6 +59,10 @@ public class MapTokenToUserConverter implements TokenToUserConverter {
             return this.tokenToUserMap.get(stringToken.asString());
         }
         return null;
+    }
+
+    public Map<String, UserDetails> getTokenToUserMap() {
+        return Collections.unmodifiableMap(tokenToUserMap);
     }
 
 }
