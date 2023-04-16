@@ -8,12 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.autoconfiguration;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import spring.turbo.module.security.jwt.AlgorithmFactory;
 import spring.turbo.module.security.jwt.JwtTokenFactory;
 import spring.turbo.module.security.jwt.JwtTokenFactoryImpl;
 
@@ -23,8 +23,8 @@ import spring.turbo.module.security.jwt.JwtTokenFactoryImpl;
  */
 @AutoConfiguration
 @ConditionalOnClass(name = "com.auth0.jwt.algorithms.Algorithm")
+@ConditionalOnBean(type = "com.auth0.jwt.algorithms.Algorithm")
 @ConditionalOnMissingBean(type = "spring.turbo.module.security.jwt.JwtTokenFactory")
-@ConditionalOnBean(type = "spring.turbo.module.security.jwt.AlgorithmFactory")
 public class JwtTokenFactoryAutoConfiguration {
 
     /**
@@ -35,8 +35,8 @@ public class JwtTokenFactoryAutoConfiguration {
     }
 
     @Bean
-    public JwtTokenFactory jwtFactory(AlgorithmFactory algorithmFactory) {
-        return new JwtTokenFactoryImpl(algorithmFactory);
+    public JwtTokenFactory jwtFactory(Algorithm algorithm) {
+        return new JwtTokenFactoryImpl(algorithm);
     }
 
 }

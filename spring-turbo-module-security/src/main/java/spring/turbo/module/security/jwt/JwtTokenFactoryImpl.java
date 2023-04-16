@@ -25,11 +25,9 @@ public class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     private final Algorithm algorithm;
 
-    public JwtTokenFactoryImpl(AlgorithmFactory algorithmFactory) {
-        Asserts.notNull(algorithmFactory);
-        Algorithm alg = algorithmFactory.create();
-        Asserts.notNull(alg);
-        this.algorithm = alg;
+    public JwtTokenFactoryImpl(Algorithm algorithm) {
+        Asserts.notNull(algorithm);
+        this.algorithm = algorithm;
     }
 
     @Override

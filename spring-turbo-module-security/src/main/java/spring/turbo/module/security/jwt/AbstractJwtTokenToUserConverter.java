@@ -32,13 +32,6 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
 
     private final Algorithm algorithm;
 
-    public AbstractJwtTokenToUserConverter(AlgorithmFactory algorithmFactory) {
-        Asserts.notNull(algorithmFactory);
-        Algorithm alg = algorithmFactory.create();
-        Asserts.notNull(alg);
-        this.algorithm = alg;
-    }
-
     public AbstractJwtTokenToUserConverter(Algorithm algorithm) {
         Asserts.notNull(algorithm);
         this.algorithm = algorithm;
