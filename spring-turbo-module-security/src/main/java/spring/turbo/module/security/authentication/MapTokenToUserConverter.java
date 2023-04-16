@@ -50,6 +50,10 @@ public class MapTokenToUserConverter implements TokenToUserConverter {
     @Nullable
     @Override
     public UserDetails convert(Token token) throws AuthenticationException {
+        if (tokenToUserMap.isEmpty()) {
+            return null;
+        }
+
         if (token instanceof StringToken stringToken) {
             return this.tokenToUserMap.get(stringToken.asString());
         }
