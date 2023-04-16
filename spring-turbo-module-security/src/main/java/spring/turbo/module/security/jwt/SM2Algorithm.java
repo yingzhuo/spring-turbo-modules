@@ -31,7 +31,7 @@ public final class SM2Algorithm extends AbstractAlgorithm {
         super(SM2, SM2);
         Asserts.hasText(publicKey);
         Asserts.hasText(privateKey);
-        this.sm2 = new SM2(Base64.toBytes(privateKey), Base64.toBytes(publicKey));
+        this.sm2 = new SM2(privateKey, publicKey);
     }
 
     @Override
