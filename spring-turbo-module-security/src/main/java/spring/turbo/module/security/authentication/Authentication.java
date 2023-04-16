@@ -121,14 +121,14 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
         return variables;
     }
 
+    public void setVariables(@Nullable Map<String, Object> variables) {
+        this.variables = variables != null ? variables : StringObjectMap.newInstance();
+    }
+
     public Map<String, Object> getRequiredVariables() {
         var variables = getVariables();
         Asserts.notNull(variables);
         return variables;
-    }
-
-    public void setVariables(@Nullable Map<String, Object> variables) {
-        this.variables = variables != null ? variables : StringObjectMap.newInstance();
     }
 
     public void clearVariables() {

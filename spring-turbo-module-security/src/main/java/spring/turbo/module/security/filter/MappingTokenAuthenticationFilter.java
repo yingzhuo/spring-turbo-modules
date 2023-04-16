@@ -29,20 +29,20 @@ import spring.turbo.util.RandomStringUtils;
 public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
     /**
+     * 私有构造方法
+     */
+    private MappingTokenAuthenticationFilter() {
+        super.setTokenResolver(new BearerTokenResolver());
+        super.setTokenToUserConverter(new MapTokenToUserConverter());
+    }
+
+    /**
      * 获取实例
      *
      * @return 实例
      */
     public static MappingTokenAuthenticationFilter newInstance() {
         return new MappingTokenAuthenticationFilter();
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private MappingTokenAuthenticationFilter() {
-        super.setTokenResolver(new BearerTokenResolver());
-        super.setTokenToUserConverter(new MapTokenToUserConverter());
     }
 
     public MappingTokenAuthenticationFilter addUserDetails(String rawToken, String... authorities) {
