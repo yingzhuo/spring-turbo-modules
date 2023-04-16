@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
+import spring.turbo.util.Asserts;
 import spring.turbo.util.collection.StringObjectMap;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.Optional;
  * @see org.springframework.security.core.Authentication
  * @since 1.0.0
  */
-public class Authentication extends AbstractAuthenticationToken {
+public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
 
     /**
      * 当前用户
@@ -94,12 +95,24 @@ public class Authentication extends AbstractAuthenticationToken {
     }
 
     @Nullable
-    public final UserDetails getUserDetails() {
+    public UserDetails getUserDetails() {
         return userDetails;
+    }
+
+    public UserDetails getRequiredUserDetails() {
+        var ud = getUserDetails();
+        Asserts.notNull(ud);
+        return ud;
     }
 
     @Nullable
     public Token getToken() {
+        return token;
+    }
+
+    public Token getRequiredToken() {
+        var token = getToken();
+        Asserts.notNull(token);
         return token;
     }
 
@@ -110,6 +123,12 @@ public class Authentication extends AbstractAuthenticationToken {
 
     public void setVariables(@Nullable Map<String, Object> variables) {
         this.variables = variables != null ? variables : StringObjectMap.newInstance();
+    }
+
+    public Map<String, Object> getRequiredVariables() {
+        var variables = getVariables();
+        Asserts.notNull(variables);
+        return variables;
     }
 
     public void clearVariables() {
