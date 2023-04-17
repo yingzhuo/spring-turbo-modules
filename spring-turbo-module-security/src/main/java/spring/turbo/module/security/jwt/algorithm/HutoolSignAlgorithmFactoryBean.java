@@ -8,7 +8,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.algorithm;
 
-import cn.hutool.crypto.asymmetric.SM2;
+import cn.hutool.crypto.SignUtil;
+import cn.hutool.crypto.asymmetric.Sign;
+import cn.hutool.crypto.asymmetric.SignAlgorithm;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
@@ -16,36 +18,27 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.crypto.Base64;
 
 /**
- * 国密算法 (SM2)
- *
  * @author 应卓
  * @since 2.2.2
  */
 @Getter
 @Setter
-public final class SM2AlgorithmFactoryBean implements FactoryBean<Algorithm> {
+public final class HutoolSignAlgorithmFactoryBean implements FactoryBean<Algorithm> {
 
-    private String privateKey;
+    private SignAlgorithm signAlgorithm;
     private String publicKey;
-    private String withId;
-
-    /**
-     * 默认构造方法
-     */
-    public SM2AlgorithmFactoryBean() {
-        super();
-    }
+    private String privateKey;
 
     @Override
     public Algorithm getObject() {
-        Asserts.hasText(privateKey, "privateKey not set");
+        Asserts.notNull(signAlgorithm, "signAlgorithm not set");
         Asserts.hasText(publicKey, "publicKey not set");
-        return new SM2Algorithm(publicKey, privateKey, withId);
+        Asserts.hasText(privateKey, "privateKey not set");
+        return new HutoolSignAlgorithm(signAlgorithm, publicKey, privateKey);
     }
 
     @Override
@@ -55,17 +48,22 @@ public final class SM2AlgorithmFactoryBean implements FactoryBean<Algorithm> {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private static class SM2Algorithm extends AbstractAlgorithm {
+    private static class HutoolSignAlgorithm extends AbstractAlgorithm {
 
-        private final SM2 sm2;
+        private final Sign sign;
 
-        @Nullable
-        private final String withId;
+        public HutoolSignAlgorithm(SignAlgorithm signAlgorithm, String publicKey, String privateKey) {
+            super(signAlgorithm.name(), signAlgorithm.name());
+            this.sign = SignUtil.sign(signAlgorithm, privateKey, publicKey);
+        }
 
-        public SM2Algorithm(String publicKey, String privateKey, @Nullable String withId) {
-            super("SM2", "SM2国密算法");
-            this.sm2 = new SM2(privateKey, publicKey);
-            this.withId = withId;
+        @Override
+        public byte[] sign(byte[] contentBytes) throws SignatureGenerationException {
+            try {
+                return sign.sign(contentBytes);
+            } catch (Exception e) {
+                throw new SignatureGenerationException(this, e);
+            }
         }
 
         @Override
@@ -73,30 +71,12 @@ public final class SM2AlgorithmFactoryBean implements FactoryBean<Algorithm> {
             try {
                 final byte[] signatureBytes = Base64.toBytes(jwt.getSignature());
                 final byte[] dataBytes = super.combineHeaderAndPayload(jwt);
-                boolean success = sm2.verify(dataBytes, signatureBytes, getWithIdBytes());
+                boolean success = sign.verify(dataBytes, signatureBytes);
                 if (!success) {
                     throw new SignatureVerificationException(this);
                 }
-            } catch (Throwable e) {
+            } catch (SignatureVerificationException e) {
                 throw new SignatureVerificationException(this);
-            }
-        }
-
-        @Override
-        public byte[] sign(byte[] contentBytes) throws SignatureGenerationException {
-            try {
-                return sm2.sign(contentBytes, getWithIdBytes());
-            } catch (Throwable e) {
-                throw new SignatureGenerationException(this, e);
-            }
-        }
-
-        @Nullable
-        private byte[] getWithIdBytes() {
-            if (this.withId != null) {
-                return this.withId.getBytes();
-            } else {
-                return null;
             }
         }
     }
