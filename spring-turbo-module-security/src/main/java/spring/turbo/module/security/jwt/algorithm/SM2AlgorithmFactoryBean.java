@@ -44,7 +44,7 @@ public final class SM2AlgorithmFactoryBean implements FactoryBean<Algorithm> {
     @Override
     public Algorithm getObject() {
         Asserts.hasText(privateKey, "privateKey not set");
-        Asserts.notNull(publicKey, "publicKey not set");
+        Asserts.hasText(publicKey, "publicKey not set");
         return new SM2Algorithm(publicKey, privateKey, withId);
     }
 
