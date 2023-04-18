@@ -10,6 +10,7 @@ package spring.turbo.module.security.jwt;
 
 import org.springframework.lang.Nullable;
 import spring.turbo.bean.Payload;
+import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -32,6 +33,7 @@ public final class JwtTokenMetadata implements Serializable {
     @Nullable
     private String subject;
 
+    @Nullable
     private List<String> audience = new ArrayList<>();
 
     @Nullable
@@ -46,6 +48,7 @@ public final class JwtTokenMetadata implements Serializable {
     @Nullable
     private String jwtId;
 
+    @Nullable
     private Payload payloadClaims = Payload.newInstance();
 
     private JwtTokenMetadata() {
@@ -83,6 +86,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.subject = subject;
     }
 
+    @Nullable
     public List<String> getAudience() {
         return audience;
     }
@@ -127,6 +131,7 @@ public final class JwtTokenMetadata implements Serializable {
         this.jwtId = jwtId;
     }
 
+    @Nullable
     public Payload getPayloadClaims() {
         return payloadClaims;
     }
@@ -283,28 +288,28 @@ public final class JwtTokenMetadata implements Serializable {
         }
 
         private Builder doPutPayloadClaim(String key, Object value) {
-            Objects.requireNonNull(key);
-            Objects.requireNonNull(value);
+            Asserts.notNull(key);
+            Asserts.notNull(value);
             this.payloadClaims.put(key, value);
             return this;
         }
 
         public JwtTokenMetadata build() {
-            JwtTokenMetadata meta = new JwtTokenMetadata();
-            meta.jwtId = this.jwtId;
-            meta.keyId = this.keyId;
-            meta.issuer = this.issuer;
-            meta.subject = this.subject;
-            meta.audience = this.audience;
-            meta.expiresAt = this.expiresAt;
-            meta.notBefore = this.notBefore;
-            meta.issuedAt = this.issuedAt;
-            meta.payloadClaims = this.payloadClaims;
-            return meta;
+            var metadata = new JwtTokenMetadata();
+            metadata.jwtId = this.jwtId;
+            metadata.keyId = this.keyId;
+            metadata.issuer = this.issuer;
+            metadata.subject = this.subject;
+            metadata.audience = this.audience;
+            metadata.expiresAt = this.expiresAt;
+            metadata.notBefore = this.notBefore;
+            metadata.issuedAt = this.issuedAt;
+            metadata.payloadClaims = this.payloadClaims;
+            return metadata;
         }
 
         private Date afterNow(long duration, TimeUnit timeUnit) {
-            Objects.requireNonNull(timeUnit);
+            Asserts.notNull(timeUnit);
             return new Date(System.currentTimeMillis() + timeUnit.toMillis(duration));
         }
     }

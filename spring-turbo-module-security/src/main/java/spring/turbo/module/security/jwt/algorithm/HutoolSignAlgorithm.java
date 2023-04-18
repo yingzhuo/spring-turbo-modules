@@ -14,8 +14,9 @@ import cn.hutool.crypto.asymmetric.SignAlgorithm;
 import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import spring.turbo.util.StringUtils;
 import spring.turbo.util.crypto.Base64;
+
+import static spring.turbo.util.StringUtils.deleteWhitespace;
 
 /**
  * Hutool工具包提供的签名算法用于JWT签名
@@ -33,8 +34,8 @@ public final class HutoolSignAlgorithm extends AbstractAlgorithm {
     }
 
     private Sign createSign(SignAlgorithm signAlgorithm, String publicKey, String privateKey) {
-        publicKey = StringUtils.deleteWhitespace(publicKey); // 主要是为了去除换行
-        privateKey = StringUtils.deleteWhitespace(privateKey); // 主要是为了去除换行
+        publicKey = deleteWhitespace(publicKey); // 主要是为了去除换行
+        privateKey = deleteWhitespace(privateKey); // 主要是为了去除换行
         return SignUtil.sign(signAlgorithm, privateKey, publicKey);
     }
 
@@ -63,4 +64,5 @@ public final class HutoolSignAlgorithm extends AbstractAlgorithm {
             throw new SignatureVerificationException(this);
         }
     }
+
 }
