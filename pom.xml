@@ -106,7 +106,7 @@
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.0.5</spring.boot.version>
         <feign.version>12.3</feign.version>
-        <hutool.version>5.8.17</hutool.version>
+        <hutool.version>5.8.18</hutool.version>
         <curator.version>5.4.0</curator.version>
         <lombok.version>1.18.26</lombok.version>
     </properties>

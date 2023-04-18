@@ -9,7 +9,6 @@
 package spring.turbo.module.security.jwt;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import spring.turbo.util.Asserts;
 
@@ -21,7 +20,7 @@ import java.util.Set;
  * @author 应卓
  * @since 1.0.0
  */
-public class JwtTokenFactoryImpl implements JwtTokenFactory {
+public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     private final Algorithm algorithm;
 
@@ -32,8 +31,7 @@ public class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     @Override
     public String create(JwtTokenMetadata metadata) {
-
-        final JWTCreator.Builder builder = JWT.create();
+        var builder = JWT.create();
 
         Optional.ofNullable(metadata.getKeyId()).ifPresent(builder::withKeyId);
         Optional.ofNullable(metadata.getJwtId()).ifPresent(builder::withJWTId);
@@ -51,8 +49,8 @@ public class JwtTokenFactoryImpl implements JwtTokenFactory {
         // Private Claims
         Optional.ofNullable(metadata.getPayloadClaims()).ifPresent(map -> {
             final Set<String> keySet = map.keySet();
-            for (String name : keySet) {
-                Object value = map.get(name);
+            for (var name : keySet) {
+                var value = map.get(name);
 
                 if (value instanceof String) {
                     builder.withClaim(name, (String) value);

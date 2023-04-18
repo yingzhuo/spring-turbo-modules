@@ -13,8 +13,9 @@ import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.StringUtils;
 import spring.turbo.util.crypto.Base64;
+
+import static spring.turbo.util.StringUtils.deleteWhitespace;
 
 /**
  * 国密算法，由Hutool工具包提供
@@ -42,8 +43,8 @@ public final class SM2Algorithm extends AbstractAlgorithm {
     }
 
     private SM2 createSign(String publicKey, String privateKey) {
-        publicKey = StringUtils.deleteWhitespace(publicKey); // 主要是为了去除换行
-        privateKey = StringUtils.deleteWhitespace(privateKey); // 主要是为了去除换行
+        publicKey = deleteWhitespace(publicKey); // 主要是为了去除换行
+        privateKey = deleteWhitespace(privateKey); // 主要是为了去除换行
         return new SM2(privateKey, publicKey);
     }
 
@@ -75,11 +76,7 @@ public final class SM2Algorithm extends AbstractAlgorithm {
 
     @Nullable
     private byte[] getWithIdBytes() {
-        if (this.withId != null) {
-            return this.withId.getBytes();
-        } else {
-            return null;
-        }
+        return this.withId != null ? this.withId.getBytes() : null;
     }
 
 }
