@@ -15,6 +15,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.crypto.Base64;
 
+import java.util.Objects;
+
 import static spring.turbo.util.StringUtils.deleteWhitespace;
 
 /**
@@ -26,20 +28,19 @@ import static spring.turbo.util.StringUtils.deleteWhitespace;
 public final class SM2Algorithm extends AbstractAlgorithm {
 
     private static final String ALGORITHM_NAME = "SM2";
+    private static final String DEFAULT_WITH_ID = "1234567812345678";
 
     private final SM2 sign;
-
-    @Nullable
     private final String withId;
 
     public SM2Algorithm(String publicKey, String privateKey) {
-        this(publicKey, privateKey, null);
+        this(publicKey, privateKey, DEFAULT_WITH_ID);
     }
 
     public SM2Algorithm(String publicKey, String privateKey, @Nullable String withId) {
         super(ALGORITHM_NAME, ALGORITHM_NAME);
         this.sign = createSign(publicKey, privateKey);
-        this.withId = withId;
+        this.withId = Objects.requireNonNullElse(withId, DEFAULT_WITH_ID);
     }
 
     private SM2 createSign(String publicKey, String privateKey) {
@@ -74,9 +75,8 @@ public final class SM2Algorithm extends AbstractAlgorithm {
         }
     }
 
-    @Nullable
     private byte[] getWithIdBytes() {
-        return this.withId != null ? this.withId.getBytes() : null;
+        return this.withId.getBytes();
     }
 
 }
