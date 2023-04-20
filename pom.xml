@@ -104,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.0.5</spring.boot.version>
+        <spring.boot.version>3.0.6</spring.boot.version>
         <feign.version>12.3</feign.version>
         <hutool.version>5.8.18</hutool.version>
         <curator.version>5.4.0</curator.version>
@@ -250,7 +250,7 @@
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
-                <version>1.5.3.Final</version>
+                <version>1.5.4.Final</version>
             </dependency>
 
             <!-- jsr305 -->
