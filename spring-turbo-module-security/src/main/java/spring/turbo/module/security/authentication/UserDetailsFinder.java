@@ -8,6 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +23,10 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @see spring.turbo.module.security.user.UserDetailsPlus
  * @since 1.2.3
  */
-@FunctionalInterface
 public interface UserDetailsFinder {
+
+    @NonNull
+    public UserDetails loadUserByUsername(String username) throws AuthenticationException;
 
     @Nullable
     public UserDetails loadUserByUsernameAndPassword(String username, String password) throws AuthenticationException;
