@@ -57,10 +57,12 @@ public interface RequestDetailsProvider {
      */
     public static final RequestDetailsProvider ALWAYS_NULL = (request, token) -> null;
 
+    // 从 2.2.3 版本开始
+    // 无动作实现作为默认，这个特性很少被用到
     /**
      * 默认
      */
-    public static final RequestDetailsProvider DEFAULT = AUTHENTICATION_DETAILS_OBJ;
+    public static final RequestDetailsProvider DEFAULT = ALWAYS_NULL;
 
     /**
      * 创建Details

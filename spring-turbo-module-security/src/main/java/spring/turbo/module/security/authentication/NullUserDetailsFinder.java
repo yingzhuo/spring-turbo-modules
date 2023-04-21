@@ -11,6 +11,7 @@ package spring.turbo.module.security.authentication;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @author 应卓
@@ -35,6 +36,11 @@ public final class NullUserDetailsFinder implements UserDetailsFinder {
      */
     public static NullUserDetailsFinder getInstance() {
         return SyncAvoid.INSTANCE;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws AuthenticationException {
+        throw new UsernameNotFoundException(username);
     }
 
     @Nullable
