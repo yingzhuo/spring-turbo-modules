@@ -12,15 +12,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
-import spring.turbo.webmvc.RemoteAddressUtils;
 
 import java.util.Date;
+
+import static spring.turbo.webmvc.RemoteAddressUtils.getIpAddress;
 
 /**
  * @author 应卓
  * @since 1.2.3
  */
-public class AuthenticationDetailsImpl implements AuthenticationDetails {
+public final class AuthenticationDetailsImpl implements AuthenticationDetails {
 
     private final Date authenticatedTime;
 
@@ -32,17 +33,13 @@ public class AuthenticationDetailsImpl implements AuthenticationDetails {
     @Nullable
     private final String clientIp;
 
-    public AuthenticationDetailsImpl(HttpServletRequest request) {
-        this(request, null);
-    }
-
     public AuthenticationDetailsImpl(HttpServletRequest request, @Nullable Token token) {
         Asserts.notNull(request);
         Asserts.notNull(token);
         this.authenticatedTime = new Date();
         this.authenticatedToken = token;
         this.path = request.getRequestURI();
-        this.clientIp = RemoteAddressUtils.getIpAddress(request);
+        this.clientIp = getIpAddress(request);  // TODO: 没有考虑到 WebFlux
     }
 
     @Override
@@ -55,14 +52,14 @@ public class AuthenticationDetailsImpl implements AuthenticationDetails {
         return this.path;
     }
 
-    @Override
     @Nullable
+    @Override
     public Token getAuthenticatedToken() {
         return this.authenticatedToken;
     }
 
-    @Override
     @Nullable
+    @Override
     public String getClientId() {
         return this.clientIp;
     }

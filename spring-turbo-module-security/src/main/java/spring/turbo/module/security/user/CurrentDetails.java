@@ -24,7 +24,7 @@ import java.lang.annotation.*;
  * @see RequestDetailsProvider
  * @see RequestDetailsProvider#SPRING_SECURITY_DEFAULT
  * @see RequestDetailsProvider#SNAPSHOT
- * @see RequestDetailsProvider#DESCRIPTION
+ * @see RequestDetailsProvider#SIMPLE_DESCRIPTION
  * @since 1.0.0
  */
 @Inherited

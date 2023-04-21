@@ -17,17 +17,38 @@ import java.util.Date;
 /**
  * @author 应卓
  * @see spring.turbo.module.security.authentication.RequestDetailsProvider
+ * @see org.springframework.security.authentication.AbstractAuthenticationToken#setDetails(Object)
  * @since 1.2.3
  */
-public interface AuthenticationDetails extends Serializable {
+public sealed interface AuthenticationDetails extends Serializable permits AuthenticationDetailsImpl {
 
+    /**
+     * 认证时间
+     *
+     * @return 认证时间
+     */
     public Date getAuthenticatedTime();
 
+    /**
+     * 请求的path
+     *
+     * @return path
+     */
     public String getPath();
 
+    /**
+     * 认证时的令牌对象
+     *
+     * @return 令牌对象或 {@code null}
+     */
     @Nullable
     public Token getAuthenticatedToken();
 
+    /**
+     * 远程IP地址
+     *
+     * @return 远程IP地址或 {@code null}
+     */
     @Nullable
     public String getClientId();
 

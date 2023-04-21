@@ -19,11 +19,10 @@ import spring.turbo.webmvc.HttpRequestSnapshot;
 /**
  * {@code RequestDetails} 创建器
  * <p>
- * 一般说来，RequestDetails是对一个HTTP请求的简要描述，类型一般为{@link String}。
+ * 一般说来，RequestDetails是对一个HTTP请求的简要描述，类型一般为 {@link String}。
  *
  * @author 应卓
- * @see #DEFAULT
- * @see #DESCRIPTION
+ * @see #SIMPLE_DESCRIPTION
  * @see #SNAPSHOT
  * @see #SPRING_SECURITY_DEFAULT
  * @see #AUTHENTICATION_DETAILS_OBJ
@@ -31,6 +30,11 @@ import spring.turbo.webmvc.HttpRequestSnapshot;
  */
 @FunctionalInterface
 public interface RequestDetailsProvider {
+
+    /**
+     * 无动作实现 (默认)
+     */
+    public static final RequestDetailsProvider ALWAYS_NULL = (request, token) -> null;
 
     /**
      * SpringSecurity默认实现
@@ -45,24 +49,12 @@ public interface RequestDetailsProvider {
     /**
      * HTTP信息简要描述
      */
-    public static final RequestDetailsProvider DESCRIPTION = (request, token) -> new ServletWebRequest(request).getDescription(true);
+    public static final RequestDetailsProvider SIMPLE_DESCRIPTION = (request, token) -> new ServletWebRequest(request).getDescription(true);
 
     /**
      * 对象类型
      */
     public static final RequestDetailsProvider AUTHENTICATION_DETAILS_OBJ = AuthenticationDetailsImpl::new;
-
-    /**
-     * 无动作实现
-     */
-    public static final RequestDetailsProvider ALWAYS_NULL = (request, token) -> null;
-
-    // 从 2.2.3 版本开始
-    // 无动作实现作为默认，这个特性很少被用到
-    /**
-     * 默认
-     */
-    public static final RequestDetailsProvider DEFAULT = ALWAYS_NULL;
 
     /**
      * 创建Details
