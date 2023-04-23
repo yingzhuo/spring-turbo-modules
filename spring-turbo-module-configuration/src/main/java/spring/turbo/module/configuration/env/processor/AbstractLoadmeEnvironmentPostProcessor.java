@@ -9,6 +9,7 @@
 package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import spring.turbo.core.env.EnvironmentPostProcessorSupport;
 
@@ -16,7 +17,7 @@ import spring.turbo.core.env.EnvironmentPostProcessorSupport;
  * @author 应卓
  * @since 2.2.1
  */
-abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
+abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupport implements EnvironmentPostProcessor {
 
     protected static final String LOADME = "loadme";
 
