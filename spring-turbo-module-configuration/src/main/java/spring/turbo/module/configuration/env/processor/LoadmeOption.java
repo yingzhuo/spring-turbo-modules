@@ -19,19 +19,17 @@ import static spring.turbo.core.SpringApplicationUtils.getHomePath;
 import static spring.turbo.util.StringFormatter.format;
 
 /**
- * (内部工具)
- *
  * @author 应卓
  * @since 2.2.1
  */
-enum LoadmeOption {
+public enum LoadmeOption {
 
     PROPERTIES(".properties"), YAML(".yaml"), HOCON(".conf");
 
     private final String suffix;
     private final ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    private LoadmeOption(String suffix) {
+    LoadmeOption(String suffix) {
         this.suffix = suffix;
     }
 
@@ -55,8 +53,10 @@ enum LoadmeOption {
     @NoArgsConstructor(access = AccessLevel.PUBLIC)
     @AllArgsConstructor(access = AccessLevel.PUBLIC)
     public static class ResourcePair {
+
         @Nullable
         private Resource classpathResource;
+
         @Nullable
         private Resource applicationHomeResource;
 

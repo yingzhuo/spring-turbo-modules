@@ -23,6 +23,7 @@ public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmen
 
     public LoadmeYamlEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
+        super.setOrder(HIGHEST_PRECEDENCE + 101);
     }
 
     @Override

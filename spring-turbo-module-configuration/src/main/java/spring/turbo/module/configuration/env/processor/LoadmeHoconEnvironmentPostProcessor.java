@@ -23,6 +23,7 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
 
     public LoadmeHoconEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
+        super.setOrder(HIGHEST_PRECEDENCE + 102);
     }
 
     @Override
