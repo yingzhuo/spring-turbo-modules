@@ -32,7 +32,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
 
         var option = LoadmeOption.PROPERTIES;
 
-        if (super.handlingIsRequired()) {
+        if (super.isNotHandled()) {
             var pair = option.load(application);
 
             if (pair.nothingToRead()) {
@@ -55,7 +55,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
             }
 
             if (addedCount > 0) {
-                super.handled(option);
+                super.setHandled(option);
             }
         }
     }

@@ -26,12 +26,14 @@ abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostPro
         super.setOrder(LOWEST_PRECEDENCE);
     }
 
-    protected final boolean handlingIsRequired() {
-        return !bootstrapContext.isRegistered(LoadmeOption.class);
+    protected final boolean isNotHandled() {
+        var boot = super.getBootstrapContext();
+        return !boot.isRegistered(LoadmeOption.class);
     }
 
-    protected final void handled(LoadmeOption option) {
-        bootstrapContext.registerIfAbsent(LoadmeOption.class, context -> option);
+    protected final void setHandled(LoadmeOption option) {
+        var boot = super.getBootstrapContext();
+        boot.registerIfAbsent(LoadmeOption.class, context -> option);
     }
 
 }

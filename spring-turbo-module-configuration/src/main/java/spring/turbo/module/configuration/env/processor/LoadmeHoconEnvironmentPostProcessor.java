@@ -32,7 +32,7 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
 
         var option = LoadmeOption.HOCON;
 
-        if (super.handlingIsRequired()) {
+        if (super.isNotHandled()) {
             var pair = option.load(application);
 
             if (pair.nothingToRead()) {
@@ -55,7 +55,7 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
             }
 
             if (addedCount > 0) {
-                super.handled(option);
+                super.setHandled(option);
             }
         }
     }

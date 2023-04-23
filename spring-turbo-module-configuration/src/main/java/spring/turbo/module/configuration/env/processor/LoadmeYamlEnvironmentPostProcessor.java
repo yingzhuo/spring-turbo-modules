@@ -32,7 +32,7 @@ public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmen
 
         var option = LoadmeOption.YAML;
 
-        if (super.handlingIsRequired()) {
+        if (super.isNotHandled()) {
             var pair = option.load(application);
 
             if (pair.nothingToRead()) {
@@ -55,7 +55,7 @@ public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmen
             }
 
             if (addedCount > 0) {
-                super.handled(option);
+                super.setHandled(option);
             }
         }
     }
