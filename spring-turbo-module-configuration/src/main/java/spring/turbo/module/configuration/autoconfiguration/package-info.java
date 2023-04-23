@@ -6,26 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.configuration.autoconfiguration;
 
-import jakarta.servlet.Filter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import spring.turbo.module.security.FilterConfiguration;
-
-/**
- * @author 应卓
- * @since 2.1.1
- */
-public interface ConditionalMockAuthenticationFilterFactory extends FilterConfiguration<ConditionalMockAuthenticationFilter> {
-
-    @Override
-    public default Position position() {
-        return Position.AFTER;
-    }
-
-    @Override
-    public default Class<? extends Filter> positionInChain() {
-        return LogoutFilter.class;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

@@ -10,6 +10,7 @@ package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -19,10 +20,11 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadPro
  * @author 应卓
  * @since 2.2.1
  */
-public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
+public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     public LoadmePropertiesEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
+        super.setOrder(HIGHEST_PRECEDENCE + 100);
     }
 
     @Override
@@ -30,7 +32,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
 
         var option = LoadmeOption.PROPERTIES;
 
-        if (super.handlingIsRequired()) {
+        if (super.isNotHandled()) {
             var pair = option.load(application);
 
             if (pair.nothingToRead()) {
@@ -53,7 +55,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
             }
 
             if (addedCount > 0) {
-                super.handled(option);
+                super.setHandled(option);
             }
         }
     }
