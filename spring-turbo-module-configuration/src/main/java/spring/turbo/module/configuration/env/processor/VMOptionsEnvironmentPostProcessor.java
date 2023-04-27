@@ -10,7 +10,6 @@ package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import static spring.turbo.core.SpringApplicationUtils.getHomePath;
 import static spring.turbo.io.CloseUtils.closeQuietly;
 import static spring.turbo.util.StringFormatter.format;
 
@@ -32,7 +30,7 @@ import static spring.turbo.util.StringFormatter.format;
  * @see spring.turbo.core.SpringApplicationUtils
  * @since 2.1.3
  */
-public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport implements EnvironmentPostProcessor {
+public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
 
     public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);

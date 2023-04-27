@@ -24,7 +24,9 @@ import static spring.turbo.util.StringFormatter.format;
  */
 public enum LoadmeOption {
 
-    PROPERTIES(".properties"), YAML(".yaml"), HOCON(".conf");
+    PROPERTIES(".properties"),
+    YAML(".yaml"),
+    HOCON(".conf");
 
     private final String suffix;
     private final ResourceLoader resourceLoader = new DefaultResourceLoader();
