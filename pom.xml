@@ -22,7 +22,7 @@
     <description>Another enhancement library of SpringBoot/SpringFramework. Have fun.</description>
 
     <scm>
-        <tag>master</tag>
+        <tag>main</tag>
         <url>git@github.com:yingzhuo/spring-turbo-modules.git</url>
         <connection>scm:git:git@github.com:yingzhuo/spring-turbo-modules.git</connection>
         <developerConnection>scm:git:git@github.com:yingzhuo/spring-turbo-modules.git</developerConnection>
@@ -250,7 +250,7 @@
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
-                <version>1.5.4.Final</version>
+                <version>1.5.5.Final</version>
             </dependency>
 
             <!-- jsr305 -->
