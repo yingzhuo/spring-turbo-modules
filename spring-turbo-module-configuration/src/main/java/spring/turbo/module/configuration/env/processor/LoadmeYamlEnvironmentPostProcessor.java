@@ -29,7 +29,7 @@ public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmen
     @Override
     protected void execute(ConfigurableEnvironment environment, SpringApplication application) {
 
-        var option = LoadmeOption.YAML;
+        final var option = LoadmeOption.YAML;
 
         if (super.isNotHandled()) {
             var pair = option.load(application);

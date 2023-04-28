@@ -14,6 +14,9 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
+import spring.turbo.io.RichResource;
+
+import java.util.Arrays;
 
 import static spring.turbo.core.SpringApplicationUtils.getHomePath;
 import static spring.turbo.util.StringFormatter.format;
@@ -25,27 +28,47 @@ import static spring.turbo.util.StringFormatter.format;
 public enum LoadmeOption {
 
     PROPERTIES(".properties"),
-    YAML(".yaml"),
+    YAML(".yaml", ".yml"),
     HOCON(".conf");
 
-    private final String suffix;
-    private final ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private final static ResourceLoader RESOURCE_LOADER = new DefaultResourceLoader();
 
-    LoadmeOption(String suffix) {
-        this.suffix = suffix;
+    private final String[] suffixes;
+
+    LoadmeOption(String... suffixes) {
+        this.suffixes = suffixes;
     }
 
     public ResourcePair load(SpringApplication application) {
-
-        var classPathResource = resourceLoader.getResource(
-                format("classpath:loadme{}", suffix)
-        );
-
-        var applicationHomeResource = resourceLoader.getResource(
-                format("file:{}/loadme{}", getHomePath(application), suffix)
-        );
-
+        var classPathResource = this.getClassPathResource();
+        var applicationHomeResource = this.getApplicationHomeResource(application);
         return new ResourcePair(classPathResource, applicationHomeResource);
+    }
+
+    @Nullable
+    private Resource getClassPathResource() {
+        var locations = Arrays.stream(this.suffixes)
+                .map(suffix -> format("classpath:loadme{}", suffix))
+                .toList();
+
+        return RichResource.builder()
+                .resourceLoader(RESOURCE_LOADER)
+                .addLocations(locations)
+                .build()
+                .orElse(null);
+    }
+
+    @Nullable
+    private Resource getApplicationHomeResource(final SpringApplication application) {
+        var locations = Arrays.stream(this.suffixes)
+                .map(suffix -> format("file:{}/loadme{}", getHomePath(application), suffix))
+                .toList();
+
+        return RichResource.builder()
+                .resourceLoader(RESOURCE_LOADER)
+                .addLocations(locations)
+                .build()
+                .orElse(null);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

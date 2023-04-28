@@ -29,7 +29,7 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
     @Override
     protected void execute(ConfigurableEnvironment environment, SpringApplication application) {
 
-        var option = LoadmeOption.HOCON;
+        final var option = LoadmeOption.HOCON;
 
         if (super.isNotHandled()) {
             var pair = option.load(application);

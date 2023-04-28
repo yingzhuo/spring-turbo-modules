@@ -29,7 +29,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
     @Override
     protected void execute(ConfigurableEnvironment environment, SpringApplication application) {
 
-        var option = LoadmeOption.PROPERTIES;
+        final var option = LoadmeOption.PROPERTIES;
 
         if (super.isNotHandled()) {
             var pair = option.load(application);
