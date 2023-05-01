@@ -61,8 +61,7 @@ public final class AuthorityUtils {
         if (CollectionUtils.isEmpty(list)) {
             return NO_AUTHORITIES;
         } else {
-            final List<GrantedAuthority> authorities = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
-            return Collections.unmodifiableList(authorities);
+            return list.stream().filter(Objects::nonNull).collect(Collectors.toUnmodifiableList());
         }
     }
 
