@@ -23,6 +23,7 @@ import spring.turbo.util.Asserts;
  * @see SM2Algorithm
  * @since 2.2.4
  */
+@Deprecated(forRemoval = true)
 public final class EnvironmentSM2AlgorithmFactoryBean implements FactoryBean<SM2Algorithm>, EnvironmentAware {
 
     @NonNull

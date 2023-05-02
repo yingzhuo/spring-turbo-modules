@@ -24,6 +24,7 @@ import spring.turbo.util.Asserts;
  * @see HutoolSignAlgorithm
  * @since 2.2.4
  */
+@Deprecated(forRemoval = true)
 public final class EnvironmentHutoolSignAlgorithmFactoryBean implements FactoryBean<HutoolSignAlgorithm>, EnvironmentAware {
 
     @NonNull
