@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
@@ -72,12 +73,14 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         if (CollectionUtils.isNotEmpty(classLevelAnnotationDescriptors)) {
 
             for (AnnotationDescriptor ad : classLevelAnnotationDescriptors) {
-                AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constpool, AnnotationsAttribute.visibleTag);
+                AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constpool,
+                        AnnotationsAttribute.visibleTag);
                 Annotation annotation = new Annotation(ad.getAnnotationFqn(), constpool);
 
                 if (CollectionUtils.isNotEmpty(ad.getValues())) {
                     for (AnnotationDescriptor.AnnotationValue o : ad.getValues()) {
-                        annotation.addMemberValue(o.getName(), AnnotationDescriptorHelper.createMemberValue(o, constpool));
+                        annotation.addMemberValue(o.getName(),
+                                AnnotationDescriptorHelper.createMemberValue(o, constpool));
                     }
                 }
                 annotationsAttribute.addAnnotation(annotation);
@@ -86,9 +89,12 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         }
 
         for (Map.Entry<String, Class<?>> entry : classDescription.entrySet()) {
-            cc.addField(generateField(cc, entry.getKey(), entry.getValue(), constpool, findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.FIELD, classDescription)));
-            cc.addMethod(generateGetter(cc, entry.getKey(), entry.getValue(), constpool, findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.GETTER, classDescription)));
-            cc.addMethod(generateSetter(cc, entry.getKey(), entry.getValue(), constpool, findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.SETTER, classDescription)));
+            cc.addField(generateField(cc, entry.getKey(), entry.getValue(), constpool,
+                    findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.FIELD, classDescription)));
+            cc.addMethod(generateGetter(cc, entry.getKey(), entry.getValue(), constpool,
+                    findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.GETTER, classDescription)));
+            cc.addMethod(generateSetter(cc, entry.getKey(), entry.getValue(), constpool,
+                    findAnnotations(entry.getKey(), PojoDescriptor.AnnotationPos.SETTER, classDescription)));
         }
 
         Class<?> created = cc.toClass();
@@ -96,13 +102,14 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         return created;
     }
 
-    private CtField generateField(CtClass declaringClass, String fieldName, Class<?> fieldType, ConstPool constPool, AnnotationDescriptor... annotationDescriptors)
-            throws NotFoundException, CannotCompileException {
+    private CtField generateField(CtClass declaringClass, String fieldName, Class<?> fieldType, ConstPool constPool,
+            AnnotationDescriptor... annotationDescriptors) throws NotFoundException, CannotCompileException {
         CtField ctField = new CtField(resolveCtClass(fieldType), fieldName, declaringClass);
 
         FieldInfo fieldInfo = ctField.getFieldInfo();
         for (AnnotationDescriptor ad : annotationDescriptors) {
-            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool, AnnotationsAttribute.visibleTag);
+            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool,
+                    AnnotationsAttribute.visibleTag);
             Annotation annotation = new Annotation(ad.getAnnotationFqn(), constPool);
 
             if (CollectionUtils.isNotEmpty(ad.getValues())) {
@@ -117,22 +124,21 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         return ctField;
     }
 
-    private CtMethod generateGetter(CtClass declaringClass, String fieldName, Class<?> fieldClass, ConstPool constPool, AnnotationDescriptor... annotationDescriptors)
-            throws CannotCompileException {
+    private CtMethod generateGetter(CtClass declaringClass, String fieldName, Class<?> fieldClass, ConstPool constPool,
+            AnnotationDescriptor... annotationDescriptors) throws CannotCompileException {
 
-        String getterName = "get" + fieldName.substring(0, 1).toUpperCase()
-                + fieldName.substring(1);
+        String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("public ").append(fieldClass.getName()).append(" ")
-                .append(getterName).append("(){").append("return this.")
-                .append(fieldName).append(";").append("}");
+        sb.append("public ").append(fieldClass.getName()).append(" ").append(getterName).append("(){")
+                .append("return this.").append(fieldName).append(";").append("}");
         CtMethod ctMethod = CtMethod.make(sb.toString(), declaringClass);
 
         // 生成元注释
         MethodInfo methodInfo = ctMethod.getMethodInfo();
         for (AnnotationDescriptor ad : annotationDescriptors) {
-            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool, AnnotationsAttribute.visibleTag);
+            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool,
+                    AnnotationsAttribute.visibleTag);
             Annotation annotation = new Annotation(ad.getAnnotationFqn(), constPool);
 
             if (CollectionUtils.isNotEmpty(ad.getValues())) {
@@ -147,23 +153,22 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         return ctMethod;
     }
 
-    private CtMethod generateSetter(CtClass declaringClass, String fieldName, Class<?> fieldClass, ConstPool constPool, AnnotationDescriptor... annotationDescriptors)
-            throws CannotCompileException {
+    private CtMethod generateSetter(CtClass declaringClass, String fieldName, Class<?> fieldClass, ConstPool constPool,
+            AnnotationDescriptor... annotationDescriptors) throws CannotCompileException {
 
-        String setterName = "set" + fieldName.substring(0, 1).toUpperCase()
-                + fieldName.substring(1);
+        String setterName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("public void ").append(setterName).append("(")
-                .append(fieldClass.getName()).append(" ").append(fieldName)
-                .append(")").append("{").append("this.").append(fieldName)
-                .append("=").append(fieldName).append(";").append("}");
+        sb.append("public void ").append(setterName).append("(").append(fieldClass.getName()).append(" ")
+                .append(fieldName).append(")").append("{").append("this.").append(fieldName).append("=")
+                .append(fieldName).append(";").append("}");
         CtMethod ctMethod = CtMethod.make(sb.toString(), declaringClass);
 
         // 生成元注释
         MethodInfo methodInfo = ctMethod.getMethodInfo();
         for (AnnotationDescriptor ad : annotationDescriptors) {
-            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool, AnnotationsAttribute.visibleTag);
+            AnnotationsAttribute annotationsAttribute = new AnnotationsAttribute(constPool,
+                    AnnotationsAttribute.visibleTag);
             Annotation annotation = new Annotation(ad.getAnnotationFqn(), constPool);
 
             if (CollectionUtils.isNotEmpty(ad.getValues())) {
@@ -183,16 +188,19 @@ public class PojoTypeGeneratorImpl implements PojoTypeGenerator {
         return pool.get(clazz.getName());
     }
 
-    private AnnotationDescriptor[] findAnnotations(String property, PojoDescriptor.AnnotationPos pos, PojoDescriptor pojoDescriptor) {
+    private AnnotationDescriptor[] findAnnotations(String property, PojoDescriptor.AnnotationPos pos,
+            PojoDescriptor pojoDescriptor) {
         final List<AnnotationDescriptor> annotationDescriptors = new ArrayList<>();
 
-        for (final Pair<PojoDescriptor.AnnotationPos, List<AnnotationDescriptor>> config : pojoDescriptor.getAllPropertyAnnotationConfig()) {
+        for (final Pair<PojoDescriptor.AnnotationPos, List<AnnotationDescriptor>> config : pojoDescriptor
+                .getAllPropertyAnnotationConfig()) {
             if (config.getA() == pos) {
                 CollectionUtils.nullSafeAddAll(annotationDescriptors, config.getB());
             }
         }
 
-        for (final Tuple<String, PojoDescriptor.AnnotationPos, List<AnnotationDescriptor>> config : pojoDescriptor.getPropertyAnnotationConfig()) {
+        for (final Tuple<String, PojoDescriptor.AnnotationPos, List<AnnotationDescriptor>> config : pojoDescriptor
+                .getPropertyAnnotationConfig()) {
             if (config.getB() == pos && property.equals(config.getA())) {
                 CollectionUtils.nullSafeAddAll(annotationDescriptors, config.getC());
             }

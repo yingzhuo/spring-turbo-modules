@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.6
  */
 public final class BytesToken implements Token {
@@ -43,8 +44,10 @@ public final class BytesToken implements Token {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         BytesToken that = (BytesToken) o;
         return Arrays.equals(bytes, that.bytes);
     }

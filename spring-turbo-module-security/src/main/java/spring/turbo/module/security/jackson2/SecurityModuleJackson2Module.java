@@ -16,6 +16,7 @@ import spring.turbo.module.security.token.StringToken;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.3
  */
 public class SecurityModuleJackson2Module extends SimpleModule {
@@ -24,10 +25,8 @@ public class SecurityModuleJackson2Module extends SimpleModule {
      * 默认构造方法
      */
     public SecurityModuleJackson2Module() {
-        super(
-                SecurityModuleJackson2Module.class.getName(),
-                VersionUtil.parseVersion(SpringTurboVersion.CURRENT, "com.github.yingzhuo", "spring-turbo-module-security")
-        );
+        super(SecurityModuleJackson2Module.class.getName(), VersionUtil.parseVersion(SpringTurboVersion.CURRENT,
+                "com.github.yingzhuo", "spring-turbo-module-security"));
     }
 
     @Override

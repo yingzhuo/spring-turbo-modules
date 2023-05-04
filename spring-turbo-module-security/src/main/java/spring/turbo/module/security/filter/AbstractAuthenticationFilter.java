@@ -27,9 +27,11 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
+ *
  * @see BasicAuthenticationFilter
  * @see TokenAuthenticationFilter
  * @see RequestMatcher
+ *
  * @since 1.2.3
  */
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter implements SkippableFilter {
@@ -63,11 +65,13 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         return (existingAuth instanceof AnonymousAuthenticationToken);
     }
 
-    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
+    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            Authentication authResult) {
         // nop
     }
 
-    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException failed) {
         // nop
     }
 

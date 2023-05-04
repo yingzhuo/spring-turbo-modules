@@ -27,6 +27,7 @@ import java.util.Objects;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public class WhereClauseBuilderImpl implements WhereClauseBuilder {
@@ -48,7 +49,8 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     /**
      * 构造方法
      *
-     * @param mappings item名称于数据库字段映射关系
+     * @param mappings
+     *            item名称于数据库字段映射关系
      */
     public WhereClauseBuilderImpl(@Nullable Map<String, String> mappings) {
         this.freemarkerConfiguration = createFreemarkerConfiguration();
@@ -89,8 +91,8 @@ public class WhereClauseBuilderImpl implements WhereClauseBuilder {
     }
 
     private String formatSql(String sql) {
-        return sql.replaceAll("\n", StringPool.EMPTY)   // 消除换行
-                .replaceAll("[ ]+", StringPool.SPACE);  // 连续多个空格替换成一个空格
+        return sql.replaceAll("\n", StringPool.EMPTY) // 消除换行
+                .replaceAll("[ ]+", StringPool.SPACE); // 连续多个空格替换成一个空格
     }
 
     private Map<String, String> createItemNameMap(SelectorSet selectors) {

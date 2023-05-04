@@ -17,10 +17,12 @@ import java.util.Set;
 
 /**
  * @author 应卓
+ *
  * @see SelectorUtils
  * @see SelectorBuilder
  * @see SelectorBuilder#newInstance()
  * @see #builder()
+ *
  * @since 2.0.1
  */
 public interface Selector extends Serializable {

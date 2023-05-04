@@ -16,7 +16,9 @@ import org.springframework.lang.Nullable;
  * Rest API 版本解析器
  *
  * @author 应卓
+ *
  * @see DefaultVersionResolver
+ *
  * @since 2.0.9
  */
 @FunctionalInterface

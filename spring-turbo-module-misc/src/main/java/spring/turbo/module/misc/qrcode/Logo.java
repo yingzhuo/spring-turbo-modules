@@ -26,8 +26,10 @@ import java.util.Objects;
  * Logo
  *
  * @author 应卓
+ *
  * @see #builder()
  * @see java.awt.image.BufferedImage
+ *
  * @since 1.0.0
  */
 public final class Logo implements Serializable {

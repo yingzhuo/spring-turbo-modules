@@ -23,13 +23,12 @@ import static spring.turbo.util.StringFormatter.format;
 
 /**
  * @author 应卓
+ *
  * @since 2.2.1
  */
 public enum LoadmeOption {
 
-    PROPERTIES(".properties", ".xml"),
-    YAML(".yaml", ".yml"),
-    HOCON(".conf");
+    PROPERTIES(".properties", ".xml"), YAML(".yaml", ".yml"), HOCON(".conf");
 
     private final static ResourceLoader RESOURCE_LOADER = new DefaultResourceLoader();
 
@@ -47,28 +46,17 @@ public enum LoadmeOption {
 
     @Nullable
     private Resource getClassPathResource() {
-        var locations = Arrays.stream(this.suffixes)
-                .map(suffix -> format("classpath:loadme{}", suffix))
-                .toList();
+        var locations = Arrays.stream(this.suffixes).map(suffix -> format("classpath:loadme{}", suffix)).toList();
 
-        return RichResource.builder()
-                .resourceLoader(RESOURCE_LOADER)
-                .addLocations(locations)
-                .build()
-                .orElse(null);
+        return RichResource.builder().resourceLoader(RESOURCE_LOADER).addLocations(locations).build().orElse(null);
     }
 
     @Nullable
     private Resource getApplicationHomeResource(final SpringApplication application) {
         var locations = Arrays.stream(this.suffixes)
-                .map(suffix -> format("file:{}/loadme{}", getHomePath(application), suffix))
-                .toList();
+                .map(suffix -> format("file:{}/loadme{}", getHomePath(application), suffix)).toList();
 
-        return RichResource.builder()
-                .resourceLoader(RESOURCE_LOADER)
-                .addLocations(locations)
-                .build()
-                .orElse(null);
+        return RichResource.builder().resourceLoader(RESOURCE_LOADER).addLocations(locations).build().orElse(null);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -90,7 +78,8 @@ public enum LoadmeOption {
             if (classpathResource != null && classpathResource.exists() && classpathResource.isReadable()) {
                 c++;
             }
-            if (applicationHomeResource != null && applicationHomeResource.exists() && applicationHomeResource.isReadable()) {
+            if (applicationHomeResource != null && applicationHomeResource.exists()
+                    && applicationHomeResource.isReadable()) {
                 c++;
             }
             return c == 0;

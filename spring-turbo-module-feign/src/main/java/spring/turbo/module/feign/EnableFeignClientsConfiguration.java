@@ -28,17 +28,18 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.9
  */
-class EnableFeignClientsConfiguration implements
-        ImportBeanDefinitionRegistrar {
+class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
 
     private final ClassLoader classLoader;
     private final BeanFactory beanFactory;
     private final Environment environment;
     private final ResourceLoader resourceLoader;
 
-    public EnableFeignClientsConfiguration(ClassLoader classLoader, BeanFactory beanFactory, Environment environment, ResourceLoader resourceLoader) {
+    public EnableFeignClientsConfiguration(ClassLoader classLoader, BeanFactory beanFactory, Environment environment,
+            ResourceLoader resourceLoader) {
         this.classLoader = classLoader;
         this.beanFactory = beanFactory;
         this.environment = environment;
@@ -46,42 +47,34 @@ class EnableFeignClientsConfiguration implements
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry,
+            BeanNameGenerator nameGenerator) {
         var basePackages = getBasePackages(importingClassMetadata);
 
         for (var definition : doScan(basePackages)) {
-            registerFeignClient(
-                    registry,
-                    nameGenerator,
-                    definition
-            );
+            registerFeignClient(registry, nameGenerator, definition);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator, ClassDef classDef) {
+    private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator,
+            ClassDef classDef) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();
 
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * 从 spring-turbo 2.0.9版本开始
-         * 放弃使用 FactoryBean<T> 来创建对象实例
-         * 此方式更直截了当，代码更容易理解。
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+        /*
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 从 spring-turbo 2.0.9版本开始 放弃使用
+         * FactoryBean<T> 来创建对象实例 此方式更直截了当，代码更容易理解。 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         * * * * * *
+         */
 
-        var supplier = new FeignClientSupplier(
-                InstanceCache.newInstance(beanFactory),
-                classDef.getBeanClass(),
-                environment.resolveRequiredPlaceholders(metaAnnotation.url())
-        );
+        var supplier = new FeignClientSupplier(InstanceCache.newInstance(beanFactory), classDef.getBeanClass(),
+                environment.resolveRequiredPlaceholders(metaAnnotation.url()));
 
         var clientBeanDefinition = BeanDefinitionBuilder.genericBeanDefinition(clientType, supplier)
-                .setPrimary(metaAnnotation.primary())
-                .setLazyInit(classDef.isLazyInit())
-                .setAbstract(false)
-                .setRole(classDef.getRole())
-                .getBeanDefinition();
+                .setPrimary(metaAnnotation.primary()).setLazyInit(classDef.isLazyInit()).setAbstract(false)
+                .setRole(classDef.getRole()).getBeanDefinition();
 
         addQualifiers(clientBeanDefinition, metaAnnotation.qualifiers());
 
@@ -96,9 +89,8 @@ class EnableFeignClientsConfiguration implements
     private PackageSet getBasePackages(AnnotationMetadata importingClassMetadata) {
         var packageSet = PackageSet.newInstance();
 
-        var attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName())
-        );
+        var attributes = AnnotationAttributes
+                .fromMap(importingClassMetadata.getAnnotationAttributes(EnableFeignClients.class.getName()));
 
         if (attributes != null) {
             packageSet.acceptPackages(attributes.getStringArray("value"));
@@ -113,20 +105,12 @@ class EnableFeignClientsConfiguration implements
     }
 
     private List<ClassDef> doScan(PackageSet basePackages) {
-        var includeFilter = all(
-                isInterface(),
-                hasAnnotation(FeignClient.class)
-        );
+        var includeFilter = all(isInterface(), hasAnnotation(FeignClient.class));
 
         var excludeFilter = isPackageInfo();
 
-        return ClassPathScanner.builder()
-                .environment(this.environment)
-                .resourceLoader(this.resourceLoader)
-                .classLoader(this.classLoader)
-                .includeFilter(includeFilter)
-                .excludeFilter(excludeFilter)
-                .build()
+        return ClassPathScanner.builder().environment(this.environment).resourceLoader(this.resourceLoader)
+                .classLoader(this.classLoader).includeFilter(includeFilter).excludeFilter(excludeFilter).build()
                 .scan(basePackages);
     }
 

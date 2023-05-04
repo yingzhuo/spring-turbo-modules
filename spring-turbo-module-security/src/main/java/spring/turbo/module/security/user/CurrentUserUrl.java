@@ -19,10 +19,12 @@ import java.lang.annotation.*;
  * 获取当前用户的URL
  *
  * @author 应卓
+ *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getUrl()
  * @see AuthenticationPrincipalArgumentResolver
+ *
  * @since 1.1.2
  */
 @Inherited

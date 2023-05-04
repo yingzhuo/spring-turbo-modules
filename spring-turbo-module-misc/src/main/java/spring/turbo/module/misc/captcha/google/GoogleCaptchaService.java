@@ -18,6 +18,7 @@ import spring.turbo.module.misc.captcha.google.word.AdaptiveRandomWordFactory;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public class GoogleCaptchaService extends AbstractGoogleCaptchaService implements CaptchaService {

@@ -20,6 +20,7 @@ import java.time.Duration;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.5
  */
 public class RedisTokenBlacklistManager implements TokenBlacklistManager {

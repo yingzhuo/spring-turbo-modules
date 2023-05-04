@@ -20,7 +20,9 @@ import java.util.concurrent.TimeUnit;
  * 可重入分布式锁
  *
  * @author 应卓
+ *
  * @see #newInstance(String)
+ *
  * @since 1.0.15
  */
 public final class ZkLock implements Serializable {
@@ -30,8 +32,10 @@ public final class ZkLock implements Serializable {
     /**
      * 私有构造方法
      *
-     * @param zkClient 客户端实例
-     * @param zkPath   锁专用Path
+     * @param zkClient
+     *            客户端实例
+     * @param zkPath
+     *            锁专用Path
      */
     private ZkLock(CuratorFramework zkClient, String zkPath) {
         this.mutex = new InterProcessMutex(zkClient, zkPath);

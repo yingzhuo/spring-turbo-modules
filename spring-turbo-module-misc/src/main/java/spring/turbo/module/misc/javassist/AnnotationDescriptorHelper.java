@@ -16,6 +16,7 @@ import spring.turbo.util.Asserts;
  * 内部工具
  *
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public final class AnnotationDescriptorHelper {

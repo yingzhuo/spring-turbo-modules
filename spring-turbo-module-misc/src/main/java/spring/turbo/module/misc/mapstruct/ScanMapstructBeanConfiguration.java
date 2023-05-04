@@ -29,23 +29,26 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
 /**
  * @author 应卓
+ *
  * @since 2.2.0
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
 
     private final Environment environment;
     private final ClassLoader classLoader;
     private final ResourceLoader resourceLoader;
 
-    public ScanMapstructBeanConfiguration(Environment environment, ClassLoader classLoader, ResourceLoader resourceLoader) {
+    public ScanMapstructBeanConfiguration(Environment environment, ClassLoader classLoader,
+            ResourceLoader resourceLoader) {
         this.environment = environment;
         this.classLoader = classLoader;
         this.resourceLoader = resourceLoader;
     }
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator beanNameGenerator) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry,
+            BeanNameGenerator beanNameGenerator) {
         var packageSet = getBasePackages(importingClassMetadata);
         for (var clzDef : doScan(packageSet)) {
             this.registerMapper(clzDef, beanNameGenerator, registry);
@@ -55,9 +58,8 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
     private PackageSet getBasePackages(AnnotationMetadata importingClassMetadata) {
         var packageSet = PackageSet.newInstance();
 
-        var attributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(ScanMapstructBean.class.getName())
-        );
+        var attributes = AnnotationAttributes
+                .fromMap(importingClassMetadata.getAnnotationAttributes(ScanMapstructBean.class.getName()));
 
         if (attributes != null) {
             packageSet.acceptPackages(attributes.getStringArray("value"));
@@ -72,34 +74,24 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
     }
 
     private List<ClassDef> doScan(PackageSet basePackages) {
-        var includeFilter = all(
-                isInterface(),
-                hasAnnotation(MapstructBean.class)
-        );
+        var includeFilter = all(isInterface(), hasAnnotation(MapstructBean.class));
 
         var excludeFilter = isPackageInfo();
 
-        return ClassPathScanner.builder()
-                .environment(this.environment)
-                .resourceLoader(this.resourceLoader)
-                .classLoader(this.classLoader)
-                .includeFilter(includeFilter)
-                .excludeFilter(excludeFilter)
-                .build()
+        return ClassPathScanner.builder().environment(this.environment).resourceLoader(this.resourceLoader)
+                .classLoader(this.classLoader).includeFilter(includeFilter).excludeFilter(excludeFilter).build()
                 .scan(basePackages);
     }
 
-    private void registerMapper(ClassDef classDef, BeanNameGenerator beanNameGenerator, BeanDefinitionRegistry registry) {
+    private void registerMapper(ClassDef classDef, BeanNameGenerator beanNameGenerator,
+            BeanDefinitionRegistry registry) {
 
         var attributes = classDef.getAnnotationAttributes(MapstructBean.class);
 
         var supplier = new MapperSupplier(classDef.getBeanClass());
         var beanDef = BeanDefinitionBuilder.genericBeanDefinition(classDef.getBeanClass(), supplier)
-                .setPrimary(attributes.getBoolean("primary"))
-                .setLazyInit(classDef.isLazyInit())
-                .setAbstract(false)
-                .setRole(classDef.getRole())
-                .getBeanDefinition();
+                .setPrimary(attributes.getBoolean("primary")).setLazyInit(classDef.isLazyInit()).setAbstract(false)
+                .setRole(classDef.getRole()).getBeanDefinition();
 
         var beanName = attributes.getString("beanName");
         if (beanName.isBlank()) {

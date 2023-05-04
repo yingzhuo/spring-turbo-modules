@@ -12,6 +12,7 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public class SimpleItem implements Item {

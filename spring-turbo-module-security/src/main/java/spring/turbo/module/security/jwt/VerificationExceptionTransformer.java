@@ -21,6 +21,7 @@ import spring.turbo.module.security.exception.BadTokenException;
  * 内部工具，完成JWT相关异常转换
  *
  * @author 应卓
+ *
  * @since 1.0.4
  */
 final class VerificationExceptionTransformer {

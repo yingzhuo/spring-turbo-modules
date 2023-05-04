@@ -14,6 +14,7 @@ import spring.turbo.util.Asserts;
  * JWT令牌工厂
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
@@ -21,8 +22,11 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
     /**
      * 创建令牌
      *
-     * @param metadata 令牌元数据信息
+     * @param metadata
+     *            令牌元数据信息
+     *
      * @return 令牌字符串
+     *
      * @see JwtTokenMetadata#builder()
      * @see JwtTokenMetadata.Builder
      */
@@ -31,7 +35,9 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
     /**
      * 创建令牌
      *
-     * @param builder 令牌元数据创建器
+     * @param builder
+     *            令牌元数据创建器
+     *
      * @return 令牌字符串
      */
     public default String create(JwtTokenMetadata.Builder builder) {

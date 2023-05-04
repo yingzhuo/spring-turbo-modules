@@ -12,12 +12,14 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
+ *
  * @see spring.turbo.webmvc.api.Json
+ *
  * @since 1.2.2
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface JsonResponseEncoding {
 }

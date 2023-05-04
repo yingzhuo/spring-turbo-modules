@@ -10,6 +10,7 @@ package spring.turbo.module.webmvc.version;
 
 /**
  * @author 应卓
+ *
  * @since 2.1.0
  */
 public class DefaultVersionResolver extends CompositeVersionResolver {
@@ -18,11 +19,7 @@ public class DefaultVersionResolver extends CompositeVersionResolver {
      * 默认构造方法
      */
     public DefaultVersionResolver() {
-        super(
-                new ServletPathVersionResolver(),
-                new HeaderVersionResolver(),
-                new QueryVersionResolver()
-        );
+        super(new ServletPathVersionResolver(), new HeaderVersionResolver(), new QueryVersionResolver());
     }
 
 }

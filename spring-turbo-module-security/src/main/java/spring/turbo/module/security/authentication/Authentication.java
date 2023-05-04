@@ -25,10 +25,13 @@ import java.util.Optional;
  * 认证对象，本类是 {@link org.springframework.security.core.Authentication} 的实现
  *
  * @author 应卓
+ *
  * @see org.springframework.security.core.Authentication
+ *
  * @since 1.0.0
  */
-public class Authentication extends AbstractAuthenticationToken implements org.springframework.security.core.Authentication {
+public class Authentication extends AbstractAuthenticationToken
+        implements org.springframework.security.core.Authentication {
 
     /**
      * 当前用户
@@ -60,7 +63,8 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     /**
      * 认证对象
      *
-     * @param userDetails 用户信息
+     * @param userDetails
+     *            用户信息
      */
     public Authentication(@Nullable UserDetails userDetails) {
         this(userDetails, null);
@@ -69,8 +73,10 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     /**
      * 认证对象
      *
-     * @param userDetails 用户信息
-     * @param token       令牌
+     * @param userDetails
+     *            用户信息
+     * @param token
+     *            令牌
      */
     public Authentication(@Nullable UserDetails userDetails, @Nullable Token token) {
         super(AuthorityUtils.getAuthorities(userDetails));
@@ -89,8 +95,7 @@ public class Authentication extends AbstractAuthenticationToken implements org.s
     @NonNull
     @Override
     public Object getCredentials() {
-        return Optional.ofNullable(userDetails)
-                .map(UserDetails::getPassword)
+        return Optional.ofNullable(userDetails).map(UserDetails::getPassword)
                 .orElse(Long.toString(System.identityHashCode(this)));
     }
 

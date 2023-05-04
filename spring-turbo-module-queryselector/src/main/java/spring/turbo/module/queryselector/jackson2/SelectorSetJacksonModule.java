@@ -16,6 +16,7 @@ import spring.turbo.module.queryselector.SelectorSet;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public class SelectorSetJacksonModule extends SimpleModule {
@@ -24,10 +25,8 @@ public class SelectorSetJacksonModule extends SimpleModule {
      * 默认构造方法
      */
     public SelectorSetJacksonModule() {
-        super(
-                SelectorSetJacksonModule.class.getName(),
-                VersionUtil.parseVersion(SpringTurboVersion.CURRENT, "com.github.yingzhuo", "spring-turbo-module-queryselector")
-        );
+        super(SelectorSetJacksonModule.class.getName(), VersionUtil.parseVersion(SpringTurboVersion.CURRENT,
+                "com.github.yingzhuo", "spring-turbo-module-queryselector"));
     }
 
     @Override

@@ -20,8 +20,10 @@ import java.util.Optional;
  * HTTP Basic 令牌解析器
  *
  * @author 应卓
+ *
  * @see HeaderTokenResolver
  * @see BearerTokenResolver
+ *
  * @since 1.0.5
  */
 public final class BasicTokenResolver extends HeaderTokenResolver {

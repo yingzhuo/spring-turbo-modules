@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 
 /**
  * @author 应卓
+ *
  * @since 1.3.0
  */
 @AutoConfiguration

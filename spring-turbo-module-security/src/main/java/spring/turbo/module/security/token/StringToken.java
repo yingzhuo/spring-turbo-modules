@@ -16,6 +16,7 @@ import java.util.Objects;
  * String令牌
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public final class StringToken implements Token {
@@ -43,8 +44,10 @@ public final class StringToken implements Token {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         StringToken that = (StringToken) o;
         return string.equals(that.string);
     }

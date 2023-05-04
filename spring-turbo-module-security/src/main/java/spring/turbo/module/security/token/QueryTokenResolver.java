@@ -22,6 +22,7 @@ import static spring.turbo.util.StringPool.EMPTY;
  * 从HTTP QUERY中解析令牌
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public class QueryTokenResolver implements TokenResolver {
@@ -33,7 +34,8 @@ public class QueryTokenResolver implements TokenResolver {
     /**
      * 构造方法
      *
-     * @param paramName query name
+     * @param paramName
+     *            query name
      */
     public QueryTokenResolver(@NonNull String paramName) {
         this(paramName, EMPTY);
@@ -42,12 +44,15 @@ public class QueryTokenResolver implements TokenResolver {
     /**
      * 构造方法
      *
-     * @param paramName query name
-     * @param prefix    前缀
+     * @param paramName
+     *            query name
+     * @param prefix
+     *            前缀
      */
     public QueryTokenResolver(@NonNull String paramName, @Nullable String prefix) {
         Asserts.hasText(paramName);
-        if (prefix == null) prefix = EMPTY;
+        if (prefix == null)
+            prefix = EMPTY;
         this.paramName = paramName;
         this.prefix = prefix;
         this.prefixLen = prefix.length();
@@ -56,7 +61,9 @@ public class QueryTokenResolver implements TokenResolver {
     /**
      * 解析令牌
      *
-     * @param request HTTP请求
+     * @param request
+     *            HTTP请求
+     *
      * @return 令牌Optional，不能成功解析时返回empty-optional
      */
     @NonNull

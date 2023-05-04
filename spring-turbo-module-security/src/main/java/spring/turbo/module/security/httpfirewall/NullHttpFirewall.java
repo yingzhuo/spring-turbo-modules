@@ -13,7 +13,9 @@ import org.springframework.security.web.firewall.HttpFirewall;
 
 /**
  * @author 应卓
+ *
  * @see #getInstance()
+ *
  * @since 1.3.1
  */
 public final class NullHttpFirewall extends DefaultHttpFirewall implements HttpFirewall {

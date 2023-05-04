@@ -66,7 +66,8 @@ public class MarbleImageOp extends AbstractTransformImageOp {
 
     @Override
     protected void transform(int x, int y, double[] t) {
-        int d = limitByte((int) (127 * (1 + PerlinNoise.noise2D(((double) x) / scale + randomX, ((double) y) / scale + randomY))));
+        int d = limitByte((int) (127
+                * (1 + PerlinNoise.noise2D(((double) x) / scale + randomX, ((double) y) / scale + randomY))));
         t[0] = x + tx[d];
         t[1] = y + ty[d];
     }
@@ -74,8 +75,10 @@ public class MarbleImageOp extends AbstractTransformImageOp {
     protected void filter2(int[] inPixels, int[] outPixels, int width, int height) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int pixel = limitByte((int) (127 * (1 + PerlinNoise.noise2D(((double) x) / scale + randomX, ((double) y) / scale + randomY))));
-                outPixels[x + y * width] = (limitByte((int) 255) << 24) | (limitByte((int) pixel) << 16) | (limitByte((int) pixel) << 8) | (limitByte((int) pixel));
+                int pixel = limitByte((int) (127
+                        * (1 + PerlinNoise.noise2D(((double) x) / scale + randomX, ((double) y) / scale + randomY))));
+                outPixels[x + y * width] = (limitByte((int) 255) << 24) | (limitByte((int) pixel) << 16)
+                        | (limitByte((int) pixel) << 8) | (limitByte((int) pixel));
             }
         }
     }

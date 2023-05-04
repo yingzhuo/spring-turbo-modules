@@ -26,16 +26,16 @@ import java.util.Objects;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.2
  */
 @RestControllerAdvice
 public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * 由于使用场景非常有限
-     * 从 2.1.0版本开始不再在 AutoConfig 中尝试自动配置
-     * 需要用到时，用户自行配置
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /*
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 由于使用场景非常有限 从 2.1.0版本开始不再在
+     * AutoConfig 中尝试自动配置 需要用到时，用户自行配置 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     */
 
     private final JsonResponseEncoder encoder;
     private final ObjectMapper objectMapper;
@@ -52,13 +52,15 @@ public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType) &&
-                searchAnnotation(returnType) != null;
+        return AbstractJackson2HttpMessageConverter.class.isAssignableFrom(converterType)
+                && searchAnnotation(returnType) != null;
     }
 
     @Override
     @Nullable
-    public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType,
+            Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+            ServerHttpResponse response) {
 
         final JsonResponseEncoding annotation = searchAnnotation(returnType);
         if (annotation == null || body == null) {
@@ -80,8 +82,7 @@ public class JsonEncodingResponseAdvice implements ResponseBodyAdvice<Object> {
             return annotation;
         }
 
-        return returnType.getContainingClass()
-                .getAnnotation(JsonResponseEncoding.class);
+        return returnType.getContainingClass().getAnnotation(JsonResponseEncoding.class);
     }
 
     private String doEncode(Json json) {

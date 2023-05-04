@@ -12,6 +12,7 @@ import java.util.Random;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public class RandomWordFactory implements WordFactory {

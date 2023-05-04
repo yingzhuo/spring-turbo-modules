@@ -15,6 +15,7 @@ import java.util.Objects;
 
 /**
  * @author 应卓
+ *
  * @since 2.1.3
  */
 public final class EmptyPropertySource extends PropertySource<Object> {
@@ -22,7 +23,8 @@ public final class EmptyPropertySource extends PropertySource<Object> {
     /**
      * 私有构造方法
      *
-     * @param name 名称
+     * @param name
+     *            名称
      */
     private EmptyPropertySource(String name) {
         super(name);

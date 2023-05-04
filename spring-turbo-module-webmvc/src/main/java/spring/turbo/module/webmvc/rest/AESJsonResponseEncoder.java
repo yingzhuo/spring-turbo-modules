@@ -13,6 +13,7 @@ import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public class AESJsonResponseEncoder implements JsonResponseEncoder {
@@ -25,10 +26,7 @@ public class AESJsonResponseEncoder implements JsonResponseEncoder {
     }
 
     public AESJsonResponseEncoder(AES.Mode mode, String password, String salt) {
-        this.aes = AES.builder()
-                .mode(mode)
-                .passwordAndSalt(password, salt)
-                .build();
+        this.aes = AES.builder().mode(mode).passwordAndSalt(password, salt).build();
     }
 
     @Override

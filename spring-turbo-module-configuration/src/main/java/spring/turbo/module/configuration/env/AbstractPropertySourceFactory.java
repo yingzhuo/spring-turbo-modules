@@ -22,6 +22,7 @@ import java.io.IOException;
  * (内部使用)
  *
  * @author 应卓
+ *
  * @since 2.1.3
  */
 public abstract class AbstractPropertySourceFactory implements PropertySourceFactory {
@@ -33,7 +34,8 @@ public abstract class AbstractPropertySourceFactory implements PropertySourceFac
     }
 
     @Override
-    public final PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource) throws IOException {
+    public final PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource)
+            throws IOException {
         final var propertySourceName = enforcePropertySourceName(name, resource);
         final var list = loader.load(propertySourceName, resource.getResource());
 

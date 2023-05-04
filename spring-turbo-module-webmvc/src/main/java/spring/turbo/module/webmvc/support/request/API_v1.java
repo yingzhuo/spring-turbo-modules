@@ -14,6 +14,7 @@ import java.lang.annotation.*;
  * {@code @Versioned(value = "v1", ignoreCase = true)} 的快捷方式
  *
  * @author 应卓
+ *
  * @since 2.1.0
  */
 @Inherited

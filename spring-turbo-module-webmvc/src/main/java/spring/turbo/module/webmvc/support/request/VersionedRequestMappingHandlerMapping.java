@@ -23,15 +23,17 @@ import static org.springframework.core.annotation.AnnotationUtils.getAnnotationA
 
 /**
  * @author 应卓
+ *
  * @see ServletPathVersionResolver
+ *
  * @since 2.0.9
  */
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * 本组件不会被本starter自动注册
-     * 用户必须自行注册
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    /*
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 本组件不会被本starter自动注册 用户必须自行注册 *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     */
 
     private final VersionResolver versionResolver;
 
@@ -45,7 +47,8 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
     /**
      * 构造方法
      *
-     * @param versionResolver 版本号解析器
+     * @param versionResolver
+     *            版本号解析器
      */
     public VersionedRequestMappingHandlerMapping(@Nullable VersionResolver versionResolver) {
         this.versionResolver = requireNonNullElseGet(versionResolver, DefaultVersionResolver::new);
@@ -62,11 +65,8 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
 
         var annotationAttributes = getAnnotationAttributes(annotation, false, false);
 
-        return new VersionedRequestCondition(
-                versionResolver,
-                annotationAttributes.getString("value"),
-                annotationAttributes.getBoolean("ignoreCase")
-        );
+        return new VersionedRequestCondition(versionResolver, annotationAttributes.getString("value"),
+                annotationAttributes.getBoolean("ignoreCase"));
     }
 
 }

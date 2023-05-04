@@ -73,7 +73,8 @@ public abstract class AbstractImageOp implements BufferedImageOp {
     }
 
     private int linear(int from, int to, int shift, double d) {
-        return ((int) Math.floor(((from >> shift) & 0xff) + d * (((to >> shift) & 0xff) - ((from >> shift) & 0xff)))) << shift;
+        return ((int) Math
+                .floor(((from >> shift) & 0xff) + d * (((to >> shift) & 0xff) - ((from >> shift) & 0xff)))) << shift;
     }
 
     private int linear(int from, int to, double d) {
@@ -140,7 +141,8 @@ public abstract class AbstractImageOp implements BufferedImageOp {
                 destCM = ColorModel.getRGBdefault();
             }
         }
-        return new BufferedImage(destCM, destCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()), destCM.isAlphaPremultiplied(), null);
+        return new BufferedImage(destCM, destCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()),
+                destCM.isAlphaPremultiplied(), null);
     }
 
     @Override

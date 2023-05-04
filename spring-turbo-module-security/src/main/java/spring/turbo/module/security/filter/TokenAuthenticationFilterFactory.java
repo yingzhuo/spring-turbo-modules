@@ -12,8 +12,10 @@ import spring.turbo.module.security.FilterConfiguration;
 
 /**
  * @author 应卓
+ *
  * @see TokenAuthenticationFilter
  * @see JwtTokenAuthenticationFilter
+ *
  * @since 1.0.0
  */
 public interface TokenAuthenticationFilterFactory extends FilterConfiguration<TokenAuthenticationFilter> {

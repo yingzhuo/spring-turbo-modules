@@ -27,7 +27,9 @@ import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
+ *
  * @see #builder()
+ *
  * @since 1.0.1
  */
 public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
@@ -110,12 +112,8 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
             Asserts.notNull(mediaType);
 
             final HttpHeaders headers = new HttpHeaders();
-            headers.setContentDisposition(
-                    ContentDisposition
-                            .attachment()
-                            .filename(new String(attachmentName.getBytes(UTF_8), ISO_8859_1))
-                            .build()
-            );
+            headers.setContentDisposition(ContentDisposition.attachment()
+                    .filename(new String(attachmentName.getBytes(UTF_8), ISO_8859_1)).build());
             headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
             headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(content.length));
             return new AttachmentResponseEntity(content, headers, status);

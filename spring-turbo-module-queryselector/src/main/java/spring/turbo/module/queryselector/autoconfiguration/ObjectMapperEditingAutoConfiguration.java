@@ -17,6 +17,7 @@ import spring.turbo.module.queryselector.jackson2.SelectorSetJacksonModule;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 @AutoConfiguration

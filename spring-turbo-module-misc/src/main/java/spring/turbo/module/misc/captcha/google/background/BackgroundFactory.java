@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 @FunctionalInterface

@@ -17,8 +17,10 @@ import java.util.Optional;
  * 令牌解析器 从{@code HTTP}请求中获取令牌
  *
  * @author 应卓
+ *
  * @see #builder()
  * @see CompositeTokenResolver
+ *
  * @since 1.0.0
  */
 @FunctionalInterface
@@ -36,7 +38,9 @@ public interface TokenResolver extends Ordered {
     /**
      * 解析令牌
      *
-     * @param request HTTP请求
+     * @param request
+     *            HTTP请求
+     *
      * @return 令牌Optional，不能成功解析时返回empty-optional
      */
     public Optional<Token> resolve(WebRequest request);
@@ -47,6 +51,7 @@ public interface TokenResolver extends Ordered {
      * 多个令牌解析器同时作用时，可自由指定顺序。排序值越大，排序越靠后。
      *
      * @return 排序值
+     *
      * @see CompositeTokenResolver
      * @see Ordered#getOrder()
      * @see Ordered#LOWEST_PRECEDENCE

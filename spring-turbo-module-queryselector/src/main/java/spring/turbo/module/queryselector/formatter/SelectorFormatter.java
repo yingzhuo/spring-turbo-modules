@@ -29,7 +29,9 @@ import java.util.stream.Stream;
  * {@link Selector} 专属 {@link Formatter}
  *
  * @author 应卓
+ *
  * @see SelectorSetFormatter
+ *
  * @since 2.0.1
  */
 public class SelectorFormatter implements Formatter<Selector>, InitializingBean {
@@ -77,67 +79,65 @@ public class SelectorFormatter implements Formatter<Selector>, InitializingBean 
         builder.append(object.getDataType());
 
         switch (object.getLogicType()) {
-            case IS:
-            case NOT:
-                switch (object.getDataType()) {
-                    case STRING:
-                        builder.append(object.getSimpleValue().toString());
-                        break;
-                    case NUMBER:
-                        builder.append(object.getSimpleValue().toString());
-                        break;
-                    case DATE:
-                        builder.append(DateUtils.format((Date) object.getSimpleValue(), this.datePattern));
-                        break;
-                    case DATETIME:
-                        builder.append(DateUtils.format((Date) object.getSimpleValue(), this.datetimePattern));
-                        break;
-                }
+        case IS:
+        case NOT:
+            switch (object.getDataType()) {
+            case STRING:
+                builder.append(object.getSimpleValue().toString());
                 break;
-            case IN_RANGE:
-            case NOT_IN_RANGE:
-                switch (object.getDataType()) {
-                    case STRING:
-                        break;
-                    case NUMBER:
-                        builder.append(object.getRangeValue().getRequiredA());
-                        builder.append(this.separatorInRange);
-                        builder.append(object.getRangeValue().getRequiredB());
-                        break;
-                    case DATE:
-                        builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredA(), this.datePattern));
-                        builder.append(this.separatorInRange);
-                        builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredB(), this.datePattern));
-                        break;
-                    case DATETIME:
-                        builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredA(), this.datetimePattern));
-                        builder.append(this.separatorInRange);
-                        builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredB(), this.datetimePattern));
-                        break;
-                }
+            case NUMBER:
+                builder.append(object.getSimpleValue().toString());
                 break;
-            case IN_SET:
-            case NOT_IN_SET:
-                switch (object.getDataType()) {
-                    case STRING:
-                        builder.append(StringUtils.nullSafeJoin(object.getSetValue(), this.separatorInSet));
-                        break;
-                    case NUMBER:
-                        builder.append(StringUtils.nullSafeJoin(object.getSetValue(), this.separatorInSet));
-                        break;
-                    case DATE:
-                        Set<String> dateStringSet = object.getSetValue().stream().map(d ->
-                                DateUtils.format((Date) d, datePattern)
-                        ).collect(Collectors.toSet());
-                        builder.append(StringUtils.nullSafeJoin(dateStringSet, separatorInSet));
-                        break;
-                    case DATETIME:
-                        Set<String> datetimeStringSet = object.getSetValue().stream().map(d ->
-                                DateUtils.format((Date) d, datetimePattern)
-                        ).collect(Collectors.toSet());
-                        builder.append(StringUtils.nullSafeJoin(datetimeStringSet, separatorInSet));
-                        break;
-                }
+            case DATE:
+                builder.append(DateUtils.format((Date) object.getSimpleValue(), this.datePattern));
+                break;
+            case DATETIME:
+                builder.append(DateUtils.format((Date) object.getSimpleValue(), this.datetimePattern));
+                break;
+            }
+            break;
+        case IN_RANGE:
+        case NOT_IN_RANGE:
+            switch (object.getDataType()) {
+            case STRING:
+                break;
+            case NUMBER:
+                builder.append(object.getRangeValue().getRequiredA());
+                builder.append(this.separatorInRange);
+                builder.append(object.getRangeValue().getRequiredB());
+                break;
+            case DATE:
+                builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredA(), this.datePattern));
+                builder.append(this.separatorInRange);
+                builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredB(), this.datePattern));
+                break;
+            case DATETIME:
+                builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredA(), this.datetimePattern));
+                builder.append(this.separatorInRange);
+                builder.append(DateUtils.format((Date) object.getRangeValue().getRequiredB(), this.datetimePattern));
+                break;
+            }
+            break;
+        case IN_SET:
+        case NOT_IN_SET:
+            switch (object.getDataType()) {
+            case STRING:
+                builder.append(StringUtils.nullSafeJoin(object.getSetValue(), this.separatorInSet));
+                break;
+            case NUMBER:
+                builder.append(StringUtils.nullSafeJoin(object.getSetValue(), this.separatorInSet));
+                break;
+            case DATE:
+                Set<String> dateStringSet = object.getSetValue().stream()
+                        .map(d -> DateUtils.format((Date) d, datePattern)).collect(Collectors.toSet());
+                builder.append(StringUtils.nullSafeJoin(dateStringSet, separatorInSet));
+                break;
+            case DATETIME:
+                Set<String> datetimeStringSet = object.getSetValue().stream()
+                        .map(d -> DateUtils.format((Date) d, datetimePattern)).collect(Collectors.toSet());
+                builder.append(StringUtils.nullSafeJoin(datetimeStringSet, separatorInSet));
+                break;
+            }
         }
 
         return builder.toString();
@@ -171,56 +171,69 @@ public class SelectorFormatter implements Formatter<Selector>, InitializingBean 
         }
 
         switch (logicType) {
-            case IS:
-            case NOT:
-                switch (dataType) {
-                    case STRING:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, other));
-                    case NUMBER:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, NumberParseUtils.parse(other, BigDecimal.class)));
-                    case DATE:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, DateParseUtils.parse(other, this.datePattern)));
-                    case DATETIME:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, DateParseUtils.parse(other, this.datetimePattern)));
-                }
-            case IN_RANGE:
-            case NOT_IN_RANGE:
-                final String[] leftAndRightString = other.split(this.separatorInRange);
+        case IS:
+        case NOT:
+            switch (dataType) {
+            case STRING:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, other));
+            case NUMBER:
+                return Optional.of(
+                        new SelectorImpl(name, logicType, dataType, NumberParseUtils.parse(other, BigDecimal.class)));
+            case DATE:
+                return Optional
+                        .of(new SelectorImpl(name, logicType, dataType, DateParseUtils.parse(other, this.datePattern)));
+            case DATETIME:
+                return Optional.of(
+                        new SelectorImpl(name, logicType, dataType, DateParseUtils.parse(other, this.datetimePattern)));
+            }
+        case IN_RANGE:
+        case NOT_IN_RANGE:
+            final String[] leftAndRightString = other.split(this.separatorInRange);
 
-                // 不能区分左右时无意义
-                if (leftAndRightString.length != 2) {
-                    break;
-                }
+            // 不能区分左右时无意义
+            if (leftAndRightString.length != 2) {
+                break;
+            }
 
-                final String leftString = leftAndRightString[0];
-                final String rightString = leftAndRightString[1];
+            final String leftString = leftAndRightString[0];
+            final String rightString = leftAndRightString[1];
 
-                switch (dataType) {
-                    case STRING:
-                        // 无意义
-                        break;
-                    case NUMBER:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, NumberParseUtils.parse(leftString, BigDecimal.class), NumberParseUtils.parse(rightString, BigDecimal.class), null));
-                    case DATE:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, DateParseUtils.parse(leftString, this.datePattern), DateParseUtils.parse(rightString, this.datePattern), null));
-                    case DATETIME:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, DateParseUtils.parse(leftString, this.datetimePattern), DateParseUtils.parse(rightString, this.datetimePattern), null));
-                }
-            case IN_SET:
-            case NOT_IN_SET:
+            switch (dataType) {
+            case STRING:
+                // 无意义
+                break;
+            case NUMBER:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null,
+                        NumberParseUtils.parse(leftString, BigDecimal.class),
+                        NumberParseUtils.parse(rightString, BigDecimal.class), null));
+            case DATE:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null,
+                        DateParseUtils.parse(leftString, this.datePattern),
+                        DateParseUtils.parse(rightString, this.datePattern), null));
+            case DATETIME:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null,
+                        DateParseUtils.parse(leftString, this.datetimePattern),
+                        DateParseUtils.parse(rightString, this.datetimePattern), null));
+            }
+        case IN_SET:
+        case NOT_IN_SET:
 
-                final String[] elements = other.split(this.separatorInSet);
+            final String[] elements = other.split(this.separatorInSet);
 
-                switch (dataType) {
-                    case STRING:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements).collect(Collectors.toSet())));
-                    case NUMBER:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements).map(it -> NumberParseUtils.parse(it, BigDecimal.class)).collect(Collectors.toSet())));
-                    case DATE:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements).map(it -> DateParseUtils.parse(it, this.datePattern)).collect(Collectors.toSet())));
-                    case DATETIME:
-                        return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements).map(it -> DateParseUtils.parse(it, this.datetimePattern)).collect(Collectors.toSet())));
-                }
+            switch (dataType) {
+            case STRING:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null,
+                        Stream.of(elements).collect(Collectors.toSet())));
+            case NUMBER:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements)
+                        .map(it -> NumberParseUtils.parse(it, BigDecimal.class)).collect(Collectors.toSet())));
+            case DATE:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements)
+                        .map(it -> DateParseUtils.parse(it, this.datePattern)).collect(Collectors.toSet())));
+            case DATETIME:
+                return Optional.of(new SelectorImpl(name, logicType, dataType, null, null, null, Stream.of(elements)
+                        .map(it -> DateParseUtils.parse(it, this.datetimePattern)).collect(Collectors.toSet())));
+            }
         }
 
         return Optional.empty();

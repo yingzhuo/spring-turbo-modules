@@ -13,6 +13,7 @@ import spring.turbo.module.security.token.Token;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.5
  */
 public interface TokenBlacklistManager {

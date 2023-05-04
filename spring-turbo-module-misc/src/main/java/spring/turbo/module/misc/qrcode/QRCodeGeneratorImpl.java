@@ -29,7 +29,9 @@ import java.util.Map;
  * QRCode生成器默认实现
  *
  * @author 应卓
+ *
  * @see QRCodeGenerator
+ *
  * @since 1.0.0
  */
 public class QRCodeGeneratorImpl implements QRCodeGenerator {
@@ -51,21 +53,25 @@ public class QRCodeGeneratorImpl implements QRCodeGenerator {
     }
 
     @Override
-    public BufferedImage generate(String content, @Nullable Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel) {
+    public BufferedImage generate(String content, @Nullable Logo logo,
+            @Nullable ErrorCorrectionLevel errorCorrectionLevel) {
         return generate(content, logo, errorCorrectionLevel, defaultSize);
     }
 
     @Override
-    public BufferedImage generate(String content, @Nullable Logo logo, @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size) {
+    public BufferedImage generate(String content, @Nullable Logo logo,
+            @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size) {
         try {
             final Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
-            hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrectionLevel != null ? errorCorrectionLevel : defaultErrorCorrectionLevel);
+            hints.put(EncodeHintType.ERROR_CORRECTION,
+                    errorCorrectionLevel != null ? errorCorrectionLevel : defaultErrorCorrectionLevel);
             hints.put(EncodeHintType.MARGIN, defaultMargin);
 
             int qrCodeSize = size >= 0 ? size : defaultSize; // 最终的size
 
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize, hints);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, qrCodeSize, qrCodeSize,
+                    hints);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

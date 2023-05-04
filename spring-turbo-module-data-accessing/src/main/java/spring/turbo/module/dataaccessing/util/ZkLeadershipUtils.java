@@ -14,6 +14,7 @@ import spring.turbo.core.SpringUtils;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.15
  */
 public final class ZkLeadershipUtils {
@@ -31,8 +32,7 @@ public final class ZkLeadershipUtils {
      * @return 返回{@code true}时表示有领导权
      */
     public static boolean hasLeadership() {
-        return SpringUtils.getRequiredBean(LeaderLatch.class)
-                .hasLeadership();
+        return SpringUtils.getRequiredBean(LeaderLatch.class).hasLeadership();
     }
 
     @Nullable

@@ -22,10 +22,12 @@ import java.util.List;
  * SpringSecurity DSL
  *
  * @author 应卓
+ *
  * @since 1.3.0
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class SpringSecurityAutoConfigurationDSL
+        extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -55,10 +57,10 @@ public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<S
             final var beforeOrAfter = configuration.position();
 
             switch (beforeOrAfter) {
-                case BEFORE -> http.addFilterBefore(filter, position);
-                case AFTER -> http.addFilterAfter(filter, position);
-                case REPLACE -> http.addFilterAt(filter, position);
-                default -> throw new AssertionError();
+            case BEFORE -> http.addFilterBefore(filter, position);
+            case AFTER -> http.addFilterAfter(filter, position);
+            case REPLACE -> http.addFilterAt(filter, position);
+            default -> throw new AssertionError();
             }
         }
     }

@@ -14,8 +14,10 @@ import org.springframework.http.HttpHeaders;
  * HTTP Bearer 令牌解析器
  *
  * @author 应卓
+ *
  * @see HeaderTokenResolver
  * @see BasicTokenResolver
+ *
  * @since 1.0.5
  */
 public final class BearerTokenResolver extends HeaderTokenResolver {

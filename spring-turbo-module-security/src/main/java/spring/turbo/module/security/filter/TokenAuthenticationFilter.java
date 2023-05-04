@@ -34,7 +34,9 @@ import java.io.IOException;
  * 基于令牌的认证过滤器
  *
  * @author 应卓
+ *
  * @see spring.turbo.module.security.FilterConfiguration
+ *
  * @since 1.0.0
  */
 public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
@@ -54,7 +56,8 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         if (!authenticationIsRequired()) {
             filterChain.doFilter(request, response);
             return;

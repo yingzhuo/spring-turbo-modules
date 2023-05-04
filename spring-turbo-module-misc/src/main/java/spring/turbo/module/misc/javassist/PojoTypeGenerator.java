@@ -14,6 +14,7 @@ import java.util.function.Function;
  * POJO类型生成器
  *
  * @author 应卓
+ *
  * @since 1.2.2
  */
 @FunctionalInterface

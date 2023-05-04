@@ -20,6 +20,7 @@ import spring.turbo.module.queryselector.sql.WhereClauseBuilderImpl;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 @AutoConfiguration

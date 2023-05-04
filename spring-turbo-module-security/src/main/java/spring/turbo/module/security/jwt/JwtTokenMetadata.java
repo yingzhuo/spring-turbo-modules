@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public final class JwtTokenMetadata implements Serializable {
@@ -142,18 +143,16 @@ public final class JwtTokenMetadata implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         JwtTokenMetadata that = (JwtTokenMetadata) o;
-        return Objects.equals(keyId, that.keyId) &&
-                Objects.equals(issuer, that.issuer) &&
-                Objects.equals(subject, that.subject) &&
-                Objects.equals(audience, that.audience) &&
-                Objects.equals(expiresAt, that.expiresAt) &&
-                Objects.equals(notBefore, that.notBefore) &&
-                Objects.equals(issuedAt, that.issuedAt) &&
-                Objects.equals(jwtId, that.jwtId) &&
-                Objects.equals(payloadClaims, that.payloadClaims);
+        return Objects.equals(keyId, that.keyId) && Objects.equals(issuer, that.issuer)
+                && Objects.equals(subject, that.subject) && Objects.equals(audience, that.audience)
+                && Objects.equals(expiresAt, that.expiresAt) && Objects.equals(notBefore, that.notBefore)
+                && Objects.equals(issuedAt, that.issuedAt) && Objects.equals(jwtId, that.jwtId)
+                && Objects.equals(payloadClaims, that.payloadClaims);
     }
 
     @Override

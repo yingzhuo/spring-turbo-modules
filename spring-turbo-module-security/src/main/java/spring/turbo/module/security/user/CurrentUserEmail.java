@@ -19,10 +19,12 @@ import java.lang.annotation.*;
  * 获取当前用户的Email
  *
  * @author 应卓
+ *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getEmail()
  * @see AuthenticationPrincipalArgumentResolver
+ *
  * @since 1.0.0
  */
 @Inherited

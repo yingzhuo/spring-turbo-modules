@@ -19,7 +19,9 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
+ *
  * @see DecentSelectorSet
+ *
  * @since 2.0.1
  */
 public class DecentSelectorSetValidator implements ConstraintValidator<DecentSelectorSet, SelectorSet> {

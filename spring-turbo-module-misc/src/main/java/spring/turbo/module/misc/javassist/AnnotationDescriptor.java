@@ -19,9 +19,11 @@ import java.util.List;
 
 /**
  * @author 应卓
+ *
  * @see PojoDescriptor
  * @see #builder(String)
  * @see #builder(Class)
+ *
  * @since 1.2.2
  */
 public final class AnnotationDescriptor implements Serializable {
@@ -32,8 +34,10 @@ public final class AnnotationDescriptor implements Serializable {
     /**
      * 私有构造方法
      *
-     * @param annotationFqn 元注释名
-     * @param values        元注释包含的值
+     * @param annotationFqn
+     *            元注释名
+     * @param values
+     *            元注释包含的值
      */
     private AnnotationDescriptor(String annotationFqn, @Nullable List<AnnotationValue> values) {
         Asserts.notNull(annotationFqn);

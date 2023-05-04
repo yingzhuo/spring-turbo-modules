@@ -35,8 +35,10 @@ import java.io.IOException;
  * HttpBasic认证过滤器
  *
  * @author 应卓
+ *
  * @see TokenAuthenticationFilter
  * @see RequestMatcher
+ *
  * @since 1.2.3
  */
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
@@ -56,7 +58,8 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         // 其他过滤器已经做完了认证工作则跳过
         if (!super.authenticationIsRequired()) {
