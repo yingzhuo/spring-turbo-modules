@@ -16,6 +16,7 @@ import spring.turbo.util.CharPool;
  * 抽象JWT签名算法
  *
  * @author 应卓
+ *
  * @since 1.0.2
  */
 public abstract class AbstractAlgorithm extends Algorithm {

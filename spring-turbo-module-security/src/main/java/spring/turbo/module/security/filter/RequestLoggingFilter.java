@@ -24,11 +24,13 @@ import java.io.IOException;
 
 /**
  * @author 应卓
+ *
  * @see spring.turbo.module.security.FilterConfiguration
  * @see AbstractRequestLoggingFilter
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
  * @see HumanReadableRequestLoggingFilter
+ *
  * @since 1.0.0
  */
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
@@ -48,7 +50,8 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter implement
     /**
      * 构造方法
      *
-     * @param log 日志记录器
+     * @param log
+     *            日志记录器
      */
     public RequestLoggingFilter(@Nullable Logger log) {
         this.log = log != null ? log : new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
@@ -59,7 +62,8 @@ public class RequestLoggingFilter extends AbstractRequestLoggingFilter implement
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
             filterChain.doFilter(request, response);
             return;

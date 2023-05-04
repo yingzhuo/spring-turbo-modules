@@ -14,7 +14,9 @@ import java.util.LinkedHashMap;
 
 /**
  * @author 应卓
+ *
  * @see feign.Body
+ *
  * @since 1.0.0
  */
 public final class BodyBean extends LinkedHashMap<String, Object> {

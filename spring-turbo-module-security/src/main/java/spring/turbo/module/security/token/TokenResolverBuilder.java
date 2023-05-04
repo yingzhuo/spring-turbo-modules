@@ -18,6 +18,7 @@ import java.util.List;
  * 令牌解析器的创建器
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public final class TokenResolverBuilder {
@@ -34,7 +35,9 @@ public final class TokenResolverBuilder {
     /**
      * 添加其他令牌解析器的实现
      *
-     * @param resolvers 要添加的解析器
+     * @param resolvers
+     *            要添加的解析器
+     *
      * @return 创建器本身
      */
     public TokenResolverBuilder add(TokenResolver... resolvers) {
@@ -45,7 +48,9 @@ public final class TokenResolverBuilder {
     /**
      * 添加其他令牌解析器的实现
      *
-     * @param resolvers 要添加的解析器
+     * @param resolvers
+     *            要添加的解析器
+     *
      * @return 创建器本身
      */
     public TokenResolverBuilder add(Collection<TokenResolver> resolvers) {
@@ -56,8 +61,11 @@ public final class TokenResolverBuilder {
     /**
      * 从HTTP请求头中解析令牌
      *
-     * @param headName 请求头名称
+     * @param headName
+     *            请求头名称
+     *
      * @return 创建器本身
+     *
      * @see HeaderTokenResolver
      */
     public TokenResolverBuilder fromHttpHeader(String headName) {
@@ -68,9 +76,13 @@ public final class TokenResolverBuilder {
     /**
      * 从HTTP请求头中解析令牌
      *
-     * @param headName 请求头名称
-     * @param prefix   前缀
+     * @param headName
+     *            请求头名称
+     * @param prefix
+     *            前缀
+     *
      * @return 创建器本身
+     *
      * @see HeaderTokenResolver
      */
     public TokenResolverBuilder fromHttpHeader(String headName, String prefix) {
@@ -81,7 +93,9 @@ public final class TokenResolverBuilder {
     /**
      * 从HTTP Query中解析令牌
      *
-     * @param paramName query名称
+     * @param paramName
+     *            query名称
+     *
      * @return 创建器本身
      */
     public TokenResolverBuilder fromHttpQuery(String paramName) {
@@ -92,8 +106,11 @@ public final class TokenResolverBuilder {
     /**
      * 从HTTP Query中解析令牌
      *
-     * @param paramName query名称
-     * @param prefix    前缀
+     * @param paramName
+     *            query名称
+     * @param prefix
+     *            前缀
+     *
      * @return 创建器本身
      */
     public TokenResolverBuilder fromHttpQuery(String paramName, String prefix) {

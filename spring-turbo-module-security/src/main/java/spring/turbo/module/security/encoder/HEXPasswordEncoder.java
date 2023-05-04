@@ -17,7 +17,9 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * HEX算法的密码Encoder
  *
  * @author 应卓
+ *
  * @see PasswordEncoder
+ *
  * @since 2.0.0
  */
 public final class HEXPasswordEncoder implements PasswordEncoder {

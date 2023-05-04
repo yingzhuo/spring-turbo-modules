@@ -23,6 +23,7 @@ import java.util.Set;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 @SuppressWarnings("unchecked")
@@ -61,10 +62,8 @@ public final class SelectorUtils {
             throw new SelectorValueFindingException("Cannot get simple value");
         }
 
-        return Pair.ofNonNull(
-                doConvert(pair.getRequiredA(), selector.getDataType(), targetClass),
-                doConvert(pair.getRequiredB(), selector.getDataType(), targetClass)
-        );
+        return Pair.ofNonNull(doConvert(pair.getRequiredA(), selector.getDataType(), targetClass),
+                doConvert(pair.getRequiredB(), selector.getDataType(), targetClass));
     }
 
     private static <T> T doConvert(@Nullable final Object value, DataType dataType, Class<?> targetClass) {

@@ -12,6 +12,7 @@ package spring.turbo.module.misc.javassist;
  * 有些东西无法找到
  *
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public class UnableToFindException extends IllegalArgumentException {

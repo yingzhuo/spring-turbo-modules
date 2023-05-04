@@ -10,6 +10,7 @@ package spring.turbo.module.queryselector.exception;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public class SelectorValueFindingException extends RuntimeException {

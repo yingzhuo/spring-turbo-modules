@@ -12,6 +12,7 @@ package spring.turbo.module.misc.javassist;
  * Java代码无法编译
  *
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public class UnableToCompileException extends IllegalStateException {

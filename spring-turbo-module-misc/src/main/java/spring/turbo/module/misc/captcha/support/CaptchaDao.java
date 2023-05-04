@@ -14,6 +14,7 @@ import java.time.Duration;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.1
  */
 public interface CaptchaDao {

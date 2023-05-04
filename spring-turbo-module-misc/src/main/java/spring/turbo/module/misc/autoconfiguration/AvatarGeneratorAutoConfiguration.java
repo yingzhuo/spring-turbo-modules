@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author 应卓
+ *
  * @since 2.2.0
  */
 @AutoConfiguration
@@ -28,9 +29,7 @@ public class AvatarGeneratorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public Avatar avatar() {
-        return IdenticonAvatar.newAvatarBuilder()
-                .layers(new ScoreShadowLayer(), new RoundRectMaskLayer())
-                .build();
+        return IdenticonAvatar.newAvatarBuilder().layers(new ScoreShadowLayer(), new RoundRectMaskLayer()).build();
     }
 
 }

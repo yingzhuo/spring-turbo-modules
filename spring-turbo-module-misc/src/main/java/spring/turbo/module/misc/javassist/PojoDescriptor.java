@@ -19,7 +19,9 @@ import java.util.*;
 
 /**
  * @author 应卓
+ *
  * @see #newInstance(String)
+ *
  * @since 1.2.2
  */
 @SuppressWarnings("rawtypes")
@@ -86,14 +88,16 @@ public class PojoDescriptor extends TreeMap<String, Class<?>> implements Map<Str
         return this;
     }
 
-    public PojoDescriptor addPropertyLevelAnnotationsForAllProperties(AnnotationPos annotationPos, AnnotationDescriptor... descriptors) {
+    public PojoDescriptor addPropertyLevelAnnotationsForAllProperties(AnnotationPos annotationPos,
+            AnnotationDescriptor... descriptors) {
         Asserts.notNull(annotationPos);
         Asserts.notEmpty(descriptors);
         this.allPropertyAnnotationConfig.add(Pair.ofNonNull(annotationPos, Arrays.asList(descriptors)));
         return this;
     }
 
-    public PojoDescriptor addPropertyLevelAnnotations(String propertyName, AnnotationPos annotationPos, AnnotationDescriptor... descriptors) {
+    public PojoDescriptor addPropertyLevelAnnotations(String propertyName, AnnotationPos annotationPos,
+            AnnotationDescriptor... descriptors) {
         Asserts.notNull(propertyName);
         Asserts.notNull(annotationPos);
         Asserts.notEmpty(descriptors);

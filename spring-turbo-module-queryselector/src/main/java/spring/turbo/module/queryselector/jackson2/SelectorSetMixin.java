@@ -16,7 +16,9 @@ import spring.turbo.module.queryselector.formatter.SelectorSetFormatter;
 
 /**
  * @author 应卓
+ *
  * @see SelectorSetFormatter
+ *
  * @since 2.0.1
  */
 @JsonSerialize(using = SelectorSetMixin.S.class)

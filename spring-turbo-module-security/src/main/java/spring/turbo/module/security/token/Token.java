@@ -16,7 +16,9 @@ import java.io.Serializable;
  * 令牌
  *
  * @author 应卓
+ *
  * @see #ofString(CharSequence)
+ *
  * @since 1.0.0
  */
 public interface Token extends Serializable {

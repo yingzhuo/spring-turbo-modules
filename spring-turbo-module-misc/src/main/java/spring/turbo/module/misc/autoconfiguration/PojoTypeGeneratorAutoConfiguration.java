@@ -17,6 +17,7 @@ import spring.turbo.module.misc.javassist.PojoTypeGeneratorImpl;
 
 /**
  * @author 应卓
+ *
  * @since 1.3.0
  */
 @AutoConfiguration

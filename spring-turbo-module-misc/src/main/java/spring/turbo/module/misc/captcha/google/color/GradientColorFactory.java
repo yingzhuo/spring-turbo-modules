@@ -12,6 +12,7 @@ import java.awt.*;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public class GradientColorFactory implements ColorFactory {
@@ -27,8 +28,7 @@ public class GradientColorFactory implements ColorFactory {
     @Override
     public Color getColor(int index) {
         return new Color((start.getRed() + step.getRed() * index) % 256,
-                (start.getGreen() + step.getGreen() * index) % 256,
-                (start.getBlue() + step.getBlue() * index) % 256);
+                (start.getGreen() + step.getGreen() * index) % 256, (start.getBlue() + step.getBlue() * index) % 256);
     }
 
     public void setStart(Color start) {

@@ -13,8 +13,10 @@ import spring.turbo.module.security.FilterConfiguration;
 
 /**
  * @author 应卓
+ *
  * @see HumanReadableRequestLoggingFilter
  * @see RequestLoggingFilter
+ *
  * @since 1.0.0
  */
 public interface RequestLoggingFilterFactory extends FilterConfiguration<Filter> {

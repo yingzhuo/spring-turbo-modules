@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public enum LogicType implements Serializable {

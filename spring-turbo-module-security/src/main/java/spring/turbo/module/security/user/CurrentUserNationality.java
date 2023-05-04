@@ -19,10 +19,12 @@ import java.lang.annotation.*;
  * 获取当前用户的国际
  *
  * @author 应卓
+ *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getNationality()
  * @see AuthenticationPrincipalArgumentResolver
+ *
  * @since 1.2.3
  */
 @Inherited

@@ -14,7 +14,9 @@ import java.util.Objects;
 
 /**
  * @author 应卓
+ *
  * @see BasicTokenResolver
+ *
  * @since 1.2.3
  */
 public final class BasicToken implements Token {
@@ -52,8 +54,10 @@ public final class BasicToken implements Token {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         BasicToken that = (BasicToken) o;
         return string.equals(that.string);
     }

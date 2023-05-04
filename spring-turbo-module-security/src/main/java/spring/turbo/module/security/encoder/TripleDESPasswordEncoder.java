@@ -15,6 +15,7 @@ import spring.turbo.util.crypto.TripleDES;
  * 3DES {@link PasswordEncoder}
  *
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public final class TripleDESPasswordEncoder implements PasswordEncoder {
@@ -22,9 +23,7 @@ public final class TripleDESPasswordEncoder implements PasswordEncoder {
     private final TripleDES _3des;
 
     public TripleDESPasswordEncoder(String password, String salt) {
-        this._3des = TripleDES.builder()
-                .passwordAndSalt(password, salt)
-                .build();
+        this._3des = TripleDES.builder().passwordAndSalt(password, salt).build();
     }
 
     @Override

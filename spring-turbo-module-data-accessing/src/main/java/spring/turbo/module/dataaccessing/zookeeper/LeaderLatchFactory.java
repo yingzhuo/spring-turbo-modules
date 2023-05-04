@@ -24,6 +24,7 @@ import java.util.UUID;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.15
  */
 public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, InitializingBean, DisposableBean {
@@ -63,11 +64,7 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
             log.debug("node-id: {}", thisNodeId);
         }
 
-        this.leaderLatch = new LeaderLatch(
-                this.zkCli,
-                this.zkProps.getLeaderElection().getZkPath(),
-                thisNodeId
-        );
+        this.leaderLatch = new LeaderLatch(this.zkCli, this.zkProps.getLeaderElection().getZkPath(), thisNodeId);
 
         this.leaderLatch.start();
     }

@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public class ClassCache extends ConcurrentHashMap<String, Class<?>> {

@@ -67,7 +67,8 @@ public abstract class AbstractTextRenderer implements TextRenderer {
         }
     }
 
-    protected TextString convertToCharacters(String text, Graphics2D g, FontFactory fontFactory, ColorFactory colorFactory) {
+    protected TextString convertToCharacters(String text, Graphics2D g, FontFactory fontFactory,
+            ColorFactory colorFactory) {
         TextString characters = new TextString();
         FontRenderContext frc = g.getFontRenderContext();
         double lastx = 0;

@@ -24,9 +24,11 @@ import java.util.Locale;
 
 /**
  * @author 应卓
+ *
  * @see Selector
  * @see SelectorSet
  * @see SelectorFormatter
+ *
  * @since 2.0.1
  */
 public class SelectorSetFormatter implements Formatter<SelectorSet>, InitializingBean {

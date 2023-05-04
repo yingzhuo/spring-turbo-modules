@@ -18,7 +18,9 @@ import java.lang.annotation.*;
  * 获取当前用户的{@link org.springframework.security.core.Authentication}对象
  *
  * @author 应卓
+ *
  * @see SecurityContext#getAuthentication()
+ *
  * @since 1.0.0
  */
 @Inherited

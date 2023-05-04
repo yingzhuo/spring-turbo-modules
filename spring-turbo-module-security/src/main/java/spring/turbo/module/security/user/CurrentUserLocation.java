@@ -19,10 +19,12 @@ import java.lang.annotation.*;
  * 获取当前用户的Location
  *
  * @author 应卓
+ *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getLocation()
  * @see AuthenticationPrincipalArgumentResolver
+ *
  * @since 1.1.2
  */
 @Inherited

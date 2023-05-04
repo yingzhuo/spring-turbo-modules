@@ -29,7 +29,7 @@ public abstract class AbstractConvolveImageOp extends AbstractImageOp {
             int ytop = y + matrixTop;
             int ybottom = y + matrixTop + matrixHeight;
             for (int x = 0; x < width; x++) {
-                float[] sum = {0.5f, 0.5f, 0.5f, 0.5f};
+                float[] sum = { 0.5f, 0.5f, 0.5f, 0.5f };
                 int xleft = x + mattrixLeft;
                 int xright = x + mattrixLeft + matrixWidth;
                 int matrixY = 0;
@@ -44,7 +44,8 @@ public abstract class AbstractConvolveImageOp extends AbstractImageOp {
                         sum[3] += m * (pixel & 0xff);
                     }
                 }
-                outPixels[x + y * width] = (limitByte((int) sum[0]) << 24) | (limitByte((int) sum[1]) << 16) | (limitByte((int) sum[2]) << 8) | (limitByte((int) sum[3]));
+                outPixels[x + y * width] = (limitByte((int) sum[0]) << 24) | (limitByte((int) sum[1]) << 16)
+                        | (limitByte((int) sum[2]) << 8) | (limitByte((int) sum[3]));
             }
         }
     }

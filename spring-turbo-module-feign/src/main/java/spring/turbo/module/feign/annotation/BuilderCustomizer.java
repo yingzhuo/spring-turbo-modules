@@ -14,6 +14,7 @@ import spring.turbo.bean.Customizer;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 @FunctionalInterface

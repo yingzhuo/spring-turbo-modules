@@ -19,11 +19,13 @@ import spring.turbo.util.RandomStringUtils;
 
 /**
  * @author 应卓
+ *
  * @see MapTokenToUserConverter
  * @see TokenAuthenticationFilter
  * @see TokenAuthenticationFilterFactory
  * @see RequestMatcher
  * @see #newInstance()
+ *
  * @since 2.2.2
  */
 public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {
@@ -48,13 +50,7 @@ public final class MappingTokenAuthenticationFilter extends TokenAuthenticationF
     public MappingTokenAuthenticationFilter addUserDetails(String rawToken, String... authorities) {
         var uuid = RandomStringUtils.randomUUID(true);
         return addUserDetails(rawToken,
-                UserDetailsPlus.builder()
-                        .id(uuid)
-                        .username(uuid)
-                        .password(uuid)
-                        .authorities(authorities)
-                        .build()
-        );
+                UserDetailsPlus.builder().id(uuid).username(uuid).password(uuid).authorities(authorities).build());
     }
 
     public MappingTokenAuthenticationFilter addUserDetails(String rawToken, UserDetails userDetails) {

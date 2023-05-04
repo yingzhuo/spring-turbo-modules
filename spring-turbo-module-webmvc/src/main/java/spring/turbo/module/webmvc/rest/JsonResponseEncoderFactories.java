@@ -12,6 +12,7 @@ import spring.turbo.util.crypto.AES;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.2
  */
 public final class JsonResponseEncoderFactories {

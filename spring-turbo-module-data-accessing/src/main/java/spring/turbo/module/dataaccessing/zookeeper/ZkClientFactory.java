@@ -21,6 +21,7 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.15
  */
 public class ZkClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
@@ -43,13 +44,10 @@ public class ZkClientFactory implements FactoryBean<CuratorFramework>, Initializ
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.zkCli = CuratorFrameworkFactory.builder()
-                .connectString(zkProps.getConnectString())
+        this.zkCli = CuratorFrameworkFactory.builder().connectString(zkProps.getConnectString())
                 .namespace(zkProps.getNamespace())
-                .retryPolicy(new ExponentialBackoffRetry(
-                        zkProps.getBackoffRetryPolicy().getBaseSleepTime(),
-                        zkProps.getBackoffRetryPolicy().getMaxRetries()
-                ))
+                .retryPolicy(new ExponentialBackoffRetry(zkProps.getBackoffRetryPolicy().getBaseSleepTime(),
+                        zkProps.getBackoffRetryPolicy().getMaxRetries()))
                 .build();
         this.zkCli.start();
         this.zkCli.getZookeeperClient().blockUntilConnectedOrTimedOut();

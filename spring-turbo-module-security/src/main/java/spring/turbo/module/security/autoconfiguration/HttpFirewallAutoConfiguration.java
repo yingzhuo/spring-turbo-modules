@@ -17,6 +17,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 /**
  * @author 应卓
+ *
  * @since 1.3.0
  */
 @AutoConfiguration

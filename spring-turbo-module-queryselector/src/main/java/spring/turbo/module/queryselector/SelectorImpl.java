@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 @SuppressWarnings("unchecked")
@@ -43,7 +44,8 @@ public class SelectorImpl implements Selector {
         this(name, logicType, dataType, simpleValue, null, null, null);
     }
 
-    public SelectorImpl(String name, LogicType logicType, DataType dataType, @Nullable Object simpleValue, @Nullable Object rangeLeft, @Nullable Object rangeRight, @Nullable Set<Object> set) {
+    public SelectorImpl(String name, LogicType logicType, DataType dataType, @Nullable Object simpleValue,
+            @Nullable Object rangeLeft, @Nullable Object rangeRight, @Nullable Set<Object> set) {
         Asserts.notNull(name);
         Asserts.notNull(logicType);
         Asserts.notNull(dataType);
@@ -81,9 +83,8 @@ public class SelectorImpl implements Selector {
     @Nullable
     @Override
     public <T> Pair<T, T> getRangeValue() {
-        return this.rangeLeft == null || this.rangeRight == null ?
-                null :
-                Pair.ofNonNull((T) this.rangeLeft, (T) this.rangeRight);
+        return this.rangeLeft == null || this.rangeRight == null ? null
+                : Pair.ofNonNull((T) this.rangeLeft, (T) this.rangeRight);
     }
 
     @Override

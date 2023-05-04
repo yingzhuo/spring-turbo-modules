@@ -17,11 +17,13 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadYam
 
 /**
  * @author 应卓
+ *
  * @since 2.2.1
  */
 public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
-    public LoadmeYamlEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
+    public LoadmeYamlEnvironmentPostProcessor(DeferredLogFactory logFactory,
+            ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE + 101);
     }

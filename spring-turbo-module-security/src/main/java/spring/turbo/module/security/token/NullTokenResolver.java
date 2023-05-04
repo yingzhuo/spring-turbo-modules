@@ -18,7 +18,9 @@ import java.util.Optional;
  * 一直返回empty-optional的令牌解析器实现
  *
  * @author 应卓
+ *
  * @see #getInstance()
+ *
  * @since 1.0.0
  */
 public final class NullTokenResolver implements TokenResolver {
@@ -42,7 +44,9 @@ public final class NullTokenResolver implements TokenResolver {
     /**
      * 解析令牌
      *
-     * @param request HTTP请求
+     * @param request
+     *            HTTP请求
+     *
      * @return empty-optional
      */
     @NonNull

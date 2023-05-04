@@ -28,9 +28,10 @@ import static spring.turbo.core.AnnotationFinder.findAnnotation;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.9
  */
-@SuppressWarnings({"deprecation", "rawtypes"})
+@SuppressWarnings({ "deprecation", "rawtypes" })
 final class FeignClientSupplier implements Supplier {
 
     private final InstanceCache instanceCache;
@@ -139,13 +140,9 @@ final class FeignClientSupplier implements Supplier {
     private void setupOptions(final Feign.Builder builder, final Class<?> clientType) {
         Options annotation = findAnnotation(clientType, Options.class);
         if (annotation != null) {
-            Request.Options ops = new Request.Options(
-                    DurationParseUtils.parse(annotation.connectTimeout()).toMillis(),
-                    TimeUnit.MILLISECONDS,
-                    DurationParseUtils.parse(annotation.readTimeout()).toMillis(),
-                    TimeUnit.MILLISECONDS,
-                    annotation.followRedirects()
-            );
+            Request.Options ops = new Request.Options(DurationParseUtils.parse(annotation.connectTimeout()).toMillis(),
+                    TimeUnit.MILLISECONDS, DurationParseUtils.parse(annotation.readTimeout()).toMillis(),
+                    TimeUnit.MILLISECONDS, annotation.followRedirects());
             builder.options(ops);
         }
     }
@@ -193,11 +190,8 @@ final class FeignClientSupplier implements Supplier {
     private void setupRetryer(final Feign.Builder builder, final Class<?> clientType) {
         Retryer annotation = findAnnotation(clientType, Retryer.class);
         if (annotation != null) {
-            builder.retryer(new RetryerImpl(
-                    DurationParseUtils.parse(annotation.period()).toMillis(),
-                    DurationParseUtils.parse(annotation.maxPeriod()).toMillis(),
-                    annotation.maxAttempts()
-            ));
+            builder.retryer(new RetryerImpl(DurationParseUtils.parse(annotation.period()).toMillis(),
+                    DurationParseUtils.parse(annotation.maxPeriod()).toMillis(), annotation.maxAttempts()));
         } else {
             builder.retryer(feign.Retryer.NEVER_RETRY);
         }

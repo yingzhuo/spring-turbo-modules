@@ -19,6 +19,7 @@ import spring.turbo.util.Asserts;
  * Servlet相关工具
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public final class ServletUtils {
@@ -52,7 +53,8 @@ public final class ServletUtils {
 
     @Nullable
     public static HttpServletResponse getResponse() {
-        final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes();
         return attributes.getResponse();
     }
 

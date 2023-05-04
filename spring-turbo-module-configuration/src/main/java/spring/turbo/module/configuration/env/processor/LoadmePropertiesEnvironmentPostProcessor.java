@@ -17,11 +17,13 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadPro
 
 /**
  * @author 应卓
+ *
  * @since 2.2.1
  */
 public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
-    public LoadmePropertiesEnvironmentPostProcessor(DeferredLogFactory logFactory, ConfigurableBootstrapContext bootstrapContext) {
+    public LoadmePropertiesEnvironmentPostProcessor(DeferredLogFactory logFactory,
+            ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE + 100);
     }

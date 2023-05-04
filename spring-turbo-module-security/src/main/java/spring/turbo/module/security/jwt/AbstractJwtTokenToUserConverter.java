@@ -26,6 +26,7 @@ import java.util.Optional;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {
@@ -56,6 +57,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
         }
     }
 
-    protected abstract Optional<UserDetails> doAuthenticate(@NonNull String rawToken, DecodedJWT jwt) throws AuthenticationException;
+    protected abstract Optional<UserDetails> doAuthenticate(@NonNull String rawToken, DecodedJWT jwt)
+            throws AuthenticationException;
 
 }

@@ -17,9 +17,11 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * MD2 算法实现 {@link PasswordEncoder}
  *
  * @author 应卓
+ *
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
  * @see spring.turbo.module.security.encoder.EncodingIds#MD2
+ *
  * @since 1.0.1
  */
 public final class MD2PasswordEncoder implements PasswordEncoder {

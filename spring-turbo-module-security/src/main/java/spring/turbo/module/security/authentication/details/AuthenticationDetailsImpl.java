@@ -19,6 +19,7 @@ import static spring.turbo.webmvc.RemoteAddressUtils.getIpAddress;
 
 /**
  * @author 应卓
+ *
  * @since 1.2.3
  */
 public final class AuthenticationDetailsImpl implements AuthenticationDetails {
@@ -39,7 +40,7 @@ public final class AuthenticationDetailsImpl implements AuthenticationDetails {
         this.authenticatedTime = new Date();
         this.authenticatedToken = token;
         this.path = request.getRequestURI();
-        this.clientIp = getIpAddress(request);  // TODO: 没有考虑到 WebFlux
+        this.clientIp = getIpAddress(request); // TODO: 没有考虑到 WebFlux
     }
 
     @Override

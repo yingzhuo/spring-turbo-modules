@@ -14,6 +14,7 @@ import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.11
  */
 public class Base64JsonResponseEncoder implements JsonResponseEncoder {

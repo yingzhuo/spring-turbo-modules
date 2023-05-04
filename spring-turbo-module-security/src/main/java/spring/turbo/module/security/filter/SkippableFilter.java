@@ -22,9 +22,11 @@ import static spring.turbo.module.security.util.RequestMatcherFactories.fromPred
  * 可跳过的过滤器
  *
  * @author 应卓
+ *
  * @see jakarta.servlet.http.HttpServletRequest
  * @see spring.turbo.module.security.util.RequestMatcherFactories
  * @see Predicate
+ *
  * @since 2.0.1
  */
 public interface SkippableFilter extends Filter {

@@ -19,7 +19,9 @@ import java.util.Objects;
  * 人机验证码
  *
  * @author 应卓
+ *
  * @see ImageResponseEntity
+ *
  * @since 1.0.0
  */
 public final class Captcha implements Serializable {
@@ -36,8 +38,10 @@ public final class Captcha implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Captcha captcha = (Captcha) o;
         return word.equals(captcha.word) && image.equals(captcha.image);
     }

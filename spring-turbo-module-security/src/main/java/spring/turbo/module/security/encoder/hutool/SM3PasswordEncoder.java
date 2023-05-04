@@ -19,9 +19,11 @@ import static spring.turbo.module.security.encoder.EncodingIds.SM3;
  * 国密算法 (SM3)
  *
  * @author 应卓
+ *
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
  * @see spring.turbo.module.security.encoder.EncodingIds#SM3
+ *
  * @since 1.0.1
  */
 public final class SM3PasswordEncoder implements PasswordEncoder {

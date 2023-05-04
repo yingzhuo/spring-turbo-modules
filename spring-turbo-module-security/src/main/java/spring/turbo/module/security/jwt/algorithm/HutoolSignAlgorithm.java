@@ -22,6 +22,7 @@ import static spring.turbo.util.StringUtils.deleteWhitespace;
  * Hutool工具包提供的签名算法用于JWT签名
  *
  * @author 应卓
+ *
  * @since 2.2.2
  */
 public final class HutoolSignAlgorithm extends AbstractAlgorithm {

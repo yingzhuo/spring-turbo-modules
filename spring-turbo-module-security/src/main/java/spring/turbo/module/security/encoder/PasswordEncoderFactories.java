@@ -27,9 +27,11 @@ import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
+ *
  * @see PasswordEncoder
  * @see DelegatingPasswordEncoder
  * @see EncodingIds
+ *
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {
@@ -55,7 +57,8 @@ public final class PasswordEncoderFactories {
         return createDelegatingPasswordEncoder(encodingId, EncodingIds.noop);
     }
 
-    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId, @Nullable String defaultPasswordEncoderForMatches) {
+    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId,
+            @Nullable String defaultPasswordEncoderForMatches) {
         Asserts.hasText(encodingId);
 
         var encodersMap = getEncoders();

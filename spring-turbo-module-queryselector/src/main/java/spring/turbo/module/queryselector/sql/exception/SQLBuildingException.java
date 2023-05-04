@@ -10,6 +10,7 @@ package spring.turbo.module.queryselector.sql.exception;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public class SQLBuildingException extends IllegalArgumentException {
@@ -17,8 +18,10 @@ public class SQLBuildingException extends IllegalArgumentException {
     /**
      * 构造方法
      *
-     * @param message 错误消息
-     * @param cause   上级错误
+     * @param message
+     *            错误消息
+     * @param cause
+     *            上级错误
      */
     public SQLBuildingException(String message, Throwable cause) {
         super(message, cause);

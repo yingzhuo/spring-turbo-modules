@@ -14,7 +14,9 @@ import java.io.Serializable;
  * selector数据类型
  *
  * @author 应卓
+ *
  * @see Selector
+ *
  * @since 2.0.1
  */
 public enum DataType implements Serializable {

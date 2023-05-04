@@ -23,6 +23,7 @@ import static spring.turbo.util.StringUtils.deleteWhitespace;
  * 国密算法，由Hutool工具包提供
  *
  * @author 应卓
+ *
  * @since 2.2.2
  */
 public final class SM2Algorithm extends AbstractAlgorithm {

@@ -18,6 +18,7 @@ import java.util.Set;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.1
  */
 public final class SelectorBuilder {
@@ -90,14 +91,7 @@ public final class SelectorBuilder {
         Asserts.notNull(logicType);
         Asserts.notNull(dataType);
 
-        return new SelectorImpl(
-                this.itemName,
-                this.logicType,
-                this.dataType,
-                this.simpleValue,
-                this.rangeLeft,
-                this.rangeRight,
-                this.setValue
-        );
+        return new SelectorImpl(this.itemName, this.logicType, this.dataType, this.simpleValue, this.rangeLeft,
+                this.rangeRight, this.setValue);
     }
 }

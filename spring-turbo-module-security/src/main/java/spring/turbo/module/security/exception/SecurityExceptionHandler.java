@@ -22,18 +22,24 @@ import java.io.IOException;
 
 /**
  * @author 应卓
+ *
  * @see org.springframework.security.web.firewall.HttpFirewall
+ *
  * @since 1.2.3
  */
-public interface SecurityExceptionHandler extends AuthenticationEntryPoint, AccessDeniedHandler, RequestRejectedHandler {
+public interface SecurityExceptionHandler
+        extends AuthenticationEntryPoint, AccessDeniedHandler, RequestRejectedHandler {
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, RequestRejectedException requestRejectedException) throws IOException, ServletException;
+    public void handle(HttpServletRequest request, HttpServletResponse response,
+            RequestRejectedException requestRejectedException) throws IOException, ServletException;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException;
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authenticationException) throws IOException, ServletException;
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException;
+    public void handle(HttpServletRequest request, HttpServletResponse response,
+            AccessDeniedException accessDeniedException) throws IOException, ServletException;
 
 }

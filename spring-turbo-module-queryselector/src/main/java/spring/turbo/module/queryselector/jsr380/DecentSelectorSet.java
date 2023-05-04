@@ -17,13 +17,15 @@ import static java.lang.annotation.ElementType.*;
 
 /**
  * @author 应卓
+ *
  * @see DecentSelectorSetValidator
+ *
  * @since 2.0.1
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Constraint(validatedBy = DecentSelectorSetValidator.class)
 public @interface DecentSelectorSet {
 

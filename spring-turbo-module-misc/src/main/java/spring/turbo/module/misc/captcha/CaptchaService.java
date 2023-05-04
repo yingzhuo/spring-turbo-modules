@@ -10,6 +10,7 @@ package spring.turbo.module.misc.captcha;
 
 /**
  * @author 应卓
+ *
  * @since 1.0.0
  */
 @FunctionalInterface

@@ -23,9 +23,11 @@ import java.util.function.Function;
  * {@link UserDetailsPlus} 创建器
  *
  * @author 应卓
+ *
  * @see org.springframework.security.core.userdetails.UserDetails
  * @see UserDetailsPlus#builder()
  * @see UserDetailsPlus
+ *
  * @since 1.0.0
  */
 public final class UserDetailsPlusBuilder {
@@ -214,22 +216,9 @@ public final class UserDetailsPlusBuilder {
             userBuilder.password(DEFAULT_PASSWORD);
         }
 
-        return new UserDetailsPlusImpl(
-                userBuilder.build(),
-                this.id,
-                this.nickname,
-                this.gender,
-                this.avatar,
-                this.nativeUser,
-                this.email,
-                this.phoneNumber,
-                this.dateOfBirth,
-                this.biography,
-                this.nationality,
-                this.location,
-                this.url,
-                this.attributes
-        );
+        return new UserDetailsPlusImpl(userBuilder.build(), this.id, this.nickname, this.gender, this.avatar,
+                this.nativeUser, this.email, this.phoneNumber, this.dateOfBirth, this.biography, this.nationality,
+                this.location, this.url, this.attributes);
     }
 
 }

@@ -13,7 +13,9 @@ import org.springframework.lang.Nullable;
 
 /**
  * @author 应卓
+ *
  * @see #getInstance()
+ *
  * @since 2.0.9
  */
 public final class NullVersionResolver implements VersionResolver {

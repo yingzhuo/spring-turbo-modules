@@ -22,20 +22,24 @@ import java.util.Optional;
 
 /**
  * @author 应卓
+ *
  * @see RemoteAddress
+ *
  * @since 1.0.0
  */
 public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class ||
-                parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == Optional.class;
+        return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class
+                || parameter.hasParameterAnnotation(RemoteAddress.class)
+                        && parameter.getParameterType() == Optional.class;
     }
 
     @Nullable
     @Override
-    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
         final var request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         String ip = null;

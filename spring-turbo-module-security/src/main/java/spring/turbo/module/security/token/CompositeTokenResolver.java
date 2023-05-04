@@ -25,6 +25,7 @@ import java.util.Optional;
  * 本类型解析器封装多个其他的解析器，如果之前的解析器不能解析出令牌，则尝试下一个。
  *
  * @author 应卓
+ *
  * @since 1.0.0
  */
 public final class CompositeTokenResolver implements TokenResolver {
@@ -32,13 +33,13 @@ public final class CompositeTokenResolver implements TokenResolver {
     private final List<TokenResolver> resolvers = new ArrayList<>();
 
     public CompositeTokenResolver(TokenResolver... resolvers) {
-        //添加并排序
+        // 添加并排序
         CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
         OrderComparator.sort(this.resolvers);
     }
 
     public CompositeTokenResolver(Collection<TokenResolver> resolvers) {
-        //添加并排序
+        // 添加并排序
         CollectionUtils.nullSafeAddAll(this.resolvers, resolvers);
         OrderComparator.sort(this.resolvers);
     }
@@ -52,7 +53,8 @@ public final class CompositeTokenResolver implements TokenResolver {
     public Optional<Token> resolve(WebRequest request) {
         for (TokenResolver it : resolvers) {
             Optional<Token> op = doResolve(it, request);
-            if (op.isPresent()) return op;
+            if (op.isPresent())
+                return op;
         }
         return Optional.empty();
     }

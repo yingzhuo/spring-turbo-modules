@@ -18,6 +18,7 @@ import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
+ *
  * @since 2.0.10
  */
 public class ServletPathVersionResolver implements VersionResolver {

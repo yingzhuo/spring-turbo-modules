@@ -30,6 +30,7 @@ import static org.springframework.http.HttpMethod.GET;
  * {@link RequestMatcher} 相关生成工具
  *
  * @author 应卓
+ *
  * @since 2.0.4
  */
 public final class RequestMatcherFactories {
@@ -108,19 +109,18 @@ public final class RequestMatcherFactories {
         Asserts.noNullElements(patterns);
 
         if (ArrayUtils.length(patterns) == 1) {
-            return new MvcRequestMatcher.Builder(introspector)
-                    .pattern(patterns[0]);
+            return new MvcRequestMatcher.Builder(introspector).pattern(patterns[0]);
         } else {
             var list = new ArrayList<RequestMatcher>();
             for (var pattern : patterns) {
-                list.add(new MvcRequestMatcher.Builder(introspector)
-                        .pattern(pattern));
+                list.add(new MvcRequestMatcher.Builder(introspector).pattern(pattern));
             }
             return new OrRequestMatcher(list.toArray(new RequestMatcher[0]));
         }
     }
 
-    public static RequestMatcher mvcPatterns(HandlerMappingIntrospector introspector, HttpMethod method, String... patterns) {
+    public static RequestMatcher mvcPatterns(HandlerMappingIntrospector introspector, HttpMethod method,
+            String... patterns) {
         Asserts.notNull(introspector);
         Asserts.notNull(method);
         Asserts.notNull(patterns);
@@ -128,13 +128,11 @@ public final class RequestMatcherFactories {
         Asserts.noNullElements(patterns);
 
         if (ArrayUtils.length(patterns) == 1) {
-            return new MvcRequestMatcher.Builder(introspector)
-                    .pattern(method, patterns[0]);
+            return new MvcRequestMatcher.Builder(introspector).pattern(method, patterns[0]);
         } else {
             var list = new ArrayList<RequestMatcher>();
             for (var pattern : patterns) {
-                list.add(new MvcRequestMatcher.Builder(introspector)
-                        .pattern(method, pattern));
+                list.add(new MvcRequestMatcher.Builder(introspector).pattern(method, pattern));
             }
             return new OrRequestMatcher(list.toArray(new RequestMatcher[0]));
         }
@@ -235,11 +233,9 @@ public final class RequestMatcherFactories {
         return kubernetesProps(introspector, GET, "/actuator", "/actuator/*", "/actuator/*/*");
     }
 
-    public static RequestMatcher kubernetesProps(HandlerMappingIntrospector introspector, HttpMethod method, String... patterns) {
-        return and(
-                mvcPatterns(introspector, method, patterns),
-                header(USER_AGENT, "^.*kube-probe/.*$")
-        );
+    public static RequestMatcher kubernetesProps(HandlerMappingIntrospector introspector, HttpMethod method,
+            String... patterns) {
+        return and(mvcPatterns(introspector, method, patterns), header(USER_AGENT, "^.*kube-probe/.*$"));
     }
 
 }
