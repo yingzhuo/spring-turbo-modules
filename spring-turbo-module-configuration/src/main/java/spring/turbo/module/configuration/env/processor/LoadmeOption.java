@@ -10,7 +10,6 @@ package spring.turbo.module.configuration.env.processor;
 
 import lombok.*;
 import org.springframework.boot.SpringApplication;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;

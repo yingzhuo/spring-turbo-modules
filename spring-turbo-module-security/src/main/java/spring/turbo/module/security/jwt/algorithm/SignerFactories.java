@@ -11,7 +11,6 @@ package spring.turbo.module.security.jwt.algorithm;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 import spring.turbo.core.ResourceLoaders;

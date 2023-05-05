@@ -471,6 +471,7 @@
                     <compilerSource>${java.version}</compilerSource>
                     <compilerCompliance>${java.version}</compilerCompliance>
                     <compilerTargetPlatform>${java.version}</compilerTargetPlatform>
+                    <removeTrailingWhitespace>true</removeTrailingWhitespace>
                 </configuration>
             </plugin>
         </plugins>
