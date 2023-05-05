@@ -8,10 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.algorithm;
 
+import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.lang.Nullable;
 import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.util.crypto.KeyStorage;
 
@@ -21,6 +23,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
+ * JWT签名器生成工具
+ *
  * @author 应卓
  *
  * @since 2.2.4
@@ -131,7 +135,7 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
+            // TODO: 细化
             throw new AssertionError();
         }
     }
@@ -150,6 +154,7 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // TODO: 细化
             throw new AssertionError();
         }
     }
@@ -168,6 +173,7 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // TODO: 细化
             throw new AssertionError();
         }
     }
@@ -188,6 +194,7 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // TODO: 细化
             throw new AssertionError();
         }
     }
@@ -206,6 +213,7 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // TODO: 细化
             throw new AssertionError();
         }
     }
@@ -224,7 +232,20 @@ public final class SignerFactories {
         } catch (IOException e) {
             throw IOExceptionUtils.toUnchecked(e);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // TODO: 细化
             throw new AssertionError();
         }
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public static JWTSigner SM2(String publicKeyBase64, String privateKeyBase64) {
+        return SM2(publicKeyBase64, privateKeyBase64, null);
+    }
+
+    public static JWTSigner SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
+        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
+        return new SM2JWTSinger(sm2, withId);
+    }
+
 }
