@@ -8,7 +8,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import spring.turbo.util.Asserts;
+import java.io.Serializable;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static spring.turbo.module.security.jwt.JwtConstants.*;
 
 /**
  * JWT令牌工厂
@@ -19,30 +26,116 @@ import spring.turbo.util.Asserts;
  */
 public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
 
-    /**
-     * 创建令牌
-     *
-     * @param metadata
-     *            令牌元数据信息
-     *
-     * @return 令牌字符串
-     *
-     * @see JwtTokenMetadata#builder()
-     * @see JwtTokenMetadata.Builder
-     */
-    public String create(JwtTokenMetadata metadata);
+    public String create(Data data);
 
-    /**
-     * 创建令牌
-     *
-     * @param builder
-     *            令牌元数据创建器
-     *
-     * @return 令牌字符串
-     */
-    public default String create(JwtTokenMetadata.Builder builder) {
-        Asserts.notNull(builder);
-        return create(builder.build());
+    public static final class Data implements Serializable {
+
+        private final Map<String, Object> headerMap = new HashMap<>();
+        private final Map<String, Object> payloadMap = new HashMap<>();
+
+        /**
+         * 私有构造方法
+         */
+        private Data() {
+            super();
+        }
+
+        public static Data newInstance() {
+            return new Data();
+        }
+
+        // Registered Header
+        public Data type(String type) {
+            headerMap.put(HEADER_TYPE, type);
+            return this;
+        }
+
+        // Registered Header
+        public Data keyId(Object id) {
+            headerMap.put(HEADER_KEY_ID, id);
+            return this;
+        }
+
+        // Registered Header
+        public Data contentType(Object contentType) {
+            headerMap.put(HEADER_CONTENT_TYPE, contentType);
+            return this;
+        }
+
+        // Registered Header
+        public Data algorithm(String algorithm) {
+            headerMap.put(HEADER_ALGORITHM, algorithm);
+            return this;
+        }
+
+        // Registered Claim
+        public Data issuer(String issuer) {
+            payloadMap.put(PAYLOAD_ISSUER, issuer);
+            return this;
+        }
+
+        // Registered Claim
+        public Data subject(String subject) {
+            payloadMap.put(PAYLOAD_SUBJECT, subject);
+            return this;
+        }
+
+        // Registered Claim
+        public Data audience(String... audience) {
+            payloadMap.put(PAYLOAD_AUDIENCE, audience);
+            return this;
+        }
+
+        // Registered Claim
+        public Data expiresAt(Date time) {
+            payloadMap.put(PAYLOAD_EXPIRES_AT, time);
+            return this;
+        }
+
+        public Data expiresAtFuture(Duration duration) {
+            payloadMap.put(PAYLOAD_EXPIRES_AT, new Date(System.currentTimeMillis() + duration.toMillis()));
+            return this;
+        }
+
+        // Registered Claim
+        public Data notBefore(Date time) {
+            payloadMap.put(PAYLOAD_NOT_BEFORE, time);
+            return this;
+        }
+
+        public Data notBeforeAtFuture(Duration duration) {
+            payloadMap.put(PAYLOAD_NOT_BEFORE, new Date(System.currentTimeMillis() + duration.toMillis()));
+            return this;
+        }
+
+        // Registered Claim
+        public Data issuedAt(Date time) {
+            payloadMap.put(PAYLOAD_ISSUED_AT, time);
+            return this;
+        }
+
+        public Data issuedAtNow() {
+            return issuedAt(new Date());
+        }
+
+        // Registered Claim
+        public Data jwtId(Object jwtId) {
+            payloadMap.put(PAYLOAD_JWT_ID, jwtId);
+            return this;
+        }
+
+        public Data addPayload(String name, Object value) {
+            payloadMap.put(name, value);
+            return this;
+        }
+
+        public Map<String, Object> getHeaderMap() {
+            return Collections.unmodifiableMap(headerMap);
+        }
+
+        public Map<String, Object> getPayloadMap() {
+            return Collections.unmodifiableMap(payloadMap);
+        }
     }
 
 }
