@@ -41,11 +41,6 @@ import static spring.turbo.util.StringPool.EMPTY;
 @Qualifier
 public @interface FeignClient {
 
-    /*
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 从 spring-turbo 2.0.10版本开始
-     * 本元注释也是一个 MetaAnnotation! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     */
-
     /**
      * Bean Name
      *

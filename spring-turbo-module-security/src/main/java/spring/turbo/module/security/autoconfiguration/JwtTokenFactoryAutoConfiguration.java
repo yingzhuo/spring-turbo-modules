@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.autoconfiguration;
 
-import com.auth0.jwt.algorithms.Algorithm;
+import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -23,8 +23,8 @@ import spring.turbo.module.security.jwt.JwtTokenFactoryImpl;
  * @since 1.3.0
  */
 @AutoConfiguration
-@ConditionalOnClass(name = "com.auth0.jwt.algorithms.Algorithm")
-@ConditionalOnBean(type = "com.auth0.jwt.algorithms.Algorithm")
+@ConditionalOnClass(name = "cn.hutool.jwt.signers.JWTSigner")
+@ConditionalOnBean(type = "cn.hutool.jwt.signers.JWTSigner")
 @ConditionalOnMissingBean(type = "spring.turbo.module.security.jwt.JwtTokenFactory")
 public class JwtTokenFactoryAutoConfiguration {
 
@@ -36,8 +36,8 @@ public class JwtTokenFactoryAutoConfiguration {
     }
 
     @Bean
-    public JwtTokenFactory jwtFactory(Algorithm algorithm) {
-        return new JwtTokenFactoryImpl(algorithm);
+    public JwtTokenFactory jwtTokenFactory(JWTSigner signer) {
+        return new JwtTokenFactoryImpl(signer);
     }
 
 }

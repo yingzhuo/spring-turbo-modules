@@ -8,34 +8,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.Verification;
-import org.springframework.lang.NonNull;
+import cn.hutool.core.exceptions.ValidateException;
+import cn.hutool.jwt.JWT;
+import cn.hutool.jwt.JWTValidator;
+import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
+import spring.turbo.module.security.jwt.exception.BadJwtAlgorithmTokenException;
+import spring.turbo.module.security.jwt.exception.BadJwtFormatTokenException;
+import spring.turbo.module.security.jwt.exception.BadJwtTimeTokenException;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
-
-import java.util.Optional;
 
 /**
  * @author 应卓
  *
- * @since 1.0.0
+ * @since 2.2.4
  */
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {
 
-    private final Algorithm algorithm;
+    private final JWTSigner signer;
 
-    public AbstractJwtTokenToUserConverter(Algorithm algorithm) {
-        Asserts.notNull(algorithm);
-        this.algorithm = algorithm;
+    public AbstractJwtTokenToUserConverter(JWTSigner signer) {
+        Asserts.notNull(signer);
+        this.signer = signer;
     }
 
     @Nullable
@@ -46,18 +44,37 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
             return null;
         }
 
+        var rawToken = token.asString();
+
+        JWT jwt;
+
         try {
-            final String rawToken = token.asString();
-            final Verification verification = JWT.require(algorithm);
-            final JWTVerifier verifier = verification.build();
-            DecodedJWT jwt = verifier.verify(rawToken);
-            return doAuthenticate(rawToken, jwt).orElse(null);
-        } catch (JWTVerificationException e) {
-            throw VerificationExceptionTransformer.transform(e);
+            jwt = JWT.of(rawToken);
+        } catch (Exception e) {
+            // 根本不是JWT格式
+            throw new BadJwtFormatTokenException(e.getMessage(), e);
         }
+
+        var validator = JWTValidator.of(jwt);
+
+        try {
+            validator.validateAlgorithm(signer);
+        } catch (ValidateException e) {
+            // 签名错误
+            throw new BadJwtAlgorithmTokenException(e.getMessage(), e);
+        }
+
+        try {
+            validator.validateDate();
+        } catch (ValidateException e) {
+            // 日期错误
+            throw new BadJwtTimeTokenException(e.getMessage(), e);
+        }
+
+        return doAuthenticate(rawToken, jwt);
     }
 
-    protected abstract Optional<UserDetails> doAuthenticate(@NonNull String rawToken, DecodedJWT jwt)
-            throws AuthenticationException;
+    @Nullable
+    protected abstract UserDetails doAuthenticate(String rawToken, JWT jwt) throws AuthenticationException;
 
 }

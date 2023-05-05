@@ -8,98 +8,76 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import spring.turbo.util.Asserts;
+import cn.hutool.jwt.JWTUtil;
+import cn.hutool.jwt.signers.JWTSigner;
+import org.springframework.lang.Nullable;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * @author 应卓
  *
- * @since 1.0.0
+ * @since 2.2.4
  */
 public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
-    private final Algorithm algorithm;
+    private final JWTSigner signer;
 
-    public JwtTokenFactoryImpl(Algorithm algorithm) {
-        Asserts.notNull(algorithm);
-        this.algorithm = algorithm;
+    private boolean overrideType = true;
+    private boolean overrideAlgorithm = true;
+    private boolean overrideIssueAt = true;
+
+    @Nullable
+    private Supplier<String> nonceSupplier = null;
+
+    public JwtTokenFactoryImpl(JWTSigner signer) {
+        this.signer = signer;
     }
 
     @Override
-    public String create(JwtTokenMetadata metadata) {
-        var builder = JWT.create();
+    public String create(Data data) {
 
-        Optional.ofNullable(metadata.getKeyId()).ifPresent(builder::withKeyId);
-        Optional.ofNullable(metadata.getJwtId()).ifPresent(builder::withJWTId);
-        Optional.ofNullable(metadata.getIssuer()).ifPresent(builder::withIssuer);
-        Optional.ofNullable(metadata.getSubject()).ifPresent(builder::withSubject);
-        Optional.ofNullable(metadata.getExpiresAt()).ifPresent(builder::withExpiresAt);
-        Optional.ofNullable(metadata.getNotBefore()).ifPresent(builder::withNotBefore);
-        Optional.ofNullable(metadata.getIssuedAt()).ifPresent(builder::withIssuedAt);
-        Optional.ofNullable(metadata.getAudience()).ifPresent(it -> {
-            if (!it.isEmpty()) {
-                builder.withAudience(metadata.getAudience().toArray(new String[0]));
+        // 强行覆盖 header - typ
+        if (overrideType) {
+            data.type("JWT");
+        }
+
+        // 强行覆盖 header - alg
+        if (overrideAlgorithm) {
+            data.algorithm(signer.getAlgorithmId());
+        }
+
+        // 强行覆盖 payload - iat
+        if (overrideIssueAt) {
+            data.issuedAtNow();
+        }
+
+        // 生成nonce
+        if (nonceSupplier != null) {
+            var nonce = nonceSupplier.get();
+            if (nonce != null) {
+                data.addPayload("_nonce_", nonce);
             }
-        });
+        }
 
-        // Private Claims
-        Optional.ofNullable(metadata.getPayloadClaims()).ifPresent(map -> {
-            final Set<String> keySet = map.keySet();
-            for (var name : keySet) {
-                var value = map.get(name);
+        // 生成令牌
+        return JWTUtil.createToken(data.getHeaderMap(), data.getPayloadMap(), signer);
+    }
 
-                if (value instanceof String) {
-                    builder.withClaim(name, (String) value);
-                    continue;
-                }
+    public void setOverrideType(boolean overrideType) {
+        this.overrideType = overrideType;
+    }
 
-                if (value instanceof Integer) {
-                    builder.withClaim(name, (Integer) value);
-                    continue;
-                }
+    public void setOverrideAlgorithm(boolean overrideAlgorithm) {
+        this.overrideAlgorithm = overrideAlgorithm;
+    }
 
-                if (value instanceof Boolean) {
-                    builder.withClaim(name, (Boolean) value);
-                    continue;
-                }
+    public void setOverrideIssueAt(boolean overrideIssueAt) {
+        this.overrideIssueAt = overrideIssueAt;
+    }
 
-                if (value instanceof Date) {
-                    builder.withClaim(name, (Date) value);
-                    continue;
-                }
-
-                if (value instanceof Long) {
-                    builder.withClaim(name, (Long) value);
-                    continue;
-                }
-
-                if (value instanceof Double) {
-                    builder.withClaim(name, (Double) value);
-                    continue;
-                }
-
-                if (value instanceof String[]) {
-                    builder.withArrayClaim(name, (String[]) value);
-                    continue;
-                }
-
-                if (value instanceof Integer[]) {
-                    builder.withArrayClaim(name, (Integer[]) value);
-                    continue;
-                }
-
-                if (value instanceof Long[]) {
-                    builder.withArrayClaim(name, (Long[]) value);
-                }
-            }
-        });
-
-        return builder.sign(algorithm);
+    public void setNonceSupplier(@Nullable Supplier<String> nonceSupplier) {
+        this.nonceSupplier = nonceSupplier;
     }
 
 }
