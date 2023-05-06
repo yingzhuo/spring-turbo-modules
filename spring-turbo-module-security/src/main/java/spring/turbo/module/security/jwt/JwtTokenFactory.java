@@ -26,6 +26,14 @@ import static spring.turbo.module.security.jwt.JwtConstants.*;
  */
 public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
 
+    /**
+     * 创建令牌
+     *
+     * @param data
+     *            令牌数据
+     *
+     * @return 令牌
+     */
     public String create(Data data);
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -70,25 +78,25 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data issuer(String issuer) {
             payloadMap.put(PAYLOAD_ISSUER, issuer);
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data subject(String subject) {
             payloadMap.put(PAYLOAD_SUBJECT, subject);
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data audience(String... audience) {
             payloadMap.put(PAYLOAD_AUDIENCE, audience);
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data expiresAt(Date time) {
             payloadMap.put(PAYLOAD_EXPIRES_AT, time);
             return this;
@@ -99,28 +107,30 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data notBefore(Date time) {
             payloadMap.put(PAYLOAD_NOT_BEFORE, time);
             return this;
         }
 
+        // Registered Payload
         public Data notBeforeAtFuture(Duration duration) {
             payloadMap.put(PAYLOAD_NOT_BEFORE, new Date(System.currentTimeMillis() + duration.toMillis()));
             return this;
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data issuedAt(Date time) {
             payloadMap.put(PAYLOAD_ISSUED_AT, time);
             return this;
         }
 
+        // Registered Payload
         public Data issuedAtNow() {
             return issuedAt(new Date());
         }
 
-        // Registered Claim
+        // Registered Payload
         public Data jwtId(Object jwtId) {
             payloadMap.put(PAYLOAD_JWT_ID, jwtId);
             return this;

@@ -67,7 +67,7 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         if (nonceSupplier != null) {
             var nonce = nonceSupplier.get();
             if (nonce != null) {
-                data.addPayload("_nonce_", nonce);
+                data.addPayload("nonce", nonce);
             }
         }
 
