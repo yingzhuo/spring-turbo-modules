@@ -30,6 +30,9 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     @Nullable
     private Supplier<String> nonceSupplier = null;
 
+    @Nullable
+    private Supplier<String> keyIdSupplier = null;
+
     public JwtTokenFactoryImpl(JWTSigner signer) {
         this.signer = signer;
     }
@@ -45,6 +48,14 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         // 强行覆盖 header - alg
         if (overrideAlgorithm) {
             data.algorithm(signer.getAlgorithmId());
+        }
+
+        // 强行覆盖 header - keyId
+        if (keyIdSupplier != null) {
+            var keyId = keyIdSupplier.get();
+            if (keyId != null) {
+                data.keyId(keyId);
+            }
         }
 
         // 强行覆盖 payload - iat
@@ -78,6 +89,10 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     public void setNonceSupplier(@Nullable Supplier<String> nonceSupplier) {
         this.nonceSupplier = nonceSupplier;
+    }
+
+    public void setKeyIdSupplier(@Nullable Supplier<String> keyIdSupplier) {
+        this.keyIdSupplier = keyIdSupplier;
     }
 
 }

@@ -20,18 +20,61 @@ import java.io.Serializable;
 /**
  * JWT装饰器
  *
- * @param jwt
- *            被装饰的 {@link JWT} 实例
- *
  * @author 应卓
+ *
+ * @see JwtConstants
  *
  * @since 2.2.5
  */
-public final record JwtDecorator(JWT jwt) implements Serializable {
+public final class JwtDecorator implements Serializable {
 
+    private final JWT jwt;
+
+    /**
+     * 创建装饰器
+     *
+     * @param jwt
+     *            {@link JWT} 对象
+     *
+     * @return 装饰器实例
+     */
     public static JwtDecorator newInstance(JWT jwt) {
         return new JwtDecorator(jwt);
     }
+
+    /**
+     * 私有构造方法
+     *
+     * @param jwt
+     *            {@link JWT} 对象
+     */
+    private JwtDecorator(JWT jwt) {
+        this.jwt = jwt;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @NonNull
+    public String getHeaderAlgorithm() {
+        return (String) jwt.getHeader(JwtConstants.HEADER_ALGORITHM);
+    }
+
+    @NonNull
+    public String getHeaderKeyId() {
+        return (String) jwt.getHeader(JwtConstants.HEADER_KEY_ID);
+    }
+
+    @NonNull
+    public String getHeaderContentType() {
+        return (String) jwt.getHeader(JwtConstants.HEADER_CONTENT_TYPE);
+    }
+
+    @NonNull
+    public String getHeaderType() {
+        return (String) jwt.getHeader(JwtConstants.HEADER_TYPE);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Nullable
     public String getPayloadString(String name) {
@@ -148,6 +191,10 @@ public final record JwtDecorator(JWT jwt) implements Serializable {
         var array = getPayloadDoubleArray(name);
         Asserts.notNull(array);
         return array;
+    }
+
+    public JWT getJwt() {
+        return jwt;
     }
 
 }

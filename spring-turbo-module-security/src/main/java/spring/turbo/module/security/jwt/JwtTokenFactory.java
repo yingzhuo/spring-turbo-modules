@@ -28,6 +28,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
 
     public String create(Data data);
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     public static final class Data implements Serializable {
 
         private final Map<String, Object> headerMap = new HashMap<>();
@@ -51,13 +53,13 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         }
 
         // Registered Header
-        public Data keyId(Object id) {
+        public Data keyId(String id) {
             headerMap.put(HEADER_KEY_ID, id);
             return this;
         }
 
         // Registered Header
-        public Data contentType(Object contentType) {
+        public Data contentType(String contentType) {
             headerMap.put(HEADER_CONTENT_TYPE, contentType);
             return this;
         }
