@@ -25,6 +25,8 @@ import spring.turbo.util.Asserts;
 /**
  * @author 应卓
  *
+ * @see JwtDecorator
+ *
  * @since 2.2.4
  */
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {

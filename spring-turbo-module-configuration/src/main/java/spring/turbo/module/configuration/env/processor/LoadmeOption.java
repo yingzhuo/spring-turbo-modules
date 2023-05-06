@@ -10,10 +10,10 @@ package spring.turbo.module.configuration.env.processor;
 
 import lombok.*;
 import org.springframework.boot.SpringApplication;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
+import spring.turbo.core.ResourceLoaders;
 import spring.turbo.io.RichResource;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public enum LoadmeOption {
 
     PROPERTIES(".properties", ".xml"), YAML(".yaml", ".yml"), HOCON(".conf");
 
-    private final static ResourceLoader RESOURCE_LOADER = new DefaultResourceLoader();
+    private final static ResourceLoader RESOURCE_LOADER = ResourceLoaders.getDefault();
 
     private final String[] suffixes;
 

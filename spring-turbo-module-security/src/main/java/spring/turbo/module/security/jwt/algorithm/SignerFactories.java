@@ -11,9 +11,9 @@ package spring.turbo.module.security.jwt.algorithm;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
+import spring.turbo.core.ResourceLoaders;
 import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.util.crypto.KeyStorage;
 
@@ -31,7 +31,7 @@ import java.security.spec.InvalidKeySpecException;
  */
 public final class SignerFactories {
 
-    private static final ResourceLoader RESOURCE_LOADER = new DefaultResourceLoader();
+    private static final ResourceLoader RESOURCE_LOADER = ResourceLoaders.getDefault();
 
     /**
      * 私有构造方法
