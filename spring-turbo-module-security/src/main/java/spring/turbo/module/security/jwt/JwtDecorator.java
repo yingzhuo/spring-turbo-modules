@@ -51,6 +51,7 @@ public final class JwtDecorator implements Serializable {
      *            {@link JWT} 对象
      */
     private JwtDecorator(JWT jwt) {
+        Asserts.notNull(jwt, "jwt is null");
         this.jwt = jwt;
     }
 
