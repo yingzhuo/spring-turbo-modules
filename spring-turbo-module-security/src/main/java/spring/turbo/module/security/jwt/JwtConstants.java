@@ -17,14 +17,15 @@ package spring.turbo.module.security.jwt;
  */
 public final class JwtConstants {
 
-    public static final String HEADER_TYPE = "typ";
-
+    // headers
     // -----------------------------------------------------------------------------------------------------------------
+    public static final String HEADER_TYPE = "typ";
     public static final String HEADER_KEY_ID = "kid";
     public static final String HEADER_ALGORITHM = "alg";
     public static final String HEADER_CONTENT_TYPE = "cty";
     public static final String PAYLOAD_ISSUER = "iss";
 
+    // payload
     // -----------------------------------------------------------------------------------------------------------------
     public static final String PAYLOAD_SUBJECT = "sub";
     public static final String PAYLOAD_AUDIENCE = "aud";

@@ -17,6 +17,8 @@ import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 
+import static spring.turbo.module.security.jwt.JwtConstants.*;
+
 /**
  * JWT装饰器
  *
@@ -49,6 +51,7 @@ public final class JwtDecorator implements Serializable {
      *            {@link JWT} 对象
      */
     private JwtDecorator(JWT jwt) {
+        Asserts.notNull(jwt, "jwt is null");
         this.jwt = jwt;
     }
 
@@ -56,22 +59,22 @@ public final class JwtDecorator implements Serializable {
 
     @NonNull
     public String getHeaderAlgorithm() {
-        return (String) jwt.getHeader(JwtConstants.HEADER_ALGORITHM);
+        return (String) jwt.getHeader(HEADER_ALGORITHM);
     }
 
     @NonNull
     public String getHeaderKeyId() {
-        return (String) jwt.getHeader(JwtConstants.HEADER_KEY_ID);
+        return (String) jwt.getHeader(HEADER_KEY_ID);
     }
 
     @NonNull
     public String getHeaderContentType() {
-        return (String) jwt.getHeader(JwtConstants.HEADER_CONTENT_TYPE);
+        return (String) jwt.getHeader(HEADER_CONTENT_TYPE);
     }
 
     @NonNull
     public String getHeaderType() {
-        return (String) jwt.getHeader(JwtConstants.HEADER_TYPE);
+        return (String) jwt.getHeader(HEADER_TYPE);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

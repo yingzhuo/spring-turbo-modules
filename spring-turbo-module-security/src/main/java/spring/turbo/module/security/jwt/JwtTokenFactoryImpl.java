@@ -11,6 +11,7 @@ package spring.turbo.module.security.jwt;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.lang.Nullable;
+import spring.turbo.util.Asserts;
 
 import java.util.function.Supplier;
 
@@ -28,12 +29,19 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     private boolean overrideIssueAt = true;
 
     @Nullable
-    private Supplier<String> nonceSupplier = null;
+    private Supplier<Nonce> nonceSupplier = null;
 
     @Nullable
     private Supplier<String> keyIdSupplier = null;
 
+    /**
+     * 构造方法
+     *
+     * @param signer
+     *            签名算法实例
+     */
     public JwtTokenFactoryImpl(JWTSigner signer) {
+        Asserts.notNull(signer, "signer is null");
         this.signer = signer;
     }
 
@@ -67,7 +75,12 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         if (nonceSupplier != null) {
             var nonce = nonceSupplier.get();
             if (nonce != null) {
-                data.addPayload("_nonce_", nonce);
+                var name = nonce.payloadName();
+                var nonceSupplier = nonce.supplier();
+                var nonceString = nonceSupplier != null ? nonceSupplier.get() : null;
+                if (name != null && nonceString != null) {
+                    data.addPayload("nonce", nonceString);
+                }
             }
         }
 
@@ -87,12 +100,17 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         this.overrideIssueAt = overrideIssueAt;
     }
 
-    public void setNonceSupplier(@Nullable Supplier<String> nonceSupplier) {
+    public void setNonceSupplier(@Nullable Supplier<Nonce> nonceSupplier) {
         this.nonceSupplier = nonceSupplier;
     }
 
     public void setKeyIdSupplier(@Nullable Supplier<String> keyIdSupplier) {
         this.keyIdSupplier = keyIdSupplier;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public final record Nonce(@Nullable String payloadName, @Nullable Supplier<String> supplier) {
     }
 
 }
