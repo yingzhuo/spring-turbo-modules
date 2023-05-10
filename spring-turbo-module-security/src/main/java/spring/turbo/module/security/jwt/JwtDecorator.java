@@ -33,6 +33,17 @@ public final class JwtDecorator implements Serializable {
     private final JWT jwt;
 
     /**
+     * 私有构造方法
+     *
+     * @param jwt
+     *            {@link JWT} 对象
+     */
+    private JwtDecorator(JWT jwt) {
+        Asserts.notNull(jwt, "jwt is null");
+        this.jwt = jwt;
+    }
+
+    /**
      * 创建装饰器
      *
      * @param jwt
@@ -42,17 +53,6 @@ public final class JwtDecorator implements Serializable {
      */
     public static JwtDecorator newInstance(JWT jwt) {
         return new JwtDecorator(jwt);
-    }
-
-    /**
-     * 私有构造方法
-     *
-     * @param jwt
-     *            {@link JWT} 对象
-     */
-    private JwtDecorator(JWT jwt) {
-        Asserts.notNull(jwt, "jwt is null");
-        this.jwt = jwt;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
