@@ -16,6 +16,8 @@ import spring.turbo.util.Asserts;
 import java.util.function.Supplier;
 
 /**
+ * JWT令牌工厂实现
+ *
  * @author 应卓
  *
  * @since 2.2.4
@@ -27,12 +29,8 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     private boolean overrideType = true;
     private boolean overrideAlgorithm = true;
     private boolean overrideIssueAt = true;
-
-    @Nullable
-    private Supplier<Nonce> nonceSupplier = null;
-
-    @Nullable
-    private Supplier<String> keyIdSupplier = null;
+    private @Nullable Supplier<Nonce> nonceSupplier = null;
+    private @Nullable Supplier<String> keyIdSupplier = null;
 
     /**
      * 构造方法
@@ -88,6 +86,10 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         return JWTUtil.createToken(data.getHeaderMap(), data.getPayloadMap(), signer);
     }
 
+    public JWTSigner getSigner() {
+        return signer;
+    }
+
     public void setOverrideType(boolean overrideType) {
         this.overrideType = overrideType;
     }
@@ -110,7 +112,7 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public final record Nonce(@Nullable String payloadName, @Nullable Supplier<String> supplier) {
+    public record Nonce(@Nullable String payloadName, @Nullable Supplier<String> supplier) {
     }
 
 }

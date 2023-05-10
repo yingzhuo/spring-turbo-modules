@@ -31,10 +31,6 @@ final class SM2JWTSinger implements JWTSigner {
     @Nullable
     private final byte[] withId;
 
-    public SM2JWTSinger(SM2 sm2) {
-        this(sm2, null);
-    }
-
     public SM2JWTSinger(SM2 sm2, @Nullable String withId) {
         this.sm2 = sm2;
         this.withId = withId != null ? withId.getBytes() : null;
