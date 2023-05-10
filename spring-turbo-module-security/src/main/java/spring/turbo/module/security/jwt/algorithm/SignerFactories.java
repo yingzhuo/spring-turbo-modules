@@ -11,16 +11,12 @@ package spring.turbo.module.security.jwt.algorithm;
 import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import org.springframework.core.io.ResourceLoader;
+import lombok.SneakyThrows;
 import org.springframework.lang.Nullable;
 import spring.turbo.core.ResourceLoaders;
-import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.util.crypto.KeyStorage;
 
-import java.io.IOException;
 import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 /**
  * JWT签名器生成工具
@@ -30,8 +26,6 @@ import java.security.spec.InvalidKeySpecException;
  * @since 2.2.4
  */
 public final class SignerFactories {
-
-    private static final ResourceLoader RESOURCE_LOADER = ResourceLoaders.getDefault();
 
     /**
      * 私有构造方法
@@ -67,18 +61,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner RS256(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return RS256(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RS256(keyPair);
     }
 
     public static JWTSigner RS384(KeyPair keyPair) {
@@ -86,18 +74,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner RS384(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return RS384(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RS384(keyPair);
     }
 
     public static JWTSigner RS512(KeyPair keyPair) {
@@ -105,18 +87,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner RS512(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return RS512(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RS512(keyPair);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -126,18 +102,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner ES256(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-            return ES256(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
+        return ES256(keyPair);
     }
 
     public static JWTSigner ES384(KeyPair keyPair) {
@@ -145,18 +115,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner ES384(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-            return ES384(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
+        return ES384(keyPair);
     }
 
     public static JWTSigner ES512(KeyPair keyPair) {
@@ -164,18 +128,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner ES512(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-            return ES512(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
+        return ES512(keyPair);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -185,18 +143,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner PS256(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return PS256(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return PS256(keyPair);
     }
 
     public static JWTSigner PS384(KeyPair keyPair) {
@@ -204,18 +156,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner PS384(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return PS384(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return PS384(keyPair);
     }
 
     public static JWTSigner PS512(KeyPair keyPair) {
@@ -223,18 +169,12 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
+    @SneakyThrows
     public static JWTSigner PS512(String publicKeyLocation, String privateKeyLocation) {
-        try {
-            var publicKeyIn = RESOURCE_LOADER.getResource(publicKeyLocation).getInputStream();
-            var privateKeyIn = RESOURCE_LOADER.getResource(privateKeyLocation).getInputStream();
-            var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-            return PS512(keyPair);
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            // TODO: 细化
-            throw new AssertionError();
-        }
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return PS512(keyPair);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
