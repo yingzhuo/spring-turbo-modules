@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import spring.turbo.module.security.exception.BadTokenException;
 
 /**
  * 错误的JWT令牌格式
@@ -17,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @since 2.2.4
  */
-public class BadJwtFormatTokenException extends AuthenticationException {
+public class BadJwtFormatTokenException extends BadTokenException {
 
     public BadJwtFormatTokenException(String msg) {
         super(msg);

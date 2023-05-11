@@ -64,7 +64,10 @@ public final class PasswordEncoderFactories {
         var encodersMap = getEncoders();
         var ret = new DelegatingPasswordEncoder(encodingId, encodersMap);
 
-        log.info("supported encoder ids: [{}]", String.join(",", encodersMap.keySet()));
+        if (log.isInfoEnabled()) {
+            var ids = encodersMap.keySet().stream().filter(s -> !"broken".equals(s)).toList();
+            log.info("supported encoder ids: [{}]", String.join(",", ids));
+        }
 
         if (isNotBlank(defaultPasswordEncoderForMatches)) {
             ret.setDefaultPasswordEncoderForMatches(encodersMap.get(defaultPasswordEncoderForMatches));

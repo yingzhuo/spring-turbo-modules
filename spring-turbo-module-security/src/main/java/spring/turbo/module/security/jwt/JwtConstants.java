@@ -29,7 +29,7 @@ public final class JwtConstants {
     // -----------------------------------------------------------------------------------------------------------------
     public static final String PAYLOAD_SUBJECT = "sub";
     public static final String PAYLOAD_AUDIENCE = "aud";
-    public static final String PAYLOAD_EXPIRES_AT = "exp";
+    public static final String PAYLOAD_EXPIRES = "exp";
     public static final String PAYLOAD_NOT_BEFORE = "nbf";
     public static final String PAYLOAD_ISSUED_AT = "iat";
     public static final String PAYLOAD_JWT_ID = "jti";
