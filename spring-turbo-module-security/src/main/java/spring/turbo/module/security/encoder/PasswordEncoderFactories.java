@@ -22,10 +22,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
+import static spring.turbo.module.security.encoder.EncodingIds.BROKEN;
 import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
 import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
+ * {@link PasswordEncoder} 创建工具
+ *
  * @author 应卓
  *
  * @see PasswordEncoder
@@ -65,7 +68,8 @@ public final class PasswordEncoderFactories {
         var ret = new DelegatingPasswordEncoder(encodingId, encodersMap);
 
         if (log.isInfoEnabled()) {
-            var ids = encodersMap.keySet().stream().filter(s -> !"broken".equals(s)).toList();
+            // 日志可以忽略BROKEN类型
+            var ids = encodersMap.keySet().stream().filter(s -> !BROKEN.equals(s)).toList();
             log.info("supported encoder ids: [{}]", String.join(",", ids));
         }
 

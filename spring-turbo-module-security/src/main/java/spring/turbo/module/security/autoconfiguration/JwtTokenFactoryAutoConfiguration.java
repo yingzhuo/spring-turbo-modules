@@ -35,7 +35,7 @@ public class JwtTokenFactoryAutoConfiguration {
         super();
     }
 
-    @Bean
+    @Bean(name = "defaultJwtTokenFactory")
     public JwtTokenFactory jwtTokenFactory(JWTSigner signer) {
         return new JwtTokenFactoryImpl(signer);
     }

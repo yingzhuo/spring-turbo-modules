@@ -137,7 +137,10 @@ public class Authentication extends AbstractAuthenticationToken
     }
 
     public void clearVariables() {
-        setVariables(null);
+        if (this.variables != null) {
+            this.variables.clear();
+            this.variables = null;
+        }
     }
 
 }

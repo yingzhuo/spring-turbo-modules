@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @since 2.0.14
  */
-@Deprecated
 public final class BrokenPasswordEncoder implements PasswordEncoder {
 
     /**
@@ -28,6 +27,11 @@ public final class BrokenPasswordEncoder implements PasswordEncoder {
         super();
     }
 
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
     public static BrokenPasswordEncoder getInstance() {
         return SyncAvoid.INSTANCE;
     }
