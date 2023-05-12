@@ -37,6 +37,9 @@ public class ObjectMapperEditingAutoConfiguration implements InitializingBean {
         this.objectMapper = om;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void afterPropertiesSet() {
         this.objectMapper.registerModules(new SecurityModuleJackson2Module());

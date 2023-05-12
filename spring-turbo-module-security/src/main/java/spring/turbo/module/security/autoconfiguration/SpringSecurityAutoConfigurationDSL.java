@@ -37,7 +37,7 @@ public class SpringSecurityAutoConfigurationDSL
 
         for (final FilterConfiguration configuration : configurations) {
 
-            // 如果已被禁用则跳过
+            // 如果没有启用则跳过
             if (!configuration.isEnabled()) {
                 continue;
             }
@@ -60,7 +60,7 @@ public class SpringSecurityAutoConfigurationDSL
             case BEFORE -> http.addFilterBefore(filter, position);
             case AFTER -> http.addFilterAfter(filter, position);
             case REPLACE -> http.addFilterAt(filter, position);
-            default -> throw new AssertionError();
+            default -> throw new AssertionError(); // 不可能运行到此处
             }
         }
     }

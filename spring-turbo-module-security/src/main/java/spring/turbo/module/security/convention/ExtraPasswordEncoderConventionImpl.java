@@ -97,6 +97,7 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
             final Optional<PasswordEncoder> option = InstanceUtils.newInstance(classname);
             return option.orElse(null);
         } catch (Throwable ignored) {
+            // 由于缺乏依赖等原因加载失败
             return null;
         }
     }
