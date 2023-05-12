@@ -8,15 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.autoconfiguration;
 
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.FilterConfiguration;
-
-import java.util.List;
 
 /**
  * SpringSecurity DSL
@@ -25,32 +22,35 @@ import java.util.List;
  *
  * @since 1.3.0
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "unchecked" })
 public class SpringSecurityAutoConfigurationDSL
         extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        final SpringContext ctx = this.getSpringContext(http);
+        var ctx = http.getSharedObject(ApplicationContext.class);
 
-        final List<FilterConfiguration> configurations = ctx.getBeanList(FilterConfiguration.class);
+        // 核心配置 (多个)
+        var configurations = ctx.getBeansOfType(FilterConfiguration.class).values();
 
-        for (final FilterConfiguration configuration : configurations) {
+        for (var configuration : configurations) {
 
             // 如果没有启用则跳过
-            if (!configuration.isEnabled()) {
+            var env = ctx.getEnvironment();
+            var args = ctx.getBean(ApplicationArguments.class);
+            if (!configuration.isEnabled(env, args)) {
                 continue;
             }
 
             // 获取过滤器实例
-            final Filter filter = configuration.create();
+            var filter = configuration.create();
             if (filter == null) {
                 continue;
             }
 
             // 尝试初始化
-            if (filter instanceof InitializingBean initializingBeanFilter) {
-                initializingBeanFilter.afterPropertiesSet();
+            if (filter instanceof InitializingBean initializingBean) {
+                initializingBean.afterPropertiesSet();
             }
 
             final var position = configuration.positionInChain();
@@ -63,10 +63,6 @@ public class SpringSecurityAutoConfigurationDSL
             default -> throw new AssertionError(); // 不可能运行到此处
             }
         }
-    }
-
-    private SpringContext getSpringContext(HttpSecurity http) {
-        return SpringContext.of(http.getSharedObject(ApplicationContext.class));
     }
 
 }

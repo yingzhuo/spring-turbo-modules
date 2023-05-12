@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     private final JWTSigner signer;
-
     private boolean overrideType = true;
     private boolean overrideAlgorithm = true;
     private boolean overrideIssueAt = true;
@@ -42,6 +41,14 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
         this.signer = signer;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param data
+     *            令牌数据
+     *
+     * @return
+     */
     @Override
     public String create(Data data) {
 
@@ -90,11 +97,6 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     public void setKeyIdSupplier(@Nullable Supplier<String> keyIdSupplier) {
         this.keyIdSupplier = keyIdSupplier;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    public record Nonce(@Nullable String payloadName, @Nullable Supplier<String> supplier) {
     }
 
 }
