@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import spring.turbo.module.security.exception.BadTokenException;
 
 /**
  * 令牌在错误的时间被使用
@@ -17,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @since 2.2.4
  */
-public class BadJwtTimeTokenException extends AuthenticationException {
+public class BadJwtTimeTokenException extends BadTokenException {
 
     public BadJwtTimeTokenException(String msg) {
         super(msg);

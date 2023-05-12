@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import spring.turbo.module.security.exception.BadTokenException;
 
 /**
  * 错误的令牌签名
@@ -17,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @since 2.2.4
  */
-public class BadJwtAlgorithmTokenException extends AuthenticationException {
+public class BadJwtAlgorithmTokenException extends BadTokenException {
 
     public BadJwtAlgorithmTokenException(String msg) {
         super(msg);

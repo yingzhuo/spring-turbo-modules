@@ -31,10 +31,8 @@ import static org.springframework.core.annotation.AnnotationUtils.getAnnotationA
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
     /*
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 本组件不会被本starter自动注册 用户必须自行注册 *
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * 本组件不会被本starter自动注册 用户必须自行注册 *
      */
-
     private final VersionResolver versionResolver;
 
     /**

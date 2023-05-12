@@ -89,14 +89,8 @@ public final class EncodingIds {
     public static final String SM3 = "SM3";
 
     /**
-     * HEX
-     */
-    public static final String HEX = "HEX";
-
-    /**
      * BROKEN !!!
      */
-    @Deprecated
     public static final String BROKEN = "broken";
 
     /**

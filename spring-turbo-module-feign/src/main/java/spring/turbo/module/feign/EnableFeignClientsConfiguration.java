@@ -63,12 +63,6 @@ class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();
 
-        /*
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 从 spring-turbo 2.0.9版本开始 放弃使用
-         * FactoryBean<T> 来创建对象实例 此方式更直截了当，代码更容易理解。 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * * * * * *
-         */
-
         var supplier = new FeignClientSupplier(InstanceCache.newInstance(beanFactory), classDef.getBeanClass(),
                 environment.resolveRequiredPlaceholders(metaAnnotation.url()));
 

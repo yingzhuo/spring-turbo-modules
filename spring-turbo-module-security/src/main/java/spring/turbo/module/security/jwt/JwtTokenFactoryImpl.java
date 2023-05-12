@@ -29,7 +29,6 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     private boolean overrideType = true;
     private boolean overrideAlgorithm = true;
     private boolean overrideIssueAt = true;
-    private @Nullable Supplier<Nonce> nonceSupplier = null;
     private @Nullable Supplier<String> keyIdSupplier = null;
 
     /**
@@ -69,19 +68,6 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
             data.issuedAtNow();
         }
 
-        // 生成nonce
-        if (nonceSupplier != null) {
-            var nonce = nonceSupplier.get();
-            if (nonce != null) {
-                var name = nonce.payloadName();
-                var nonceSupplier = nonce.supplier();
-                var nonceString = nonceSupplier != null ? nonceSupplier.get() : null;
-                if (name != null && nonceString != null) {
-                    data.addPayload("nonce", nonceString);
-                }
-            }
-        }
-
         // 生成令牌
         return JWTUtil.createToken(data.getHeaderMap(), data.getPayloadMap(), signer);
     }
@@ -100,10 +86,6 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
 
     public void setOverrideIssueAt(boolean overrideIssueAt) {
         this.overrideIssueAt = overrideIssueAt;
-    }
-
-    public void setNonceSupplier(@Nullable Supplier<Nonce> nonceSupplier) {
-        this.nonceSupplier = nonceSupplier;
     }
 
     public void setKeyIdSupplier(@Nullable Supplier<String> keyIdSupplier) {

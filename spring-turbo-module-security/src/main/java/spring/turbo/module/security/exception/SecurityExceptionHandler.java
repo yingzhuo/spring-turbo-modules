@@ -23,9 +23,13 @@ import java.io.IOException;
 /**
  * @author 应卓
  *
- * @see org.springframework.security.web.firewall.HttpFirewall
  *
  * @since 1.2.3
+ *
+ * @see AuthenticationEntryPoint
+ * @see AccessDeniedHandler
+ * @see RequestRejectedHandler
+ * @see org.springframework.security.web.firewall.HttpFirewall
  */
 public interface SecurityExceptionHandler
         extends AuthenticationEntryPoint, AccessDeniedHandler, RequestRejectedHandler {

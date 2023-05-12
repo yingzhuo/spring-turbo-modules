@@ -16,7 +16,6 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
 import spring.turbo.module.security.encoder.BrokenPasswordEncoder;
 import spring.turbo.module.security.encoder.EncodingIds;
-import spring.turbo.module.security.encoder.HEXPasswordEncoder;
 import spring.turbo.util.InstanceUtils;
 
 import java.util.Collections;
@@ -33,7 +32,6 @@ import java.util.Optional;
  *
  * @since 2.0.3
  */
-@SuppressWarnings("deprecation")
 public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEncoderConvention {
 
     /**
@@ -49,6 +47,7 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public Map<String, PasswordEncoder> getExtraPasswordEncoderWithName() {
         var map = new HashMap<String, PasswordEncoder>();
         map.put(EncodingIds.bcrypt, new BCryptPasswordEncoder());
@@ -61,7 +60,6 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         map.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        map.put(EncodingIds.HEX, HEXPasswordEncoder.getInstance());
         map.put(EncodingIds.BROKEN, BrokenPasswordEncoder.getInstance());
 
         PasswordEncoder encoder;
@@ -99,6 +97,7 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
             final Optional<PasswordEncoder> option = InstanceUtils.newInstance(classname);
             return option.orElse(null);
         } catch (Throwable ignored) {
+            // 由于缺乏依赖等原因加载失败
             return null;
         }
     }
