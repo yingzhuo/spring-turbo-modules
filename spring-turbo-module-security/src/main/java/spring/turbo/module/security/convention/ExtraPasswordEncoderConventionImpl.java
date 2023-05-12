@@ -65,25 +65,25 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         PasswordEncoder encoder;
 
         // MD2
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.MD2PasswordEncoder");
+        encoder = loadInstance("spring.turbo.module.security.encoder.hutool.MD2PasswordEncoder");
         if (encoder != null) {
             map.put(EncodingIds.MD2, encoder);
         }
 
         // SHA384
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA384PasswordEncoder");
+        encoder = loadInstance("spring.turbo.module.security.encoder.hutool.SHA384PasswordEncoder");
         if (encoder != null) {
             map.put(EncodingIds.SHA_384, encoder);
         }
 
         // SHA512
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SHA512PasswordEncoder");
+        encoder = loadInstance("spring.turbo.module.security.encoder.hutool.SHA512PasswordEncoder");
         if (encoder != null) {
             map.put(EncodingIds.SHA_512, encoder);
         }
 
         // SM3
-        encoder = getInstance("spring.turbo.module.security.encoder.hutool.SM3PasswordEncoder");
+        encoder = loadInstance("spring.turbo.module.security.encoder.hutool.SM3PasswordEncoder");
         if (encoder != null) {
             map.put(EncodingIds.SM3, encoder);
         }
@@ -92,12 +92,14 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
     }
 
     @Nullable
-    private PasswordEncoder getInstance(String classname) {
+    private PasswordEncoder loadInstance(String classname) {
         try {
-            final Optional<PasswordEncoder> option = InstanceUtils.newInstance(classname);
+            Optional<PasswordEncoder> option = InstanceUtils.newInstance(classname);
             return option.orElse(null);
         } catch (Throwable ignored) {
-            // 由于缺乏依赖等原因加载失败
+            // 加载失败的主要原因:
+            // 1. 没有默认构造方法
+            // 2. 缺少依赖
             return null;
         }
     }

@@ -17,6 +17,7 @@ import spring.turbo.core.SpringContext;
 import spring.turbo.module.security.FilterConfiguration;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * SpringSecurity DSL
@@ -38,7 +39,7 @@ public class SpringSecurityAutoConfigurationDSL
         for (final FilterConfiguration configuration : configurations) {
 
             // 如果没有启用则跳过
-            if (!configuration.isEnabled()) {
+            if (!configuration.isEnabled(Objects.requireNonNull(ctx.getEnvironment()))) {
                 continue;
             }
 
@@ -49,8 +50,8 @@ public class SpringSecurityAutoConfigurationDSL
             }
 
             // 尝试初始化
-            if (filter instanceof InitializingBean initializingBeanFilter) {
-                initializingBeanFilter.afterPropertiesSet();
+            if (filter instanceof InitializingBean initializingBean) {
+                initializingBean.afterPropertiesSet();
             }
 
             final var position = configuration.positionInChain();
