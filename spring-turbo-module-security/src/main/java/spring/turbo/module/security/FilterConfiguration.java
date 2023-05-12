@@ -9,6 +9,7 @@
 package spring.turbo.module.security;
 
 import jakarta.servlet.Filter;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.core.env.Environment;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -32,7 +33,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @FunctionalInterface
 public interface FilterConfiguration<T extends Filter> {
 
-    public default boolean isEnabled(Environment environment) {
+    public default boolean isEnabled(Environment environment, ApplicationArguments arguments) {
         return true;
     }
 
