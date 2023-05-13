@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.collection.StringObjectMap;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,8 +30,8 @@ import java.util.Optional;
  *
  * @since 1.0.0
  */
-public class Authentication extends AbstractAuthenticationToken
-        implements org.springframework.security.core.Authentication {
+public final class Authentication extends AbstractAuthenticationToken
+        implements org.springframework.security.core.Authentication, Principal, Serializable {
 
     /**
      * 当前用户
@@ -46,12 +46,6 @@ public class Authentication extends AbstractAuthenticationToken
      */
     @Nullable
     private final Token token;
-
-    /**
-     * 其他变量/附加信息 (optional)
-     */
-    @Nullable
-    private Map<String, Object> variables;
 
     /**
      * 默认构造方法
@@ -99,6 +93,23 @@ public class Authentication extends AbstractAuthenticationToken
                 .orElse(Long.toString(System.identityHashCode(this)));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        Authentication that = (Authentication) o;
+        return Objects.equals(userDetails, that.userDetails) && Objects.equals(token, that.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), userDetails, token);
+    }
+
     @Nullable
     public UserDetails getUserDetails() {
         return userDetails;
@@ -119,28 +130,6 @@ public class Authentication extends AbstractAuthenticationToken
         var token = getToken();
         Asserts.notNull(token);
         return token;
-    }
-
-    @Nullable
-    public Map<String, Object> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(@Nullable Map<String, Object> variables) {
-        this.variables = variables != null ? variables : StringObjectMap.newInstance();
-    }
-
-    public Map<String, Object> getRequiredVariables() {
-        var variables = getVariables();
-        Asserts.notNull(variables);
-        return variables;
-    }
-
-    public void clearVariables() {
-        if (this.variables != null) {
-            this.variables.clear();
-            this.variables = null;
-        }
     }
 
 }

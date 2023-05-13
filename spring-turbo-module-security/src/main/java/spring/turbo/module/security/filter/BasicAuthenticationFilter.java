@@ -86,13 +86,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
             if (!(token instanceof BasicToken basicToken)) {
                 filterChain.doFilter(request, response);
                 return;
-            } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("token resolved");
-                    log.debug("token value (string): {}", token.asString());
-                    log.debug("token username: {}", ((BasicToken) token).getUsername());
-                    log.debug("token password: {}", ((BasicToken) token).getPassword());
-                }
             }
 
             final String username = basicToken.getUsername();

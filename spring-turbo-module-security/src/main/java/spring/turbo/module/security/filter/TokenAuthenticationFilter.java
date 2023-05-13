@@ -82,13 +82,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
                 log.trace("token cannot be resolved");
                 filterChain.doFilter(request, response);
                 return;
-            } else {
-                if (log.isTraceEnabled()) {
-                    log.trace("token resolved");
-                    if (token instanceof StringToken) {
-                        log.trace("token value (string): {}", token.asString());
-                    }
-                }
             }
 
             final UserDetails user = tokenToUserConverter.convert(token);
