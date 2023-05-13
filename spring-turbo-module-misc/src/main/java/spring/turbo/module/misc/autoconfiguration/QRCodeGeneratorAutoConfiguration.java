@@ -22,7 +22,7 @@ import spring.turbo.module.misc.qrcode.QRCodeGeneratorImpl;
  */
 @AutoConfiguration
 @ConditionalOnMissingBean(QRCodeGenerator.class)
-@ConditionalOnClass(name = "com.google.zxing.qrcode.decoder.ErrorCorrectionLevel")
+@ConditionalOnClass(name = "com.google.zxing.BarcodeFormat")
 public class QRCodeGeneratorAutoConfiguration {
 
     @Bean

@@ -8,19 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
-import spring.turbo.util.LogLevel;
-import spring.turbo.util.Logger;
-
-import java.io.IOException;
 
 /**
  * @author 应卓
@@ -33,57 +26,40 @@ import java.io.IOException;
  *
  * @since 1.0.0
  */
-public class RequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
-
-    private final Logger log;
+public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
 
     @Nullable
     private RequestMatcher skipRequestMatcher;
 
     /**
-     * 构造方法
+     * 默认构造方法
      */
-    public RequestLoggingFilter() {
-        this(null);
-    }
-
-    /**
-     * 构造方法
-     *
-     * @param log
-     *            日志记录器
-     */
-    public RequestLoggingFilter(@Nullable Logger log) {
-        this.log = log != null ? log : new Logger(RequestLoggingFilter.class, LogLevel.DEBUG);
-        super.setIncludeHeaders(true);
-        super.setIncludeQueryString(true);
-        super.setIncludeClientInfo(true);
-        super.setIncludePayload(false);
-    }
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        super.doFilterInternal(request, response, filterChain);
+    public SimpleRequestLoggingFilter() {
+        setIncludeClientInfo(true);
+        setIncludeHeaders(true);
+        setIncludeQueryString(true);
+        setIncludePayload(true);
+        setMaxPayloadLength(100);
     }
 
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
-        log.log(message);
+        logger.debug(message);
     }
 
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
-        log.log(message);
+        logger.debug(message);
     }
 
     @Override
-    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
+    public void setSkipRequestMatcher(RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;
+    }
+
+    @Override
+    protected boolean shouldLog(HttpServletRequest request) {
+        return skipRequestMatcher != null && !skipRequestMatcher.matches(request);
     }
 
 }

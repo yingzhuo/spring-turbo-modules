@@ -30,7 +30,7 @@ import static spring.turbo.util.StringPool.LF;
 /**
  * @author 应卓
  *
- * @see RequestLoggingFilter
+ * @see SimpleRequestLoggingFilter
  * @see org.springframework.web.filter.CommonsRequestLoggingFilter
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
  * @see RequestMatcher

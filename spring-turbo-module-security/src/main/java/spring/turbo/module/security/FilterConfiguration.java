@@ -13,6 +13,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.core.env.Environment;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import spring.turbo.module.security.filter.SimpleRequestLoggingFilter;
 
 /**
  * {@link Filter} 配置单元
@@ -25,7 +26,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  * @author 应卓
  *
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
- * @see spring.turbo.module.security.filter.RequestLoggingFilter
+ * @see SimpleRequestLoggingFilter
  * @see org.springframework.security.web.SecurityFilterChain
  *
  * @since 1.0.0
