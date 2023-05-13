@@ -68,7 +68,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // 指定了跳过策略则跳过
-        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+        if (shouldSkip(request)) {
             filterChain.doFilter(request, response);
             return;
         }

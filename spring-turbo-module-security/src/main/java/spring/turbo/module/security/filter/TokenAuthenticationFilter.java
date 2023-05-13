@@ -24,7 +24,6 @@ import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.event.AuthenticationFailureEvent;
 import spring.turbo.module.security.event.AuthenticationSuccessEvent;
 import spring.turbo.module.security.token.BearerTokenResolver;
-import spring.turbo.module.security.token.StringToken;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
 
@@ -63,7 +62,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
-        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+        if (shouldSkip(request)) {
             filterChain.doFilter(request, response);
             return;
         }
