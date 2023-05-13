@@ -66,7 +66,7 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (skipRequestMatcher != null && skipRequestMatcher.matches(request)) {
+        if (shouldSkip(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -87,6 +87,12 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
                 log.log(text);
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public RequestMatcher getSkipRequestMatcher() {
+        return this.skipRequestMatcher;
     }
 
     @Override

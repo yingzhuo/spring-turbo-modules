@@ -100,6 +100,12 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
+    @Nullable
+    @Override
+    public RequestMatcher getSkipRequestMatcher() {
+        return this.skipRequestMatcher;
+    }
+
     @Override
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
         this.skipRequestMatcher = skipRequestMatcher;

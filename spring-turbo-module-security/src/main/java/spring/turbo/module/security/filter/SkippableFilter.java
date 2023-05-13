@@ -31,6 +31,9 @@ import static spring.turbo.module.security.util.RequestMatcherFactories.fromPred
  */
 public interface SkippableFilter extends Filter {
 
+    @Nullable
+    RequestMatcher getSkipRequestMatcher();
+
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher);
 
     public default void setSkipRequestPredicate(@Nullable Predicate<HttpServletRequest> predicate) {
@@ -39,6 +42,11 @@ public interface SkippableFilter extends Filter {
         } else {
             setSkipRequestMatcher(alwaysFalse());
         }
+    }
+
+    default boolean shouldSkip(HttpServletRequest request) {
+        var matcher = getSkipRequestMatcher();
+        return matcher != null && matcher.matches(request);
     }
 
 }

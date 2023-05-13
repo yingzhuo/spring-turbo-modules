@@ -57,9 +57,15 @@ public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter imp
         this.skipRequestMatcher = skipRequestMatcher;
     }
 
+    @Nullable
+    @Override
+    public RequestMatcher getSkipRequestMatcher() {
+        return this.skipRequestMatcher;
+    }
+
     @Override
     protected boolean shouldLog(HttpServletRequest request) {
-        return skipRequestMatcher != null && !skipRequestMatcher.matches(request);
+        return !shouldSkip(request);
     }
 
 }
