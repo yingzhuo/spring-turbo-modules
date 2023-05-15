@@ -34,11 +34,6 @@ import spring.turbo.webmvc.HttpRequestSnapshot;
 public interface RequestDetailsProvider {
 
     /**
-     * 无动作实现 (默认)
-     */
-    public static final RequestDetailsProvider ALWAYS_NULL = (request, token) -> null;
-
-    /**
      * SpringSecurity默认实现
      */
     public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = (request,

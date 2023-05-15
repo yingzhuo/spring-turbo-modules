@@ -46,7 +46,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     protected RememberMeServices rememberMeServices;
 
     @Nullable
-    protected RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.ALWAYS_NULL;
+    protected RequestDetailsProvider requestDetailsProvider;
 
     @Nullable
     protected AuthenticationEntryPoint authenticationEntryPoint;
