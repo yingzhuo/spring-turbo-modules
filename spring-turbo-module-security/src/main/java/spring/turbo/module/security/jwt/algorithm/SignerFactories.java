@@ -99,6 +99,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner RS256(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS256";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -130,6 +131,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner RS384(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS384";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -161,6 +163,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner RS512(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS512";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -194,6 +197,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner ES256(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES256";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -225,6 +229,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner ES384(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES384";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -256,6 +261,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner ES512(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES512";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -289,6 +295,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner PS256(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS256";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -320,6 +327,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner PS384(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS384";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -351,6 +359,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner PS512(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS512";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -386,6 +395,8 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner SM2(String publicKeyBase64, String privateKeyBase64) {
+        Asserts.hasText(publicKeyBase64, "publicKeyBase64 is null or blank");
+        Asserts.hasText(privateKeyBase64, "privateKeyBase64 is null or blank");
         return SM2(publicKeyBase64, privateKeyBase64, null);
     }
 
@@ -417,6 +428,7 @@ public final class SignerFactories {
      * @return 签名器实例
      */
     public static JWTSigner RSHA1(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RSHA1";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
@@ -433,6 +445,74 @@ public final class SignerFactories {
      */
     @SneakyThrows
     public static JWTSigner RSHA1(String publicKeyLocation, String privateKeyLocation) {
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RSHA1(keyPair);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * RMD2算法
+     *
+     * @param keyPair
+     *            加密用的公私钥对
+     *
+     * @return 签名器实例
+     */
+    public static JWTSigner RMD2(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
+        var algId = "RMD2";
+        return JWTSignerUtil.createSigner(algId, keyPair);
+    }
+
+    /**
+     * RMD2算法
+     *
+     * @param publicKeyLocation
+     *            公钥resource-location
+     * @param privateKeyLocation
+     *            私钥resource-location
+     *
+     * @return 签名器实例
+     */
+    @SneakyThrows
+    public static JWTSigner RMD2(String publicKeyLocation, String privateKeyLocation) {
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RSHA1(keyPair);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * RMD5算法
+     *
+     * @param keyPair
+     *            加密用的公私钥对
+     *
+     * @return 签名器实例
+     */
+    public static JWTSigner RMD5(KeyPair keyPair) {
+        Asserts.notNull(keyPair, "keyPair is null");
+        var algId = "RMD5";
+        return JWTSignerUtil.createSigner(algId, keyPair);
+    }
+
+    /**
+     * RMD5算法
+     *
+     * @param publicKeyLocation
+     *            公钥resource-location
+     * @param privateKeyLocation
+     *            私钥resource-location
+     *
+     * @return 签名器实例
+     */
+    @SneakyThrows
+    public static JWTSigner RMD5(String publicKeyLocation, String privateKeyLocation) {
         var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
         var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
         var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
