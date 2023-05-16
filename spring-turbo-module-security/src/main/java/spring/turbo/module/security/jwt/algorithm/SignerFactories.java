@@ -406,4 +406,37 @@ public final class SignerFactories {
         return new SM2JWTSinger(sm2, withId);
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * RSHA1算法
+     *
+     * @param keyPair
+     *            加密用的公私钥对
+     *
+     * @return 签名器实例
+     */
+    public static JWTSigner RSHA1(KeyPair keyPair) {
+        var algId = "RSHA1";
+        return JWTSignerUtil.createSigner(algId, keyPair);
+    }
+
+    /**
+     * RSHA1算法
+     *
+     * @param publicKeyLocation
+     *            公钥resource-location
+     * @param privateKeyLocation
+     *            私钥resource-location
+     *
+     * @return 签名器实例
+     */
+    @SneakyThrows
+    public static JWTSigner RSHA1(String publicKeyLocation, String privateKeyLocation) {
+        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
+        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
+        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
+        return RSHA1(keyPair);
+    }
+
 }
