@@ -276,6 +276,21 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         }
 
         /**
+         * 设置其他头部信息
+         *
+         * @param name
+         *            名
+         * @param value
+         *            值
+         *
+         * @return this
+         */
+        public Data addHeader(String name, Object value) {
+            headerMap.put(name, value);
+            return this;
+        }
+
+        /**
          * 设置其他载荷信息
          *
          * @param name

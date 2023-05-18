@@ -45,7 +45,7 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
      * {@inheritDoc}
      *
      * @param data
-     *            令牌数据
+     *            令牌头部与负载的数据
      *
      * @return
      */
