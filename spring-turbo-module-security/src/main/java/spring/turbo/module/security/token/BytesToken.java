@@ -18,18 +18,11 @@ import java.util.Arrays;
  *
  * @since 2.0.6
  */
-public final class BytesToken implements Token {
+public record BytesToken(byte[] bytes) implements Token {
 
-    private final byte[] bytes;
-
-    public BytesToken(byte[] bytes) {
+    public BytesToken {
         Asserts.notNull(bytes);
         Asserts.isTrue(bytes.length > 0);
-        this.bytes = bytes;
-    }
-
-    public byte[] getBytes() {
-        return bytes;
     }
 
     @Override
