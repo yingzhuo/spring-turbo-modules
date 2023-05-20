@@ -67,6 +67,18 @@
             <artifactId>hutool-captcha</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- pinyin4j -->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- avatar-generator -->
         <dependency>
