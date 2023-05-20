@@ -23,6 +23,7 @@ import java.util.Optional;
  *
  * @see HeaderTokenResolver
  * @see BearerTokenResolver
+ * @see HttpHeaders#AUTHORIZATION
  *
  * @since 1.0.5
  */

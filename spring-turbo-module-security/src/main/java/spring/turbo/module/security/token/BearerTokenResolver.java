@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
  *
  * @see HeaderTokenResolver
  * @see BasicTokenResolver
+ * @see HttpHeaders#AUTHORIZATION
  *
  * @since 1.0.5
  */

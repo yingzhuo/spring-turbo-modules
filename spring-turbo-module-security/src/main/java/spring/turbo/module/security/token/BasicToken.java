@@ -21,10 +21,31 @@ import java.util.Objects;
  */
 public final class BasicToken implements Token {
 
+    /**
+     * 用户名
+     */
     private final String username;
+
+    /**
+     * 口令
+     */
     private final String password;
+
+    /**
+     * 令牌原字符串
+     */
     private final String string;
 
+    /**
+     * 构造方法
+     *
+     * @param stringValue
+     *            令牌原字符串
+     * @param username
+     *            用户名
+     * @param password
+     *            口令
+     */
     public BasicToken(String stringValue, String username, String password) {
         Asserts.hasText(stringValue);
         Asserts.hasText(username);

@@ -19,6 +19,7 @@ import java.util.Optional;
  * @author 应卓
  *
  * @see #builder()
+ * @see TokenResolverBuilder
  * @see CompositeTokenResolver
  *
  * @since 1.0.0

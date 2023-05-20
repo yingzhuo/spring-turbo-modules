@@ -67,7 +67,7 @@ public final class CompositeTokenResolver implements TokenResolver {
             } else {
                 return Optional.empty();
             }
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
             return Optional.empty();
         }
     }
