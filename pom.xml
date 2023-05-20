@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.0.7</version>
+    <version>3.1.0-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
@@ -104,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.0.7</spring.boot.version>
+        <spring.boot.version>3.1.0</spring.boot.version>
         <feign.version>12.3</feign.version>
         <hutool.version>5.8.18</hutool.version>
         <curator.version>5.5.0</curator.version>
@@ -173,6 +173,11 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-jwt</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-json</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
 
