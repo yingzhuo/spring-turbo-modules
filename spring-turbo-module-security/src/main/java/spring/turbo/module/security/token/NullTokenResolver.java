@@ -65,6 +65,8 @@ public final class NullTokenResolver implements TokenResolver {
         return Ordered.LOWEST_PRECEDENCE;
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     // 延迟加载
     private static class SyncAvoid {
         private static final NullTokenResolver INSTANCE = new NullTokenResolver();

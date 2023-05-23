@@ -6,30 +6,27 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.token;
+package spring.turbo.module.misc.pinyin;
 
-import org.springframework.http.HttpHeaders;
+import org.springframework.lang.Nullable;
 
 /**
- * HTTP Bearer 令牌解析器
- *
  * @author 应卓
  *
- * @see HeaderTokenResolver
- * @see BasicTokenResolver
- * @see HttpHeaders#AUTHORIZATION
- *
- * @since 1.0.5
+ * @since 3.1.0
  */
-public final class BearerTokenResolver extends HeaderTokenResolver {
+public interface PinyinService {
 
-    private static final String PREFIX = "Bearer ";
-
-    /**
-     * 构造方法
-     */
-    public BearerTokenResolver() {
-        super(HttpHeaders.AUTHORIZATION, PREFIX);
+    public default String getPinyin(String text) {
+        return getPinyin(text, null);
     }
+
+    public String getPinyin(String text, @Nullable String separator);
+
+    public default String getFirstLetter(String text) {
+        return getFirstLetter(text, null);
+    }
+
+    public String getFirstLetter(String text, @Nullable String separator);
 
 }

@@ -6,30 +6,26 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.token;
+package spring.turbo.module.misc.autoconfiguration;
 
-import org.springframework.http.HttpHeaders;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Bean;
+import spring.turbo.module.misc.pinyin.PinyinService;
+import spring.turbo.module.misc.pinyin.PinyinServiceImpl;
 
 /**
- * HTTP Bearer 令牌解析器
- *
  * @author 应卓
  *
- * @see HeaderTokenResolver
- * @see BasicTokenResolver
- * @see HttpHeaders#AUTHORIZATION
- *
- * @since 1.0.5
+ * @since 3.1.0
  */
-public final class BearerTokenResolver extends HeaderTokenResolver {
+@AutoConfiguration
+@ConditionalOnClass(name = "net.sourceforge.pinyin4j.PinyinHelper")
+public class PinyinServiceAutoConfiguration {
 
-    private static final String PREFIX = "Bearer ";
-
-    /**
-     * 构造方法
-     */
-    public BearerTokenResolver() {
-        super(HttpHeaders.AUTHORIZATION, PREFIX);
+    @Bean
+    public PinyinService pinyinService() {
+        return new PinyinServiceImpl();
     }
 
 }

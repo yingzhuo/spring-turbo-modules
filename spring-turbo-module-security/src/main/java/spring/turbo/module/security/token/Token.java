@@ -24,7 +24,7 @@ import java.io.Serializable;
 public interface Token extends Serializable {
 
     public static Token ofString(CharSequence string) {
-        Asserts.notNull(string);
+        Asserts.notNull(string, "string is null");
         return StringToken.of(string.toString());
     }
 
