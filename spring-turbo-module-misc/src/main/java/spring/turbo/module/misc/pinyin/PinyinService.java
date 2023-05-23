@@ -17,7 +17,15 @@ import org.springframework.lang.Nullable;
  */
 public interface PinyinService {
 
+    public default String getPinyin(String text) {
+        return getPinyin(text, null);
+    }
+
     public String getPinyin(String text, @Nullable String separator);
+
+    public default String getFirstLetter(String text) {
+        return getFirstLetter(text, null);
+    }
 
     public String getFirstLetter(String text, @Nullable String separator);
 
