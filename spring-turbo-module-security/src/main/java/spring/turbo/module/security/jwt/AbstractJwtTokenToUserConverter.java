@@ -33,7 +33,13 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
 
     private final JWTSigner signer;
 
-    public AbstractJwtTokenToUserConverter(JWTSigner signer) {
+    /**
+     * 构造方法
+     *
+     * @param signer
+     *            签名器
+     */
+    protected AbstractJwtTokenToUserConverter(JWTSigner signer) {
         Asserts.notNull(signer);
         this.signer = signer;
     }
