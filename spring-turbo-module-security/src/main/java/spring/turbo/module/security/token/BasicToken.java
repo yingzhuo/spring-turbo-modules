@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.util.Asserts;
 
 import java.util.Objects;
@@ -19,7 +21,7 @@ import java.util.Objects;
  *
  * @since 1.2.3
  */
-public final class BasicToken implements Token {
+public final class BasicToken extends AbstractAuthenticationToken implements Token {
 
     /**
      * 用户名
@@ -47,12 +49,15 @@ public final class BasicToken implements Token {
      *            口令
      */
     public BasicToken(String stringValue, String username, String password) {
+        super(AuthorityUtils.noAuthorities());
         Asserts.hasText(stringValue);
         Asserts.hasText(username);
         Asserts.hasText(password);
         this.username = username;
         this.password = password;
         this.string = stringValue;
+        this.setAuthenticated(false);
+        this.setDetails(null);
     }
 
     public String getUsername() {
@@ -61,6 +66,16 @@ public final class BasicToken implements Token {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return getUsername();
+    }
+
+    @Override
+    public Object getCredentials() {
+        return getPassword();
     }
 
     @Override
