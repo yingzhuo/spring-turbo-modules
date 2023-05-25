@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import org.springframework.security.core.Authentication;
 import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
@@ -19,10 +18,11 @@ import java.io.Serializable;
  * @author 应卓
  *
  * @see #ofString(CharSequence)
+ * @see spring.turbo.module.security.authentication.MutableAuthentication
  *
  * @since 1.0.0
  */
-public interface Token extends Authentication, Serializable {
+public interface Token extends Serializable {
 
     public static Token ofString(CharSequence string) {
         Asserts.notNull(string, "string is null");
