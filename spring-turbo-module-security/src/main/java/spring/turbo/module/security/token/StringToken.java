@@ -19,16 +19,20 @@ import java.util.Objects;
  *
  * @since 1.0.0
  */
-public final class StringToken implements Token {
+public final class StringToken extends AbstractToken implements Token {
 
     private final String string;
 
-    public StringToken(CharSequence string) {
-        Asserts.notNull(string);
-        this.string = string.toString();
+    public StringToken(String tokenValue) {
+        Asserts.hasText(tokenValue, "tokenValue is null or blank");
+        this.string = tokenValue;
+        super.setDetails(null);
+        super.setAuthenticated(false);
+        super.setPrincipal(tokenValue);
+        super.setCredentials(tokenValue);
     }
 
-    public static StringToken of(CharSequence token) {
+    public static StringToken of(String token) {
         return new StringToken(token);
     }
 

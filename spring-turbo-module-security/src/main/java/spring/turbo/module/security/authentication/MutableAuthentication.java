@@ -8,17 +8,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.authentication;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.module.security.util.AuthorityUtils;
-import spring.turbo.util.Asserts;
 
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Objects;
 
 import static spring.turbo.util.StringPool.EMPTY;
 
@@ -27,71 +25,40 @@ import static spring.turbo.util.StringPool.EMPTY;
  *
  * @since 3.1.1
  */
-public class MutableAuthentication implements Authentication {
+public interface MutableAuthentication extends Authentication {
 
-    @Nullable
-    private Collection<? extends GrantedAuthority> authorities;
-
-    private Object principal;
-
-    private Object credentials;
-
-    @Nullable
-    private Object details;
-
-    private boolean authenticated = false;
-
+    @NonNull
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Objects.requireNonNullElse(this.authorities, AuthorityUtils.noAuthorities());
-    }
+    public Collection<? extends GrantedAuthority> getAuthorities();
 
-    public void setAuthorities(@Nullable Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return this.principal;
-    }
-
-    public void setPrincipal(Object principal) {
-        Asserts.notNull(principal, "principal is null");
-        this.principal = principal;
-    }
-
-    @Override
-    public Object getCredentials() {
-        return this.credentials;
-    }
-
-    public void setCredentials(Object credentials) {
-        Asserts.notNull(credentials, "credentials is null");
-        this.credentials = credentials;
-    }
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities);
 
     @Nullable
     @Override
-    public Object getDetails() {
-        return this.details;
-    }
+    public Object getCredentials();
 
-    public void setDetails(@Nullable Object details) {
-        this.details = details;
-    }
+    public void setCredentials(Object credentials);
+
+    @Nullable
+    @Override
+    public Object getDetails();
+
+    public void setDetails(Object details);
+
+    @Nullable
+    @Override
+    public Object getPrincipal();
+
+    public void setPrincipal(Object principal);
 
     @Override
-    public boolean isAuthenticated() {
-        return this.authenticated;
-    }
+    public boolean isAuthenticated();
 
     @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.authenticated = isAuthenticated;
-    }
+    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException;
 
     @Override
-    public final String getName() {
+    public default String getName() {
         if (this.getPrincipal() instanceof UserDetails) {
             return ((UserDetails) this.getPrincipal()).getUsername();
         }

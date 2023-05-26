@@ -19,7 +19,7 @@ import java.util.Objects;
  *
  * @since 1.2.3
  */
-public final class BasicToken implements Token {
+public final class BasicToken extends AbstractToken implements Token {
 
     /**
      * 用户名
@@ -47,12 +47,16 @@ public final class BasicToken implements Token {
      *            口令
      */
     public BasicToken(String stringValue, String username, String password) {
-        Asserts.hasText(stringValue);
-        Asserts.hasText(username);
-        Asserts.hasText(password);
+        Asserts.hasText(stringValue, "stringValue is null or blank");
+        Asserts.hasText(username, "username is null or blank");
+        Asserts.hasText(password, "password is null or blank");
         this.username = username;
         this.password = password;
         this.string = stringValue;
+        super.setAuthenticated(false);
+        super.setDetails(null);
+        super.setPrincipal(username);
+        super.setCredentials(password);
     }
 
     public String getUsername() {
