@@ -8,8 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.util.Asserts;
 
 import java.util.Objects;
@@ -21,30 +19,17 @@ import java.util.Objects;
  *
  * @since 1.0.0
  */
-public final class StringToken extends AbstractAuthenticationToken implements Token {
+public final class StringToken implements Token {
 
     private final String string;
 
-    public StringToken(CharSequence string) {
-        super(AuthorityUtils.noAuthorities());
-        Asserts.notNull(string);
-        this.string = string.toString();
-        this.setAuthenticated(false);
-        this.setDetails(null);
+    public StringToken(String tokenValue) {
+        Asserts.hasText(tokenValue, "tokenValue is null or blank");
+        this.string = tokenValue;
     }
 
-    public static StringToken of(CharSequence token) {
+    public static StringToken of(String token) {
         return new StringToken(token);
-    }
-
-    @Override
-    public Object getCredentials() {
-        return string;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return string;
     }
 
     @Override
