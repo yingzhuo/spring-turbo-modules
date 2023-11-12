@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.1.4</version>
+    <version>3.1.5</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
@@ -104,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.1.4</spring.boot.version>
+        <spring.boot.version>3.1.5</spring.boot.version>
         <feign.version>12.4</feign.version>
         <hutool.version>5.8.22</hutool.version>
         <curator.version>5.5.0</curator.version>
@@ -190,7 +190,7 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15to18</artifactId>
-                <version>1.73</version>
+                <version>1.76</version>
             </dependency>
 
             <!-- zookeeper-client (high level) -->
@@ -223,7 +223,7 @@
             <dependency>
                 <groupId>com.typesafe</groupId>
                 <artifactId>config</artifactId>
-                <version>1.4.2</version>
+                <version>1.4.3</version>
             </dependency>
 
             <!-- avatar-generator -->
