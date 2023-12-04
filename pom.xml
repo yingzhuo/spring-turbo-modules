@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.1.5</version>
+    <version>3.1.6</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
@@ -104,9 +104,9 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.1.5</spring.boot.version>
-        <feign.version>12.4</feign.version>
-        <hutool.version>5.8.22</hutool.version>
+        <spring.boot.version>3.1.6</spring.boot.version>
+        <feign.version>12.5</feign.version>
+        <hutool.version>5.8.23</hutool.version>
         <curator.version>5.5.0</curator.version>
         <lombok.version>1.18.30</lombok.version>
     </properties>
