@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.1.6</version>
+    <version>3.2.0</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
@@ -104,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.1.6</spring.boot.version>
+        <spring.boot.version>3.2.0</spring.boot.version>
         <feign.version>12.5</feign.version>
         <hutool.version>5.8.23</hutool.version>
         <curator.version>5.5.0</curator.version>
@@ -139,12 +139,12 @@
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>javase</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
             </dependency>
 
             <!-- feign -->
@@ -209,7 +209,7 @@
             <dependency>
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
-                <version>3.8.1</version>
+                <version>3.8.3</version>
             </dependency>
 
             <!-- kafka-client -->
