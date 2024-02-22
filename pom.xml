@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
@@ -104,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.2.1</spring.boot.version>
+        <spring.boot.version>3.2.2</spring.boot.version>
         <feign.version>12.5</feign.version>
         <hutool.version>5.8.26</hutool.version>
         <curator.version>5.6.0</curator.version>
@@ -237,7 +237,7 @@
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
-                <version>3.29.2-GA</version>
+                <version>3.30.2-GA</version>
             </dependency>
 
             <!-- mapstruct -->
