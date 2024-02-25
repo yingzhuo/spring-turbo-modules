@@ -49,8 +49,8 @@ public class SpringSecurityAutoConfigurationDSL
             }
 
             // 尝试初始化
-            if (filter instanceof InitializingBean initializingBean) {
-                initializingBean.afterPropertiesSet();
+            if (filter instanceof InitializingBean bean) {
+                bean.afterPropertiesSet();
             }
 
             final var position = configuration.positionInChain();
