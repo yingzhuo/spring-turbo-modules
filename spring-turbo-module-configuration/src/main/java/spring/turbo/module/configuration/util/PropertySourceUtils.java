@@ -16,7 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.module.configuration.env.HoconPropertySourceLoader;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.io.IOException;
 

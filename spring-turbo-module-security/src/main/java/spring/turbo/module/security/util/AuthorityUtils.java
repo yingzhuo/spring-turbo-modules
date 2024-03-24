@@ -12,8 +12,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.StringUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;

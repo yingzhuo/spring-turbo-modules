@@ -23,8 +23,8 @@ import java.util.TreeMap;
 
 import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
 import static spring.turbo.module.security.encoder.EncodingIds.BROKEN;
-import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
 import static spring.turbo.util.StringUtils.isNotBlank;
+import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * {@link PasswordEncoder} 创建工具

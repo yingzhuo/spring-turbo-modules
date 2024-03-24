@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
+import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * @author 应卓

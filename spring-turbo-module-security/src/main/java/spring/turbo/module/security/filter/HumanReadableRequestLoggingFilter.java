@@ -15,10 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import spring.turbo.util.CollectionUtils;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 import spring.turbo.util.StringUtils;
+import spring.turbo.util.collection.CollectionUtils;
 import spring.turbo.webmvc.HttpRequestSnapshot;
 
 import java.io.IOException;

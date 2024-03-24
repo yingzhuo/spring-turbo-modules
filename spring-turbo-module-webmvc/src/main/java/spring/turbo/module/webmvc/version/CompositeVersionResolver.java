@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.core.OrderComparator.sort;
-import static spring.turbo.util.CollectionUtils.nullSafeAddAll;
+import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * @author 应卓

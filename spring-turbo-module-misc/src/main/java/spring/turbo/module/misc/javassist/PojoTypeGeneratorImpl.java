@@ -14,7 +14,7 @@ import javassist.bytecode.annotation.Annotation;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
