@@ -11,7 +11,7 @@ package spring.turbo.module.queryselector;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.Set;

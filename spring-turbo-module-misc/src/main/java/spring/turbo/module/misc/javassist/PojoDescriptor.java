@@ -13,7 +13,7 @@ import org.springframework.util.comparator.ComparableComparator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.util.*;
 

@@ -12,7 +12,7 @@ import org.springframework.core.OrderComparator;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.WebRequest;
-import spring.turbo.util.CollectionUtils;
+import spring.turbo.util.collection.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
