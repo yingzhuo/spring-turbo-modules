@@ -11,7 +11,6 @@
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
-        <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-misc</module>
         <module>spring-turbo-module-data-accessing</module>
