@@ -6,12 +6,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.2.4-SNAPSHOT</version>
+    <version>3.2.5-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
-        <module>spring-turbo-module-queryselector</module>
         <module>spring-turbo-module-feign</module>
         <module>spring-turbo-module-misc</module>
         <module>spring-turbo-module-data-accessing</module>
@@ -104,9 +103,9 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.2.4</spring.boot.version>
+        <spring.boot.version>3.2.5</spring.boot.version>
         <feign.version>12.5</feign.version>
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>5.8.27</hutool.version>
         <curator.version>5.6.0</curator.version>
         <lombok.version>1.18.32</lombok.version>
     </properties>
@@ -190,7 +189,7 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15to18</artifactId>
-                <version>1.77</version>
+                <version>1.78.1</version>
             </dependency>
 
             <!-- zookeeper-client (high level) -->
@@ -372,7 +371,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.0</version>
                 <configuration>
                     <archive>
                         <index>false</index>
@@ -393,7 +392,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -500,6 +499,11 @@
                     <compilerTargetPlatform>${java.version}</compilerTargetPlatform>
                     <removeTrailingWhitespace>true</removeTrailingWhitespace>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.github.orhankupusoglu</groupId>
+                <artifactId>sloc-maven-plugin</artifactId>
+                <version>1.0.7</version>
             </plugin>
         </plugins>
     </build>

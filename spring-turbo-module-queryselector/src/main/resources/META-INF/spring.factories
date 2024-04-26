@@ -1,7 +1,0 @@
-# ----------------------------------------------------------------------------------------------------------------------
-# SpringTurbo
-# ----------------------------------------------------------------------------------------------------------------------
-spring.turbo.convention.ModulesConvention=\
-spring.turbo.module.queryselector.convention.ModulesConventionImpl
-spring.turbo.convention.ExtraMessageSourceBasenameConvention=\
-spring.turbo.module.queryselector.convention.ExtraMessageSourceBasenameConventionImpl
