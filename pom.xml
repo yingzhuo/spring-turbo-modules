@@ -103,7 +103,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.2.5</spring.boot.version>
+        <spring.boot.version>3.2.6-SNAPSHOT</spring.boot.version>
         <feign.version>12.5</feign.version>
         <hutool.version>5.8.27</hutool.version>
         <curator.version>5.6.0</curator.version>
