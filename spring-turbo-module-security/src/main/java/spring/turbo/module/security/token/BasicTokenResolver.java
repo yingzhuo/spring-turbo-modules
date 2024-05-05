@@ -10,9 +10,9 @@ package spring.turbo.module.security.token;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.WebRequest;
+import spring.turbo.util.Base64;
 import spring.turbo.util.CharsetPool;
 import spring.turbo.util.StringPool;
-import spring.turbo.util.crypto.Base64;
 
 import java.util.Optional;
 

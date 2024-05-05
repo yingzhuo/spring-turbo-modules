@@ -6,16 +6,25 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.rest;
+package spring.turbo.module.crypto;
 
 /**
+ * 3DES加密解密工具
+ *
  * @author 应卓
  *
- * @since 1.2.2
+ * @see #builder()
+ *
+ * @since 3.2.6
  */
-@FunctionalInterface
-public interface JsonResponseEncoder {
+public interface TripleDES extends Crypto {
 
-    public String encode(String jsonContent);
+    public static TripleDESBuilder builder() {
+        return new TripleDESBuilder();
+    }
+
+    public String encrypt(String input);
+
+    public String decrypt(String cipherText);
 
 }

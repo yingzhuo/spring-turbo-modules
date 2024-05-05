@@ -9,6 +9,7 @@
     <version>3.2.6-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
+        <module>spring-turbo-module-crypto</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-feign</module>
@@ -121,6 +122,12 @@
             <dependency>
                 <groupId>com.github.yingzhuo</groupId>
                 <artifactId>spring-turbo-module-webmvc</artifactId>
+                <version>${project.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>spring-turbo-module-crypto</artifactId>
                 <version>${project.version}</version>
                 <scope>provided</scope>
             </dependency>

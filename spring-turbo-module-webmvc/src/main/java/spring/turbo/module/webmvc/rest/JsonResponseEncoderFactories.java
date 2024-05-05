@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.rest;
 
-import spring.turbo.util.crypto.AES;
+import spring.turbo.module.crypto.AES;
 
 /**
  * @author 应卓

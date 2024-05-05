@@ -15,8 +15,8 @@ import cn.hutool.jwt.signers.NoneJWTSigner;
 import lombok.SneakyThrows;
 import org.springframework.lang.Nullable;
 import spring.turbo.core.ResourceLoaders;
+import spring.turbo.module.crypto.KeyStorage;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.crypto.KeyStorage;
 
 import java.security.KeyPair;
 
