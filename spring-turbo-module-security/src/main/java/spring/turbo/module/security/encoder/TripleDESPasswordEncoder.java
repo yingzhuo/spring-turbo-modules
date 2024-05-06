@@ -9,7 +9,7 @@
 package spring.turbo.module.security.encoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.util.crypto.TripleDES;
+import spring.turbo.module.crypto.TripleDES;
 
 /**
  * 3DES {@link PasswordEncoder}

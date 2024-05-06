@@ -6,16 +6,22 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.rest;
+package spring.turbo.module.crypto.convention;
+
+import spring.turbo.convention.ModulesConvention;
+
+import static spring.turbo.SpringTurboModules.SPRING_TURBO_MODULE_CRYPTO;
 
 /**
  * @author 应卓
  *
- * @since 1.2.2
+ * @since 3.2.6
  */
-@FunctionalInterface
-public interface JsonResponseEncoder {
+public final class ModulesConventionImpl implements ModulesConvention {
 
-    public String encode(String jsonContent);
+    @Override
+    public String getModuleName() {
+        return SPRING_TURBO_MODULE_CRYPTO;
+    }
 
 }

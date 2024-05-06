@@ -6,16 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.rest;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.crypto;
 
-/**
- * @author 应卓
- *
- * @since 1.2.2
- */
-@FunctionalInterface
-public interface JsonResponseEncoder {
-
-    public String encode(String jsonContent);
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

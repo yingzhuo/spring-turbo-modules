@@ -6,9 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.2.5</version>
+    <version>3.2.6-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
+        <module>spring-turbo-module-crypto</module>
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webmvc</module>
         <module>spring-turbo-module-feign</module>
@@ -103,7 +104,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.2.5</spring.boot.version>
+        <spring.boot.version>3.2.6-SNAPSHOT</spring.boot.version>
         <feign.version>12.5</feign.version>
         <hutool.version>5.8.27</hutool.version>
         <curator.version>5.6.0</curator.version>
@@ -121,6 +122,12 @@
             <dependency>
                 <groupId>com.github.yingzhuo</groupId>
                 <artifactId>spring-turbo-module-webmvc</artifactId>
+                <version>${project.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yingzhuo</groupId>
+                <artifactId>spring-turbo-module-crypto</artifactId>
                 <version>${project.version}</version>
                 <scope>provided</scope>
             </dependency>

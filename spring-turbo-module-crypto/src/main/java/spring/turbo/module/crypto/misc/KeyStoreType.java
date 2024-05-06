@@ -6,16 +6,29 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.rest;
+package spring.turbo.module.crypto.misc;
 
 /**
+ * KeyStore类型
+ *
  * @author 应卓
  *
- * @since 1.2.2
+ * @see KeyStoreUtils
+ *
+ * @since 1.0.15
  */
-@FunctionalInterface
-public interface JsonResponseEncoder {
+public enum KeyStoreType {
 
-    public String encode(String jsonContent);
+    JKS("JKS"), PKCS12("pkcs12");
+
+    private final String name;
+
+    private KeyStoreType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
 }
