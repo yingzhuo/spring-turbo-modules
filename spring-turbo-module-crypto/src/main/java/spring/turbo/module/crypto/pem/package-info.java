@@ -6,29 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.crypto.misc;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.crypto.pem;
 
-/**
- * KeyStore类型
- *
- * @author 应卓
- *
- * @see KeyStoreUtils
- *
- * @since 1.0.15
- */
-public enum KeyStoreType {
-
-    JKS("JKS"), PKCS12("pkcs12");
-
-    private final String name;
-
-    private KeyStoreType(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
