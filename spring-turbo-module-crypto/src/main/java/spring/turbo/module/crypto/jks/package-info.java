@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.crypto.misc;
+package spring.turbo.module.crypto.jks;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
