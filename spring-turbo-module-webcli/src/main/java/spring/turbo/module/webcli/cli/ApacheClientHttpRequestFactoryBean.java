@@ -37,6 +37,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/"></a> 版本的实现
+ *
  * @author 应卓
  *
  * @see org.springframework.web.client.RestClient
@@ -93,6 +95,7 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
             final var connConfigBuilder = ConnectionConfig.custom();
             Optional.ofNullable(connectionConnectTimeout).ifPresent(
                     timeout -> connConfigBuilder.setConnectTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS));
+
             Optional.ofNullable(connectionSocketTimeout).ifPresent(
                     timeout -> connConfigBuilder.setSocketTimeout((int) timeout.toSeconds(), TimeUnit.SECONDS));
 

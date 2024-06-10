@@ -9,7 +9,6 @@
 package spring.turbo.module.misc.javassist;
 
 import org.springframework.lang.Nullable;
-import org.springframework.util.comparator.ComparableComparator;
 import spring.turbo.bean.Pair;
 import spring.turbo.bean.Tuple;
 import spring.turbo.util.Asserts;
@@ -27,7 +26,7 @@ import java.util.*;
 @SuppressWarnings("rawtypes")
 public class PojoDescriptor extends TreeMap<String, Class<?>> implements Map<String, Class<?>> {
 
-    private final static Comparator<String> DEFAULT_PROPERTY_COMPARATOR = new ComparableComparator<>();
+    private final static Comparator<String> DEFAULT_PROPERTY_COMPARATOR = Comparator.naturalOrder();
 
     /**
      * 类型级别元注释
