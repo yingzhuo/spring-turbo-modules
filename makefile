@@ -43,6 +43,7 @@ format:
 
 lines:
 	@mvn -f $(CURDIR)/pom.xml io.github.orhankupusoglu:sloc-maven-plugin:sloc -Ddisplay=true -Dsave=true -DtrimPkgNames=false
+
 github: clean format
 	@git add .
 	@git commit -m "$(timestamp)"
