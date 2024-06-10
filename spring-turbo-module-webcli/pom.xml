@@ -9,17 +9,13 @@
         <version>3.3.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>spring-turbo-module-webmvc</artifactId>
+    <artifactId>spring-turbo-module-webcli</artifactId>
 
     <dependencies>
-        <!-- spring-turbo -->
+        <!-- spring-turbo & modules -->
         <dependency>
             <groupId>com.github.yingzhuo</groupId>
             <artifactId>spring-turbo</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yingzhuo</groupId>
-            <artifactId>spring-turbo-module-crypto</artifactId>
         </dependency>
 
         <!-- spring-boot -->
@@ -40,6 +36,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- apache http-client -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
         </dependency>
 
         <!-- slf4j -->
