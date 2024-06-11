@@ -8,10 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webcli.cli;
 
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
 import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
@@ -28,13 +25,10 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import javax.annotation.Nullable;
 import javax.net.ssl.SSLContext;
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/"></a> 版本的实现
@@ -50,30 +44,47 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
 
     private @Nullable Resource clientSideCertificate;
     private @Nullable String clientSideCertificatePassword;
-    private @Nullable Duration connectionConnectTimeout;
-    private @Nullable Duration connectionSocketTimeout;
-    private @Nullable Duration requestSocketTimeout;
+    private @Nullable Duration connectTimeout;
+    private @Nullable Duration requestTimeout;
+    private HttpComponentsClientHttpRequestFactory factory;
 
-    private ClientHttpRequestFactory factory;
+    /**
+     * 默认构造方法
+     */
+    public ApacheClientHttpRequestFactoryBean() {
+        super();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ClientHttpRequestFactory getObject() {
         return factory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<?> getObjectType() {
         return ClientHttpRequestFactory.class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSingleton() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
-        var sslContext = createSSLContext(this.clientSideCertificate, this.clientSideCertificatePassword);
+        var sslContext = createSSLContext(clientSideCertificate, clientSideCertificatePassword);
 
         var socketRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
                 .register(URIScheme.HTTPS.getId(),
@@ -84,33 +95,12 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
                 .setConnectionManager(new PoolingHttpClientConnectionManager(socketRegistry))
                 .setConnectionManagerShared(true);
 
-        if (requestSocketTimeout != null) {
-            var requestConfig = RequestConfig.custom()
-                    .setConnectionRequestTimeout(requestSocketTimeout.toMillis(), TimeUnit.MILLISECONDS).build();
-
-            httpClientBuilder.setDefaultRequestConfig(requestConfig);
-        }
-
-        if (connectionConnectTimeout != null || connectionSocketTimeout != null) {
-            final var connConfigBuilder = ConnectionConfig.custom();
-            Optional.ofNullable(connectionConnectTimeout).ifPresent(
-                    timeout -> connConfigBuilder.setConnectTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS));
-
-            Optional.ofNullable(connectionSocketTimeout).ifPresent(
-                    timeout -> connConfigBuilder.setSocketTimeout((int) timeout.toSeconds(), TimeUnit.SECONDS));
-
-            var connectionManager = new BasicHttpClientConnectionManager();
-            connectionManager.setConnectionConfig(connConfigBuilder.build());
-
-            httpClientBuilder.setConnectionManager(connectionManager);
-        }
-
         this.factory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
+        Optional.ofNullable(this.requestTimeout).ifPresent(d -> factory.setConnectionRequestTimeout(d));
+        Optional.ofNullable(this.connectTimeout).ifPresent(d -> factory.setConnectTimeout(d));
     }
 
-    private SSLContext createSSLContext(@Nullable Resource certificate, @Nullable String password)
-            throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, KeyManagementException,
-            CertificateException, IOException {
+    private SSLContext createSSLContext(@Nullable Resource certificate, @Nullable String password) throws Exception {
         KeyStore keyStore = null;
 
         if (certificate != null && password != null) {
@@ -134,16 +124,12 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
         this.clientSideCertificatePassword = clientSideCertificatePassword;
     }
 
-    public void setConnectionConnectTimeout(@Nullable Duration connectionConnectTimeout) {
-        this.connectionConnectTimeout = connectionConnectTimeout;
+    public void setRequestTimeout(@Nullable Duration requestTimeout) {
+        this.requestTimeout = requestTimeout;
     }
 
-    public void setConnectionSocketTimeout(@Nullable Duration connectionSocketTimeout) {
-        this.connectionSocketTimeout = connectionSocketTimeout;
-    }
-
-    public void setRequestSocketTimeout(@Nullable Duration requestSocketTimeout) {
-        this.requestSocketTimeout = requestSocketTimeout;
+    public void setConnectTimeout(@Nullable Duration connectTimeout) {
+        this.connectTimeout = connectTimeout;
     }
 
 }
