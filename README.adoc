@@ -35,6 +35,11 @@ image:https://img.shields.io/maven-central/v/com.github.yingzhuo/spring-turbo.sv
 </dependency>
 <dependency>
     <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-crypto</artifactId>
+    <version>LATEST</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-module-feign</artifactId>
     <version>LATEST</version>
 </dependency>
@@ -46,6 +51,11 @@ image:https://img.shields.io/maven-central/v/com.github.yingzhuo/spring-turbo.sv
 <dependency>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-module-security</artifactId>
+    <version>LATEST</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-webcli</artifactId>
     <version>LATEST</version>
 </dependency>
 <dependency>
@@ -68,7 +78,6 @@ mvn install
 === 关联项目
 
 * link:https://github.com/yingzhuo/spring-turbo[spring-turbo]
-* link:https://github.com/yingzhuo/spring-turbo-uberjar[spring-turbo-uberjar]
 
 === 例子
 
