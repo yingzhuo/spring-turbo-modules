@@ -16,7 +16,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.autoconfiguration.properties.ZkProps;
+import spring.turbo.autoconfiguration.properties.ZookeeperProps;
 import spring.turbo.util.Asserts;
 
 /**
@@ -26,12 +26,12 @@ import spring.turbo.util.Asserts;
  */
 public class ZkClientFactory implements FactoryBean<CuratorFramework>, InitializingBean, DisposableBean {
 
-    private final ZkProps zkProps;
+    private final ZookeeperProps zkProps;
 
     @Nullable
     private CuratorFramework zkCli;
 
-    public ZkClientFactory(ZkProps zkProps) {
+    public ZkClientFactory(ZookeeperProps zkProps) {
         Asserts.notNull(zkProps);
         this.zkProps = zkProps;
     }
