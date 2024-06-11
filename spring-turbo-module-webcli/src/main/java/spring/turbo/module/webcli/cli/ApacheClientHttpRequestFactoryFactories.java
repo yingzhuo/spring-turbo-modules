@@ -9,11 +9,10 @@
 package spring.turbo.module.webcli.cli;
 
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
-import java.util.Objects;
 
 /**
  * @author 应卓
@@ -29,32 +28,74 @@ public final class ApacheClientHttpRequestFactoryFactories {
         super();
     }
 
-    public static ClientHttpRequestFactory createDefault() {
-        return create(null, null, null, null, null);
+    /**
+     * 创建 {@link HttpComponentsClientHttpRequestFactory} 默认对象
+     *
+     * @return {@link HttpComponentsClientHttpRequestFactory} 默认对象
+     */
+    public static HttpComponentsClientHttpRequestFactory create() {
+        return create(null, null, null, null);
     }
 
-    public static ClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
+    /**
+     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
+     *
+     * @param connectTimeout
+     *            连接超时时间
+     * @param requestTimeout
+     *            请求超时时间
+     *
+     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
+     */
+    public static HttpComponentsClientHttpRequestFactory create(@Nullable Duration connectTimeout,
+            @Nullable Duration requestTimeout) {
+        return create(null, null, connectTimeout, requestTimeout);
+    }
+
+    /**
+     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
+     *
+     * @param clientSideCertificate
+     *            SSL客户端证书 (PKCS12格式)
+     * @param clientSideCertificatePassword
+     *            SSL客户端证书密码
+     *
+     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
+     */
+    public static HttpComponentsClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
             @Nullable String clientSideCertificatePassword) {
-        return create(clientSideCertificate, clientSideCertificatePassword, null, null, null);
+        return create(clientSideCertificate, clientSideCertificatePassword, null, null);
     }
 
-    public static ClientHttpRequestFactory create(@Nullable Duration connectionConnectTimeout,
-            @Nullable Duration connectionSocketTimeout, @Nullable Duration requestSocketTimeout) {
-        return create(null, null, connectionConnectTimeout, connectionSocketTimeout, requestSocketTimeout);
-    }
-
-    public static ClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
-            @Nullable String clientSideCertificatePassword, @Nullable Duration connectionConnectTimeout,
-            @Nullable Duration connectionSocketTimeout, @Nullable Duration requestSocketTimeout) {
+    /**
+     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
+     *
+     * @param clientSideCertificate
+     *            SSL客户端证书 (PKCS12格式)
+     * @param clientSideCertificatePassword
+     *            SSL客户端证书密码
+     * @param connectTimeout
+     *            连接超时时间
+     * @param requestTimeout
+     *            请求超时时间
+     *
+     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
+     */
+    public static HttpComponentsClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
+            @Nullable String clientSideCertificatePassword, @Nullable Duration connectTimeout,
+            @Nullable Duration requestTimeout) {
         try {
             var factoryBean = new ApacheClientHttpRequestFactoryBean();
             factoryBean.setClientSideCertificate(clientSideCertificate);
             factoryBean.setClientSideCertificatePassword(clientSideCertificatePassword);
-            factoryBean.setConnectionConnectTimeout(connectionConnectTimeout);
-            factoryBean.setConnectionSocketTimeout(connectionSocketTimeout);
-            factoryBean.setRequestSocketTimeout(requestSocketTimeout);
+            factoryBean.setConnectTimeout(connectTimeout);
+            factoryBean.setRequestTimeout(requestTimeout);
             factoryBean.afterPropertiesSet();
-            return Objects.requireNonNull(factoryBean.getObject());
+            var beanObject = (HttpComponentsClientHttpRequestFactory) factoryBean.getObject();
+            if (beanObject == null) {
+                throw new AssertionError();
+            }
+            return beanObject;
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
