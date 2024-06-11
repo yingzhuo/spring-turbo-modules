@@ -17,7 +17,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.autoconfiguration.properties.ZkProps;
+import spring.turbo.autoconfiguration.properties.ZookeeperProps;
 import spring.turbo.util.Asserts;
 
 import java.util.UUID;
@@ -31,13 +31,13 @@ public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, Initializin
 
     private static final Logger log = LoggerFactory.getLogger(LeaderLatchFactory.class);
 
-    private final ZkProps zkProps;
+    private final ZookeeperProps zkProps;
     private final CuratorFramework zkCli;
 
     @Nullable
     private LeaderLatch leaderLatch;
 
-    public LeaderLatchFactory(ZkProps zkProps, CuratorFramework zkCli) {
+    public LeaderLatchFactory(ZookeeperProps zkProps, CuratorFramework zkCli) {
         Asserts.notNull(zkProps);
         Asserts.notNull(zkCli);
         this.zkProps = zkProps;
