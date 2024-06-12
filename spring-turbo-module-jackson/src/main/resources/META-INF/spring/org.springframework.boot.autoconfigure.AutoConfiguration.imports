@@ -1,1 +1,2 @@
 spring.turbo.module.jackson.autoconfiguration.JacksonModuleAutoConfiguration
+spring.turbo.module.jackson.autoconfiguration.JsonPathAutoConfiguration
