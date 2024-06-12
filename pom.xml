@@ -16,6 +16,7 @@
         <module>spring-turbo-module-misc</module>
         <module>spring-turbo-module-data-accessing</module>
         <module>spring-turbo-module-webcli</module>
+        <module>spring-turbo-module-jackson</module>
     </modules>
     <packaging>pom</packaging>
 
