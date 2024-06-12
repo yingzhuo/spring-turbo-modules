@@ -151,11 +151,6 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
-    public UserDetailsPlusBuilder gender(Object gender) {
-        this.gender = gender;
-        return this;
-    }
-
     public UserDetailsPlusBuilder avatar(Object avatar) {
         this.avatar = avatar;
         return this;
@@ -216,9 +211,9 @@ public final class UserDetailsPlusBuilder {
             userBuilder.password(DEFAULT_PASSWORD);
         }
 
-        return new UserDetailsPlusImpl(userBuilder.build(), this.id, this.nickname, this.gender, this.avatar,
-                this.nativeUser, this.email, this.phoneNumber, this.dateOfBirth, this.biography, this.nationality,
-                this.location, this.url, this.attributes);
+        return new UserDetailsPlusImpl(userBuilder.build(), this.id, this.nickname, this.avatar, this.nativeUser,
+                this.email, this.phoneNumber, this.dateOfBirth, this.biography, this.nationality, this.location,
+                this.url, this.attributes);
     }
 
 }
