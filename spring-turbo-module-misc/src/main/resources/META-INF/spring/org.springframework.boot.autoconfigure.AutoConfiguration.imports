@@ -6,3 +6,4 @@ spring.turbo.module.misc.autoconfiguration.CaptchaSupportAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.CaptchaSupportRedisAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.PinyinServiceAutoConfiguration
 spring.turbo.module.misc.autoconfiguration.TokenizerServiceAutoConfiguration
+spring.turbo.module.misc.autoconfiguration.MustacheServiceAutoConfiguration
