@@ -26,10 +26,6 @@ public abstract class BigDecimalScalingSerializer extends StdSerializer<BigDecim
     private final int scale;
     private final RoundingMode roundingMode;
 
-    public BigDecimalScalingSerializer() {
-        this(2, RoundingMode.HALF_UP);
-    }
-
     public BigDecimalScalingSerializer(int scale, RoundingMode roundingMode) {
         super(BigDecimal.class);
         this.scale = scale;

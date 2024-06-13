@@ -85,35 +85,6 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     }
 
     /**
-     * 性别
-     *
-     * @param <T>
-     *            表达性别的类型
-     *
-     * @return 性别或{@code null}
-     *
-     * @see spring.turbo.bean.Gender
-     */
-    @Nullable
-    public <T> T getGender();
-
-    /**
-     * 性别
-     *
-     * @param <T>
-     *            表达性别的类型
-     *
-     * @return 性别
-     *
-     * @see spring.turbo.bean.Gender
-     */
-    public default <T> T getRequiredGender() {
-        T gender = getGender();
-        Asserts.notNull(gender);
-        return gender;
-    }
-
-    /**
      * 头像
      *
      * @param <T>
