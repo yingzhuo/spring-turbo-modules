@@ -73,6 +73,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- mustache -->
+        <dependency>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- pinyin4j -->
         <dependency>
             <groupId>com.belerweb</groupId>
