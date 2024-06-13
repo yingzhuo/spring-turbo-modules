@@ -13,6 +13,7 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import org.springframework.lang.Nullable;
 import spring.turbo.io.IOExceptionUtils;
+import spring.turbo.util.StringUtils;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -30,11 +31,15 @@ import static spring.turbo.util.RandomStringUtils.randomAlphabetic;
 public class MustacheServiceImpl implements MustacheService {
 
     @Override
-    public String render(String templateString, @Nullable Object module) {
+    public String render(String templateString, @Nullable String templateName, @Nullable Object module) {
+        if (StringUtils.isBlank(templateName)) {
+            templateName = randomAlphabetic(10);
+        }
+
         try {
             Writer writer = new StringWriter();
             MustacheFactory mf = new DefaultMustacheFactory();
-            Mustache mustache = mf.compile(new StringReader(templateString), randomAlphabetic(10));
+            Mustache mustache = mf.compile(new StringReader(templateString), templateName);
             mustache.execute(writer, Objects.requireNonNullElseGet(module, Object::new));
             writer.flush();
             return writer.toString();

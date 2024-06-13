@@ -23,9 +23,17 @@ import java.nio.charset.StandardCharsets;
 public interface MustacheService {
 
     public default String render(Resource template, @Nullable Object module) {
-        return render(ResourceUtils.readText(template, StandardCharsets.UTF_8), module);
+        return render(template, null, module);
     }
 
-    public String render(String templateString, @Nullable Object module);
+    public default String render(Resource template, @Nullable String templateName, @Nullable Object module) {
+        return render(ResourceUtils.readText(template, StandardCharsets.UTF_8), templateName, module);
+    }
+
+    public default String render(String templateString, @Nullable Object module) {
+        return render(templateString, null, module);
+    }
+
+    public String render(String templateString, @Nullable String templateName, @Nullable Object module);
 
 }
