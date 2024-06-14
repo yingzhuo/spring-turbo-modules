@@ -2,4 +2,4 @@
 # SpringTurbo
 # ----------------------------------------------------------------------------------------------------------------------
 spring.turbo.convention.ModulesConvention=\
-spring.turbo.module.jackson.convention.ModulesConventionImpl
+    spring.turbo.module.jackson.convention.ModulesConventionImpl
