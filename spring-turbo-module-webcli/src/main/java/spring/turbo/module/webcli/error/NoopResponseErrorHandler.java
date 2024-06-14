@@ -15,6 +15,8 @@ import org.springframework.web.client.ResponseErrorHandler;
  * @author 应卓
  *
  * @see #getInstance()
+ * @see org.springframework.web.client.NoOpResponseErrorHandler
+ * @see org.springframework.web.client.DefaultResponseErrorHandler
  *
  * @since 3.3.1
  */
@@ -45,6 +47,8 @@ public final class NoopResponseErrorHandler implements ResponseErrorHandler {
     public void handleError(ClientHttpResponse response) {
         // no operation
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     // 延迟加载
     private static class SyncAvoid {
