@@ -20,6 +20,11 @@ import org.springframework.web.client.ResponseErrorHandler;
  */
 public final class NoopResponseErrorHandler implements ResponseErrorHandler {
 
+    /**
+     * 获取 {@link NoopResponseErrorHandler} 实例
+     *
+     * @return {@link NoopResponseErrorHandler} 实例
+     */
     public static NoopResponseErrorHandler getInstance() {
         return SyncAvoid.INSTANCE;
     }
@@ -38,9 +43,10 @@ public final class NoopResponseErrorHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse response) {
-        // noop
+        // no operation
     }
 
+    // 延迟加载
     private static class SyncAvoid {
         private static final NoopResponseErrorHandler INSTANCE = new NoopResponseErrorHandler();
     }
