@@ -11,23 +11,38 @@ package spring.turbo.module.webcli.error;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
-import java.io.IOException;
-
 /**
  * @author 应卓
  *
+ * @see #getInstance()
+ *
  * @since 3.3.1
  */
-public class NoopResponseErrorHandler implements ResponseErrorHandler {
+public final class NoopResponseErrorHandler implements ResponseErrorHandler {
+
+    public static NoopResponseErrorHandler getInstance() {
+        return SyncAvoid.INSTANCE;
+    }
+
+    /**
+     * 私有构造方法
+     */
+    private NoopResponseErrorHandler() {
+        super();
+    }
 
     @Override
-    public boolean hasError(ClientHttpResponse response) throws IOException {
-        return response.getStatusCode().isError();
+    public boolean hasError(ClientHttpResponse response) {
+        return false;
     }
 
     @Override
     public void handleError(ClientHttpResponse response) {
         // noop
+    }
+
+    private static class SyncAvoid {
+        private static final NoopResponseErrorHandler INSTANCE = new NoopResponseErrorHandler();
     }
 
 }
