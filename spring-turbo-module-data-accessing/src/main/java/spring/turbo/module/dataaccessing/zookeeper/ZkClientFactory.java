@@ -16,7 +16,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.autoconfiguration.properties.ZookeeperProps;
+import spring.turbo.module.dataaccessing.zookeeper.properties.ZookeeperProps;
 import spring.turbo.util.Asserts;
 
 /**
