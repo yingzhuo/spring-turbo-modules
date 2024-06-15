@@ -6,7 +6,5 @@ org.springframework.security.config.annotation.web.configurers.AbstractHttpConfi
 # ----------------------------------------------------------------------------------------------------------------------
 # SpringTurbo
 # ----------------------------------------------------------------------------------------------------------------------
-spring.turbo.convention.ModulesConvention=\
-    spring.turbo.module.security.convention.ModulesConventionImpl
 spring.turbo.convention.ExtraPasswordEncoderConvention=\
     spring.turbo.module.security.convention.ExtraPasswordEncoderConventionImpl
