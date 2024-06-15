@@ -6,22 +6,30 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.dataaccessing.convention;
+package spring.turbo.module.security.jackson;
 
-import spring.turbo.convention.ModulesConvention;
-
-import static spring.turbo.SpringTurboModules.SPRING_TURBO_MODULE_DATA_ACCESSING;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import spring.turbo.module.security.token.StringToken;
 
 /**
+ * {@link StringToken} Jackson Mixin
+ *
  * @author 应卓
  *
- * @since 2.0.13
+ * @see StringToken
+ *
+ * @since 2.0.3
  */
-public final class ModulesConventionImpl implements ModulesConvention {
+public abstract class StringTokenMixin {
 
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_MODULE_DATA_ACCESSING;
+    // 反序列化
+    @JsonCreator
+    public static StringToken toToken(String tokenValue) {
+        return StringToken.of(tokenValue);
     }
+
+    @JsonValue
+    public abstract String asString();
 
 }

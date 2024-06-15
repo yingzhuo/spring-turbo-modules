@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 import spring.turbo.module.security.token.Token;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public sealed interface AuthenticationDetails extends Serializable permits Authe
      *
      * @return 认证时间
      */
-    public Date getAuthenticatedTime();
+    public LocalDate getAuthenticatedTime();
 
     /**
      * 请求的path

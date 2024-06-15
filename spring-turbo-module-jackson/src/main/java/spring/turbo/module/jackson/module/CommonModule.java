@@ -6,22 +6,33 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.convention;
+package spring.turbo.module.jackson.module;
 
-import spring.turbo.convention.ModulesConvention;
-
-import static spring.turbo.SpringTurboModules.SPRING_TURBO_MODULE_JACKSON;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.util.VersionUtil;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import spring.turbo.SpringTurboVersion;
 
 /**
  * @author 应卓
  *
  * @since 3.3.1
  */
-public final class ModulesConventionImpl implements ModulesConvention {
+public class CommonModule extends SimpleModule {
+
+    private static final Version VERSION = VersionUtil.parseVersion(SpringTurboVersion.CURRENT, "com.github.yingzhuo",
+            "spring-turbo");
+
+    /**
+     * 默认构造方法
+     */
+    public CommonModule() {
+        super(CommonModule.class.getName(), VERSION);
+    }
 
     @Override
-    public String getModuleName() {
-        return SPRING_TURBO_MODULE_JACKSON;
+    public void setupModule(SetupContext context) {
+        super.setupModule(context);
     }
 
 }

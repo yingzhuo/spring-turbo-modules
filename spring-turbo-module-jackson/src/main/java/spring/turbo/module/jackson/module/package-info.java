@@ -6,22 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.crypto.convention;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.jackson.module;
 
-import spring.turbo.convention.ModulesConvention;
-
-import static spring.turbo.SpringTurboModules.SPRING_TURBO_MODULE_CRYPTO;
-
-/**
- * @author 应卓
- *
- * @since 3.2.6
- */
-public final class ModulesConventionImpl implements ModulesConvention {
-
-    @Override
-    public String getModuleName() {
-        return SPRING_TURBO_MODULE_CRYPTO;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

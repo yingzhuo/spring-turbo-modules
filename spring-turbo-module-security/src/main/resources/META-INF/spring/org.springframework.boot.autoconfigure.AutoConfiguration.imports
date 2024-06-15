@@ -1,4 +1,3 @@
 spring.turbo.module.security.autoconfiguration.HttpFirewallAutoConfiguration
 spring.turbo.module.security.autoconfiguration.SecurityExceptionHandlerAutoConfiguration
 spring.turbo.module.security.autoconfiguration.JwtTokenFactoryAutoConfiguration
-spring.turbo.module.security.autoconfiguration.ObjectMapperEditingAutoConfiguration

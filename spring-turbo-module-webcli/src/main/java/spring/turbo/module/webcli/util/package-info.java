@@ -8,7 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @NonNullApi
 @NonNullFields
-package spring.turbo.module.feign.convention;
+package spring.turbo.module.webcli.util;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
