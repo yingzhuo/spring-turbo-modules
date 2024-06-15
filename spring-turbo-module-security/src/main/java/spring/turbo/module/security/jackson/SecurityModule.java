@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jackson2;
+package spring.turbo.module.security.jackson;
 
 import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -19,13 +19,13 @@ import spring.turbo.module.security.token.StringToken;
  *
  * @since 2.0.3
  */
-public class SecurityModuleJackson2Module extends SimpleModule {
+public class SecurityModule extends SimpleModule {
 
     /**
      * 默认构造方法
      */
-    public SecurityModuleJackson2Module() {
-        super(SecurityModuleJackson2Module.class.getName(), VersionUtil.parseVersion(SpringTurboVersion.CURRENT,
+    public SecurityModule() {
+        super(SecurityModule.class.getName(), VersionUtil.parseVersion(SpringTurboVersion.CURRENT,
                 "com.github.yingzhuo", "spring-turbo-module-security"));
     }
 

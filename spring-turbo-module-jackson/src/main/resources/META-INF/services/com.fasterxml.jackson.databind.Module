@@ -1,1 +1,1 @@
-spring.turbo.module.jackson.module.SpringTurboJackson2Module
+spring.turbo.module.jackson.module.CommonModule

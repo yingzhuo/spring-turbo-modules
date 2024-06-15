@@ -18,7 +18,7 @@ import spring.turbo.SpringTurboVersion;
  *
  * @since 3.3.1
  */
-public class SpringTurboJackson2Module extends SimpleModule {
+public class CommonModule extends SimpleModule {
 
     private static final Version VERSION = VersionUtil.parseVersion(SpringTurboVersion.CURRENT, "com.github.yingzhuo",
             "spring-turbo");
@@ -26,8 +26,8 @@ public class SpringTurboJackson2Module extends SimpleModule {
     /**
      * 默认构造方法
      */
-    public SpringTurboJackson2Module() {
-        super(SpringTurboJackson2Module.class.getName(), VERSION);
+    public CommonModule() {
+        super(CommonModule.class.getName(), VERSION);
     }
 
     @Override

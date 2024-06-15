@@ -13,7 +13,7 @@ import org.springframework.lang.Nullable;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static spring.turbo.webmvc.RemoteAddressUtils.getIpAddress;
 
@@ -24,7 +24,7 @@ import static spring.turbo.webmvc.RemoteAddressUtils.getIpAddress;
  */
 public final class AuthenticationDetailsImpl implements AuthenticationDetails {
 
-    private final Date authenticatedTime;
+    private final LocalDate authenticatedTime;
 
     private final String path;
 
@@ -37,14 +37,14 @@ public final class AuthenticationDetailsImpl implements AuthenticationDetails {
     public AuthenticationDetailsImpl(HttpServletRequest request, @Nullable Token token) {
         Asserts.notNull(request);
         Asserts.notNull(token);
-        this.authenticatedTime = new Date();
+        this.authenticatedTime = LocalDate.now();
         this.authenticatedToken = token;
         this.path = request.getRequestURI();
         this.clientIp = getIpAddress(request); // TODO: 没有考虑到 WebFlux
     }
 
     @Override
-    public Date getAuthenticatedTime() {
+    public LocalDate getAuthenticatedTime() {
         return this.authenticatedTime;
     }
 
