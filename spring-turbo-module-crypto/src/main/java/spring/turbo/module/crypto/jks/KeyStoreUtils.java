@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import spring.turbo.io.IOExceptionUtils;
 import spring.turbo.module.crypto.CipherUtils;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.security.KeyStoreType;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -57,7 +58,7 @@ public final class KeyStoreUtils {
         Asserts.notNull(password);
 
         try {
-            final KeyStore ks = KeyStore.getInstance(KeyStoreType.JKS.getName());
+            final KeyStore ks = KeyStore.getInstance(KeyStoreType.JKS.getValue());
             ks.load(keyStoreResource.getInputStream(), password.toCharArray());
             return ks;
         } catch (IOException e) {
