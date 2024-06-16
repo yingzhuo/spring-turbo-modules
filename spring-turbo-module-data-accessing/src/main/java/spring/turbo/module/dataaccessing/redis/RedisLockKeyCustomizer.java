@@ -8,19 +8,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.dataaccessing.redis;
 
-import spring.turbo.bean.Customizer;
-
 /**
  * @author 应卓
  *
  * @since 1.3.0
  */
 @FunctionalInterface
-public interface RedisLockKeyCustomizer extends Customizer<String> {
+public interface RedisLockKeyCustomizer {
 
     public static final RedisLockKeyCustomizer DEFAULT = key -> key;
 
-    @Override
     public String customize(String key);
 
 }
