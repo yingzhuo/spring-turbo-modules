@@ -22,6 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import spring.turbo.util.security.KeyStoreType;
 
 import javax.annotation.Nullable;
 import javax.net.ssl.SSLContext;
@@ -43,6 +44,7 @@ import java.util.Optional;
 public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private @Nullable Resource clientSideCertificate;
+    private @Nullable KeyStoreType clientSideCertificateType;
     private @Nullable String clientSideCertificatePassword;
     private @Nullable Duration connectTimeout;
     private @Nullable Duration requestTimeout;
@@ -84,40 +86,46 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        var sslContext = createSSLContext(clientSideCertificate, clientSideCertificatePassword);
+        var sslContext = createSSLContext();
 
         var socketRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
                 .register(URIScheme.HTTPS.getId(),
                         new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
                 .register(URIScheme.HTTP.getId(), new PlainConnectionSocketFactory()).build();
 
-        var httpClientBuilder = HttpClientBuilder.create()
+        var httpClient = HttpClientBuilder.create()
                 .setConnectionManager(new PoolingHttpClientConnectionManager(socketRegistry))
-                .setConnectionManagerShared(true);
+                .setConnectionManagerShared(true).build();
 
-        this.factory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
+        this.factory = new HttpComponentsClientHttpRequestFactory(httpClient);
         Optional.ofNullable(this.requestTimeout).ifPresent(d -> factory.setConnectionRequestTimeout(d));
         Optional.ofNullable(this.connectTimeout).ifPresent(d -> factory.setConnectTimeout(d));
     }
 
-    private SSLContext createSSLContext(@Nullable Resource certificate, @Nullable String password) throws Exception {
+    private SSLContext createSSLContext() throws Exception {
         KeyStore keyStore = null;
 
-        if (certificate != null && password != null) {
-            keyStore = KeyStore.getInstance("PKCS12");
-            keyStore.load(certificate.getInputStream(), password.toCharArray());
+        if (this.clientSideCertificate != null && this.clientSideCertificatePassword != null) {
+            final var ksType = clientSideCertificateType != null ? clientSideCertificateType.getValue()
+                    : KeyStore.getDefaultType();
+            keyStore = KeyStore.getInstance(ksType);
+            keyStore.load(clientSideCertificate.getInputStream(), clientSideCertificatePassword.toCharArray());
         }
 
         var contextBuilder = SSLContextBuilder.create()
                 .loadTrustMaterial((X509Certificate[] certificateChain, String authType) -> true);
         if (keyStore != null) {
-            contextBuilder.loadKeyMaterial(keyStore, password.toCharArray());
+            contextBuilder.loadKeyMaterial(keyStore, this.clientSideCertificatePassword.toCharArray());
         }
         return contextBuilder.build();
     }
 
     public void setClientSideCertificate(@Nullable Resource clientSideCertificate) {
         this.clientSideCertificate = clientSideCertificate;
+    }
+
+    public void setClientSideCertificateType(@Nullable KeyStoreType clientSideCertificateType) {
+        this.clientSideCertificateType = clientSideCertificateType;
     }
 
     public void setClientSideCertificatePassword(@Nullable String clientSideCertificatePassword) {

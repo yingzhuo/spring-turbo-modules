@@ -13,7 +13,6 @@ import spring.turbo.module.security.token.Token;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * @author 应卓
