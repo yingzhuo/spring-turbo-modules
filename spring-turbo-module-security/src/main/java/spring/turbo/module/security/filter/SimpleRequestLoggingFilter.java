@@ -14,6 +14,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
+import spring.turbo.module.security.util.RequestMatcherFactories;
 
 /**
  * @author 应卓
@@ -23,13 +24,13 @@ import org.springframework.web.filter.ServletContextRequestLoggingFilter;
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
  * @see HumanReadableRequestLoggingFilter
+ * @see RequestLoggingFilterFactory
  *
  * @since 1.0.0
  */
 public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
 
-    @Nullable
-    private RequestMatcher skipRequestMatcher;
+    private RequestMatcher skipRequestMatcher = RequestMatcherFactories.alwaysFalse();
 
     /**
      * 默认构造方法
@@ -53,8 +54,9 @@ public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter imp
     }
 
     @Override
-    public void setSkipRequestMatcher(RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher;
+    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
+        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
+                : RequestMatcherFactories.alwaysFalse();
     }
 
     @Nullable

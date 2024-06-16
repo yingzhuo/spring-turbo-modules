@@ -19,6 +19,8 @@ import java.util.List;
  *
  * @author 应卓
  *
+ * @see TokenResolver
+ *
  * @since 1.0.0
  */
 public final class TokenResolverBuilder {

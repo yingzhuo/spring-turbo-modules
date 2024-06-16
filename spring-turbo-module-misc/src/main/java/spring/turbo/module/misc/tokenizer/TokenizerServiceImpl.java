@@ -15,11 +15,12 @@ import cn.hutool.extra.tokenizer.Word;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 简易分词服务实现类
+ *
  * @author 应卓
  *
  * @since 3.1.1
@@ -31,7 +32,7 @@ public class TokenizerServiceImpl implements TokenizerService {
     @Override
     public List<String> parse(@Nullable String text) {
         if (StringUtils.isBlank(text)) {
-            return new ArrayList<>(0);
+            return List.of();
         }
 
         Result result = engine.parse(text);

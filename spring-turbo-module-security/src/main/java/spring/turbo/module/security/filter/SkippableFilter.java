@@ -32,7 +32,7 @@ import static spring.turbo.module.security.util.RequestMatcherFactories.fromPred
 public interface SkippableFilter extends Filter {
 
     @Nullable
-    RequestMatcher getSkipRequestMatcher();
+    public RequestMatcher getSkipRequestMatcher();
 
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher);
 

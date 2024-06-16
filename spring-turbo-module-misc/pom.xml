@@ -54,13 +54,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- javassist -->
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>

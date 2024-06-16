@@ -23,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
+import spring.turbo.module.security.util.RequestMatcherFactories;
 import spring.turbo.util.Asserts;
 
 /**
@@ -54,8 +55,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Nullable
     protected ApplicationEventPublisher applicationEventPublisher;
 
-    @Nullable
-    protected RequestMatcher skipRequestMatcher;
+    protected RequestMatcher skipRequestMatcher = RequestMatcherFactories.alwaysFalse();
 
     protected final boolean authenticationIsRequired() {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -108,7 +108,8 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     @Override
     public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher;
+        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
+                : RequestMatcherFactories.alwaysFalse();
     }
 
 }
