@@ -35,13 +35,14 @@ import java.util.Optional;
  * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/"></a> 版本的实现
  *
  * @author 应卓
- *
  * @see org.springframework.web.client.RestClient
  * @see org.springframework.web.client.RestTemplate
- *
  * @since 3.3.1
  */
 public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
+
+    private static final String HTTPS = URIScheme.HTTPS.getId();
+    private static final String HTTP = URIScheme.HTTP.getId();
 
     private @Nullable Resource clientSideCertificate;
     private @Nullable KeyStoreType clientSideCertificateType;
@@ -88,10 +89,9 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
     public void afterPropertiesSet() throws Exception {
         var sslContext = createSSLContext();
 
-        var socketRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
-                .register(URIScheme.HTTPS.getId(),
-                        new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
-                .register(URIScheme.HTTP.getId(), new PlainConnectionSocketFactory()).build();
+        var socketRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                .register(HTTPS, new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
+                .register(HTTP, new PlainConnectionSocketFactory()).build();
 
         var httpClient = HttpClientBuilder.create()
                 .setConnectionManager(new PoolingHttpClientConnectionManager(socketRegistry))

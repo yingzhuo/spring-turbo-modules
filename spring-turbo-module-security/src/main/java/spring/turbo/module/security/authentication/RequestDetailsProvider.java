@@ -22,12 +22,10 @@ import spring.turbo.webmvc.HttpRequestSnapshot;
  * 一般说来，RequestDetails是对一个HTTP请求的简要描述，类型一般为 {@link String}。
  *
  * @author 应卓
- *
  * @see #SIMPLE_DESCRIPTION
  * @see #SNAPSHOT
  * @see #SPRING_SECURITY_DEFAULT
  * @see #AUTHENTICATION_DETAILS_OBJ
- *
  * @since 1.0.4
  */
 @FunctionalInterface
@@ -37,7 +35,7 @@ public interface RequestDetailsProvider {
      * SpringSecurity默认实现
      */
     public static final RequestDetailsProvider SPRING_SECURITY_DEFAULT = (request,
-            token) -> new WebAuthenticationDetailsSource().buildDetails(request).toString();
+                                                                          token) -> new WebAuthenticationDetailsSource().buildDetails(request).toString();
 
     /**
      * HTTP(s)快照
@@ -59,11 +57,8 @@ public interface RequestDetailsProvider {
     /**
      * 创建Details
      *
-     * @param request
-     *            HTTP请求
-     * @param token
-     *            令牌
-     *
+     * @param request HTTP请求
+     * @param token   令牌
      * @return details或{@code null}
      */
     @Nullable
@@ -72,9 +67,7 @@ public interface RequestDetailsProvider {
     /**
      * 创建Details
      *
-     * @param request
-     *            HTTP请求
-     *
+     * @param request HTTP请求
      * @return details或{@code null}
      */
     @Nullable

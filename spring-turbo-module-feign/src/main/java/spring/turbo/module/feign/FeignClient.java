@@ -18,7 +18,6 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- *
  * @see Logging
  * @see EncoderAndDecoder
  * @see ErrorDecoder
@@ -31,13 +30,12 @@ import static spring.turbo.util.StringPool.EMPTY;
  * @see RequestInterceptors
  * @see Customizer
  * @see Decoded404
- *
  * @since 1.0.0
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Qualifier
 public @interface FeignClient {
 
@@ -45,7 +43,6 @@ public @interface FeignClient {
      * Bean Name
      *
      * @return Bean Name
-     *
      * @see #beanName()
      */
     @AliasFor("beanName")
@@ -55,7 +52,6 @@ public @interface FeignClient {
      * Bean Name
      *
      * @return Bean Name
-     *
      * @see #value()
      */
     @AliasFor("value")
@@ -72,7 +68,6 @@ public @interface FeignClient {
      * Bean qualifiers
      *
      * @return Bean qualifiers
-     *
      * @see Qualifier
      */
     public String[] qualifiers() default {};
@@ -81,7 +76,6 @@ public @interface FeignClient {
      * 是否为primary
      *
      * @return primary
-     *
      * @see org.springframework.context.annotation.Primary
      */
     public boolean primary() default true;

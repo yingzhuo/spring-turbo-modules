@@ -12,13 +12,12 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- *
  * @since 2.0.6
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface InvocationHandlerFactory {
 
     public Class<? extends feign.InvocationHandlerFactory> value();

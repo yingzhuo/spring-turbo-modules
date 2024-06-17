@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author 应卓
- *
  * @since 3.3.1
  */
 public final class RestClientUtils {

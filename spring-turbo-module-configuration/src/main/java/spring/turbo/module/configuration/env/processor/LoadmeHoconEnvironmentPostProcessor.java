@@ -17,13 +17,12 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadHoc
 
 /**
  * @author 应卓
- *
  * @since 2.2.1
  */
 public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
     public LoadmeHoconEnvironmentPostProcessor(DeferredLogFactory logFactory,
-            ConfigurableBootstrapContext bootstrapContext) {
+                                               ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE + 102);
     }

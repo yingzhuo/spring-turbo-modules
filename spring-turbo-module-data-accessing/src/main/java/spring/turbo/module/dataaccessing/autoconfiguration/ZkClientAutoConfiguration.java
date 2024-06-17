@@ -20,7 +20,6 @@ import spring.turbo.module.dataaccessing.zookeeper.properties.ZookeeperProps;
 
 /**
  * @author 应卓
- *
  * @since 1.3.0
  */
 @AutoConfiguration

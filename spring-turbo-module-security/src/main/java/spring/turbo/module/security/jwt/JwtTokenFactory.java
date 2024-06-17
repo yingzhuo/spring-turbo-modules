@@ -21,7 +21,6 @@ import static spring.turbo.module.security.jwt.JwtConstants.*;
  * JWT令牌工厂
  *
  * @author 应卓
- *
  * @since 1.0.0
  */
 public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
@@ -29,9 +28,7 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
     /**
      * 创建令牌
      *
-     * @param data
-     *            令牌数据
-     *
+     * @param data 令牌数据
      * @return 令牌
      */
     public String create(Data data);
@@ -74,11 +71,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置头信息 typ
          *
-         * @param type
-         *            值
-         *
+         * @param type 值
          * @return this
-         *
          * @see JwtConstants#HEADER_TYPE
          */
         public Data type(String type) {
@@ -89,11 +83,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置头信息 kid
          *
-         * @param id
-         *            值
-         *
+         * @param id 值
          * @return this
-         *
          * @see JwtConstants#HEADER_KEY_ID
          */
         public Data keyId(String id) {
@@ -104,11 +95,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置头信息 cty
          *
-         * @param contentType
-         *            值
-         *
+         * @param contentType 值
          * @return this
-         *
          * @see JwtConstants#HEADER_CONTENT_TYPE
          */
         public Data contentType(String contentType) {
@@ -119,11 +107,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置头信息 alg
          *
-         * @param algorithm
-         *            值
-         *
+         * @param algorithm 值
          * @return this
-         *
          * @see JwtConstants#HEADER_ALGORITHM
          */
         public Data algorithm(String algorithm) {
@@ -134,11 +119,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 iss
          *
-         * @param issuer
-         *            值
-         *
+         * @param issuer 值
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_ISSUER
          */
         public Data issuer(String issuer) {
@@ -149,11 +131,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 sub
          *
-         * @param subject
-         *            值
-         *
+         * @param subject 值
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_SUBJECT
          */
         public Data subject(String subject) {
@@ -164,11 +143,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 aud
          *
-         * @param audience
-         *            值
-         *
+         * @param audience 值
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_AUDIENCE
          */
         public Data audience(String... audience) {
@@ -179,11 +155,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 exp
          *
-         * @param time
-         *            过期的时间点 值
-         *
+         * @param time 过期的时间点 值
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_EXPIRES
          */
         public Data expiresAt(Date time) {
@@ -194,11 +167,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 exp
          *
-         * @param duration
-         *            从当前时刻开始到过期时间的跨度 值
-         *
+         * @param duration 从当前时刻开始到过期时间的跨度 值
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_EXPIRES
          */
         public Data expiresAtFuture(Duration duration) {
@@ -209,11 +179,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 nbf
          *
-         * @param time
-         *            最初生效的时刻
-         *
+         * @param time 最初生效的时刻
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_NOT_BEFORE
          */
         public Data notBefore(Date time) {
@@ -224,11 +191,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 nbf
          *
-         * @param duration
-         *            当前时刻到最初生效的时刻的跨度
-         *
+         * @param duration 当前时刻到最初生效的时刻的跨度
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_NOT_BEFORE
          */
         public Data notBeforeAtFuture(Duration duration) {
@@ -239,11 +203,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 nbf
          *
-         * @param time
-         *            令牌签发时刻
-         *
+         * @param time 令牌签发时刻
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_ISSUED_AT
          */
         public Data issuedAt(Date time) {
@@ -255,7 +216,6 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
          * 设置载荷信息 nbf, 以当前时刻作为令牌签发时刻。
          *
          * @return this
-         *
          * @see JwtConstants#PAYLOAD_ISSUED_AT
          */
         public Data issuedAtNow() {
@@ -265,9 +225,7 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置载荷信息 jti
          *
-         * @param jwtId
-         *            jwt id
-         *
+         * @param jwtId jwt id
          * @return this
          */
         public Data jwtId(Object jwtId) {
@@ -278,11 +236,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置其他头部信息
          *
-         * @param name
-         *            名
-         * @param value
-         *            值
-         *
+         * @param name  名
+         * @param value 值
          * @return this
          */
         public Data addHeader(String name, Object value) {
@@ -293,11 +248,8 @@ public sealed interface JwtTokenFactory permits JwtTokenFactoryImpl {
         /**
          * 设置其他载荷信息
          *
-         * @param name
-         *            名
-         * @param value
-         *            值
-         *
+         * @param name  名
+         * @param value 值
          * @return this
          */
         public Data addPayload(String name, Object value) {

@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * @author 应卓
- *
  * @since 1.0.0
  */
 public class ConfigurableFilterFactory extends AbstractFilterFactory {

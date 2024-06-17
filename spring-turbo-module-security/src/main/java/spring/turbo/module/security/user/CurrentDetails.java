@@ -19,14 +19,12 @@ import java.lang.annotation.*;
  * 获取当前用户的Details对象
  *
  * @author 应卓
- *
  * @see org.springframework.security.core.context.SecurityContext
  * @see AbstractAuthenticationToken#getDetails()
  * @see RequestDetailsProvider
  * @see RequestDetailsProvider#SPRING_SECURITY_DEFAULT
  * @see RequestDetailsProvider#SNAPSHOT
  * @see RequestDetailsProvider#SIMPLE_DESCRIPTION
- *
  * @since 1.0.0
  */
 @Inherited

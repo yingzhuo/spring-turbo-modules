@@ -27,7 +27,6 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
  * @author 应卓
- *
  * @since 1.3.0
  */
 @AutoConfiguration

@@ -14,7 +14,6 @@ import spring.turbo.module.security.exception.BadTokenException;
  * 错误的令牌签名
  *
  * @author 应卓
- *
  * @since 2.2.4
  */
 public class BadJwtAlgorithmTokenException extends BadTokenException {

@@ -14,7 +14,6 @@ import spring.turbo.core.env.EnvironmentPostProcessorSupport;
 
 /**
  * @author 应卓
- *
  * @since 2.2.1
  */
 abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
@@ -22,7 +21,7 @@ abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostPro
     protected static final String LOADME = "loadme";
 
     public AbstractLoadmeEnvironmentPostProcessor(DeferredLogFactory logFactory,
-            ConfigurableBootstrapContext bootstrapContext) {
+                                                  ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
         super.setOrder(LOWEST_PRECEDENCE);
     }

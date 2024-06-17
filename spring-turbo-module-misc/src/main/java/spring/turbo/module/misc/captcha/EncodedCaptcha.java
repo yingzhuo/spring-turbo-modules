@@ -20,10 +20,8 @@ import java.util.Objects;
  * 经过编码的人机验证码
  *
  * @author 应卓
- *
  * @see Captcha
  * @see #of(Captcha)
- *
  * @since 1.0.0
  */
 public final class EncodedCaptcha implements Serializable {
@@ -34,8 +32,7 @@ public final class EncodedCaptcha implements Serializable {
     /**
      * 私有构造方法
      *
-     * @param captcha
-     *            人机验证码
+     * @param captcha 人机验证码
      */
     private EncodedCaptcha(Captcha captcha) {
         this.captcha = captcha;

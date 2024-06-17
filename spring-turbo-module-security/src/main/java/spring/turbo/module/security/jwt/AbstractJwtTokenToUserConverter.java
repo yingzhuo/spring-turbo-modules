@@ -24,9 +24,7 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- *
  * @see JwtDecorator
- *
  * @since 2.2.4
  */
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {
@@ -36,8 +34,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
     /**
      * 构造方法
      *
-     * @param signer
-     *            签名器
+     * @param signer 签名器
      */
     protected AbstractJwtTokenToUserConverter(JWTSigner signer) {
         Asserts.notNull(signer);

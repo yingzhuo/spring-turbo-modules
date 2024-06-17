@@ -35,10 +35,8 @@ import java.io.IOException;
  * HttpBasic认证过滤器
  *
  * @author 应卓
- *
  * @see TokenAuthenticationFilter
  * @see RequestMatcher
- *
  * @since 1.2.3
  */
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {

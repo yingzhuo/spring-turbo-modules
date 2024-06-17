@@ -24,7 +24,6 @@ import java.security.KeyPair;
  * JWT签名器生成工具
  *
  * @author 应卓
- *
  * @since 2.2.4
  */
 public final class SignerFactories {
@@ -52,9 +51,7 @@ public final class SignerFactories {
     /**
      * HS256算法
      *
-     * @param key
-     *            加密key
-     *
+     * @param key 加密key
      * @return 签名器实例
      */
     public static JWTSigner HS256(String key) {
@@ -65,9 +62,7 @@ public final class SignerFactories {
     /**
      * HS384算法
      *
-     * @param key
-     *            加密key
-     *
+     * @param key 加密key
      * @return 签名器实例
      */
     public static JWTSigner HS384(String key) {
@@ -78,9 +73,7 @@ public final class SignerFactories {
     /**
      * HS512算法
      *
-     * @param key
-     *            加密key
-     *
+     * @param key 加密key
      * @return 签名器实例
      */
     public static JWTSigner HS512(String key) {
@@ -93,9 +86,7 @@ public final class SignerFactories {
     /**
      * RS256算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RS256(KeyPair keyPair) {
@@ -107,11 +98,8 @@ public final class SignerFactories {
     /**
      * RS256算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -125,9 +113,7 @@ public final class SignerFactories {
     /**
      * RS384算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RS384(KeyPair keyPair) {
@@ -139,11 +125,8 @@ public final class SignerFactories {
     /**
      * RS384算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -157,9 +140,7 @@ public final class SignerFactories {
     /**
      * RS512算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RS512(KeyPair keyPair) {
@@ -171,11 +152,8 @@ public final class SignerFactories {
     /**
      * RS512算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -191,9 +169,7 @@ public final class SignerFactories {
     /**
      * ES256算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner ES256(KeyPair keyPair) {
@@ -205,11 +181,8 @@ public final class SignerFactories {
     /**
      * ES256算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -223,9 +196,7 @@ public final class SignerFactories {
     /**
      * ES384算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner ES384(KeyPair keyPair) {
@@ -237,11 +208,8 @@ public final class SignerFactories {
     /**
      * ES384算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -255,9 +223,7 @@ public final class SignerFactories {
     /**
      * ES512算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner ES512(KeyPair keyPair) {
@@ -269,11 +235,8 @@ public final class SignerFactories {
     /**
      * ES512算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -289,9 +252,7 @@ public final class SignerFactories {
     /**
      * PS256算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner PS256(KeyPair keyPair) {
@@ -303,11 +264,8 @@ public final class SignerFactories {
     /**
      * PS256算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -321,9 +279,7 @@ public final class SignerFactories {
     /**
      * PS384算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner PS384(KeyPair keyPair) {
@@ -335,11 +291,8 @@ public final class SignerFactories {
     /**
      * PS384算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -353,9 +306,7 @@ public final class SignerFactories {
     /**
      * PS512算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner PS512(KeyPair keyPair) {
@@ -367,11 +318,8 @@ public final class SignerFactories {
     /**
      * PS512算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -387,11 +335,8 @@ public final class SignerFactories {
     /**
      * 国密SM2算法
      *
-     * @param publicKeyBase64
-     *            公钥
-     * @param privateKeyBase64
-     *            私钥
-     *
+     * @param publicKeyBase64  公钥
+     * @param privateKeyBase64 私钥
      * @return 签名器实例
      */
     public static JWTSigner SM2(String publicKeyBase64, String privateKeyBase64) {
@@ -403,13 +348,9 @@ public final class SignerFactories {
     /**
      * 国密SM2算法
      *
-     * @param publicKeyBase64
-     *            公钥
-     * @param privateKeyBase64
-     *            私钥
-     * @param withId
-     *            签名和验证时使用的id，为 {@code null} 时表示不使用
-     *
+     * @param publicKeyBase64  公钥
+     * @param privateKeyBase64 私钥
+     * @param withId           签名和验证时使用的id，为 {@code null} 时表示不使用
      * @return 签名器实例
      */
     public static JWTSigner SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
@@ -422,9 +363,7 @@ public final class SignerFactories {
     /**
      * RSHA1算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RSHA1(KeyPair keyPair) {
@@ -436,11 +375,8 @@ public final class SignerFactories {
     /**
      * RSHA1算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -456,9 +392,7 @@ public final class SignerFactories {
     /**
      * RMD2算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RMD2(KeyPair keyPair) {
@@ -470,11 +404,8 @@ public final class SignerFactories {
     /**
      * RMD2算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows
@@ -490,9 +421,7 @@ public final class SignerFactories {
     /**
      * RMD5算法
      *
-     * @param keyPair
-     *            加密用的公私钥对
-     *
+     * @param keyPair 加密用的公私钥对
      * @return 签名器实例
      */
     public static JWTSigner RMD5(KeyPair keyPair) {
@@ -504,11 +433,8 @@ public final class SignerFactories {
     /**
      * RMD5算法
      *
-     * @param publicKeyLocation
-     *            公钥resource-location
-     * @param privateKeyLocation
-     *            私钥resource-location
-     *
+     * @param publicKeyLocation  公钥resource-location
+     * @param privateKeyLocation 私钥resource-location
      * @return 签名器实例
      */
     @SneakyThrows

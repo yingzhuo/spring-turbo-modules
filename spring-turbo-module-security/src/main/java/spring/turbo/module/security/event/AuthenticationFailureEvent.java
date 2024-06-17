@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
  * 认证失败事件
  *
  * @author 应卓
- *
  * @since 2.0.5
  */
 public class AuthenticationFailureEvent extends ApplicationEvent {

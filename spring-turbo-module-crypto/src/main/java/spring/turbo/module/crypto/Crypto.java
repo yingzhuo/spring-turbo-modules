@@ -10,7 +10,6 @@ package spring.turbo.module.crypto;
 
 /**
  * @author 应卓
- *
  * @since 3.2.6
  */
 public interface Crypto {

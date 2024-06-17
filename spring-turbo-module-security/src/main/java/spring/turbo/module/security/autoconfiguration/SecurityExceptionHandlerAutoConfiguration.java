@@ -17,7 +17,6 @@ import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
 
 /**
  * @author 应卓
- *
  * @since 1.3.0
  */
 @AutoConfiguration

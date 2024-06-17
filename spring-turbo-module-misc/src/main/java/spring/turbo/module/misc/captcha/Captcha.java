@@ -19,9 +19,7 @@ import java.util.Objects;
  * 人机验证码
  *
  * @author 应卓
- *
  * @see ImageResponseEntity
- *
  * @since 1.0.0
  */
 public final class Captcha implements Serializable {

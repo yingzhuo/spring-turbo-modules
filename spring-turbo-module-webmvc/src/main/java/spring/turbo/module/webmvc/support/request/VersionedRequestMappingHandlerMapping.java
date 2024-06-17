@@ -23,9 +23,7 @@ import static org.springframework.core.annotation.AnnotationUtils.getAnnotationA
 
 /**
  * @author 应卓
- *
  * @see ServletPathVersionResolver
- *
  * @since 2.0.9
  */
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
@@ -45,8 +43,7 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
     /**
      * 构造方法
      *
-     * @param versionResolver
-     *            版本号解析器
+     * @param versionResolver 版本号解析器
      */
     public VersionedRequestMappingHandlerMapping(@Nullable VersionResolver versionResolver) {
         this.versionResolver = requireNonNullElseGet(versionResolver, DefaultVersionResolver::new);

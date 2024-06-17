@@ -16,10 +16,8 @@ import java.io.Serializable;
  * 令牌
  *
  * @author 应卓
- *
  * @see #ofString(String)
  * @see spring.turbo.module.security.authentication.MutableAuthentication
- *
  * @since 1.0.0
  */
 public interface Token extends Serializable {

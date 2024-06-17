@@ -12,10 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author 应卓
- *
  * @see #getInstance()
  * @see EncodingIds#BROKEN
- *
  * @since 2.0.14
  */
 public final class BrokenPasswordEncoder implements PasswordEncoder {

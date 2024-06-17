@@ -19,7 +19,6 @@ import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
- *
  * @since 1.0.15
  */
 public class ShardCountFactory implements FactoryBean<SharedCount>, InitializingBean, DisposableBean {

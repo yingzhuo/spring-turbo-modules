@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AccountStatusException;
 
 /**
  * @author 应卓
- *
  * @since 2.0.5
  */
 public class BadTokenException extends AccountStatusException {

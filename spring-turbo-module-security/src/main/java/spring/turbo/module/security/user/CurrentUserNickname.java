@@ -19,12 +19,10 @@ import java.lang.annotation.*;
  * 获取当前用户昵称
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getNickname()
  * @see AuthenticationPrincipalArgumentResolver
- *
  * @since 1.0.0
  */
 @Inherited

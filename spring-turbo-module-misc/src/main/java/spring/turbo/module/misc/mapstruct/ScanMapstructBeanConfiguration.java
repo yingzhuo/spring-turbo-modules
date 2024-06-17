@@ -29,10 +29,9 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
 /**
  * @author 应卓
- *
  * @since 2.2.0
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
 
     private final Environment environment;
@@ -40,7 +39,7 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
     private final ResourceLoader resourceLoader;
 
     public ScanMapstructBeanConfiguration(Environment environment, ClassLoader classLoader,
-            ResourceLoader resourceLoader) {
+                                          ResourceLoader resourceLoader) {
         this.environment = environment;
         this.classLoader = classLoader;
         this.resourceLoader = resourceLoader;
@@ -48,7 +47,7 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry,
-            BeanNameGenerator beanNameGenerator) {
+                                        BeanNameGenerator beanNameGenerator) {
         var packageSet = getBasePackages(importingClassMetadata);
         for (var clzDef : doScan(packageSet)) {
             this.registerMapper(clzDef, beanNameGenerator, registry);
@@ -84,7 +83,7 @@ class ScanMapstructBeanConfiguration implements ImportBeanDefinitionRegistrar {
     }
 
     private void registerMapper(ClassDef classDef, BeanNameGenerator beanNameGenerator,
-            BeanDefinitionRegistry registry) {
+                                BeanDefinitionRegistry registry) {
 
         var attributes = classDef.getAnnotationAttributes(MapstructBean.class);
 

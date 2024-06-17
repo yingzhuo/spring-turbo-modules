@@ -19,13 +19,11 @@ import java.lang.annotation.*;
  * 获取当前用户的Attributes
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getAttributes()
  * @see AuthenticationPrincipalArgumentResolver
  * @see spring.turbo.bean.Attributes
- *
  * @since 1.0.0
  */
 @Inherited

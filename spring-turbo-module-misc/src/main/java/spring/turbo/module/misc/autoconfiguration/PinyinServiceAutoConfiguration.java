@@ -16,7 +16,6 @@ import spring.turbo.module.misc.pinyin.PinyinServiceImpl;
 
 /**
  * @author 应卓
- *
  * @since 3.1.0
  */
 @AutoConfiguration

@@ -14,7 +14,6 @@ import org.springframework.lang.Nullable;
  * 全局数据源切换遥控器
  *
  * @author 应卓
- *
  * @since 1.1.0
  */
 public class DynamicDataSourceRemote {

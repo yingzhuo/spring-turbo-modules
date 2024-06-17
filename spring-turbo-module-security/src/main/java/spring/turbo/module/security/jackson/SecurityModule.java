@@ -16,7 +16,6 @@ import spring.turbo.module.security.token.StringToken;
 
 /**
  * @author 应卓
- *
  * @since 2.0.3
  */
 public class SecurityModule extends SimpleModule {

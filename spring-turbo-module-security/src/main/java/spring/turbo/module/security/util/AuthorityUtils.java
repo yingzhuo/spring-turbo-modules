@@ -24,9 +24,7 @@ import static spring.turbo.util.StringPool.COMMA;
  * {@link org.springframework.security.core.GrantedAuthority} 相关工具
  *
  * @author 应卓
- *
  * @see org.springframework.security.core.authority.AuthorityUtils
- *
  * @since 1.0.5
  */
 public final class AuthorityUtils {
@@ -52,9 +50,7 @@ public final class AuthorityUtils {
     /**
      * 从用户实体中获取权限信息
      *
-     * @param userDetails
-     *            用户实体 (可为null)
-     *
+     * @param userDetails 用户实体 (可为null)
      * @return 集合
      */
     public static List<GrantedAuthority> getAuthorities(@Nullable UserDetails userDetails) {
@@ -72,9 +68,7 @@ public final class AuthorityUtils {
     /**
      * 逗号分隔的字符串集合转换成权限信息
      *
-     * @param authorities
-     *            字符串集合
-     *
+     * @param authorities 字符串集合
      * @return 权限集合
      */
     public static List<GrantedAuthority> createAuthorityList(@Nullable String... authorities) {
@@ -92,9 +86,7 @@ public final class AuthorityUtils {
     /**
      * 逗号分隔的字符串转换成权限信息
      *
-     * @param authorityString
-     *            字符串
-     *
+     * @param authorityString 字符串
      * @return 权限集合
      */
     public static List<GrantedAuthority> commaSeparatedStringToAuthorityList(@Nullable String authorityString) {

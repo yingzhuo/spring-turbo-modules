@@ -20,15 +20,11 @@ import spring.turbo.module.security.filter.SimpleRequestLoggingFilter;
  * <p>
  * 本类用来配置SpringSecurity扩展过滤器，必须把此类的实现加入 {@link org.springframework.context.ApplicationContext}。
  *
- * @param <T>
- *            {@link Filter} 的类型
- *
+ * @param <T> {@link Filter} 的类型
  * @author 应卓
- *
  * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
  * @see SimpleRequestLoggingFilter
  * @see org.springframework.security.web.SecurityFilterChain
- *
  * @since 1.0.0
  */
 @FunctionalInterface

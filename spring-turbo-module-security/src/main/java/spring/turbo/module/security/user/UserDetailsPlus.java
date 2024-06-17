@@ -22,11 +22,9 @@ import java.util.Date;
  * 为 {@link UserDetails} 增加若干方法使之更方便
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see #builder()
  * @see spring.turbo.module.security.authentication.TokenToUserConverter
- *
  * @since 1.0.0
  */
 public interface UserDetailsPlus extends UserDetails, Serializable {
@@ -43,9 +41,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 获取ID
      *
-     * @param <T>
-     *            ID类型
-     *
+     * @param <T> ID类型
      * @return ID或{@code null}
      */
     @Nullable
@@ -54,9 +50,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 获取ID
      *
-     * @param <T>
-     *            ID类型
-     *
+     * @param <T> ID类型
      * @return ID
      */
     public default <T> T getRequiredId() {
@@ -87,9 +81,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 头像
      *
-     * @param <T>
-     *            头像的类型
-     *
+     * @param <T> 头像的类型
      * @return 头像或{@code null}
      */
     @Nullable
@@ -98,9 +90,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 头像
      *
-     * @param <T>
-     *            头像的类型
-     *
+     * @param <T> 头像的类型
      * @return 头像
      */
     public default <T> T getRequiredAvatar() {
@@ -251,9 +241,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 用户对象
      *
-     * @param <T>
-     *            用户对象类型
-     *
+     * @param <T> 用户对象类型
      * @return 用户对象或{@code null}
      */
     @Nullable
@@ -262,9 +250,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
     /**
      * 用户对象
      *
-     * @param <T>
-     *            用户对象类型
-     *
+     * @param <T> 用户对象类型
      * @return 用户对象
      */
     public default <T> T getRequiredNativeUser() {

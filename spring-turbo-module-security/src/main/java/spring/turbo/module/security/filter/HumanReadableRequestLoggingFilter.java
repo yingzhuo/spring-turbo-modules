@@ -30,13 +30,11 @@ import static spring.turbo.util.StringPool.LF;
 
 /**
  * @author 应卓
- *
  * @see SimpleRequestLoggingFilter
  * @see org.springframework.web.filter.CommonsRequestLoggingFilter
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
  * @see RequestLoggingFilterFactory
  * @see RequestMatcher
- *
  * @since 1.1.3
  */
 public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter implements SkippableFilter {
@@ -55,8 +53,7 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
     /**
      * 构造方法
      *
-     * @param log
-     *            日志记录器
+     * @param log 日志记录器
      */
     public HumanReadableRequestLoggingFilter(@Nullable Logger log) {
         this.log = Objects.requireNonNullElseGet(log,

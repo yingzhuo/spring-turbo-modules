@@ -21,7 +21,6 @@ import java.util.Objects;
 
 /**
  * @author 应卓
- *
  * @since 1.3.1
  */
 @SuppressWarnings("deprecation")
@@ -35,7 +34,7 @@ public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
     }
 
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService,
-            @Nullable PasswordEncoder passwordEncoder) {
+                                               @Nullable PasswordEncoder passwordEncoder) {
         Asserts.notNull(userDetailsService);
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = Objects.requireNonNullElseGet(passwordEncoder, NoOpPasswordEncoder::getInstance);

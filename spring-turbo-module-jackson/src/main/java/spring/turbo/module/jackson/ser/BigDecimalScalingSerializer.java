@@ -18,7 +18,6 @@ import java.math.RoundingMode;
 
 /**
  * @author 应卓
- *
  * @since 3.3.1
  */
 public abstract class BigDecimalScalingSerializer extends StdSerializer<BigDecimal> {

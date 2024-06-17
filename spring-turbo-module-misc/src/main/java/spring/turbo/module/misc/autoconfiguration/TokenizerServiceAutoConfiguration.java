@@ -17,7 +17,6 @@ import spring.turbo.module.misc.tokenizer.TokenizerServiceImpl;
 
 /**
  * @author 应卓
- *
  * @since 3.1.1
  */
 @AutoConfiguration

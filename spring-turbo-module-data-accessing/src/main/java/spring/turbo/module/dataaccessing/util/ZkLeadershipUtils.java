@@ -14,7 +14,6 @@ import spring.turbo.core.SpringUtils;
 
 /**
  * @author 应卓
- *
  * @since 1.0.15
  */
 public final class ZkLeadershipUtils {

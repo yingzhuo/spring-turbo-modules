@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 
 /**
  * @author 应卓
- *
  * @since 3.1.0
  */
 public interface PinyinService {

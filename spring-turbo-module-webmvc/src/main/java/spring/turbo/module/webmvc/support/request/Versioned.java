@@ -16,13 +16,12 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- *
  * @since 2.0.9
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 public @interface Versioned {
 
     @AliasFor("version")

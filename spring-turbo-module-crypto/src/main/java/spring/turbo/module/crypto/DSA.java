@@ -14,10 +14,8 @@ import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
- *
  * @see #builder()
  * @see DSAKeys
- *
  * @since 3.2.6
  */
 public interface DSA extends Crypto {

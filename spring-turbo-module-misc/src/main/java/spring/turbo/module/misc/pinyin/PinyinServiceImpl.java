@@ -17,7 +17,6 @@ import static spring.turbo.util.StringPool.EMPTY;
 
 /**
  * @author 应卓
- *
  * @since 3.1.0
  */
 public class PinyinServiceImpl implements PinyinService {

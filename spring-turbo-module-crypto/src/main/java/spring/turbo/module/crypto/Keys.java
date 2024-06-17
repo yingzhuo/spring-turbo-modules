@@ -14,7 +14,6 @@ import static spring.turbo.util.Base64.decode;
 
 /**
  * @author 应卓
- *
  * @since 3.2.6
  */
 public interface Keys extends Serializable {

@@ -25,9 +25,7 @@ import java.util.Optional;
  * 认证对象，本类是 {@link org.springframework.security.core.Authentication} 的实现
  *
  * @author 应卓
- *
  * @see org.springframework.security.core.Authentication
- *
  * @since 1.0.0
  */
 public final class Authentication extends AbstractAuthenticationToken
@@ -57,8 +55,7 @@ public final class Authentication extends AbstractAuthenticationToken
     /**
      * 认证对象
      *
-     * @param userDetails
-     *            用户信息
+     * @param userDetails 用户信息
      */
     public Authentication(@Nullable UserDetails userDetails) {
         this(userDetails, null);
@@ -67,10 +64,8 @@ public final class Authentication extends AbstractAuthenticationToken
     /**
      * 认证对象
      *
-     * @param userDetails
-     *            用户信息
-     * @param token
-     *            令牌
+     * @param userDetails 用户信息
+     * @param token       令牌
      */
     public Authentication(@Nullable UserDetails userDetails, @Nullable Token token) {
         super(AuthorityUtils.getAuthorities(userDetails));

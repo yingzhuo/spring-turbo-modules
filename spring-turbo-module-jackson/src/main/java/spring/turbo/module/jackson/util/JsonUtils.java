@@ -24,7 +24,6 @@ import static spring.turbo.core.SpringUtils.getRequiredBean;
 
 /**
  * @author 应卓
- *
  * @since 3.3.1
  */
 public final class JsonUtils {

@@ -33,9 +33,7 @@ import java.io.IOException;
  * 基于令牌的认证过滤器
  *
  * @author 应卓
- *
  * @see spring.turbo.module.security.FilterConfiguration
- *
  * @since 1.0.0
  */
 public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {

@@ -15,7 +15,6 @@ import spring.turbo.module.crypto.TripleDES;
  * 3DES {@link PasswordEncoder}
  *
  * @author 应卓
- *
  * @since 2.0.1
  */
 public final class TripleDESPasswordEncoder implements PasswordEncoder {

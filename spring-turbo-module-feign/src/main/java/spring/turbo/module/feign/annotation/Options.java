@@ -12,17 +12,15 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- *
  * @see feign.Request.Options
  * @see java.time.Duration
  * @see spring.turbo.util.DurationParseUtils
- *
  * @since 1.0.0
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Options {
 
     public String connectTimeout() default "2000ms";

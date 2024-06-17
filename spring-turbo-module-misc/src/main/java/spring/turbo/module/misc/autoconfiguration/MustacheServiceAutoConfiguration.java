@@ -17,7 +17,6 @@ import spring.turbo.module.misc.mustache.MustacheServiceImpl;
 
 /**
  * @author 应卓
- *
  * @since 3.3.0
  */
 @AutoConfiguration
