@@ -43,6 +43,9 @@ import java.util.Optional;
  */
 public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
+    private static final String HTTPS = URIScheme.HTTPS.getId();
+    private static final String HTTP = URIScheme.HTTP.getId();
+
     private @Nullable Resource clientSideCertificate;
     private @Nullable KeyStoreType clientSideCertificateType;
     private @Nullable String clientSideCertificatePassword;
@@ -89,9 +92,8 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
         var sslContext = createSSLContext();
 
         var socketRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
-                .register(URIScheme.HTTPS.getId(),
-                        new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
-                .register(URIScheme.HTTP.getId(), new PlainConnectionSocketFactory()).build();
+                .register(HTTPS, new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
+                .register(HTTP, new PlainConnectionSocketFactory()).build();
 
         var httpClient = HttpClientBuilder.create()
                 .setConnectionManager(new PoolingHttpClientConnectionManager(socketRegistry))

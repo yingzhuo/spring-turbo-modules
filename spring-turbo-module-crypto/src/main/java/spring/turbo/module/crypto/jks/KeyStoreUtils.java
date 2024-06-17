@@ -58,7 +58,7 @@ public final class KeyStoreUtils {
         Asserts.notNull(password);
 
         try {
-            final KeyStore ks = KeyStore.getInstance(KeyStoreType.JKS.getValue());
+            final KeyStore ks = KeyStore.getInstance(keyStoreType.getValue());
             ks.load(keyStoreResource.getInputStream(), password.toCharArray());
             return ks;
         } catch (IOException e) {
