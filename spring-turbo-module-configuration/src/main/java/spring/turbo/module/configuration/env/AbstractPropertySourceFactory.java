@@ -22,7 +22,6 @@ import java.io.IOException;
  * (内部使用)
  *
  * @author 应卓
- *
  * @since 2.1.3
  */
 public abstract class AbstractPropertySourceFactory implements PropertySourceFactory {

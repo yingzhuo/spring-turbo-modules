@@ -14,9 +14,7 @@ import java.util.Objects;
 
 /**
  * @author 应卓
- *
  * @see BasicTokenResolver
- *
  * @since 1.2.3
  */
 public final class BasicToken implements Token {
@@ -39,12 +37,9 @@ public final class BasicToken implements Token {
     /**
      * 构造方法
      *
-     * @param stringValue
-     *            令牌原字符串
-     * @param username
-     *            用户名
-     * @param password
-     *            口令
+     * @param stringValue 令牌原字符串
+     * @param username    用户名
+     * @param password    口令
      */
     public BasicToken(String stringValue, String username, String password) {
         Asserts.hasText(stringValue, "stringValue is null or blank");

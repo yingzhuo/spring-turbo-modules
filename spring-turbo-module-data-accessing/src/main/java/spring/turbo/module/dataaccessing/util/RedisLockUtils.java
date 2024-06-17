@@ -21,7 +21,6 @@ import java.util.List;
  * 分布式锁工具
  *
  * @author 应卓
- *
  * @since 1.0.15
  */
 @SuppressWarnings("unchecked")
@@ -40,13 +39,9 @@ public final class RedisLockUtils {
     /**
      * 锁
      *
-     * @param key
-     *            锁定键
-     * @param uuid
-     *            UUID
-     * @param ttlInSeconds
-     *            自动解锁时间 (秒)
-     *
+     * @param key          锁定键
+     * @param uuid         UUID
+     * @param ttlInSeconds 自动解锁时间 (秒)
      * @return true时表示成功
      */
     public static boolean lock(String key, String uuid, int ttlInSeconds) {
@@ -67,11 +62,8 @@ public final class RedisLockUtils {
     /**
      * 解锁
      *
-     * @param key
-     *            锁定键
-     * @param uuid
-     *            UUID
-     *
+     * @param key  锁定键
+     * @param uuid UUID
      * @return true时表示成功
      */
     public static boolean release(String key, String uuid) {

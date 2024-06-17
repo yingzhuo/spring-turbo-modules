@@ -21,13 +21,11 @@ import java.util.Map;
  * 动态可切换数据源
  *
  * @author 应卓
- *
  * @see DataSource
  * @see DataSourceSwitch
  * @see DynamicDataSourceRemote
  * @see ThreadLocal
  * @see #builder()
- *
  * @since 1.1.0
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements InitializingBean {

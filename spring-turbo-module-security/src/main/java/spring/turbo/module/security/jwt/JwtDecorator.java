@@ -23,9 +23,7 @@ import static spring.turbo.module.security.jwt.JwtConstants.*;
  * JWT装饰器
  *
  * @author 应卓
- *
  * @see JwtConstants
- *
  * @since 2.2.5
  */
 public final class JwtDecorator implements Serializable {
@@ -35,8 +33,7 @@ public final class JwtDecorator implements Serializable {
     /**
      * 私有构造方法
      *
-     * @param jwt
-     *            {@link JWT} 对象
+     * @param jwt {@link JWT} 对象
      */
     private JwtDecorator(JWT jwt) {
         Asserts.notNull(jwt, "jwt is null");
@@ -46,9 +43,7 @@ public final class JwtDecorator implements Serializable {
     /**
      * 创建装饰器
      *
-     * @param jwt
-     *            {@link JWT} 对象
-     *
+     * @param jwt {@link JWT} 对象
      * @return 装饰器实例
      */
     public static JwtDecorator newInstance(JWT jwt) {

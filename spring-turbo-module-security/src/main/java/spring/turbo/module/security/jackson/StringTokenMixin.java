@@ -16,9 +16,7 @@ import spring.turbo.module.security.token.StringToken;
  * {@link StringToken} Jackson Mixin
  *
  * @author 应卓
- *
  * @see StringToken
- *
  * @since 2.0.3
  */
 public abstract class StringTokenMixin {

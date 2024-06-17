@@ -19,10 +19,9 @@ import spring.turbo.module.security.FilterConfiguration;
  * SpringSecurity DSL
  *
  * @author 应卓
- *
  * @since 1.3.0
  */
-@SuppressWarnings({ "unchecked" })
+@SuppressWarnings({"unchecked"})
 public class SpringSecurityAutoConfigurationDSL
         extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
@@ -57,10 +56,10 @@ public class SpringSecurityAutoConfigurationDSL
             final var beforeOrAfter = configuration.position();
 
             switch (beforeOrAfter) {
-            case BEFORE -> http.addFilterBefore(filter, position);
-            case AFTER -> http.addFilterAfter(filter, position);
-            case REPLACE -> http.addFilterAt(filter, position);
-            default -> throw new AssertionError(); // 不可能运行到此处
+                case BEFORE -> http.addFilterBefore(filter, position);
+                case AFTER -> http.addFilterAfter(filter, position);
+                case REPLACE -> http.addFilterAt(filter, position);
+                default -> throw new AssertionError(); // 不可能运行到此处
             }
         }
     }

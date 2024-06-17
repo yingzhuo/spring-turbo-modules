@@ -20,7 +20,6 @@ import javax.annotation.Nullable;
  * 认证成功事件
  *
  * @author 应卓
- *
  * @since 2.0.5
  */
 public class AuthenticationSuccessEvent extends ApplicationEvent {

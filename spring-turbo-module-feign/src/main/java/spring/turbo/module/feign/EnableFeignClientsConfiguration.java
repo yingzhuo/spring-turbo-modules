@@ -28,7 +28,6 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
 /**
  * @author 应卓
- *
  * @since 2.0.9
  */
 class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
@@ -39,7 +38,7 @@ class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
     private final ResourceLoader resourceLoader;
 
     public EnableFeignClientsConfiguration(ClassLoader classLoader, BeanFactory beanFactory, Environment environment,
-            ResourceLoader resourceLoader) {
+                                           ResourceLoader resourceLoader) {
         this.classLoader = classLoader;
         this.beanFactory = beanFactory;
         this.environment = environment;
@@ -48,7 +47,7 @@ class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry,
-            BeanNameGenerator nameGenerator) {
+                                        BeanNameGenerator nameGenerator) {
         var basePackages = getBasePackages(importingClassMetadata);
 
         for (var definition : doScan(basePackages)) {
@@ -58,7 +57,7 @@ class EnableFeignClientsConfiguration implements ImportBeanDefinitionRegistrar {
 
     @SuppressWarnings("unchecked")
     private void registerFeignClient(BeanDefinitionRegistry registry, BeanNameGenerator nameGenerator,
-            ClassDef classDef) {
+                                     ClassDef classDef) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(FeignClient.class);
         var clientType = classDef.getBeanClass();

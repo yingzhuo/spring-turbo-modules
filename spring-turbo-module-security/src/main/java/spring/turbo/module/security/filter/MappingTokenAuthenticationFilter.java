@@ -19,13 +19,11 @@ import spring.turbo.util.RandomStringUtils;
 
 /**
  * @author 应卓
- *
  * @see MapTokenToUserConverter
  * @see TokenAuthenticationFilter
  * @see TokenAuthenticationFilterFactory
  * @see RequestMatcher
  * @see #newInstance()
- *
  * @since 2.2.2
  */
 public final class MappingTokenAuthenticationFilter extends TokenAuthenticationFilter {

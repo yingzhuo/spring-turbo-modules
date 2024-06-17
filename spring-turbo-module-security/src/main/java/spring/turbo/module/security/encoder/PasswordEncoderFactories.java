@@ -30,11 +30,9 @@ import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
  * {@link PasswordEncoder} 创建工具
  *
  * @author 应卓
- *
  * @see PasswordEncoder
  * @see DelegatingPasswordEncoder
  * @see EncodingIds
- *
  * @since 1.0.0
  */
 public final class PasswordEncoderFactories {
@@ -61,7 +59,7 @@ public final class PasswordEncoderFactories {
     }
 
     public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId,
-            @Nullable String defaultPasswordEncoderForMatches) {
+                                                                            @Nullable String defaultPasswordEncoderForMatches) {
         Asserts.hasText(encodingId);
 
         var encodersMap = getEncoders();

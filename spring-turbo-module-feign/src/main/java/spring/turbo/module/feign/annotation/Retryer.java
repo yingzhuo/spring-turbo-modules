@@ -12,16 +12,14 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- *
  * @see java.time.Duration
  * @see spring.turbo.util.DurationParseUtils
- *
  * @since 1.0.0
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface Retryer {
 
     public String period() default "100ms";

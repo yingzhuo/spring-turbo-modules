@@ -23,11 +23,9 @@ import java.util.function.Function;
  * {@link UserDetailsPlus} 创建器
  *
  * @author 应卓
- *
  * @see org.springframework.security.core.userdetails.UserDetails
  * @see UserDetailsPlus#builder()
  * @see UserDetailsPlus
- *
  * @since 1.0.0
  */
 public final class UserDetailsPlusBuilder {

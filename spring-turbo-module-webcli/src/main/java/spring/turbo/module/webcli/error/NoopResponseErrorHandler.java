@@ -13,14 +13,19 @@ import org.springframework.web.client.ResponseErrorHandler;
 
 /**
  * @author 应卓
- *
  * @see #getInstance()
  * @see org.springframework.web.client.NoOpResponseErrorHandler
  * @see org.springframework.web.client.DefaultResponseErrorHandler
- *
  * @since 3.3.1
  */
 public final class NoopResponseErrorHandler implements ResponseErrorHandler {
+
+    /**
+     * 私有构造方法
+     */
+    private NoopResponseErrorHandler() {
+        super();
+    }
 
     /**
      * 获取 {@link NoopResponseErrorHandler} 实例
@@ -29,13 +34,6 @@ public final class NoopResponseErrorHandler implements ResponseErrorHandler {
      */
     public static NoopResponseErrorHandler getInstance() {
         return SyncAvoid.INSTANCE;
-    }
-
-    /**
-     * 私有构造方法
-     */
-    private NoopResponseErrorHandler() {
-        super();
     }
 
     @Override

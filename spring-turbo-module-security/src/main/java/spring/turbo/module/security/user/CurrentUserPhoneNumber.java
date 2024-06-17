@@ -19,12 +19,10 @@ import java.lang.annotation.*;
  * 获取当前用户的电话号码
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getPhoneNumber()
  * @see AuthenticationPrincipalArgumentResolver
- *
  * @since 1.0.0
  */
 @Inherited

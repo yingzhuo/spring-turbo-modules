@@ -22,7 +22,6 @@ import java.io.IOException;
 
 /**
  * @author 应卓
- *
  * @since 2.2.1
  */
 public final class PropertySourceUtils {

@@ -19,7 +19,6 @@ import static spring.turbo.webmvc.RemoteAddressUtils.getIpAddress;
 
 /**
  * @author 应卓
- *
  * @since 1.2.3
  */
 public final class AuthenticationDetailsImpl implements AuthenticationDetails {

@@ -19,7 +19,6 @@ import java.util.function.Supplier;
  * JWT令牌工厂实现
  *
  * @author 应卓
- *
  * @since 2.2.4
  */
 public final class JwtTokenFactoryImpl implements JwtTokenFactory {
@@ -33,8 +32,7 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     /**
      * 构造方法
      *
-     * @param signer
-     *            签名算法实例
+     * @param signer 签名算法实例
      */
     public JwtTokenFactoryImpl(JWTSigner signer) {
         Asserts.notNull(signer, "signer is null");
@@ -44,9 +42,7 @@ public final class JwtTokenFactoryImpl implements JwtTokenFactory {
     /**
      * {@inheritDoc}
      *
-     * @param data
-     *            令牌头部与负载的数据
-     *
+     * @param data 令牌头部与负载的数据
      * @return
      */
     @Override

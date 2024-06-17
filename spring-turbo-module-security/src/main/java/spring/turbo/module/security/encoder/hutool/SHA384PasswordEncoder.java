@@ -17,11 +17,9 @@ import spring.turbo.module.security.encoder.PasswordEncoderFactories;
  * SHA-384 算法实现 {@link PasswordEncoder}
  *
  * @author 应卓
- *
  * @see org.springframework.security.crypto.factory.PasswordEncoderFactories
  * @see PasswordEncoderFactories
  * @see spring.turbo.module.security.encoder.EncodingIds#SHA_384
- *
  * @since 1.0.1
  */
 public final class SHA384PasswordEncoder implements PasswordEncoder {

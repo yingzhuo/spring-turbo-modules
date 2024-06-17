@@ -13,7 +13,6 @@ import spring.turbo.module.security.FilterConfiguration;
 
 /**
  * @author 应卓
- *
  * @since 1.2.3
  */
 public interface BasicAuthenticationFilterFactory extends FilterConfiguration<BasicAuthenticationFilter> {

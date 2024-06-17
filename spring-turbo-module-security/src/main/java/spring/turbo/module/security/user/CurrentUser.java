@@ -19,11 +19,9 @@ import java.lang.annotation.*;
  * 获取当前 {@link UserDetails}对象
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see AuthenticationPrincipalArgumentResolver
- *
  * @since 1.0.0
  */
 @Inherited

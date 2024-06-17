@@ -18,14 +18,12 @@ import spring.turbo.module.security.util.RequestMatcherFactories;
 
 /**
  * @author 应卓
- *
  * @see spring.turbo.module.security.FilterConfiguration
  * @see AbstractRequestLoggingFilter
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
  * @see HumanReadableRequestLoggingFilter
  * @see RequestLoggingFilterFactory
- *
  * @since 1.0.0
  */
 public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
@@ -53,16 +51,16 @@ public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter imp
         logger.debug(message);
     }
 
-    @Override
-    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
-                : RequestMatcherFactories.alwaysFalse();
-    }
-
     @Nullable
     @Override
     public RequestMatcher getSkipRequestMatcher() {
         return this.skipRequestMatcher;
+    }
+
+    @Override
+    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
+        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
+                : RequestMatcherFactories.alwaysFalse();
     }
 
     @Override

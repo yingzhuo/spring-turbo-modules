@@ -28,10 +28,9 @@ import static spring.turbo.core.AnnotationFinder.findAnnotation;
 
 /**
  * @author 应卓
- *
  * @since 2.0.9
  */
-@SuppressWarnings({ "deprecation", "rawtypes" })
+@SuppressWarnings({"deprecation", "rawtypes"})
 final class FeignClientSupplier implements Supplier {
 
     private final InstanceCache instanceCache;

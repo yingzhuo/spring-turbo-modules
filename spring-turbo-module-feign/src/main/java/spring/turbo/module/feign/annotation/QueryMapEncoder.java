@@ -12,13 +12,12 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- *
  * @since 1.0.0
  */
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 public @interface QueryMapEncoder {
 
     public Class<? extends feign.QueryMapEncoder> type();

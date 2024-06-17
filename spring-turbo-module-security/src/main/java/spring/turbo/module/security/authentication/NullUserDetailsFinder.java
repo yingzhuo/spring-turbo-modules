@@ -15,11 +15,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @author 应卓
- *
  * @see #getInstance()
  * @see UserDetails
  * @see spring.turbo.module.security.user.UserDetailsPlus
- *
  * @since 1.2.3
  */
 public final class NullUserDetailsFinder implements UserDetailsFinder {

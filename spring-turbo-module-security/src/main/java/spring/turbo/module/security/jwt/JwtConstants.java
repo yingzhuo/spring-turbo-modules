@@ -12,7 +12,6 @@ package spring.turbo.module.security.jwt;
  * JWT相关常量
  *
  * @author 应卓
- *
  * @since 2.2.4
  */
 public final class JwtConstants {

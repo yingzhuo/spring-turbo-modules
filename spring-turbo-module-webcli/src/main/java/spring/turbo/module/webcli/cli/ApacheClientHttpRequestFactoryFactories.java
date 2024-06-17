@@ -17,9 +17,7 @@ import java.time.Duration;
 
 /**
  * @author 应卓
- *
  * @see ApacheClientHttpRequestFactoryBean
- *
  * @since 3.3.1
  */
 public final class ApacheClientHttpRequestFactoryFactories {
@@ -43,54 +41,41 @@ public final class ApacheClientHttpRequestFactoryFactories {
     /**
      * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
      *
-     * @param connectTimeout
-     *            连接超时时间
-     * @param requestTimeout
-     *            请求超时时间
-     *
+     * @param connectTimeout 连接超时时间
+     * @param requestTimeout 请求超时时间
      * @return {@link HttpComponentsClientHttpRequestFactory} 对象
      */
     public static HttpComponentsClientHttpRequestFactory create(@Nullable Duration connectTimeout,
-            @Nullable Duration requestTimeout) {
+                                                                @Nullable Duration requestTimeout) {
         return create(null, null, null, connectTimeout, requestTimeout);
     }
 
     /**
      * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
      *
-     * @param clientSideCertificate
-     *            SSL客户端证书
-     * @param clientSideCertificateType
-     *            SSL客户端证书类型
-     * @param clientSideCertificatePassword
-     *            SSL客户端证书密码
-     *
+     * @param clientSideCertificate         SSL客户端证书
+     * @param clientSideCertificateType     SSL客户端证书类型
+     * @param clientSideCertificatePassword SSL客户端证书密码
      * @return {@link HttpComponentsClientHttpRequestFactory} 对象
      */
     public static HttpComponentsClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreType clientSideCertificateType, @Nullable String clientSideCertificatePassword) {
+                                                                @Nullable KeyStoreType clientSideCertificateType, @Nullable String clientSideCertificatePassword) {
         return create(clientSideCertificate, clientSideCertificateType, clientSideCertificatePassword, null, null);
     }
 
     /**
      * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
      *
-     * @param clientSideCertificate
-     *            SSL客户端证书
-     * @param clientSideCertificateType
-     *            SSL客户端证书类型
-     * @param clientSideCertificatePassword
-     *            SSL客户端证书密码
-     * @param connectTimeout
-     *            连接超时时间
-     * @param requestTimeout
-     *            请求超时时间
-     *
+     * @param clientSideCertificate         SSL客户端证书
+     * @param clientSideCertificateType     SSL客户端证书类型
+     * @param clientSideCertificatePassword SSL客户端证书密码
+     * @param connectTimeout                连接超时时间
+     * @param requestTimeout                请求超时时间
      * @return {@link HttpComponentsClientHttpRequestFactory} 对象
      */
     public static HttpComponentsClientHttpRequestFactory create(@Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreType clientSideCertificateType, @Nullable String clientSideCertificatePassword,
-            @Nullable Duration connectTimeout, @Nullable Duration requestTimeout) {
+                                                                @Nullable KeyStoreType clientSideCertificateType, @Nullable String clientSideCertificatePassword,
+                                                                @Nullable Duration connectTimeout, @Nullable Duration requestTimeout) {
         try {
             var factoryBean = new ApacheClientHttpRequestFactoryBean();
             factoryBean.setClientSideCertificate(clientSideCertificate);

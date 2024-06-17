@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author 应卓
- *
  * @since 3.3.0
  */
 @FunctionalInterface

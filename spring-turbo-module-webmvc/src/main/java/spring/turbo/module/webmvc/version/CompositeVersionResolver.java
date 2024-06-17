@@ -21,7 +21,6 @@ import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * @author 应卓
- *
  * @since 2.0.9
  */
 public class CompositeVersionResolver implements VersionResolver, InitializingBean {

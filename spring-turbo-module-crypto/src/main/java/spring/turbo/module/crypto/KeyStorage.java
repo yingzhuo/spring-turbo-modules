@@ -26,7 +26,6 @@ import java.security.spec.X509EncodedKeySpec;
  * 秘钥存储与加载工具
  *
  * @author 应卓
- *
  * @since 3.2.6
  */
 public final class KeyStorage {
@@ -62,7 +61,7 @@ public final class KeyStorage {
 
     @SneakyThrows
     public static KeyPair loadKeys(String algorithm, InputStream publicKeyPathToLoad,
-            InputStream privateKeyPathToLoad) {
+                                   InputStream privateKeyPathToLoad) {
         Asserts.hasText(algorithm, "algorithm is null or blank");
         Asserts.notNull(publicKeyPathToLoad, "publicKeyPathToLoad is null");
         Asserts.notNull(privateKeyPathToLoad, "privateKeyPathToLoad is null");
@@ -124,7 +123,7 @@ public final class KeyStorage {
 
     @SneakyThrows
     public static void saveKeys(KeyPair keyPair, WritableResource publicKeyPathToSave,
-            WritableResource privateKeyPathToSave) {
+                                WritableResource privateKeyPathToSave) {
         Asserts.notNull(publicKeyPathToSave, "publicKeyPathToSave is null");
         Asserts.notNull(privateKeyPathToSave, "privateKeyPathToSave is null");
         saveKeys(keyPair, publicKeyPathToSave.getOutputStream(), privateKeyPathToSave.getOutputStream());

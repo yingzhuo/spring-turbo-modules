@@ -30,7 +30,6 @@ import static org.springframework.http.HttpMethod.GET;
  * {@link RequestMatcher} 相关生成工具
  *
  * @author 应卓
- *
  * @since 2.0.4
  */
 public final class RequestMatcherFactories {
@@ -120,7 +119,7 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher mvcPatterns(HandlerMappingIntrospector introspector, HttpMethod method,
-            String... patterns) {
+                                             String... patterns) {
         Asserts.notNull(introspector);
         Asserts.notNull(method);
         Asserts.notNull(patterns);
@@ -234,7 +233,7 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher kubernetesProps(HandlerMappingIntrospector introspector, HttpMethod method,
-            String... patterns) {
+                                                 String... patterns) {
         return and(mvcPatterns(introspector, method, patterns), header(USER_AGENT, "^.*kube-probe/.*$"));
     }
 

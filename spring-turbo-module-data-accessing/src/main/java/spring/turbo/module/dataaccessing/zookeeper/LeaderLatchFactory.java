@@ -24,7 +24,6 @@ import java.util.UUID;
 
 /**
  * @author 应卓
- *
  * @since 1.0.15
  */
 public class LeaderLatchFactory implements FactoryBean<LeaderLatch>, InitializingBean, DisposableBean {

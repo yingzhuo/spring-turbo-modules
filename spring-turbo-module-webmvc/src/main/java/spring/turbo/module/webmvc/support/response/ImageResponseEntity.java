@@ -21,10 +21,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author 应卓
- *
  * @see #builder()
  * @see spring.turbo.util.ImageFormatPool#PNG
- *
  * @since 1.0.1
  */
 public final class ImageResponseEntity extends ResponseEntity<byte[]> {

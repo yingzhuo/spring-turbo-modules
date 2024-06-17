@@ -22,7 +22,6 @@ import java.util.List;
  * 简易分词服务实现类
  *
  * @author 应卓
- *
  * @since 3.1.1
  */
 public class TokenizerServiceImpl implements TokenizerService {

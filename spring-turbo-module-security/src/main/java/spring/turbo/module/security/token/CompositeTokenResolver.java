@@ -25,7 +25,6 @@ import java.util.Optional;
  * 本类型解析器封装多个其他的解析器，如果之前的解析器不能解析出令牌，则尝试下一个。
  *
  * @author 应卓
- *
  * @since 1.0.0
  */
 public final class CompositeTokenResolver implements TokenResolver {

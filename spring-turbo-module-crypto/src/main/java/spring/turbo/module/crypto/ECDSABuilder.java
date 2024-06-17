@@ -17,9 +17,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 /**
  * @author 应卓
- *
  * @see #build()
- *
  * @since 3.2.6
  */
 public final class ECDSABuilder {

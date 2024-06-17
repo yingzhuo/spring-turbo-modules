@@ -22,7 +22,6 @@ import java.util.Optional;
 
 /**
  * @author 应卓
- *
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
@@ -68,9 +67,9 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     private final Attributes attributes;
 
     UserDetailsPlusImpl(UserDetails delegate, @Nullable Object id, @Nullable String nickname, @Nullable Object avatar,
-            @Nullable Object nativeUser, @Nullable String email, @Nullable String phoneNumber,
-            @Nullable Date dateOfBirth, @Nullable String bioInfo, @Nullable String nationality,
-            @Nullable String location, @Nullable String url, @Nullable Attributes attributes) {
+                        @Nullable Object nativeUser, @Nullable String email, @Nullable String phoneNumber,
+                        @Nullable Date dateOfBirth, @Nullable String bioInfo, @Nullable String nationality,
+                        @Nullable String location, @Nullable String url, @Nullable Attributes attributes) {
         this.delegate = Objects.requireNonNull(delegate);
         this.id = id;
         this.nickname = nickname;

@@ -25,7 +25,6 @@ import static spring.turbo.util.RandomStringUtils.randomAlphabetic;
 
 /**
  * @author 应卓
- *
  * @since 3.3.0
  */
 public class MustacheServiceImpl implements MustacheService {

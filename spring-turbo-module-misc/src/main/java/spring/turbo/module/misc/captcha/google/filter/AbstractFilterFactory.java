@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * @author 应卓
- *
  * @since 1.0.0
  */
 public abstract class AbstractFilterFactory implements FilterFactory {

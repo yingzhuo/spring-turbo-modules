@@ -19,7 +19,6 @@ import static spring.turbo.module.jackson.util.JacksonModuleUtils.loadAndRegiste
 
 /**
  * @author 应卓
- *
  * @since 3.3.1
  */
 @AutoConfiguration

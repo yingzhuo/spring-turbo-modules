@@ -16,7 +16,6 @@ import javax.crypto.spec.IvParameterSpec;
 
 /**
  * @author 应卓
- *
  * @since 3.2.6
  */
 public final class AESBuilder {

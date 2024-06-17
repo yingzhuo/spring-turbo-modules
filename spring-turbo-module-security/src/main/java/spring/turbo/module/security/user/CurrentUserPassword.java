@@ -19,12 +19,10 @@ import java.lang.annotation.*;
  * 获取当前用户的口令
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getPassword()
  * @see AuthenticationPrincipalArgumentResolver
- *
  * @since 1.0.0
  */
 @Inherited

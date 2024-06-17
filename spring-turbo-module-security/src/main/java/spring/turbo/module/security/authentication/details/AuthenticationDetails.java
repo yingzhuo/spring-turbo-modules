@@ -16,10 +16,8 @@ import java.time.LocalDate;
 
 /**
  * @author 应卓
- *
  * @see spring.turbo.module.security.authentication.RequestDetailsProvider
  * @see org.springframework.security.authentication.AbstractAuthenticationToken#setDetails(Object)
- *
  * @since 1.2.3
  */
 public sealed interface AuthenticationDetails extends Serializable permits AuthenticationDetailsImpl {

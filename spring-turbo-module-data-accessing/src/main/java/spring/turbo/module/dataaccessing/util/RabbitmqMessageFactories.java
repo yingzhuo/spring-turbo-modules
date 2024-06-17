@@ -19,9 +19,7 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * RabbitMQ 消息生成工具
  *
  * @author 应卓
- *
  * @see RabbitmqMessageSender
- *
  * @since 1.0.15
  */
 public final class RabbitmqMessageFactories {
@@ -36,9 +34,7 @@ public final class RabbitmqMessageFactories {
     /**
      * 创建消息实体
      *
-     * @param messageContent
-     *            消息内容
-     *
+     * @param messageContent 消息内容
      * @return 消息实例
      */
     public static Message create(String messageContent) {
@@ -48,11 +44,8 @@ public final class RabbitmqMessageFactories {
     /**
      * 创建消息实体
      *
-     * @param messageContent
-     *            消息内容
-     * @param ttlInMillis
-     *            生命期 (毫秒)
-     *
+     * @param messageContent 消息内容
+     * @param ttlInMillis    生命期 (毫秒)
      * @return 消息实例
      */
     public static Message create(String messageContent, long ttlInMillis) {
@@ -62,13 +55,9 @@ public final class RabbitmqMessageFactories {
     /**
      * 创建消息实体
      *
-     * @param messageContent
-     *            消息内容
-     * @param ttlInMillis
-     *            生命期 (毫秒)
-     * @param priority
-     *            优先级
-     *
+     * @param messageContent 消息内容
+     * @param ttlInMillis    生命期 (毫秒)
+     * @param priority       优先级
      * @return 消息实例
      */
     public static Message create(String messageContent, long ttlInMillis, int priority) {

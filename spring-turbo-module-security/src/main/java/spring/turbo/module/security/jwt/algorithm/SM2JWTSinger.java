@@ -18,10 +18,8 @@ import org.springframework.lang.Nullable;
  * 国密算法JWT签名器
  *
  * @author 应卓
- *
  * @see SignerFactories#SM2(String, String)
  * @see SignerFactories#SM2(String, String, String)
- *
  * @since 2.2.4
  */
 final class SM2JWTSinger implements JWTSigner {

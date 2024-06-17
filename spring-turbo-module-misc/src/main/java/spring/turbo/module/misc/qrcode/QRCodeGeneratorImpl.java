@@ -29,9 +29,7 @@ import java.util.Map;
  * QRCode生成器默认实现
  *
  * @author 应卓
- *
  * @see QRCodeGenerator
- *
  * @since 1.0.0
  */
 public class QRCodeGeneratorImpl implements QRCodeGenerator {
@@ -54,13 +52,13 @@ public class QRCodeGeneratorImpl implements QRCodeGenerator {
 
     @Override
     public BufferedImage generate(String content, @Nullable Logo logo,
-            @Nullable ErrorCorrectionLevel errorCorrectionLevel) {
+                                  @Nullable ErrorCorrectionLevel errorCorrectionLevel) {
         return generate(content, logo, errorCorrectionLevel, defaultSize);
     }
 
     @Override
     public BufferedImage generate(String content, @Nullable Logo logo,
-            @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size) {
+                                  @Nullable ErrorCorrectionLevel errorCorrectionLevel, int size) {
         try {
             final Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.CHARACTER_SET, CHARSET);

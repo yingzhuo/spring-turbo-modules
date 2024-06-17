@@ -15,7 +15,6 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- *
  * @since 2.2.0
  */
 @Inherited

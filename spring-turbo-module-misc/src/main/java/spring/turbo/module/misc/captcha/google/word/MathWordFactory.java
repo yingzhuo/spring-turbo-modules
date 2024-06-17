@@ -13,7 +13,6 @@ import spring.turbo.util.StringFormatter;
 
 /**
  * @author 应卓
- *
  * @since 1.0.9
  */
 public class MathWordFactory implements WordFactory {

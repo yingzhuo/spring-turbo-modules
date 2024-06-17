@@ -16,13 +16,11 @@ import spring.turbo.module.security.token.Token;
 
 /**
  * @author 应卓
- *
  * @see #getInstance()
  * @see Token
  * @see StringToken
  * @see UserDetails
  * @see spring.turbo.module.security.user.UserDetailsPlus
- *
  * @since 1.1.3
  */
 public final class NullTokenToUserConverter implements TokenToUserConverter {

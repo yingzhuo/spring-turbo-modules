@@ -16,7 +16,6 @@ import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
- *
  * @since 2.0.9
  */
 public class QueryVersionResolver implements VersionResolver {

@@ -27,9 +27,7 @@ import java.util.Optional;
  * {@link ExtraPasswordEncoderConvention} 实现
  *
  * @author 应卓
- *
  * @see DelegatingPasswordEncoder
- *
  * @since 2.0.3
  */
 public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEncoderConvention {

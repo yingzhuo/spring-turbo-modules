@@ -27,15 +27,13 @@ import static spring.turbo.util.StringFormatter.format;
 
 /**
  * @author 应卓
- *
  * @see spring.turbo.core.SpringApplicationUtils
- *
  * @since 2.1.3
  */
 public class VMOptionsEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
 
     public VMOptionsEnvironmentPostProcessor(DeferredLogFactory logFactory,
-            ConfigurableBootstrapContext bootstrapContext) {
+                                             ConfigurableBootstrapContext bootstrapContext) {
         super(logFactory, bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE);
     }

@@ -22,9 +22,7 @@ import static spring.turbo.util.StringPool.EMPTY;
  * 通过HTTP header解析令牌
  *
  * @author 应卓
- *
  * @see org.springframework.http.HttpHeaders
- *
  * @since 1.0.0
  */
 public class HeaderTokenResolver implements TokenResolver {
@@ -36,8 +34,7 @@ public class HeaderTokenResolver implements TokenResolver {
     /**
      * 构造方法
      *
-     * @param headerName
-     *            请求头名
+     * @param headerName 请求头名
      */
     public HeaderTokenResolver(@NonNull String headerName) {
         this(headerName, EMPTY);
@@ -46,10 +43,8 @@ public class HeaderTokenResolver implements TokenResolver {
     /**
      * 构造方法
      *
-     * @param headerName
-     *            请求头名
-     * @param prefix
-     *            前缀
+     * @param headerName 请求头名
+     * @param prefix     前缀
      */
     public HeaderTokenResolver(@NonNull String headerName, @Nullable String prefix) {
         Asserts.hasText(headerName);
@@ -63,9 +58,7 @@ public class HeaderTokenResolver implements TokenResolver {
     /**
      * 解析令牌
      *
-     * @param request
-     *            HTTP请求
-     *
+     * @param request HTTP请求
      * @return 令牌Optional，不能成功解析时返回empty-optional
      */
     @NonNull

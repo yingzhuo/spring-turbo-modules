@@ -19,7 +19,6 @@ import spring.turbo.module.security.jwt.JwtTokenFactoryImpl;
 
 /**
  * @author 应卓
- *
  * @since 1.3.0
  */
 @AutoConfiguration

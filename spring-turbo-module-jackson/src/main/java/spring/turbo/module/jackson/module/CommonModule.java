@@ -15,7 +15,6 @@ import spring.turbo.SpringTurboVersion;
 
 /**
  * @author 应卓
- *
  * @since 3.3.1
  */
 public class CommonModule extends SimpleModule {

@@ -19,12 +19,10 @@ import java.lang.annotation.*;
  * 获取当前用户的出生日期
  *
  * @author 应卓
- *
  * @see UserDetails
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getDateOfBirth()
  * @see AuthenticationPrincipalArgumentResolver
- *
  * @since 1.0.0
  */
 @Inherited

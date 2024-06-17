@@ -27,9 +27,7 @@ import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
- *
  * @see #builder()
- *
  * @since 1.0.1
  */
 public class AttachmentResponseEntity extends ResponseEntity<byte[]> {

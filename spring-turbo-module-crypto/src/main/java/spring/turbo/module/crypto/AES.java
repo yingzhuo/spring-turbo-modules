@@ -12,10 +12,8 @@ package spring.turbo.module.crypto;
  * AES加密解密工具
  *
  * @author 应卓
- *
  * @see #builder()
  * @see AESUtils
- *
  * @since 3.2.6
  */
 public interface AES extends Crypto {

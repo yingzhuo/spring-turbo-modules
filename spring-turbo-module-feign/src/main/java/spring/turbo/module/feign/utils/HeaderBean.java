@@ -12,9 +12,7 @@ import java.util.LinkedHashMap;
 
 /**
  * @author 应卓
- *
  * @see feign.Headers
- *
  * @since 1.0.0
  */
 public final class HeaderBean extends LinkedHashMap<String, Object> {

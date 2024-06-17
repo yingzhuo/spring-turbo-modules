@@ -15,7 +15,6 @@ import static spring.turbo.util.Base64.encode;
 
 /**
  * @author 应卓
- *
  * @since 3.2.6
  */
 public final class ECDSAKeys implements Keys {

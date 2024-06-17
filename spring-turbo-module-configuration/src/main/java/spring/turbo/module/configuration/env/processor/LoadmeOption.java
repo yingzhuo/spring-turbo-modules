@@ -23,7 +23,6 @@ import static spring.turbo.util.StringFormatter.format;
 
 /**
  * @author 应卓
- *
  * @since 2.2.1
  */
 public enum LoadmeOption {

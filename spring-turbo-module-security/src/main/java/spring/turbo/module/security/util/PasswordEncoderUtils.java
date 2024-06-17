@@ -16,7 +16,6 @@ import spring.turbo.util.Asserts;
  * {@link PasswordEncoder} 相关工具
  *
  * @author 应卓
- *
  * @since 2.0.1
  */
 public final class PasswordEncoderUtils {

@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @author 应卓
- *
  * @since 2.2.0
  */
 @AutoConfiguration

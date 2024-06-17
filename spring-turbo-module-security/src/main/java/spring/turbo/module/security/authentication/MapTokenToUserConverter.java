@@ -22,7 +22,6 @@ import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * @author 应卓
- *
  * @since 2.2.2
  */
 public class MapTokenToUserConverter implements TokenToUserConverter {

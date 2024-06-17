@@ -22,7 +22,6 @@ import java.util.Base64;
 
 /**
  * @author 应卓
- *
  * @since 3.2.6
  */
 public final class AESUtils {
