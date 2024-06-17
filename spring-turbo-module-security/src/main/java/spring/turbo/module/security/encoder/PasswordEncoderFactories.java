@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static spring.turbo.core.SpringFactoriesUtils.loadQuietly;
-import static spring.turbo.module.security.encoder.EncodingIds.BROKEN;
 import static spring.turbo.util.StringUtils.isNotBlank;
 import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
@@ -58,16 +57,17 @@ public final class PasswordEncoderFactories {
         return createDelegatingPasswordEncoder(encodingId, EncodingIds.noop);
     }
 
-    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(String encodingId,
-                                                                            @Nullable String defaultPasswordEncoderForMatches) {
+    public static DelegatingPasswordEncoder createDelegatingPasswordEncoder(
+            String encodingId,
+            @Nullable String defaultPasswordEncoderForMatches) {
+
         Asserts.hasText(encodingId);
 
         var encodersMap = getEncoders();
         var ret = new DelegatingPasswordEncoder(encodingId, encodersMap);
 
         if (log.isInfoEnabled()) {
-            // 日志可以忽略BROKEN类型
-            var ids = encodersMap.keySet().stream().filter(s -> !BROKEN.equals(s)).toList();
+            var ids = encodersMap.keySet();
             log.info("supported encoder ids: [{}]", String.join(",", ids));
         }
 
