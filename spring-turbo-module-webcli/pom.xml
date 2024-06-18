@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.yingzhuo</groupId>
         <artifactId>spring-turbo-modules</artifactId>
-        <version>3.3.1-SNAPSHOT</version>
+        <version>3.3.0-3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-turbo-module-webcli</artifactId>
@@ -44,8 +44,19 @@
             <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5-fluent</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
+        </dependency>
+
+        <!-- netty http-client -->
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-http</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- slf4j -->

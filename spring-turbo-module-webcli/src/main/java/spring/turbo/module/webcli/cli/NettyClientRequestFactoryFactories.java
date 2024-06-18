@@ -9,7 +9,7 @@
 package spring.turbo.module.webcli.cli;
 
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.ReactorNettyClientRequestFactory;
 import spring.turbo.util.CastUtils;
 import spring.turbo.util.keystore.KeyStoreFormat;
 
@@ -17,92 +17,106 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 
 /**
- * {@link HttpComponentsClientHttpRequestFactory} 生成工具
+ * {@link ReactorNettyClientRequestFactory} 生成工具
  *
  * @author 应卓
- * @see ApacheClientHttpRequestFactoryBean
- * @since 3.3.1
+ * @since 3.3.0
  */
-public final class ApacheClientHttpRequestFactoryFactories {
+public final class NettyClientRequestFactoryFactories {
 
     /**
      * 私有构造方法
      */
-    private ApacheClientHttpRequestFactoryFactories() {
+    private NettyClientRequestFactoryFactories() {
         super();
     }
 
     /**
-     * 创建 {@link HttpComponentsClientHttpRequestFactory} 默认对象
+     * 创建 {@link ReactorNettyClientRequestFactory} 对象
      *
-     * @return {@link HttpComponentsClientHttpRequestFactory} 默认对象
+     * @return {@link ReactorNettyClientRequestFactory} 对象
      */
-    public static HttpComponentsClientHttpRequestFactory create() {
-        return create(null, null, null, null, null);
+    public static ReactorNettyClientRequestFactory create() {
+        return create(null, null, null, null, null, null);
     }
 
     /**
-     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
-     *
-     * @param connectTimeout 连接超时时间
-     * @param requestTimeout 请求超时时间
-     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
-     */
-    public static HttpComponentsClientHttpRequestFactory create(
-            @Nullable Duration connectTimeout,
-            @Nullable Duration requestTimeout) {
-        return create(null, null, null, connectTimeout, requestTimeout);
-    }
-
-    /**
-     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
+     * 创建 {@link ReactorNettyClientRequestFactory} 对象
      *
      * @param clientSideCertificate         SSL客户端证书
      * @param clientSideCertificateFormat   SSL客户端证书类型
      * @param clientSideCertificatePassword SSL客户端证书密码
-     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
+     * @return {@link ReactorNettyClientRequestFactory} 对象
      */
-    public static HttpComponentsClientHttpRequestFactory create(
+    public static ReactorNettyClientRequestFactory create(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword) {
 
-        return create(clientSideCertificate, clientSideCertificateFormat, clientSideCertificatePassword, null, null);
+        return create(
+                clientSideCertificate,
+                clientSideCertificateFormat,
+                clientSideCertificatePassword,
+                null,
+                null,
+                null
+        );
     }
 
     /**
-     * 创建 {@link HttpComponentsClientHttpRequestFactory} 对象
+     * 创建 {@link ReactorNettyClientRequestFactory} 对象
+     *
+     * @param connectTimeout  连接超时时间
+     * @param exchangeTimeout 请求超时时间
+     * @param readTimout      读取应答超时时间
+     * @return {@link ReactorNettyClientRequestFactory} 对象
+     */
+    public static ReactorNettyClientRequestFactory create(
+            @Nullable Duration connectTimeout,
+            @Nullable Duration exchangeTimeout,
+            @Nullable Duration readTimout
+    ) {
+        return create(null, null, null,
+                connectTimeout, exchangeTimeout, readTimout
+        );
+    }
+
+    /**
+     * 创建 {@link ReactorNettyClientRequestFactory} 对象
      *
      * @param clientSideCertificate         SSL客户端证书
      * @param clientSideCertificateFormat   SSL客户端证书类型
      * @param clientSideCertificatePassword SSL客户端证书密码
      * @param connectTimeout                连接超时时间
-     * @param requestTimeout                请求超时时间
-     * @return {@link HttpComponentsClientHttpRequestFactory} 对象
+     * @param exchangeTimeout               请求超时时间
+     * @param readTimout                    读取应答超时时间
+     * @return {@link ReactorNettyClientRequestFactory} 对象
      */
-    public static HttpComponentsClientHttpRequestFactory create(
+    public static ReactorNettyClientRequestFactory create(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword,
             @Nullable Duration connectTimeout,
-            @Nullable Duration requestTimeout) {
-
+            @Nullable Duration exchangeTimeout,
+            @Nullable Duration readTimout
+    ) {
         try {
-            var factoryBean = new ApacheClientHttpRequestFactoryBean();
+            var factoryBean = new NettyClientRequestFactoryBean();
             factoryBean.setClientSideCertificate(clientSideCertificate);
             factoryBean.setClientSideCertificateFormat(clientSideCertificateFormat);
             factoryBean.setClientSideCertificatePassword(clientSideCertificatePassword);
             factoryBean.setConnectTimeout(connectTimeout);
-            factoryBean.setRequestTimeout(requestTimeout);
+            factoryBean.setExchangeTimeout(exchangeTimeout);
+            factoryBean.setReadTimeout(readTimout);
             factoryBean.afterPropertiesSet();
             var beanObject = factoryBean.getObject();
             if (beanObject == null) {
-                throw new IllegalArgumentException("Cannot create HttpComponentsClientHttpRequestFactory instance");
+                throw new IllegalArgumentException("Cannot create ReactorNettyClientRequestFactory instance");
             }
             return CastUtils.castNonNull(beanObject);
         } catch (IllegalArgumentException e) {
             throw e;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
     }

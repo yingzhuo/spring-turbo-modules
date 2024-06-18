@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import spring.turbo.convention.ExtraPasswordEncoderConvention;
-import spring.turbo.module.security.encoder.BrokenPasswordEncoder;
 import spring.turbo.module.security.encoder.EncodingIds;
 import spring.turbo.util.InstanceUtils;
 
@@ -58,7 +57,6 @@ public final class ExtraPasswordEncoderConventionImpl implements ExtraPasswordEn
         map.put(EncodingIds.pbkdf2, Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.scrypt, SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8());
         map.put(EncodingIds.argon2, Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8());
-        map.put(EncodingIds.BROKEN, BrokenPasswordEncoder.getInstance());
 
         PasswordEncoder encoder;
 
