@@ -51,6 +51,7 @@ public class TrustEverythingTrustManager implements X509TrustManager {
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    // 延迟加载
     private static final class SyncAvoid {
         private static final TrustEverythingTrustManager INSTANCE = new TrustEverythingTrustManager();
     }
