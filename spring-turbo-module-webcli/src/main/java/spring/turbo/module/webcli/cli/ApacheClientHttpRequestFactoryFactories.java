@@ -100,8 +100,10 @@ public final class ApacheClientHttpRequestFactoryFactories {
                 throw new IllegalArgumentException("Cannot create HttpComponentsClientHttpRequestFactory instance");
             }
             return CastUtils.castNonNull(beanObject);
-        } catch (Throwable e) {
-            throw new IllegalArgumentException(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 

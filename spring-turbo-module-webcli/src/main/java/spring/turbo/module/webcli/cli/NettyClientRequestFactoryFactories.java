@@ -17,15 +17,17 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 
 /**
+ * {@link ReactorNettyClientRequestFactory} 生成工具
+ *
  * @author 应卓
  * @since 3.3.0
  */
-public final class ReactorNettyClientRequestFactoryFactories {
+public final class NettyClientRequestFactoryFactories {
 
     /**
      * 私有构造方法
      */
-    private ReactorNettyClientRequestFactoryFactories() {
+    private NettyClientRequestFactoryFactories() {
         super();
     }
 
@@ -99,7 +101,7 @@ public final class ReactorNettyClientRequestFactoryFactories {
             @Nullable Duration readTimout
     ) {
         try {
-            var factoryBean = new ReactorNettyClientRequestFactoryBean();
+            var factoryBean = new NettyClientRequestFactoryBean();
             factoryBean.setClientSideCertificate(clientSideCertificate);
             factoryBean.setClientSideCertificateFormat(clientSideCertificateFormat);
             factoryBean.setClientSideCertificatePassword(clientSideCertificatePassword);
@@ -112,8 +114,10 @@ public final class ReactorNettyClientRequestFactoryFactories {
                 throw new IllegalArgumentException("Cannot create ReactorNettyClientRequestFactory instance");
             }
             return CastUtils.castNonNull(beanObject);
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Throwable e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 

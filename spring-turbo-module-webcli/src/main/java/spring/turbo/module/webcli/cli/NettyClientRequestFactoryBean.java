@@ -31,7 +31,7 @@ import java.util.Optional;
  * @author 应卓
  * @since 3.3.0
  */
-public class ReactorNettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
+public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private @Nullable Resource clientSideCertificate;
     private @Nullable KeyStoreFormat clientSideCertificateFormat;
@@ -44,11 +44,11 @@ public class ReactorNettyClientRequestFactoryBean implements FactoryBean<ClientH
     /**
      * 默认构造方法
      */
-    public ReactorNettyClientRequestFactoryBean() {
+    public NettyClientRequestFactoryBean() {
         super();
     }
 
-    public ReactorNettyClientRequestFactoryBean(
+    public NettyClientRequestFactoryBean(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword) {
@@ -63,7 +63,7 @@ public class ReactorNettyClientRequestFactoryBean implements FactoryBean<ClientH
         );
     }
 
-    public ReactorNettyClientRequestFactoryBean(
+    public NettyClientRequestFactoryBean(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword,

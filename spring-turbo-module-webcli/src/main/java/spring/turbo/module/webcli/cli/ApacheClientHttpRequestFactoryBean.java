@@ -153,7 +153,7 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
 
         var contextBuilder =
                 SSLContextBuilder.create()
-                        .loadTrustMaterial(new TrustEverythingTrustStrategy());
+                        .loadTrustMaterial(TrustEverythingTrustStrategy.getInstance());
 
         if (keyStore != null) {
             contextBuilder.loadKeyMaterial(keyStore, clientSideCertificatePassword.toCharArray());
@@ -185,8 +185,24 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
     // -----------------------------------------------------------------------------------------------------------------
 
     private static class TrustEverythingTrustStrategy implements TrustStrategy {
+
+        public static TrustEverythingTrustStrategy getInstance() {
+            return SyncAvoid.INSTANCE;
+        }
+
+        private TrustEverythingTrustStrategy() {
+            super();
+        }
+
         public boolean isTrusted(X509Certificate[] chain, String authType) {
             return true;
+        }
+
+        /**
+         * 延迟加载
+         */
+        private static class SyncAvoid {
+            private static final TrustEverythingTrustStrategy INSTANCE = new TrustEverythingTrustStrategy();
         }
     }
 
