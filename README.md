@@ -82,7 +82,7 @@ mvn install
 
 ### ISSUES
 
-* [Github Issues](https://github.com/yingzhuo/spring-turbo/issues)
+* [Github Issues](https://github.com/yingzhuo/spring-turbo-modules/issues)
 
 ### 许可证
 
