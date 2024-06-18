@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.crypto.pem;
+package spring.turbo.module.crypto;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
@@ -25,11 +25,13 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
+ * pem格式文件内容读取工具
+ *
  * @author 应卓
  * @see #builder()
- * @since 3.2.6
+ * @since 3.3.0
  */
-public interface PemLoader {
+public interface PemContentLoader {
 
     public static Builder builder() {
         return new Builder();
@@ -119,8 +121,8 @@ public interface PemLoader {
             }
         }
 
-        public PemLoader build() {
-            return new PemLoader() {
+        public PemContentLoader build() {
+            return new PemContentLoader() {
                 @Override
                 public String loadEncodedPublicKey() {
                     Asserts.hasText(text);
