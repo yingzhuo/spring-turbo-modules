@@ -13,8 +13,6 @@ import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
-import static spring.turbo.util.StringPool.EMPTY;
-
 /**
  * @author 应卓
  * @since 3.3.1
@@ -32,7 +30,7 @@ public @interface RestClientInterface {
      * @see #beanName()
      */
     @AliasFor("beanName")
-    public String value() default EMPTY;
+    public String value() default "";
 
     /**
      * Bean Name
@@ -41,7 +39,7 @@ public @interface RestClientInterface {
      * @see #value()
      */
     @AliasFor("value")
-    public String beanName() default EMPTY;
+    public String beanName() default "";
 
     /**
      * Bean qualifiers
@@ -57,11 +55,16 @@ public @interface RestClientInterface {
      * @return primary
      * @see org.springframework.context.annotation.Primary
      */
-    public boolean primary() default true;
+    public boolean primary() default false;
 
     /**
+     * 返回 {@link org.springframework.web.client.RestClient} 提供器类型
+     *
+     * @return {@link org.springframework.web.client.RestClient} 提供器类型
      * @see RestClientSupplier
      */
     public Class<? extends RestClientSupplier> clientSupplier() default RestClientSupplier.Default.class;
+
+    public Class<? extends ArgumentResolversSupplier> argumentResolversSupplier() default ArgumentResolversSupplier.Default.class;
 
 }

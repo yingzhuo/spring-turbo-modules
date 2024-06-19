@@ -23,18 +23,34 @@ class RestClientInterfaceFactory implements Supplier {
 
     private final ClassDef classDef;
     private final RestClientSupplier restClientSupplier;
+    private final ArgumentResolversSupplier argumentResolversSupplier;
 
-    public RestClientInterfaceFactory(ClassDef classDef, RestClientSupplier restClientSupplier) {
+    public RestClientInterfaceFactory(
+            ClassDef classDef,
+            RestClientSupplier restClientSupplier,
+            ArgumentResolversSupplier argumentResolversSupplier) {
         this.classDef = classDef;
         this.restClientSupplier = restClientSupplier;
+        this.argumentResolversSupplier = argumentResolversSupplier;
     }
 
     @Override
     public Object get() {
         var restClient = restClientSupplier.get();
-        RestClientAdapter adapter = RestClientAdapter.create(restClient);
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(adapter).build();
-        return factory.createClient(classDef.getBeanClass());
+        var adapter = RestClientAdapter.create(restClient);
+        var factoryBuilder = HttpServiceProxyFactory.builderFor(adapter);
+
+        var argumentResolvers = argumentResolversSupplier.get();
+        if (argumentResolvers != null) {
+            for (var argumentResolver : argumentResolvers) {
+                if (argumentResolver != null) {
+                    factoryBuilder.customArgumentResolver(argumentResolver);
+                }
+            }
+        }
+
+        return factoryBuilder.build()
+                .createClient(classDef.getBeanClass());
     }
 
 }

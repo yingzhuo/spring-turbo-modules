@@ -19,6 +19,7 @@ import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.bean.classpath.PackageSet;
 import spring.turbo.bean.classpath.PackageSetFactories;
 import spring.turbo.util.InstanceUtils;
+import spring.turbo.util.StringUtils;
 
 import java.util.List;
 
@@ -42,7 +43,13 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator ng) {
-        var packageSet = PackageSetFactories.create(importingClassMetadata, EnableRestClientInterfaces.class);
+        var packageSet = PackageSetFactories.create(
+                importingClassMetadata,
+                EnableRestClientInterfaces.class,
+                "basePackages",
+                "basePackageClasses"
+        );
+
         var classDefs = doScan(packageSet);
 
         for (var classDef : classDefs) {
@@ -54,53 +61,50 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
     private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(RestClientInterface.class);
-        var clientSupplierOptional = InstanceUtils.newInstance(metaAnnotation.clientSupplier());
+        var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
+        var argumentResolversSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.argumentResolversSupplier());
 
-        if (clientSupplierOptional.isPresent()) {
-            var clientSupplier = clientSupplierOptional.get();
-            var interfaceFactory = new RestClientInterfaceFactory(classDef, clientSupplier);
+        var interfaceFactory = new RestClientInterfaceFactory(classDef, clientSupplier, argumentResolversSupplier);
 
-            var beanType = classDef.getBeanClass();
-            var clientBeanDefinition =
-                    BeanDefinitionBuilder.genericBeanDefinition(beanType, interfaceFactory)
-                            .setPrimary(metaAnnotation.primary())
-                            .setLazyInit(classDef.isLazyInit())
-                            .setAbstract(false)
-                            .setRole(classDef.getRole())
-                            .getBeanDefinition();
+        var beanType = classDef.getBeanClass();
+        var clientBeanDefinition =
+                BeanDefinitionBuilder.genericBeanDefinition(beanType, interfaceFactory)
+                        .setPrimary(metaAnnotation.primary())
+                        .setLazyInit(classDef.isLazyInit())
+                        .setAbstract(false)
+                        .setRole(classDef.getRole())
+                        .getBeanDefinition();
 
-            addQualifiers(clientBeanDefinition, metaAnnotation.qualifiers());
+        addQualifiers(clientBeanDefinition, metaAnnotation.qualifiers());
 
-            var beanName = metaAnnotation.value();
+        var beanName = metaAnnotation.value();
 
-            if (beanName.isBlank()) {
-                beanName = nameGen.generateBeanName(clientBeanDefinition, registry);
-            }
-
-            registry.registerBeanDefinition(beanName, clientBeanDefinition);
+        if (beanName.isBlank()) {
+            beanName = nameGen.generateBeanName(clientBeanDefinition, registry);
         }
+
+        registry.registerBeanDefinition(beanName, clientBeanDefinition);
+
     }
 
     private List<ClassDef> doScan(PackageSet basePackages) {
-        var includeFilter = all(
-                hasAnnotation(RestClientInterface.class), isInterface()
-        );
-
-        var excludeFilter = isPackageInfo();
-
         return ClassPathScanner.builder()
-                .environment(this.environment)
-                .resourceLoader(this.resourceLoader)
-                .classLoader(this.classLoader)
-                .includeFilter(includeFilter)
-                .excludeFilter(excludeFilter)
+                .classLoader(classLoader)
+                .resourceLoader(resourceLoader)
+                .environment(environment)
+                .includeFilter(all(
+                        hasAnnotation(RestClientInterface.class), isInterface()
+                ))
+                .excludeFilter(isPackageInfo())
                 .build()
                 .scan(basePackages);
     }
 
     public void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {
-        for (var q : qualifiers) {
-            beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, q));
+        for (var qualifier : qualifiers) {
+            if (StringUtils.isNotBlank(qualifier)) {
+                beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, qualifier));
+            }
         }
     }
 
