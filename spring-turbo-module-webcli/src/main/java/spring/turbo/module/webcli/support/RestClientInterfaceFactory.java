@@ -8,6 +8,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webcli.support;
 
+import org.springframework.core.env.Environment;
+import org.springframework.util.StringValueResolver;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import spring.turbo.bean.classpath.ClassDef;
@@ -22,29 +24,30 @@ import java.util.function.Supplier;
 class RestClientInterfaceFactory implements Supplier {
 
     private final ClassDef classDef;
+    private final Environment environment;
     private final RestClientSupplier restClientSupplier;
     private final ArgumentResolversSupplier globalArgumentResolversSupplier;
     private final ArgumentResolversSupplier argumentResolversSupplier;
-    private final EmbeddedValueResolverSupplier embeddedValueResolverSupplier;
 
     public RestClientInterfaceFactory(
             ClassDef classDef,
+            Environment environment,
             RestClientSupplier restClientSupplier,
             ArgumentResolversSupplier globalArgumentResolversSupplier,
-            ArgumentResolversSupplier argumentResolversSupplier,
-            EmbeddedValueResolverSupplier embeddedValueResolverSupplier) {
+            ArgumentResolversSupplier argumentResolversSupplier) {
         this.classDef = classDef;
+        this.environment = environment;
         this.restClientSupplier = restClientSupplier;
         this.globalArgumentResolversSupplier = globalArgumentResolversSupplier;
         this.argumentResolversSupplier = argumentResolversSupplier;
-        this.embeddedValueResolverSupplier = embeddedValueResolverSupplier;
     }
 
     @Override
     public Object get() {
         var restClient = restClientSupplier.get();
         var adapter = RestClientAdapter.create(restClient);
-        var factoryBuilder = HttpServiceProxyFactory.builderFor(adapter);
+        var factoryBuilder = HttpServiceProxyFactory.builderFor(adapter)
+                .embeddedValueResolver(new EnvStringResolver(environment));
 
         var argumentResolvers = argumentResolversSupplier.get();
         if (argumentResolvers != null) {
@@ -64,13 +67,21 @@ class RestClientInterfaceFactory implements Supplier {
             }
         }
 
-        var valueResolver = embeddedValueResolverSupplier.get();
-        if (valueResolver != null) {
-            factoryBuilder.embeddedValueResolver(valueResolver);
-        }
-
         return factoryBuilder.build()
                 .createClient(classDef.getBeanClass());
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    private record EnvStringResolver(Environment environment) implements StringValueResolver {
+        @Override
+        public String resolveStringValue(String strVal) {
+            try {
+                return environment.resolvePlaceholders(strVal);
+            } catch (Exception e) {
+                return strVal;
+            }
+        }
     }
 
 }

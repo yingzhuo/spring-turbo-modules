@@ -75,14 +75,13 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         var metaAnnotation = classDef.getRequiredAnnotation(RestClientInterface.class);
         var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
         var argumentResolversSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.argumentResolversSupplier());
-        var valueResolverSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.embeddedValueResolverSupplier());
 
         var interfaceFactory = new RestClientInterfaceFactory(
                 classDef,
+                environment,
                 clientSupplier,
                 globalArgumentResolversSupplier,
-                argumentResolversSupplier,
-                valueResolverSupplier
+                argumentResolversSupplier
         );
 
         var beanType = classDef.getBeanClass();
