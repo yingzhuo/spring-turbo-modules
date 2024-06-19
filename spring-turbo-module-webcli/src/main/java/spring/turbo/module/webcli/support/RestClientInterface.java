@@ -31,7 +31,8 @@ public @interface RestClientInterface {
      * @return Bean Name
      * @see #beanName()
      */
-    @AliasFor("beanName") String value() default EMPTY;
+    @AliasFor("beanName")
+    public String value() default EMPTY;
 
     /**
      * Bean Name
@@ -39,7 +40,8 @@ public @interface RestClientInterface {
      * @return Bean Name
      * @see #value()
      */
-    @AliasFor("value") String beanName() default EMPTY;
+    @AliasFor("value")
+    public String beanName() default EMPTY;
 
     /**
      * Bean qualifiers
@@ -47,7 +49,7 @@ public @interface RestClientInterface {
      * @return Bean qualifiers
      * @see Qualifier
      */
-    String[] qualifiers() default {};
+    public String[] qualifiers() default {};
 
     /**
      * 是否为primary
@@ -55,11 +57,11 @@ public @interface RestClientInterface {
      * @return primary
      * @see org.springframework.context.annotation.Primary
      */
-    boolean primary() default true;
+    public boolean primary() default true;
 
     /**
      * @see RestClientSupplier
      */
-    Class<? extends RestClientSupplier> clientSupplier() default RestClientSupplier.Default.class;
+    public Class<? extends RestClientSupplier> clientSupplier() default RestClientSupplier.Default.class;
 
 }

@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public interface RestClientSupplier extends Supplier<RestClient> {
 
     @Override
-    public abstract RestClient get();
+    public RestClient get();
 
     // -----------------------------------------------------------------------------------------------------------------
 

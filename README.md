@@ -32,16 +32,6 @@
 </dependency>
 <dependency>
  <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-crypto</artifactId>
- <version>LATEST</version>
-</dependency>
-<dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-feign</artifactId>
- <version>LATEST</version>
-</dependency>
-<dependency>
- <groupId>com.github.yingzhuo</groupId>
  <artifactId>spring-turbo-module-misc</artifactId>
  <version>LATEST</version>
 </dependency>

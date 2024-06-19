@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webcli.support;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.*;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -32,13 +31,11 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
 
     private final ClassLoader classLoader;
-    private final BeanFactory beanFactory;
     private final Environment environment;
     private final ResourceLoader resourceLoader;
 
-    public EnableRestClientInterfacesConfiguration(ClassLoader classLoader, BeanFactory beanFactory, Environment environment, ResourceLoader resourceLoader) {
+    public EnableRestClientInterfacesConfiguration(ClassLoader classLoader, Environment environment, ResourceLoader resourceLoader) {
         this.classLoader = classLoader;
-        this.beanFactory = beanFactory;
         this.environment = environment;
         this.resourceLoader = resourceLoader;
     }

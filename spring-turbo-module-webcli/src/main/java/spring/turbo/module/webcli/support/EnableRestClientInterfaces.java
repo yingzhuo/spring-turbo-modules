@@ -24,10 +24,12 @@ import java.lang.annotation.*;
 @Import(EnableRestClientInterfacesConfiguration.class)
 public @interface EnableRestClientInterfaces {
 
-    @AliasFor("basePackages") String[] value() default {};
+    @AliasFor("basePackages")
+    public String[] value() default {};
 
-    @AliasFor("value") String[] basePackages() default {};
+    @AliasFor("value")
+    public String[] basePackages() default {};
 
-    Class<?>[] basePackageClasses() default {};
+    public Class<?>[] basePackageClasses() default {};
 
 }
