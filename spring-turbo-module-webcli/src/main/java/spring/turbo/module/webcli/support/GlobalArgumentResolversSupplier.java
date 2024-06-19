@@ -12,22 +12,20 @@ import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.function.Supplier;
 
 /**
  * @author 应卓
  * @since 3.3.1
  */
 @FunctionalInterface
-public interface ArgumentResolversSupplier extends Supplier<Collection<HttpServiceArgumentResolver>> {
+public interface GlobalArgumentResolversSupplier extends ArgumentResolversSupplier {
 
     @Nullable
-    @Override
     public Collection<HttpServiceArgumentResolver> get();
 
-    // -----------------------------------------------------------------------------------------------------------------
-
-    public static class Default implements ArgumentResolversSupplier {
+    public static class Default implements GlobalArgumentResolversSupplier {
+        @Nullable
+        @Override
         public Collection<HttpServiceArgumentResolver> get() {
             return null;
         }

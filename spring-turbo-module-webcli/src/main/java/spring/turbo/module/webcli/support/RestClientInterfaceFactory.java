@@ -23,14 +23,17 @@ class RestClientInterfaceFactory implements Supplier {
 
     private final ClassDef classDef;
     private final RestClientSupplier restClientSupplier;
+    private final GlobalArgumentResolversSupplier globalArgumentResolversSupplier;
     private final ArgumentResolversSupplier argumentResolversSupplier;
 
     public RestClientInterfaceFactory(
             ClassDef classDef,
             RestClientSupplier restClientSupplier,
+            GlobalArgumentResolversSupplier globalArgumentResolversSupplier,
             ArgumentResolversSupplier argumentResolversSupplier) {
         this.classDef = classDef;
         this.restClientSupplier = restClientSupplier;
+        this.globalArgumentResolversSupplier = globalArgumentResolversSupplier;
         this.argumentResolversSupplier = argumentResolversSupplier;
     }
 
@@ -45,6 +48,15 @@ class RestClientInterfaceFactory implements Supplier {
             for (var argumentResolver : argumentResolvers) {
                 if (argumentResolver != null) {
                     factoryBuilder.customArgumentResolver(argumentResolver);
+                }
+            }
+        }
+
+        var globalArgumentResolvers = this.globalArgumentResolversSupplier.get();
+        if (globalArgumentResolvers != null) {
+            for (var globalArgumentResolver : globalArgumentResolvers) {
+                if (globalArgumentResolver != null) {
+                    factoryBuilder.customArgumentResolver(globalArgumentResolver);
                 }
             }
         }

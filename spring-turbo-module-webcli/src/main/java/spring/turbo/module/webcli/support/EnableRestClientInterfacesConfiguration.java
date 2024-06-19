@@ -11,6 +11,7 @@ package spring.turbo.module.webcli.support;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.*;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
@@ -29,6 +30,7 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
  * @author 应卓
  * @since 3.3.1
  */
+@SuppressWarnings("unchecked")
 class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
 
     private final ClassLoader classLoader;
@@ -50,21 +52,35 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
                 "basePackageClasses"
         );
 
+        var annotationAttributes = AnnotationAttributes.fromMap(
+                importingClassMetadata.getAnnotationAttributes(EnableRestClientInterfaces.class.getName())
+        );
+
+        if (annotationAttributes == null) {
+            return;
+        }
+
+        var globalArgumentResolversSupplierClass =
+                (Class<? extends GlobalArgumentResolversSupplier>) annotationAttributes.getClass("globalArgumentResolversSupplier");
+
         var classDefs = doScan(packageSet);
 
         for (var classDef : classDefs) {
-            registerOne(registry, ng, classDef);
+            registerOne(registry, ng, classDef, InstanceUtils.newInstanceElseThrow(globalArgumentResolversSupplierClass));
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef) {
+    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef, GlobalArgumentResolversSupplier globalArgumentResolversSupplier) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(RestClientInterface.class);
         var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
         var argumentResolversSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.argumentResolversSupplier());
 
-        var interfaceFactory = new RestClientInterfaceFactory(classDef, clientSupplier, argumentResolversSupplier);
+        var interfaceFactory = new RestClientInterfaceFactory(
+                classDef,
+                clientSupplier,
+                globalArgumentResolversSupplier,
+                argumentResolversSupplier);
 
         var beanType = classDef.getBeanClass();
         var clientBeanDefinition =
