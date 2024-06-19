@@ -12,25 +12,24 @@ import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
  * @author 应卓
  * @since 3.3.1
  */
-@FunctionalInterface
 public interface ArgumentResolversSupplier extends Supplier<Collection<HttpServiceArgumentResolver>> {
 
     @Nullable
     @Override
-    public Collection<HttpServiceArgumentResolver> get();
+    public default Collection<HttpServiceArgumentResolver> get() {
+        return Set.of();
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public static class Default implements ArgumentResolversSupplier {
-        public Collection<HttpServiceArgumentResolver> get() {
-            return null;
-        }
+    class Default implements ArgumentResolversSupplier {
     }
 
 }

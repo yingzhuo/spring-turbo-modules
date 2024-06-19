@@ -34,6 +34,6 @@ public @interface EnableRestClientInterfaces {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public Class<? extends GlobalArgumentResolversSupplier> globalArgumentResolversSupplier() default GlobalArgumentResolversSupplier.Default.class;
+    public Class<? extends ArgumentResolversSupplier> globalArgumentResolversSupplier() default ArgumentResolversSupplier.Default.class;
 
 }

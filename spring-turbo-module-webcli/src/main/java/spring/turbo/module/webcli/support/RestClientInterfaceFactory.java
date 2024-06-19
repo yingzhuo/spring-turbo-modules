@@ -23,18 +23,21 @@ class RestClientInterfaceFactory implements Supplier {
 
     private final ClassDef classDef;
     private final RestClientSupplier restClientSupplier;
-    private final GlobalArgumentResolversSupplier globalArgumentResolversSupplier;
+    private final ArgumentResolversSupplier globalArgumentResolversSupplier;
     private final ArgumentResolversSupplier argumentResolversSupplier;
+    private final EmbeddedValueResolverSupplier embeddedValueResolverSupplier;
 
     public RestClientInterfaceFactory(
             ClassDef classDef,
             RestClientSupplier restClientSupplier,
-            GlobalArgumentResolversSupplier globalArgumentResolversSupplier,
-            ArgumentResolversSupplier argumentResolversSupplier) {
+            ArgumentResolversSupplier globalArgumentResolversSupplier,
+            ArgumentResolversSupplier argumentResolversSupplier,
+            EmbeddedValueResolverSupplier embeddedValueResolverSupplier) {
         this.classDef = classDef;
         this.restClientSupplier = restClientSupplier;
         this.globalArgumentResolversSupplier = globalArgumentResolversSupplier;
         this.argumentResolversSupplier = argumentResolversSupplier;
+        this.embeddedValueResolverSupplier = embeddedValueResolverSupplier;
     }
 
     @Override
@@ -52,13 +55,18 @@ class RestClientInterfaceFactory implements Supplier {
             }
         }
 
-        var globalArgumentResolvers = this.globalArgumentResolversSupplier.get();
+        var globalArgumentResolvers = globalArgumentResolversSupplier.get();
         if (globalArgumentResolvers != null) {
             for (var globalArgumentResolver : globalArgumentResolvers) {
                 if (globalArgumentResolver != null) {
                     factoryBuilder.customArgumentResolver(globalArgumentResolver);
                 }
             }
+        }
+
+        var valueResolver = embeddedValueResolverSupplier.get();
+        if (valueResolver != null) {
+            factoryBuilder.embeddedValueResolver(valueResolver);
         }
 
         return factoryBuilder.build()

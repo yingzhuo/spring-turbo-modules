@@ -61,7 +61,7 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         }
 
         var globalArgumentResolversSupplierClass =
-                (Class<? extends GlobalArgumentResolversSupplier>) annotationAttributes.getClass("globalArgumentResolversSupplier");
+                (Class<? extends ArgumentResolversSupplier>) annotationAttributes.getClass("globalArgumentResolversSupplier");
 
         var classDefs = doScan(packageSet);
 
@@ -70,17 +70,20 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         }
     }
 
-    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef, GlobalArgumentResolversSupplier globalArgumentResolversSupplier) {
+    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef, ArgumentResolversSupplier globalArgumentResolversSupplier) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(RestClientInterface.class);
         var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
         var argumentResolversSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.argumentResolversSupplier());
+        var valueResolverSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.embeddedValueResolverSupplier());
 
         var interfaceFactory = new RestClientInterfaceFactory(
                 classDef,
                 clientSupplier,
                 globalArgumentResolversSupplier,
-                argumentResolversSupplier);
+                argumentResolversSupplier,
+                valueResolverSupplier
+        );
 
         var beanType = classDef.getBeanClass();
         var clientBeanDefinition =
@@ -100,7 +103,6 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         }
 
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
-
     }
 
     private List<ClassDef> doScan(PackageSet basePackages) {

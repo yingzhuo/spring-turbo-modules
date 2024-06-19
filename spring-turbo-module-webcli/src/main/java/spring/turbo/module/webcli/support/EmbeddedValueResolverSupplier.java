@@ -8,27 +8,33 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webcli.support;
 
-import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
+import org.springframework.util.StringValueResolver;
+import spring.turbo.core.EnvironmentUtils;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
+import java.util.function.Supplier;
 
 /**
  * @author 应卓
- * @since 3.3.1
+ * @since 3.1.1
  */
-@FunctionalInterface
-public interface GlobalArgumentResolversSupplier extends ArgumentResolversSupplier {
+public interface EmbeddedValueResolverSupplier extends Supplier<StringValueResolver> {
 
     @Nullable
-    public Collection<HttpServiceArgumentResolver> get();
+    @Override
+    default StringValueResolver get() {
+        return strVal -> {
+            try {
+                return EnvironmentUtils.resolvePlaceholders(strVal);
+            } catch (Exception e) {
+                return strVal;
+            }
+        };
+    }
 
-    public static class Default implements GlobalArgumentResolversSupplier {
-        @Nullable
-        @Override
-        public Collection<HttpServiceArgumentResolver> get() {
-            return null;
-        }
+    // -----------------------------------------------------------------------------------------------------------------
+
+    class Default implements EmbeddedValueResolverSupplier {
     }
 
 }

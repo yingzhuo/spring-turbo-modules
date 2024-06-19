@@ -67,4 +67,6 @@ public @interface RestClientInterface {
 
     public Class<? extends ArgumentResolversSupplier> argumentResolversSupplier() default ArgumentResolversSupplier.Default.class;
 
+    public Class<? extends EmbeddedValueResolverSupplier> embeddedValueResolverSupplier() default EmbeddedValueResolverSupplier.Default.class;
+
 }
