@@ -3,8 +3,3 @@
 # ----------------------------------------------------------------------------------------------------------------------
 org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
     spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL
-# ----------------------------------------------------------------------------------------------------------------------
-# SpringTurbo
-# ----------------------------------------------------------------------------------------------------------------------
-spring.turbo.convention.ExtraPasswordEncoderConvention=\
-    spring.turbo.module.security.convention.ExtraPasswordEncoderConventionImpl
