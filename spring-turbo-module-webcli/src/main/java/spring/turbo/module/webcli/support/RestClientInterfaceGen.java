@@ -9,19 +9,18 @@
 package spring.turbo.module.webcli.support;
 
 import org.springframework.core.env.Environment;
-import org.springframework.util.StringValueResolver;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import spring.turbo.bean.classpath.ClassDef;
-
-import java.util.function.Supplier;
+import spring.turbo.util.function.GenericGenerator;
 
 /**
+ * RestClientInterface 生成器
+ *
  * @author 应卓
  * @since 3.3.1
  */
-@SuppressWarnings("rawtypes")
-class RestClientInterfaceFactory implements Supplier {
+class RestClientInterfaceGen implements GenericGenerator {
 
     private final ClassDef classDef;
     private final Environment environment;
@@ -29,7 +28,7 @@ class RestClientInterfaceFactory implements Supplier {
     private final ArgumentResolversSupplier globalArgumentResolversSupplier;
     private final ArgumentResolversSupplier argumentResolversSupplier;
 
-    public RestClientInterfaceFactory(
+    public RestClientInterfaceGen(
             ClassDef classDef,
             Environment environment,
             RestClientSupplier restClientSupplier,
@@ -43,11 +42,11 @@ class RestClientInterfaceFactory implements Supplier {
     }
 
     @Override
-    public Object get() {
+    public Object generate() {
         var restClient = restClientSupplier.get();
         var adapter = RestClientAdapter.create(restClient);
         var factoryBuilder = HttpServiceProxyFactory.builderFor(adapter)
-                .embeddedValueResolver(new EnvStringResolver(environment));
+                .embeddedValueResolver(environment::resolvePlaceholders);
 
         var argumentResolvers = argumentResolversSupplier.get();
         if (argumentResolvers != null) {
@@ -69,19 +68,6 @@ class RestClientInterfaceFactory implements Supplier {
 
         return factoryBuilder.build()
                 .createClient(classDef.getBeanClass());
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    private record EnvStringResolver(Environment environment) implements StringValueResolver {
-        @Override
-        public String resolveStringValue(String strVal) {
-            try {
-                return environment.resolvePlaceholders(strVal);
-            } catch (Exception e) {
-                return strVal;
-            }
-        }
     }
 
 }

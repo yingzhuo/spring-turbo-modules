@@ -17,12 +17,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
-import spring.turbo.bean.classpath.PackageSet;
 import spring.turbo.bean.classpath.PackageSetFactories;
 import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringUtils;
-
-import java.util.List;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 
@@ -45,13 +42,6 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator ng) {
-        var packageSet = PackageSetFactories.create(
-                importingClassMetadata,
-                EnableRestClientInterfaces.class,
-                "basePackages",
-                "basePackageClasses"
-        );
-
         var annotationAttributes = AnnotationAttributes.fromMap(
                 importingClassMetadata.getAnnotationAttributes(EnableRestClientInterfaces.class.getName())
         );
@@ -63,7 +53,24 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         var globalArgumentResolversSupplierClass =
                 (Class<? extends ArgumentResolversSupplier>) annotationAttributes.getClass("globalArgumentResolversSupplier");
 
-        var classDefs = doScan(packageSet);
+        var packageSet = PackageSetFactories.create(
+                importingClassMetadata,
+                EnableRestClientInterfaces.class,
+                "basePackages",
+                "basePackageClasses"
+        );
+
+        var classDefs = ClassPathScanner.builder()
+                .classLoader(classLoader)
+                .resourceLoader(resourceLoader)
+                .environment(environment)
+                .includeFilter(all(
+                        hasAnnotation(RestClientInterface.class),
+                        isInterface()
+                ))
+                .excludeFilter(isPackageInfo())
+                .build()
+                .scan(packageSet);
 
         for (var classDef : classDefs) {
             registerOne(registry, ng, classDef, InstanceUtils.newInstanceElseThrow(globalArgumentResolversSupplierClass));
@@ -76,7 +83,7 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
         var argumentResolversSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.argumentResolversSupplier());
 
-        var interfaceFactory = new RestClientInterfaceFactory(
+        var interfaceGen = new RestClientInterfaceGen(
                 classDef,
                 environment,
                 clientSupplier,
@@ -86,7 +93,7 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
 
         var beanType = classDef.getBeanClass();
         var clientBeanDefinition =
-                BeanDefinitionBuilder.genericBeanDefinition(beanType, interfaceFactory)
+                BeanDefinitionBuilder.genericBeanDefinition(beanType, interfaceGen)
                         .setPrimary(metaAnnotation.primary())
                         .setLazyInit(classDef.isLazyInit())
                         .setAbstract(false)
@@ -102,19 +109,6 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         }
 
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
-    }
-
-    private List<ClassDef> doScan(PackageSet basePackages) {
-        return ClassPathScanner.builder()
-                .classLoader(classLoader)
-                .resourceLoader(resourceLoader)
-                .environment(environment)
-                .includeFilter(all(
-                        hasAnnotation(RestClientInterface.class), isInterface()
-                ))
-                .excludeFilter(isPackageInfo())
-                .build()
-                .scan(basePackages);
     }
 
     public void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {

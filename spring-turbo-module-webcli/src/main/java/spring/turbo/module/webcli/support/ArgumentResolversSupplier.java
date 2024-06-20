@@ -29,7 +29,7 @@ public interface ArgumentResolversSupplier extends Supplier<Collection<HttpServi
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    class Default implements ArgumentResolversSupplier {
+    public static class Default implements ArgumentResolversSupplier {
     }
 
 }
