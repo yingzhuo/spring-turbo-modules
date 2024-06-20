@@ -92,7 +92,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-
     /**
      * RS384算法
      *
@@ -117,7 +116,6 @@ public final class SignerFactories {
         var algId = "RS512";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
-
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -156,7 +154,6 @@ public final class SignerFactories {
         var algId = "ES512";
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
-
 
     // -----------------------------------------------------------------------------------------------------------------
 

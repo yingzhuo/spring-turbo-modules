@@ -65,10 +65,10 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
                 .resourceLoader(resourceLoader)
                 .environment(environment)
                 .includeFilter(all(
-                        hasAnnotation(RestClientInterface.class),
-                        isInterface()
+                        isInterface(),
+                        isNotPackageInfo(),
+                        hasAnnotation(RestClientInterface.class)
                 ))
-                .excludeFilter(isPackageInfo())
                 .build()
                 .scan(packageSet);
 
