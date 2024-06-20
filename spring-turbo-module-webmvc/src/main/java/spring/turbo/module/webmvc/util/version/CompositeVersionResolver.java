@@ -26,14 +26,6 @@ import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
  */
 public class CompositeVersionResolver implements VersionResolver, InitializingBean {
 
-    public static CompositeVersionResolver getDefault() {
-        return new CompositeVersionResolver(
-                new ServletPathVersionResolver(),
-                new HeaderVersionResolver(),
-                new QueryVersionResolver()
-        );
-    }
-
     private final List<VersionResolver> resolvers = new ArrayList<>();
 
     public CompositeVersionResolver(VersionResolver... resolvers) {
@@ -46,6 +38,14 @@ public class CompositeVersionResolver implements VersionResolver, InitializingBe
         nullSafeAddAll(this.resolvers, resolvers);
         sort(this.resolvers);
         afterPropertiesSet();
+    }
+
+    public static CompositeVersionResolver getDefault() {
+        return new CompositeVersionResolver(
+                new ServletPathVersionResolver(),
+                new HeaderVersionResolver(),
+                new QueryVersionResolver()
+        );
     }
 
     @Override

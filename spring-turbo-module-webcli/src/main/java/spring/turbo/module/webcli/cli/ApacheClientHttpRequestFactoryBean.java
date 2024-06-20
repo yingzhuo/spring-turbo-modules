@@ -186,12 +186,12 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
 
     private static class TrustEverythingTrustStrategy implements TrustStrategy {
 
-        public static TrustEverythingTrustStrategy getInstance() {
-            return SyncAvoid.INSTANCE;
-        }
-
         private TrustEverythingTrustStrategy() {
             super();
+        }
+
+        public static TrustEverythingTrustStrategy getInstance() {
+            return SyncAvoid.INSTANCE;
         }
 
         public boolean isTrusted(X509Certificate[] chain, String authType) {

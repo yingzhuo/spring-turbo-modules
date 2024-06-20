@@ -12,10 +12,7 @@ import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import cn.hutool.jwt.signers.NoneJWTSigner;
-import lombok.SneakyThrows;
 import org.springframework.lang.Nullable;
-import spring.turbo.core.ResourceLoaders;
-import spring.turbo.module.crypto.KeyStorage;
 import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
@@ -95,20 +92,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * RS256算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RS256(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RS256(keyPair);
-    }
 
     /**
      * RS384算法
@@ -122,20 +105,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * RS384算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RS384(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RS384(keyPair);
-    }
 
     /**
      * RS512算法
@@ -149,20 +118,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * RS512算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RS512(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RS512(keyPair);
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -179,21 +134,6 @@ public final class SignerFactories {
     }
 
     /**
-     * ES256算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner ES256(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-        return ES256(keyPair);
-    }
-
-    /**
      * ES384算法
      *
      * @param keyPair 加密用的公私钥对
@@ -203,21 +143,6 @@ public final class SignerFactories {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES384";
         return JWTSignerUtil.createSigner(algId, keyPair);
-    }
-
-    /**
-     * ES384算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner ES384(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-        return ES384(keyPair);
     }
 
     /**
@@ -232,20 +157,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * ES512算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner ES512(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("EC", publicKeyIn, privateKeyIn);
-        return ES512(keyPair);
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -262,21 +173,6 @@ public final class SignerFactories {
     }
 
     /**
-     * PS256算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner PS256(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return PS256(keyPair);
-    }
-
-    /**
      * PS384算法
      *
      * @param keyPair 加密用的公私钥对
@@ -289,21 +185,6 @@ public final class SignerFactories {
     }
 
     /**
-     * PS384算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner PS384(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return PS384(keyPair);
-    }
-
-    /**
      * PS512算法
      *
      * @param keyPair 加密用的公私钥对
@@ -313,21 +194,6 @@ public final class SignerFactories {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS512";
         return JWTSignerUtil.createSigner(algId, keyPair);
-    }
-
-    /**
-     * PS512算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner PS512(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return PS512(keyPair);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -372,21 +238,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * RSHA1算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RSHA1(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RSHA1(keyPair);
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -401,21 +252,6 @@ public final class SignerFactories {
         return JWTSignerUtil.createSigner(algId, keyPair);
     }
 
-    /**
-     * RMD2算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RMD2(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RSHA1(keyPair);
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -428,21 +264,6 @@ public final class SignerFactories {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RMD5";
         return JWTSignerUtil.createSigner(algId, keyPair);
-    }
-
-    /**
-     * RMD5算法
-     *
-     * @param publicKeyLocation  公钥resource-location
-     * @param privateKeyLocation 私钥resource-location
-     * @return 签名器实例
-     */
-    @SneakyThrows
-    public static JWTSigner RMD5(String publicKeyLocation, String privateKeyLocation) {
-        var publicKeyIn = ResourceLoaders.getDefault().getResource(publicKeyLocation).getInputStream();
-        var privateKeyIn = ResourceLoaders.getDefault().getResource(privateKeyLocation).getInputStream();
-        var keyPair = KeyStorage.loadKeys("RSA", publicKeyIn, privateKeyIn);
-        return RSHA1(keyPair);
     }
 
 }
