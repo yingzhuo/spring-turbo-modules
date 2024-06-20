@@ -18,7 +18,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
-import spring.turbo.module.webmvc.support.RemoteAddressHandlerMethodArgumentResolver;
+import spring.turbo.module.webmvc.support.argument.RemoteAddressHandlerMethodArgumentResolver;
 import spring.turbo.module.webmvc.support.locale.SystemDefaultLocaleResolver;
 
 import java.util.List;

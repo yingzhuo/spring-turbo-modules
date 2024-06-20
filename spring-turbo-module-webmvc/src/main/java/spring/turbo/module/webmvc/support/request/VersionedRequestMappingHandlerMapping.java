@@ -11,9 +11,9 @@ package spring.turbo.module.webmvc.support.request;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import spring.turbo.module.webmvc.version.DefaultVersionResolver;
-import spring.turbo.module.webmvc.version.ServletPathVersionResolver;
-import spring.turbo.module.webmvc.version.VersionResolver;
+import spring.turbo.module.webmvc.util.version.CompositeVersionResolver;
+import spring.turbo.module.webmvc.util.version.ServletPathVersionResolver;
+import spring.turbo.module.webmvc.util.version.VersionResolver;
 
 import java.lang.reflect.Method;
 
@@ -29,8 +29,9 @@ import static org.springframework.core.annotation.AnnotationUtils.getAnnotationA
 public class VersionedRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
     /*
-     * 本组件不会被本starter自动注册 用户必须自行注册 *
+     * 本组件不会被本starter自动注册 用户必须自行注册
      */
+
     private final VersionResolver versionResolver;
 
     /**
@@ -46,7 +47,7 @@ public class VersionedRequestMappingHandlerMapping extends RequestMappingHandler
      * @param versionResolver 版本号解析器
      */
     public VersionedRequestMappingHandlerMapping(@Nullable VersionResolver versionResolver) {
-        this.versionResolver = requireNonNullElseGet(versionResolver, DefaultVersionResolver::new);
+        this.versionResolver = requireNonNullElseGet(versionResolver, CompositeVersionResolver::getDefault);
     }
 
     @Nullable

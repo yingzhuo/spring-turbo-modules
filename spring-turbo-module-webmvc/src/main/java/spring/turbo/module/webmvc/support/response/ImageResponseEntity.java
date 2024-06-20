@@ -82,7 +82,6 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
             final MultiValueMap<String, String> headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_TYPE, "image/" + format);
             headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(size));
-
             return new ImageResponseEntity(bytes, headers, status);
         }
     }

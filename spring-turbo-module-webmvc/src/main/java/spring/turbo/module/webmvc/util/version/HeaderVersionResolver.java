@@ -6,48 +6,50 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.version;
+package spring.turbo.module.webmvc.util.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
+import spring.turbo.util.Asserts;
+
+import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
- * @see #getInstance()
  * @since 2.0.9
  */
-public final class NullVersionResolver implements VersionResolver {
+public class HeaderVersionResolver implements VersionResolver {
+
+    private static final String DEFAULT_HEADER_NAME = "X-Api-Version";
+
+    private final String headerName;
 
     /**
-     * 私有构造方法
+     * 默认构造方法
      */
-    private NullVersionResolver() {
-        super();
+    public HeaderVersionResolver() {
+        this(DEFAULT_HEADER_NAME);
     }
 
-    /**
-     * 获取实例
-     *
-     * @return 实例
-     */
-    public static NullVersionResolver getInstance() {
-        return SyncAvoid.INSTANCE;
+    public HeaderVersionResolver(String headerName) {
+        Asserts.hasText(headerName);
+        this.headerName = headerName;
     }
 
     @Nullable
     @Override
     public String resolve(HttpServletRequest request) {
-        return null;
+        try {
+            var version = request.getHeader(this.headerName);
+            return isNotBlank(version) ? version : null; // blank -> null
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE;
-    }
-
-    // 延迟加载
-    private static class SyncAvoid {
-        private static final NullVersionResolver INSTANCE = new NullVersionResolver();
+        return HIGHEST_PRECEDENCE + 100;
     }
 
 }

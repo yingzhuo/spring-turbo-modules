@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.support;
+package spring.turbo.module.webmvc.support.argument;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
@@ -29,16 +29,26 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class
-                || parameter.hasParameterAnnotation(RemoteAddress.class)
-                && parameter.getParameterType() == Optional.class;
+        return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class;
     }
 
     @Nullable
     @Override
-    public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
-        final var request = webRequest.getNativeRequest(HttpServletRequest.class);
+    public Object resolveArgument(MethodParameter parameter,
+                                  @Nullable ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest,
+                                  @Nullable WebDataBinderFactory binderFactory) {
+
+        try {
+            return doResolveArgument(parameter, webRequest);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Nullable
+    public Object doResolveArgument(MethodParameter parameter, NativeWebRequest webRequest) {
+        var request = webRequest.getNativeRequest(HttpServletRequest.class);
 
         String ip = null;
 
@@ -56,6 +66,6 @@ public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethod
         } else {
             return null;
         }
-    }
 
+    }
 }

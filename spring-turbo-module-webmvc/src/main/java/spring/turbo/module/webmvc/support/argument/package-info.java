@@ -6,28 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.version;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.webmvc.support.argument;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.Ordered;
-import org.springframework.lang.Nullable;
-
-/**
- * Rest API 版本解析器
- *
- * @author 应卓
- * @see DefaultVersionResolver
- * @since 2.0.9
- */
-@FunctionalInterface
-public interface VersionResolver extends Ordered {
-
-    @Nullable
-    public String resolve(HttpServletRequest request);
-
-    @Override
-    public default int getOrder() {
-        return 0;
-    }
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

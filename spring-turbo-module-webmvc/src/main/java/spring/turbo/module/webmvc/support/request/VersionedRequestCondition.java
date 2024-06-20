@@ -11,7 +11,7 @@ package spring.turbo.module.webmvc.support.request;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
-import spring.turbo.module.webmvc.version.VersionResolver;
+import spring.turbo.module.webmvc.util.version.VersionResolver;
 import spring.turbo.util.Asserts;
 
 /**

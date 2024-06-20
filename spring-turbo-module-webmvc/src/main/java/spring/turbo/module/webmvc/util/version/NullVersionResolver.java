@@ -6,50 +6,50 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.version;
+package spring.turbo.module.webmvc.util.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
-
-import static spring.turbo.util.StringUtils.isNotBlank;
 
 /**
  * @author 应卓
+ * @see #getInstance()
  * @since 2.0.9
  */
-public class QueryVersionResolver implements VersionResolver {
-
-    public static final String DEFAULT_PARAMETER_NAME = "_api_version";
-
-    private final String parameterName;
+public final class NullVersionResolver implements VersionResolver {
 
     /**
-     * 默认构造方法
+     * 私有构造方法
      */
-    public QueryVersionResolver() {
-        this(DEFAULT_PARAMETER_NAME);
+    private NullVersionResolver() {
+        super();
     }
 
-    public QueryVersionResolver(String parameterName) {
-        Asserts.hasText(parameterName);
-        this.parameterName = parameterName;
+    /**
+     * 获取实例
+     *
+     * @return 实例
+     */
+    public static NullVersionResolver getInstance() {
+        return SyncAvoid.INSTANCE;
     }
 
     @Nullable
     @Override
     public String resolve(HttpServletRequest request) {
-        try {
-            var version = request.getParameter(this.parameterName);
-            return isNotBlank(version) ? version : null; // blank -> null
-        } catch (Throwable e) {
-            return null;
-        }
+        return null;
     }
 
     @Override
     public int getOrder() {
-        return HIGHEST_PRECEDENCE + 100;
+        return LOWEST_PRECEDENCE;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // 延迟加载
+    private static class SyncAvoid {
+        private static final NullVersionResolver INSTANCE = new NullVersionResolver();
     }
 
 }

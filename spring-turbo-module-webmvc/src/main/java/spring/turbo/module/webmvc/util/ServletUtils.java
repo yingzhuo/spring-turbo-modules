@@ -32,12 +32,16 @@ public final class ServletUtils {
 
     @Nullable
     public static HttpServletRequest getRequest() {
-        final var attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attributes.getRequest();
+        try {
+            var attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            return attributes.getRequest();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static HttpServletRequest getRequiredRequest() {
-        final var request = getRequest();
+        var request = getRequest();
         Asserts.notNull(request);
         return request;
     }
@@ -52,9 +56,13 @@ public final class ServletUtils {
 
     @Nullable
     public static HttpServletResponse getResponse() {
-        final ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-                .currentRequestAttributes();
-        return attributes.getResponse();
+        try {
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+                    .currentRequestAttributes();
+            return attributes.getResponse();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static HttpServletResponse getRequiredResponse() {

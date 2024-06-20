@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webmvc.version;
+package spring.turbo.module.webmvc.util.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,9 +21,18 @@ import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * @author 应卓
+ * @see #getDefault()
  * @since 2.0.9
  */
 public class CompositeVersionResolver implements VersionResolver, InitializingBean {
+
+    public static CompositeVersionResolver getDefault() {
+        return new CompositeVersionResolver(
+                new ServletPathVersionResolver(),
+                new HeaderVersionResolver(),
+                new QueryVersionResolver()
+        );
+    }
 
     private final List<VersionResolver> resolvers = new ArrayList<>();
 
@@ -56,7 +65,7 @@ public class CompositeVersionResolver implements VersionResolver, InitializingBe
                     return version;
                 }
             } catch (Exception ignored) {
-                // nop
+                // noop
             }
         }
         return null;
