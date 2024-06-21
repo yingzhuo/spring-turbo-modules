@@ -27,116 +27,115 @@ public final class HutoolJsonWebTokenSigner implements JsonWebTokenSigner {
 
     private final JWTSigner delegating;
 
-    public static JsonWebTokenSigner of(JWTSigner signer) {
+    private HutoolJsonWebTokenSigner(JWTSigner delegating) {
+        Asserts.notNull(delegating, "delegating is required");
+        this.delegating = delegating;
+    }
+
+    public static HutoolJsonWebTokenSigner of(JWTSigner signer) {
         return new HutoolJsonWebTokenSigner(signer);
     }
 
-    @Deprecated(since = "3.1.1")
-    public static JsonWebTokenSigner none() {
+    public static HutoolJsonWebTokenSigner none() {
         return of(NoneJWTSigner.NONE);
     }
 
-    public static JsonWebTokenSigner HS256(String key) {
+    public static HutoolJsonWebTokenSigner HS256(String key) {
         Asserts.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs256(key.getBytes()));
     }
 
-    public static JsonWebTokenSigner HS384(String key) {
+    public static HutoolJsonWebTokenSigner HS384(String key) {
         Asserts.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs384(key.getBytes()));
     }
 
-    public static JsonWebTokenSigner HS512(String key) {
+    public static HutoolJsonWebTokenSigner HS512(String key) {
         Asserts.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs512(key.getBytes()));
     }
 
-    public static JsonWebTokenSigner RS256(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner RS256(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner RS384(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner RS384(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner RS512(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner RS512(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RS512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner ES256(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner ES256(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner ES384(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner ES384(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner ES512(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner ES512(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "ES512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner PS256(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner PS256(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner PS384(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner PS384(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner PS512(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner PS512(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "PS512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner SM2(String publicKeyBase64, String privateKeyBase64) {
+    public static HutoolJsonWebTokenSigner SM2(String publicKeyBase64, String privateKeyBase64) {
         return SM2(publicKeyBase64, privateKeyBase64, null);
     }
 
-    public static JsonWebTokenSigner SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
+    public static HutoolJsonWebTokenSigner SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
         var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
         return of(new HutoolSM2JWTSinger(sm2, withId));
     }
 
-    public static JsonWebTokenSigner RSHA1(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner RSHA1(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RSHA1";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner RMD2(KeyPair keyPair) {
+    public static HutoolJsonWebTokenSigner RMD2(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RMD2";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static JsonWebTokenSigner RMD5(KeyPair keyPair) {
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public static HutoolJsonWebTokenSigner RMD5(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RMD5";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    private HutoolJsonWebTokenSigner(JWTSigner delegating) {
-        Asserts.notNull(delegating, "delegating is required");
-        this.delegating = delegating;
     }
 
     /**
