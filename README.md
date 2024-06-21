@@ -16,39 +16,44 @@
 
 ```xml
 <dependency>
-  <groupId>com.github.yingzhuo</groupId>
-  <artifactId>spring-turbo</artifactId>
-  <version>LATEST</version>
+      <groupId>com.github.yingzhuo</groupId>
+      <artifactId>spring-turbo</artifactId>
+      <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-data-accessing</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-data-accessing</artifactId>
+     <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-configuration</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-configuration</artifactId>
+     <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-misc</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-misc</artifactId>
+     <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-security</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-security</artifactId>
+     <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-webcli</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-webcli</artifactId>
+     <version>LATEST</version>
 </dependency>
 <dependency>
- <groupId>com.github.yingzhuo</groupId>
- <artifactId>spring-turbo-module-webmvc</artifactId>
- <version>LATEST</version>
+     <groupId>com.github.yingzhuo</groupId>
+     <artifactId>spring-turbo-module-webmvc</artifactId>
+     <version>LATEST</version>
+</dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-jwt</artifactId>
+    <version>LATEST</version>
 </dependency>
 ```
 

@@ -10,15 +10,21 @@ package spring.turbo.module.jwt.factory;
 
 import spring.turbo.module.jwt.JsonWebTokenData;
 
-import java.util.function.Function;
-
 /**
+ * JWT令牌生成器
+ *
  * @author 应卓
  * @since 3.1.1
  */
 @FunctionalInterface
-public interface JsonWebTokenFactory extends Function<JsonWebTokenData, String> {
+public interface JsonWebTokenFactory extends java.util.function.Function<JsonWebTokenData, String> {
 
+    /**
+     * 生成令牌
+     *
+     * @param jsonWebTokenData 令牌信息
+     * @return JWT令牌
+     */
     @Override
     public String apply(JsonWebTokenData jsonWebTokenData);
 

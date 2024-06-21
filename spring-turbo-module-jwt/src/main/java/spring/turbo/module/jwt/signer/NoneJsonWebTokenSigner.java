@@ -11,6 +11,8 @@ package spring.turbo.module.jwt.signer;
 import spring.turbo.util.StringPool;
 
 /**
+ * 不实际签名的签名器实现 (单例)
+ *
  * @author 应卓
  * @see #getInstance()
  * @since 3.3.1
@@ -24,20 +26,34 @@ public final class NoneJsonWebTokenSigner implements JsonWebTokenSigner {
         super();
     }
 
+    /**
+     * 获取单例实例
+     *
+     * @return 单例实例
+     */
     public static NoneJsonWebTokenSigner getInstance() {
         return SyncAvoid.INSTANCE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String sign(String headerBase64, String payloadBase64) {
         return StringPool.EMPTY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean verify(String headerBase64, String payloadBase64, String signBase64) {
         return StringPool.EMPTY.equals(signBase64);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAlgorithm() {
         return "none";

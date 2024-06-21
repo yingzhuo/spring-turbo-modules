@@ -20,7 +20,10 @@ import spring.turbo.util.Asserts;
 import java.security.KeyPair;
 
 /**
+ * Hutool工具库装饰器实现
+ *
  * @author 应卓
+ * @see <a href="https://hutool.cn/docs/#/jwt/%E6%A6%82%E8%BF%B0">Hutool官方文档</a>
  * @since 3.3.1
  */
 public final class HutoolJsonWebTokenSigner implements JsonWebTokenSigner {
@@ -130,13 +133,13 @@ public final class HutoolJsonWebTokenSigner implements JsonWebTokenSigner {
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     public static HutoolJsonWebTokenSigner RMD5(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RMD5";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

@@ -24,6 +24,8 @@ import java.util.Objects;
 import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
+ * JWT令牌生成器的默认实现
+ *
  * @author 应卓
  * @since 3.1.1
  */
@@ -32,10 +34,21 @@ public class DefaultJsonWebTokenFactory implements JsonWebTokenFactory {
     private final JsonWebTokenSigner signer;
     private final ObjectMapper objectMapper;
 
+    /**
+     * 构造方法
+     *
+     * @param signer 签名器
+     */
     public DefaultJsonWebTokenFactory(JsonWebTokenSigner signer) {
         this(signer, null);
     }
 
+    /**
+     * 构造方法
+     *
+     * @param signer       签名器
+     * @param objectMapper ObjectMapper实例
+     */
     public DefaultJsonWebTokenFactory(JsonWebTokenSigner signer, @Nullable ObjectMapper objectMapper) {
         Asserts.notNull(signer, "signer is required");
 
@@ -50,6 +63,9 @@ public class DefaultJsonWebTokenFactory implements JsonWebTokenFactory {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String apply(JsonWebTokenData jsonWebTokenData) {
 

@@ -38,8 +38,10 @@ public final class HutoolSM2JWTSinger implements JWTSigner {
 
     @Override
     public boolean verify(String headerBase64, String payloadBase64, String signBase64) {
-        return sm2.verify(StrUtil.bytes(StrUtil.format("{}.{}", headerBase64, payloadBase64)),
-                Base64.decode(signBase64), withId);
+        return sm2.verify(
+                StrUtil.bytes(StrUtil.format("{}.{}", headerBase64, payloadBase64)),
+                Base64.decode(signBase64), withId
+        );
     }
 
     @Override

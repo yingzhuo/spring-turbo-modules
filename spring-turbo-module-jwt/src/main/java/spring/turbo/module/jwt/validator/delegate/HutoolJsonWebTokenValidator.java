@@ -21,10 +21,13 @@ import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
 
-import static spring.turbo.module.jwt.validator.JsonWebTokenValidator.Result.*;
+import static spring.turbo.module.jwt.validator.JsonWebTokenValidator.ValidatingResult.*;
 
 /**
+ * Hutool工具库装饰器实现
+ *
  * @author 应卓
+ * @see <a href="https://hutool.cn/docs/#/jwt/%E6%A6%82%E8%BF%B0">Hutool官方文档</a>
  * @since 3.3.1
  */
 public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
@@ -136,8 +139,13 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Result validate(String token) {
+    public ValidatingResult validate(String token) {
+        Asserts.hasText("token", "token is null or blank");
+
         JWT jwt;
 
         try {

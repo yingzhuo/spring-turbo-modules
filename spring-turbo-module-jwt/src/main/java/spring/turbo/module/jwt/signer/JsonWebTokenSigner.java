@@ -9,6 +9,8 @@
 package spring.turbo.module.jwt.signer;
 
 /**
+ * JWT签名器
+ *
  * @author 应卓
  * @since 3.1.1
  */
