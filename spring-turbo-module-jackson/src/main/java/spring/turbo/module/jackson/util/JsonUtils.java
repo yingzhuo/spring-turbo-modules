@@ -10,6 +10,7 @@ package spring.turbo.module.jackson.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.TypeRef;
@@ -43,6 +44,17 @@ public final class JsonUtils {
         }
     }
 
+    public static String toJsonWithoutIndent(Object obj) {
+        try {
+            return getRequiredBean(ObjectMapper.class)
+                    .writer()
+                    .withoutFeatures(SerializationFeature.INDENT_OUTPUT)
+                    .writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw IOExceptionUtils.toUnchecked(e);
+        }
+    }
+
     public static <T> T parseJson(String json, Class<T> objClass) {
         try {
             return getRequiredBean(ObjectMapper.class).readValue(json, objClass);
@@ -64,8 +76,6 @@ public final class JsonUtils {
         return JsonPath.using(getRequiredBean(Configuration.class)).parse(json).read(jsonPath, typeRef);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     public static <T> T parseJson(InputStream json, Class<T> objClass) {
         try {
             return getRequiredBean(ObjectMapper.class).readValue(json, objClass);
@@ -86,8 +96,6 @@ public final class JsonUtils {
     public static <T> T parseJson(InputStream json, String jsonPath, TypeRef<T> typeRef) {
         return JsonPath.using(getRequiredBean(Configuration.class)).parse(json).read(jsonPath, typeRef);
     }
-
-    // -----------------------------------------------------------------------------------------------------------------
 
     public static <T> T parseJson(Reader json, Class<T> objClass) {
         try {

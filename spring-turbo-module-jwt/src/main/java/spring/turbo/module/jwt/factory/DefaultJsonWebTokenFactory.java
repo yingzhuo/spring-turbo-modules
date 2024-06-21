@@ -13,15 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.lang.Nullable;
 import spring.turbo.io.IOExceptionUtils;
-import spring.turbo.module.jwt.JsonWebTokenData;
 import spring.turbo.module.jwt.signer.JsonWebTokenSigner;
-import spring.turbo.util.Asserts;
-import spring.turbo.util.StringFormatter;
 
-import java.util.Base64;
 import java.util.Objects;
-
-import static spring.turbo.util.CharsetPool.UTF_8;
+import java.util.SortedMap;
 
 /**
  * JWT令牌生成器的默认实现
@@ -29,9 +24,8 @@ import static spring.turbo.util.CharsetPool.UTF_8;
  * @author 应卓
  * @since 3.1.1
  */
-public class DefaultJsonWebTokenFactory implements JsonWebTokenFactory {
+public class DefaultJsonWebTokenFactory extends AbstractJsonWebTokenFactory implements JsonWebTokenFactory {
 
-    private final JsonWebTokenSigner signer;
     private final ObjectMapper objectMapper;
 
     /**
@@ -50,39 +44,31 @@ public class DefaultJsonWebTokenFactory implements JsonWebTokenFactory {
      * @param objectMapper ObjectMapper实例
      */
     public DefaultJsonWebTokenFactory(JsonWebTokenSigner signer, @Nullable ObjectMapper objectMapper) {
-        Asserts.notNull(signer, "signer is required");
-
-        this.signer = signer;
-        this.objectMapper = Objects.requireNonNullElseGet(
-                objectMapper,
-                () -> {
-                    var om = new ObjectMapper();
-                    om.configure(SerializationFeature.INDENT_OUTPUT, false);
-                    return om;
-                }
-        );
+        super(signer);
+        this.objectMapper = Objects.requireNonNullElseGet(objectMapper, ObjectMapper::new);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String apply(JsonWebTokenData jsonWebTokenData) {
+    protected String headerToJson(SortedMap<String, Object> headers) {
+        return toJson(headers);
+    }
 
-        // override header alg
-        jsonWebTokenData.headerAlgorithm(signer.getAlgorithm());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String payloadToJson(SortedMap<String, Object> payload) {
+        return toJson(payload);
+    }
 
-        var encoder = Base64.getUrlEncoder().withoutPadding();
-
+    private String toJson(SortedMap<String, Object> map) {
         try {
-            var header = objectMapper.writeValueAsString(jsonWebTokenData.getHeaderMap());
-            header = encoder.encodeToString(header.getBytes(UTF_8));
-
-            var payload = objectMapper.writeValueAsString(jsonWebTokenData.getPayloadMap());
-            payload = encoder.encodeToString(payload.getBytes(UTF_8));
-
-            var sign = signer.sign(header, payload);
-            return StringFormatter.format("{}.{}.{}", header, payload, sign);
+            return objectMapper.writer()
+                    .withoutFeatures(SerializationFeature.INDENT_OUTPUT)
+                    .writeValueAsString(map);
         } catch (JsonProcessingException e) {
             throw IOExceptionUtils.toUnchecked(e);
         }

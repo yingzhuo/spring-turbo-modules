@@ -14,6 +14,8 @@ import cn.hutool.crypto.asymmetric.SM2;
 import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.lang.Nullable;
 
+import java.util.Optional;
+
 /**
  * @author 应卓
  * @since 3.3.1
@@ -25,17 +27,38 @@ public final class HutoolSM2JWTSinger implements JWTSigner {
     @Nullable
     private final byte[] withId;
 
-    public HutoolSM2JWTSinger(SM2 sm2, @Nullable String withId) {
-        this.sm2 = sm2;
-        this.withId = withId != null ? withId.getBytes() : null;
+    /**
+     * 构造方法
+     *
+     * @param sm2 sm2加密器
+     */
+    public HutoolSM2JWTSinger(SM2 sm2) {
+        this(sm2, null);
     }
 
+    /**
+     * 构造方法
+     *
+     * @param sm2    sm2加密器
+     * @param withId ID
+     */
+    public HutoolSM2JWTSinger(SM2 sm2, @Nullable String withId) {
+        this.sm2 = sm2;
+        this.withId = Optional.ofNullable(withId).map(String::getBytes).orElse(null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String sign(String headerBase64, String payloadBase64) {
         var data = StrUtil.format("{}.{}", headerBase64, payloadBase64).getBytes();
         return Base64.encodeUrlSafe(sm2.sign(data, withId));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean verify(String headerBase64, String payloadBase64, String signBase64) {
         return sm2.verify(
@@ -44,13 +67,20 @@ public final class HutoolSM2JWTSinger implements JWTSigner {
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAlgorithm() {
         return "SM2";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAlgorithmId() {
         return "SM2";
     }
+
 }
