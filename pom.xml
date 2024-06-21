@@ -9,12 +9,13 @@
     <version>3.3.1-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
-        <module>spring-turbo-module-security</module>
+        <module>spring-turbo-module-jackson</module>
+        <module>spring-turbo-module-jwt</module>
         <module>spring-turbo-module-webmvc</module>
+        <module>spring-turbo-module-webcli</module>
+        <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-misc</module>
         <module>spring-turbo-module-data-accessing</module>
-        <module>spring-turbo-module-webcli</module>
-        <module>spring-turbo-module-jackson</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -120,9 +121,8 @@
             </dependency>
             <dependency>
                 <groupId>com.github.yingzhuo</groupId>
-                <artifactId>spring-turbo-module-webmvc</artifactId>
+                <artifactId>spring-turbo-module-jwt</artifactId>
                 <version>${project.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- spring-boot -->

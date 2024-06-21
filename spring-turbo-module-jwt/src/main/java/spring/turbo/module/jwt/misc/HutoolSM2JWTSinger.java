@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.jwt.algorithm;
+package spring.turbo.module.jwt.misc;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
@@ -15,21 +15,17 @@ import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.lang.Nullable;
 
 /**
- * 国密算法JWT签名器
- *
  * @author 应卓
- * @see SignerFactories#SM2(String, String)
- * @see SignerFactories#SM2(String, String, String)
- * @since 2.2.4
+ * @since 3.3.1
  */
-final class SM2JWTSinger implements JWTSigner {
+public final class HutoolSM2JWTSinger implements JWTSigner {
 
     private final SM2 sm2;
 
     @Nullable
     private final byte[] withId;
 
-    public SM2JWTSinger(SM2 sm2, @Nullable String withId) {
+    public HutoolSM2JWTSinger(SM2 sm2, @Nullable String withId) {
         this.sm2 = sm2;
         this.withId = withId != null ? withId.getBytes() : null;
     }
@@ -55,5 +51,4 @@ final class SM2JWTSinger implements JWTSigner {
     public String getAlgorithmId() {
         return "SM2";
     }
-
 }

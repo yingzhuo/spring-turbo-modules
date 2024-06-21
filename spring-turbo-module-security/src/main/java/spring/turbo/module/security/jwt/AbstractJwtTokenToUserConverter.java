@@ -8,37 +8,38 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jwt;
 
-import cn.hutool.core.exceptions.ValidateException;
-import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTValidator;
-import cn.hutool.jwt.signers.JWTSigner;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.jwt.exception.BadJwtAlgorithmTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtFormatTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtTimeTokenException;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.StringFormatter;
+
+import java.util.Base64;
+
+import static spring.turbo.util.CharsetPool.UTF_8;
 
 /**
  * @author 应卓
- * @see JwtDecorator
  * @since 2.2.4
  */
 public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConverter {
 
-    private final JWTSigner signer;
+    private final JsonWebTokenValidator validator;
 
     /**
      * 构造方法
      *
-     * @param signer 签名器
+     * @param validator JWT验证器
      */
-    protected AbstractJwtTokenToUserConverter(JWTSigner signer) {
-        Asserts.notNull(signer);
-        this.signer = signer;
+    protected AbstractJwtTokenToUserConverter(JsonWebTokenValidator validator) {
+        Asserts.notNull(validator, "validator is required");
+        this.validator = validator;
     }
 
     @Nullable
@@ -51,35 +52,32 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
 
         var rawToken = token.asString();
 
-        JWT jwt;
-
-        try {
-            jwt = JWT.of(rawToken);
-        } catch (Exception e) {
-            // 根本不是JWT格式
-            throw new BadJwtFormatTokenException(e.getMessage(), e);
+        var parts = rawToken.split("\\.");
+        if (parts.length != 3) {
+            throw new BadJwtFormatTokenException(StringFormatter.format("invalid toke: {}", rawToken));
         }
 
-        var validator = JWTValidator.of(jwt);
+        var result = validator.validate(token.asString());
 
-        try {
-            validator.validateAlgorithm(signer);
-        } catch (ValidateException e) {
-            // 签名错误
-            throw new BadJwtAlgorithmTokenException(e.getMessage(), e);
+        switch (result) {
+            case INVALID_JWT_FORMAT:
+                throw new BadJwtFormatTokenException(StringFormatter.format("invalid toke: {}", rawToken));
+            case INVALID_SIGNATURE:
+                throw new BadJwtAlgorithmTokenException(StringFormatter.format("invalid signature: {}", rawToken));
+            case INVALID_TIME:
+                throw new BadJwtTimeTokenException(StringFormatter.format("invalid time: {}", rawToken));
+            case NO_PROBLEM:
+                break;
         }
 
-        try {
-            validator.validateDate();
-        } catch (ValidateException e) {
-            // 日期错误
-            throw new BadJwtTimeTokenException(e.getMessage(), e);
-        }
-
-        return doAuthenticate(rawToken, jwt);
+        var decoder = Base64.getUrlDecoder();
+        return doAuthenticate(rawToken,
+                new String(decoder.decode(parts[0].getBytes(UTF_8))),
+                new String(decoder.decode(parts[1].getBytes(UTF_8)))
+        );
     }
 
     @Nullable
-    protected abstract UserDetails doAuthenticate(String rawToken, JWT jwt) throws AuthenticationException;
+    protected abstract UserDetails doAuthenticate(String rawToken, String headerPart, String payloadPart) throws AuthenticationException;
 
 }
