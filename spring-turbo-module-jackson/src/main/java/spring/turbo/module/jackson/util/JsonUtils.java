@@ -67,6 +67,7 @@ public final class JsonUtils {
      * @param obj 要序列化的对象
      * @return json
      * @throws java.io.UncheckedIOException 处理失败
+     * @see com.fasterxml.jackson.databind.SerializationFeature#INDENT_OUTPUT
      */
     public static String toJsonWithoutIndent(Object obj) {
         try {
@@ -112,6 +113,7 @@ public final class JsonUtils {
      * @param viewClass 要混入的视图类
      * @return json
      * @throws java.io.UncheckedIOException 处理失败
+     * @see com.fasterxml.jackson.databind.SerializationFeature#INDENT_OUTPUT
      */
     public static String toJsonWithViewWithoutIndent(Object obj, Class<?> viewClass) {
         try {
@@ -279,19 +281,50 @@ public final class JsonUtils {
 
     private static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
-                .orElseGet(ObjectMapper::new);
+                .orElseGet(ObjectMapperSyncAvoid::get);
     }
 
     private static Configuration getJsonPathConf() {
         return SpringUtils.getBean(Configuration.class)
-                .orElseGet(() -> {
-                    final var om = getObjectMapper();
-                    return Configuration
-                            .builder()
-                            .jsonProvider(new JacksonJsonProvider(om))
-                            .mappingProvider(new JacksonMappingProvider(om))
-                            .build();
-                });
+                .orElseGet(JsonPathConfSyncAvoid::get);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // 延迟加载
+    private static class ObjectMapperSyncAvoid {
+
+        private static ObjectMapper get() {
+            return OBJECT_MAPPER;
+        }
+
+        private static final ObjectMapper OBJECT_MAPPER;
+
+        static {
+            OBJECT_MAPPER = new ObjectMapper();
+            try {
+                JacksonModuleUtils.loadAndRegisterModules(OBJECT_MAPPER);
+            } catch (Exception ignored) {
+                // noop
+            }
+        }
+    }
+
+    // 延迟加载
+    private static class JsonPathConfSyncAvoid {
+
+        private static Configuration get() {
+            return JSON_PATH_CONF;
+        }
+
+        private static final Configuration JSON_PATH_CONF;
+
+        static {
+            JSON_PATH_CONF = Configuration.builder()
+                    .jsonProvider(new JacksonJsonProvider(ObjectMapperSyncAvoid.get()))
+                    .mappingProvider(new JacksonMappingProvider(ObjectMapperSyncAvoid.get()))
+                    .build();
+        }
     }
 
 }
