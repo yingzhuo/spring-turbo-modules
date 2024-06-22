@@ -10,7 +10,7 @@ package spring.turbo.module.jwt.factory;
 
 import spring.turbo.module.jwt.JsonWebTokenData;
 import spring.turbo.module.jwt.signer.JsonWebTokenSigner;
-import spring.turbo.util.Base64;
+import spring.turbo.util.Base64Utils;
 import spring.turbo.util.StringFormatter;
 
 import java.util.SortedMap;
@@ -40,10 +40,10 @@ public abstract class AbstractJsonWebTokenFactory implements JsonWebTokenFactory
         }
 
         var header = headerToJson(data.getHeaderMap());
-        header = Base64.encodeWithoutPadding(header.getBytes(UTF_8));
+        header = Base64Utils.encodeWithoutPadding(header.getBytes(UTF_8));
 
         var payload = payloadToJson(data.getPayloadMap());
-        payload = Base64.encodeWithoutPadding(payload.getBytes(UTF_8));
+        payload = Base64Utils.encodeWithoutPadding(payload.getBytes(UTF_8));
 
         var sign = signer.sign(header, payload);
 

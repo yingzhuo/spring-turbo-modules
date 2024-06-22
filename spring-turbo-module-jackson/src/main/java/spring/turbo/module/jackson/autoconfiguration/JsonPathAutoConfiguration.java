@@ -25,9 +25,12 @@ import org.springframework.context.annotation.Bean;
 public class JsonPathAutoConfiguration {
 
     @Bean
-    public Configuration jsonPathConfiguration(final ObjectMapper mapper) {
-        return Configuration.builder().jsonProvider(new JacksonJsonProvider(mapper))
-                .mappingProvider(new JacksonMappingProvider(mapper)).build();
+    public Configuration jsonPathConfiguration(ObjectMapper mapper) {
+        return Configuration
+                .builder()
+                .jsonProvider(new JacksonJsonProvider(mapper))
+                .mappingProvider(new JacksonMappingProvider(mapper))
+                .build();
     }
 
 }

@@ -18,8 +18,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.bean.classpath.PackageSetFactories;
-import spring.turbo.util.InstanceUtils;
 import spring.turbo.util.StringUtils;
+import spring.turbo.util.reflection.InstanceUtils;
 
 import static spring.turbo.bean.classpath.TypeFilterFactories.*;
 

@@ -13,6 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.TypeRef;
+import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
+import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
+import spring.turbo.core.SpringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +23,6 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
-import static spring.turbo.core.SpringUtils.getRequiredBean;
 import static spring.turbo.io.IOExceptionUtils.toUnchecked;
 
 /**
@@ -50,7 +52,7 @@ public final class JsonUtils {
      */
     public static String toJson(Object obj) {
         try {
-            return getRequiredBean(ObjectMapper.class).writeValueAsString(obj);
+            return getObjectMapper().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
         }
@@ -68,7 +70,7 @@ public final class JsonUtils {
      */
     public static String toJsonWithoutIndent(Object obj) {
         try {
-            return getRequiredBean(ObjectMapper.class)
+            return getObjectMapper()
                     .writer()
                     .withoutFeatures(INDENT_OUTPUT)
                     .writeValueAsString(obj);
@@ -90,7 +92,7 @@ public final class JsonUtils {
      */
     public static String toJsonWithView(Object obj, Class<?> viewClass) {
         try {
-            return getRequiredBean(ObjectMapper.class)
+            return getObjectMapper()
                     .writer()
                     .withView(viewClass)
                     .writeValueAsString(obj);
@@ -113,7 +115,7 @@ public final class JsonUtils {
      */
     public static String toJsonWithViewWithoutIndent(Object obj, Class<?> viewClass) {
         try {
-            return getRequiredBean(ObjectMapper.class)
+            return getObjectMapper()
                     .writer()
                     .withView(viewClass)
                     .withoutFeatures(INDENT_OUTPUT)
@@ -134,7 +136,7 @@ public final class JsonUtils {
      */
     public static <T> T parseJson(String json, Class<T> objClass) {
         try {
-            return getRequiredBean(ObjectMapper.class).readValue(json, objClass);
+            return getObjectMapper().readValue(json, objClass);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
         }
@@ -170,7 +172,7 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(String json, String jsonPath, TypeRef<T> typeRef) {
-        return JsonPath.using(getRequiredBean(Configuration.class)).parse(json).read(jsonPath, typeRef);
+        return JsonPath.using(getJsonPathConf()).parse(json).read(jsonPath, typeRef);
     }
 
     /**
@@ -184,7 +186,7 @@ public final class JsonUtils {
      */
     public static <T> T parseJson(InputStream json, Class<T> objClass) {
         try {
-            return getRequiredBean(ObjectMapper.class).readValue(json, objClass);
+            return getObjectMapper().readValue(json, objClass);
         } catch (IOException e) {
             throw toUnchecked(e);
         }
@@ -220,7 +222,7 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(InputStream json, String jsonPath, TypeRef<T> typeRef) {
-        return JsonPath.using(getRequiredBean(Configuration.class)).parse(json).read(jsonPath, typeRef);
+        return JsonPath.using(getJsonPathConf()).parse(json).read(jsonPath, typeRef);
     }
 
     /**
@@ -234,7 +236,7 @@ public final class JsonUtils {
      */
     public static <T> T parseJson(Reader json, Class<T> objClass) {
         try {
-            return getRequiredBean(ObjectMapper.class).readValue(json, objClass);
+            return getObjectMapper().readValue(json, objClass);
         } catch (IOException e) {
             throw toUnchecked(e);
         }
@@ -270,7 +272,26 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(Reader json, String jsonPath, TypeRef<T> typeRef) {
-        return JsonPath.using(getRequiredBean(Configuration.class)).parse(json).read(jsonPath, typeRef);
+        return JsonPath.using(getJsonPathConf())
+                .parse(json)
+                .read(jsonPath, typeRef);
+    }
+
+    private static ObjectMapper getObjectMapper() {
+        return SpringUtils.getBean(ObjectMapper.class)
+                .orElseGet(ObjectMapper::new);
+    }
+
+    private static Configuration getJsonPathConf() {
+        return SpringUtils.getBean(Configuration.class)
+                .orElseGet(() -> {
+                    final var om = getObjectMapper();
+                    return Configuration
+                            .builder()
+                            .jsonProvider(new JacksonJsonProvider(om))
+                            .mappingProvider(new JacksonMappingProvider(om))
+                            .build();
+                });
     }
 
 }
