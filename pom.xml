@@ -185,6 +185,13 @@
                 <version>1.78.1</version>
             </dependency>
 
+            <!-- java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>4.4.0</version>
+            </dependency>
+
             <!-- zookeeper-client (high level) -->
             <dependency>
                 <groupId>org.apache.curator</groupId>
