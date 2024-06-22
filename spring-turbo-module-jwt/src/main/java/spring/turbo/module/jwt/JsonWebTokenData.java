@@ -10,7 +10,7 @@ package spring.turbo.module.jwt;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * @see #newInstance()
  * @since 3.1.1
  */
-public final class JsonWebTokenData implements Serializable {
+public class JsonWebTokenData implements Serializable {
 
     // headers
     // -----------------------------------------------------------------------------------------------------------------
@@ -45,10 +45,11 @@ public final class JsonWebTokenData implements Serializable {
     private final SortedMap<String, Object> payloadMap = new TreeMap<>();
 
     /**
-     * 私有构造方法
+     * 构造方法
      */
-    private JsonWebTokenData() {
+    public JsonWebTokenData() {
         super();
+        this.headerMap.put(HEADER_TYPE, "JWT");
     }
 
     public static JsonWebTokenData newInstance() {
@@ -94,33 +95,33 @@ public final class JsonWebTokenData implements Serializable {
         return this;
     }
 
-    public JsonWebTokenData payloadExpiresAt(Date time) {
+    public JsonWebTokenData payloadExpiresAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_EXPIRES, time);
         return this;
     }
 
     public JsonWebTokenData payloadExpiresAtFuture(Duration duration) {
-        payloadMap.put(PAYLOAD_EXPIRES, new Date(System.currentTimeMillis() + duration.toMillis()));
+        payloadMap.put(PAYLOAD_EXPIRES, LocalDateTime.now().plus(duration));
         return this;
     }
 
-    public JsonWebTokenData payloadNotBefore(Date time) {
+    public JsonWebTokenData payloadNotBefore(LocalDateTime time) {
         payloadMap.put(PAYLOAD_NOT_BEFORE, time);
         return this;
     }
 
     public JsonWebTokenData payloadNotBeforeAtFuture(Duration duration) {
-        payloadMap.put(PAYLOAD_NOT_BEFORE, new Date(System.currentTimeMillis() + duration.toMillis()));
+        payloadMap.put(PAYLOAD_NOT_BEFORE, LocalDateTime.now().plus(duration));
         return this;
     }
 
-    public JsonWebTokenData payloadIssuedAt(Date time) {
+    public JsonWebTokenData payloadIssuedAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_ISSUED_AT, time);
         return this;
     }
 
     public JsonWebTokenData payloadIssuedAtNow() {
-        return payloadIssuedAt(new Date());
+        return payloadIssuedAt(LocalDateTime.now());
     }
 
     public JsonWebTokenData payloadJwtId(Object jwtId) {
@@ -140,6 +141,14 @@ public final class JsonWebTokenData implements Serializable {
     public JsonWebTokenData addPayload(String name, Object value) {
         payloadMap.put(name, value);
         return this;
+    }
+
+    public boolean containsHeader(String headerName) {
+        return headerMap.containsKey(headerName);
+    }
+
+    public boolean containsPayload(String payloadAttribute) {
+        return payloadMap.containsKey(payloadAttribute);
     }
 
     public SortedMap<String, Object> getHeaderMap() {

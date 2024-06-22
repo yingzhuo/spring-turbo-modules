@@ -37,7 +37,7 @@ public interface JsonWebTokenValidator {
      * @return true代表合法，否则为false
      */
     public default boolean validateAsBoolean(String token) {
-        return validate(token).isSuccess();
+        return validate(token) == ValidatingResult.NO_PROBLEM;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -50,32 +50,22 @@ public interface JsonWebTokenValidator {
         /**
          * 没有错误
          */
-        NO_PROBLEM(true),
+        NO_PROBLEM,
 
         /**
          * 令牌格式不合法
          */
-        INVALID_JWT_FORMAT(false),
+        INVALID_JWT_FORMAT,
 
         /**
          * 令牌签名不合法
          */
-        INVALID_SIGNATURE(false),
+        INVALID_SIGNATURE,
 
         /**
          * 令牌相关事件不合法
          */
-        INVALID_TIME(false);
-
-        private final boolean success;
-
-        private ValidatingResult(boolean success) {
-            this.success = success;
-        }
-
-        public boolean isSuccess() {
-            return success;
-        }
+        INVALID_TIME;
     }
 
 }
