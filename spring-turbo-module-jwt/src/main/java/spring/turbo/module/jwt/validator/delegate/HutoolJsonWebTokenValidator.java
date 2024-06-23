@@ -17,11 +17,12 @@ import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.jwt.misc.HutoolSM2JWTSinger;
 import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
+import spring.turbo.module.jwt.validator.ValidatingResult;
 import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
 
-import static spring.turbo.module.jwt.validator.JsonWebTokenValidator.ValidatingResult.*;
+import static spring.turbo.module.jwt.validator.ValidatingResult.*;
 
 /**
  * Hutool工具库装饰器实现
@@ -31,6 +32,7 @@ import static spring.turbo.module.jwt.validator.JsonWebTokenValidator.Validating
  * @since 3.3.1
  */
 public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
+
 
     private final JWTSigner signer;
 

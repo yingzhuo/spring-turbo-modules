@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.token;
 
-import org.springframework.core.Ordered;
 import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.WebRequest;
 
@@ -58,7 +57,7 @@ public final class NullTokenResolver implements TokenResolver {
      */
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return LOWEST_PRECEDENCE;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

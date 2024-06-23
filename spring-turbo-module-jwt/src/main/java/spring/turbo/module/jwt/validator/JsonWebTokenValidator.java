@@ -40,32 +40,4 @@ public interface JsonWebTokenValidator {
         return validate(token) == ValidatingResult.NO_PROBLEM;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * 验证结果
-     */
-    public static enum ValidatingResult {
-
-        /**
-         * 没有错误
-         */
-        NO_PROBLEM,
-
-        /**
-         * 令牌格式不合法
-         */
-        INVALID_JWT_FORMAT,
-
-        /**
-         * 令牌签名不合法
-         */
-        INVALID_SIGNATURE,
-
-        /**
-         * 令牌相关事件不合法
-         */
-        INVALID_TIME;
-    }
-
 }

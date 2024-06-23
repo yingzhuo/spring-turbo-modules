@@ -294,10 +294,6 @@ public final class JsonUtils {
     // 延迟加载
     private static class ObjectMapperSyncAvoid {
 
-        private static ObjectMapper get() {
-            return OBJECT_MAPPER;
-        }
-
         private static final ObjectMapper OBJECT_MAPPER;
 
         static {
@@ -308,14 +304,14 @@ public final class JsonUtils {
                 // noop
             }
         }
+
+        private static ObjectMapper get() {
+            return OBJECT_MAPPER;
+        }
     }
 
     // 延迟加载
     private static class JsonPathConfSyncAvoid {
-
-        private static Configuration get() {
-            return JSON_PATH_CONF;
-        }
 
         private static final Configuration JSON_PATH_CONF;
 
@@ -324,6 +320,10 @@ public final class JsonUtils {
                     .jsonProvider(new JacksonJsonProvider(ObjectMapperSyncAvoid.get()))
                     .mappingProvider(new JacksonMappingProvider(ObjectMapperSyncAvoid.get()))
                     .build();
+        }
+
+        private static Configuration get() {
+            return JSON_PATH_CONF;
         }
     }
 

@@ -14,7 +14,7 @@ import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import cn.hutool.jwt.signers.NoneJWTSigner;
 import org.springframework.lang.Nullable;
-import spring.turbo.module.jwt.JsonWebTokenData;
+import spring.turbo.module.jwt.factory.JsonWebTokenData;
 import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
 import spring.turbo.module.jwt.misc.HutoolSM2JWTSinger;
 import spring.turbo.util.Asserts;
@@ -30,8 +30,16 @@ import java.security.KeyPair;
  */
 public final class HutoolJsonWebTokenFactory implements JsonWebTokenFactory {
 
+    /**
+     * Hutool 签名器
+     */
     private final JWTSigner signer;
 
+    /**
+     * 构造方法
+     *
+     * @param signer hutool签名器
+     */
     private HutoolJsonWebTokenFactory(JWTSigner signer) {
         this.signer = signer;
     }

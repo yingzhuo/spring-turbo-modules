@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jwt;
+package spring.turbo.module.jwt.factory;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -16,6 +16,8 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 
 /**
+ * JWT签名所包含的信息
+ *
  * @author 应卓
  * @see #newInstance()
  * @since 3.1.1

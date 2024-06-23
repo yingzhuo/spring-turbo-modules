@@ -6,23 +6,23 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jwt.factory;
+package spring.turbo.module.jwt;
+
+import spring.turbo.module.jwt.factory.JsonWebTokenData;
+import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
+import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
+import spring.turbo.module.jwt.validator.ValidatingResult;
 
 /**
- * JWT令牌生成器
- *
  * @author 应卓
  * @since 3.1.1
  */
-@FunctionalInterface
-public interface JsonWebTokenFactory {
+public interface JsonWebTokenService extends JsonWebTokenFactory, JsonWebTokenValidator {
 
-    /**
-     * 生成令牌
-     *
-     * @param data 令牌信息
-     * @return JWT令牌
-     */
+    @Override
     public String apply(JsonWebTokenData data);
+
+    @Override
+    public ValidatingResult validate(String token);
 
 }

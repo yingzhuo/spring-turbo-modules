@@ -6,23 +6,36 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jwt.factory;
+package spring.turbo.module.jwt.validator;
+
+import java.io.Serializable;
 
 /**
- * JWT令牌生成器
+ * 验证结果
  *
  * @author 应卓
  * @since 3.1.1
  */
-@FunctionalInterface
-public interface JsonWebTokenFactory {
+public enum ValidatingResult implements Serializable {
 
     /**
-     * 生成令牌
-     *
-     * @param data 令牌信息
-     * @return JWT令牌
+     * 没有错误
      */
-    public String apply(JsonWebTokenData data);
+    NO_PROBLEM,
+
+    /**
+     * 令牌格式不合法
+     */
+    INVALID_JWT_FORMAT,
+
+    /**
+     * 令牌签名不合法
+     */
+    INVALID_SIGNATURE,
+
+    /**
+     * 令牌相关事件不合法
+     */
+    INVALID_TIME;
 
 }
