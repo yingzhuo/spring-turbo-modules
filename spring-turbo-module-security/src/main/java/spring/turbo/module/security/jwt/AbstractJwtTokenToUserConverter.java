@@ -71,13 +71,20 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
         }
 
         var decoder = Base64.getUrlDecoder();
-        return doAuthenticate(rawToken,
-                new String(decoder.decode(parts[0].getBytes(UTF_8))),
-                new String(decoder.decode(parts[1].getBytes(UTF_8)))
+        var headerJson = new String(decoder.decode(parts[0].getBytes(UTF_8)));
+        var payloadJson = new String(decoder.decode(parts[1].getBytes(UTF_8)));
+
+        return doAuthenticate(
+                rawToken,
+                headerJson,
+                payloadJson
         );
     }
 
     @Nullable
-    protected abstract UserDetails doAuthenticate(String rawToken, String headerPart, String payloadPart) throws AuthenticationException;
+    protected abstract UserDetails doAuthenticate(
+            String rawToken,
+            String headerJson,
+            String payloadJson) throws AuthenticationException;
 
 }
