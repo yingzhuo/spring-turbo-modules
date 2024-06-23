@@ -83,6 +83,28 @@ public final class JsonUtils {
     /**
      * 序列化
      * <ul>
+     *     <li>缩进</li>
+     * </ul>
+     *
+     * @param obj 要序列化的对象
+     * @return json
+     * @throws java.io.UncheckedIOException 处理失败
+     * @see com.fasterxml.jackson.databind.SerializationFeature#INDENT_OUTPUT
+     */
+    public static String toJsonWithIndent(Object obj) {
+        try {
+            return getObjectMapper()
+                    .writer()
+                    .withFeatures(INDENT_OUTPUT)
+                    .writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw toUnchecked(e);
+        }
+    }
+
+    /**
+     * 序列化
+     * <ul>
      *     <li>指定视图</li>
      * </ul>
      *
@@ -121,6 +143,31 @@ public final class JsonUtils {
                     .writer()
                     .withView(viewClass)
                     .withoutFeatures(INDENT_OUTPUT)
+                    .writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw toUnchecked(e);
+        }
+    }
+
+    /**
+     * 序列化
+     * <ul>
+     *     <li>指定视图</li>
+     *     <li>缩进</li>
+     * </ul>
+     *
+     * @param obj       要序列化的对象
+     * @param viewClass 要混入的视图类
+     * @return json
+     * @throws java.io.UncheckedIOException 处理失败
+     * @see com.fasterxml.jackson.databind.SerializationFeature#INDENT_OUTPUT
+     */
+    public static String toJsonWithViewWithIndent(Object obj, Class<?> viewClass) {
+        try {
+            return getObjectMapper()
+                    .writer()
+                    .withView(viewClass)
+                    .withFeatures(INDENT_OUTPUT)
                     .writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
