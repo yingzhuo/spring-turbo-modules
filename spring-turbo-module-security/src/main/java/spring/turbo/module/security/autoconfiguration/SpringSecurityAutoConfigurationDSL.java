@@ -48,12 +48,12 @@ public class SpringSecurityAutoConfigurationDSL
             }
 
             // 尝试初始化
-            if (filter instanceof InitializingBean bean) {
-                bean.afterPropertiesSet();
+            if (filter instanceof InitializingBean initializingBean) {
+                initializingBean.afterPropertiesSet();
             }
 
-            final var position = configuration.positionInChain();
-            final var beforeOrAfter = configuration.position();
+            var position = configuration.positionInChain();
+            var beforeOrAfter = configuration.position();
 
             switch (beforeOrAfter) {
                 case BEFORE -> http.addFilterBefore(filter, position);
