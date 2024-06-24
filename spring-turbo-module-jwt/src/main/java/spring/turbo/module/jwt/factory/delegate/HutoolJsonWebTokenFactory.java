@@ -28,7 +28,7 @@ import java.security.KeyPair;
  * @see <a href="https://hutool.cn/docs/#/jwt/%E6%A6%82%E8%BF%B0">Hutool官方文档</a>
  * @since 3.3.1
  */
-public final class HutoolJsonWebTokenFactory implements JsonWebTokenFactory {
+public class HutoolJsonWebTokenFactory implements JsonWebTokenFactory {
 
     /**
      * Hutool 签名器

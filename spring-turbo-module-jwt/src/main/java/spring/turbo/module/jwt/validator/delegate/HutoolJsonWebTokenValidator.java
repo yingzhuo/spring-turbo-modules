@@ -33,7 +33,9 @@ import static spring.turbo.module.jwt.validator.ValidatingResult.*;
  */
 public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
 
-
+    /**
+     * 签名器
+     */
     private final JWTSigner signer;
 
     private HutoolJsonWebTokenValidator(JWTSigner signer) {

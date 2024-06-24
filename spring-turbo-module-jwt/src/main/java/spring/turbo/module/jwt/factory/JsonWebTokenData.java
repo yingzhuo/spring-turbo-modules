@@ -11,6 +11,8 @@ package spring.turbo.module.jwt.factory;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Supplier;
@@ -98,27 +100,27 @@ public class JsonWebTokenData implements Serializable {
     }
 
     public JsonWebTokenData payloadExpiresAt(LocalDateTime time) {
-        payloadMap.put(PAYLOAD_EXPIRES, time);
+        payloadMap.put(PAYLOAD_EXPIRES, toDate(time));
         return this;
     }
 
     public JsonWebTokenData payloadExpiresAtFuture(Duration duration) {
-        payloadMap.put(PAYLOAD_EXPIRES, LocalDateTime.now().plus(duration));
+        payloadMap.put(PAYLOAD_EXPIRES, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
     public JsonWebTokenData payloadNotBefore(LocalDateTime time) {
-        payloadMap.put(PAYLOAD_NOT_BEFORE, time);
+        payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(time));
         return this;
     }
 
     public JsonWebTokenData payloadNotBeforeAtFuture(Duration duration) {
-        payloadMap.put(PAYLOAD_NOT_BEFORE, LocalDateTime.now().plus(duration));
+        payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
     public JsonWebTokenData payloadIssuedAt(LocalDateTime time) {
-        payloadMap.put(PAYLOAD_ISSUED_AT, time);
+        payloadMap.put(PAYLOAD_ISSUED_AT, toDate(time));
         return this;
     }
 
@@ -159,6 +161,10 @@ public class JsonWebTokenData implements Serializable {
 
     public SortedMap<String, Object> getPayloadMap() {
         return this.payloadMap;
+    }
+
+    private Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
