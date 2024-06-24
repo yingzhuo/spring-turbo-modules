@@ -10,8 +10,8 @@ package spring.turbo.module.security.user;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.bean.Attributes;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.Attributes;
 
 import java.io.Serializable;
 import java.util.Date;

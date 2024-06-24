@@ -11,8 +11,8 @@ package spring.turbo.module.security.user;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import spring.turbo.bean.Attributes;
 import spring.turbo.module.security.util.AuthorityUtils;
+import spring.turbo.util.Attributes;
 
 import java.util.Collection;
 import java.util.Date;

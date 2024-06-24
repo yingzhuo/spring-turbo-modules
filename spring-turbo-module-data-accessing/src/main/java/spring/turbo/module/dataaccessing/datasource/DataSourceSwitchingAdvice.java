@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import spring.turbo.aop.AopUtils;
+import spring.turbo.aop.AspectUtils;
 
 /**
  * 动态数据源切换用切面
@@ -41,7 +41,7 @@ public class DataSourceSwitchingAdvice {
 
     @Around("annotationPointcut() || inheritedAnnotationPointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        var annotation = AopUtils.getMethodAnnotation(joinPoint, DataSourceSwitch.class);
+        var annotation = AspectUtils.getMethodAnnotation(joinPoint, DataSourceSwitch.class);
 
         if (annotation != null) {
             final String key = annotation.value();

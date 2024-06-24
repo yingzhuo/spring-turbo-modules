@@ -23,7 +23,7 @@ import java.lang.annotation.*;
  * @see UserDetailsPlus
  * @see UserDetailsPlus#getAttributes()
  * @see AuthenticationPrincipalArgumentResolver
- * @see spring.turbo.bean.Attributes
+ * @see spring.turbo.util.Attributes
  * @since 1.0.0
  */
 @Inherited
