@@ -24,7 +24,7 @@ import java.util.function.Supplier;
  * @see #newInstance()
  * @since 3.1.1
  */
-public class JsonWebTokenData implements Serializable {
+public final class JsonWebTokenData implements Serializable {
 
     // headers
     // -----------------------------------------------------------------------------------------------------------------

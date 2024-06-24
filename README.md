@@ -55,6 +55,11 @@
     <artifactId>spring-turbo-module-jwt</artifactId>
     <version>LATEST</version>
 </dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-jackson</artifactId>
+    <version>LATEST</version>
+</dependency>
 ```
 
 ### 安装 (Source Code)
@@ -75,7 +80,7 @@ mvn install
 
 * [spring-turbo-examples](https://github.com/yingzhuo/spring-turbo-examples)
 
-### ISSUES
+### Issues
 
 * [Github Issues](https://github.com/yingzhuo/spring-turbo-modules/issues)
 

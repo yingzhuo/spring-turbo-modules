@@ -17,6 +17,8 @@ import org.springframework.lang.Nullable;
 import java.util.Optional;
 
 /**
+ * SM2签名器 (国密算法)
+ *
  * @author 应卓
  * @since 3.3.1
  */

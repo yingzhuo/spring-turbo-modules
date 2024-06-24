@@ -40,14 +40,16 @@ class DependenciesCheckingComponent implements EnvironmentPostProcessor, Failure
     public FailureAnalysis analyze(Throwable failure) {
         if (failure instanceof BadDependencies) {
             var desc = """
-                    Make sure at least one of library added to your classpath.
+                    Make sure at least one of library is added to your classpath.
                     1. "com.auth0:java-jwt:<version>"
                     2. "cn.hutool:hutool-jwt:<version>"
                     """;
 
+            var action = "Re-check your Dependencies";
+
             return new FailureAnalysis(
                     desc,
-                    "Re-check your Dependencies",
+                    action,
                     failure
             );
         }

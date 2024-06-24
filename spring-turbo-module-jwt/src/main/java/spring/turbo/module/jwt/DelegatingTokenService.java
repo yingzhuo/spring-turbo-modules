@@ -19,8 +19,9 @@ import spring.turbo.module.jwt.validator.ValidatingResult;
  * @author 应卓
  * @since 3.3.1
  */
-public record DelegatingTokenService(JsonWebTokenFactory factory,
-                                     JsonWebTokenValidator validator) implements JsonWebTokenService {
+public record DelegatingTokenService(
+        JsonWebTokenFactory factory,
+        JsonWebTokenValidator validator) implements JsonWebTokenService {
 
     @Override
     public String apply(JsonWebTokenData data) {
