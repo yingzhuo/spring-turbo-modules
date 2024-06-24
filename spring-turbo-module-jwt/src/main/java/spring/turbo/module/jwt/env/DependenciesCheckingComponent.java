@@ -14,16 +14,19 @@ import org.springframework.boot.diagnostics.FailureAnalyzer;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.ClassUtils;
+
+import static spring.turbo.util.ClassUtils.isPresent;
 
 /**
+ * 依赖检查工具
+ *
  * @author 应卓
  * @since 3.1.1
  */
 class DependenciesCheckingComponent implements EnvironmentPostProcessor, FailureAnalyzer {
 
-    private static final boolean PRESENT_HUTOOL = ClassUtils.isPresent("cn.hutool.jwt.signers.JWTSigner");
-    private static final boolean PRESENT_JAVA_JWT = ClassUtils.isPresent("com.auth0.jwt.algorithms.Algorithm");
+    private static final boolean PRESENT_HUTOOL = isPresent("cn.hutool.jwt.signers.JWTSigner");
+    private static final boolean PRESENT_JAVA_JWT = isPresent("com.auth0.jwt.algorithms.Algorithm");
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
