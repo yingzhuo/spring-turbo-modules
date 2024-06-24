@@ -16,9 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import spring.turbo.module.jwt.DelegatingTokenService;
 import spring.turbo.module.jwt.JsonWebTokenService;
-import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
 import spring.turbo.module.jwt.factory.delegate.JavaJwtJsonWebTokenFactory;
-import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.jwt.validator.delegate.JavaJwtJsonWebTokenValidator;
 
 /**
@@ -32,20 +30,11 @@ public class JavaJwtAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public JsonWebTokenFactory javaJwtJsonWebTokenFactory(Algorithm algorithm) {
-        return JavaJwtJsonWebTokenFactory.of(algorithm);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JsonWebTokenValidator javaJwtJsonWebTokenValidator(Algorithm algorithm) {
-        return JavaJwtJsonWebTokenValidator.of(algorithm);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JsonWebTokenService javaJwtJsonWebTokenService(JsonWebTokenFactory factory, JsonWebTokenValidator validator) {
-        return new DelegatingTokenService(factory, validator);
+    public JsonWebTokenService javaJwtJsonWebTokenService(Algorithm algorithm) {
+        return new DelegatingTokenService(
+                JavaJwtJsonWebTokenFactory.of(algorithm),
+                JavaJwtJsonWebTokenValidator.of(algorithm)
+        );
     }
 
 }

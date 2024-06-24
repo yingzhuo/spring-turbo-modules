@@ -16,9 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import spring.turbo.module.jwt.DelegatingTokenService;
 import spring.turbo.module.jwt.JsonWebTokenService;
-import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
 import spring.turbo.module.jwt.factory.delegate.HutoolJsonWebTokenFactory;
-import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.jwt.validator.delegate.HutoolJsonWebTokenValidator;
 
 /**
@@ -32,20 +30,11 @@ public class HutoolAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public JsonWebTokenFactory hutoolJsonWebTokenFactory(JWTSigner signer) {
-        return HutoolJsonWebTokenFactory.of(signer);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JsonWebTokenValidator hutoolJsonWebTokenValidator(JWTSigner signer) {
-        return HutoolJsonWebTokenValidator.of(signer);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JsonWebTokenService hutoolJsonWebTokenService(JsonWebTokenFactory factory, JsonWebTokenValidator validator) {
-        return new DelegatingTokenService(factory, validator);
+    public JsonWebTokenService hutoolJsonWebTokenService(JWTSigner signer) {
+        return new DelegatingTokenService(
+                HutoolJsonWebTokenFactory.of(signer),
+                HutoolJsonWebTokenValidator.of(signer)
+        );
     }
 
 }
