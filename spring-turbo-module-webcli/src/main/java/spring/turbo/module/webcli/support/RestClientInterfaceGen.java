@@ -45,6 +45,7 @@ class RestClientInterfaceGen implements GenericGenerator {
     public Object generate() {
         var restClient = restClientSupplier.get();
         var adapter = RestClientAdapter.create(restClient);
+
         var factoryBuilder = HttpServiceProxyFactory.builderFor(adapter)
                 .embeddedValueResolver(environment::resolvePlaceholders);
 

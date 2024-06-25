@@ -17,7 +17,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ReactorNettyClientRequestFactory;
 import org.springframework.lang.Nullable;
 import reactor.netty.http.client.HttpClient;
-import spring.turbo.module.webcli.x509.TrustEverythingTrustManager;
+import spring.turbo.module.webcli.x509.TrustAllX509TrustManager;
 import spring.turbo.util.keystore.KeyStoreFormat;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -129,7 +129,7 @@ public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequ
     ) {
         try {
             var builder = SslContextBuilder.forClient()
-                    .trustManager(TrustEverythingTrustManager.getInstance());
+                    .trustManager(TrustAllX509TrustManager.getInstance());
 
             if (clientSideCertificate != null && clientSideCertificatePassword != null) {
                 var ksf = Optional.ofNullable(clientSideCertificateFormat)

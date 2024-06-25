@@ -18,12 +18,12 @@ import java.security.cert.X509Certificate;
  * @see #getInstance()
  * @since 3.3.0
  */
-public class TrustEverythingTrustManager implements X509TrustManager {
+public final class TrustAllX509TrustManager implements X509TrustManager {
 
     /**
      * 私有构造方法
      */
-    private TrustEverythingTrustManager() {
+    private TrustAllX509TrustManager() {
         super();
     }
 
@@ -32,7 +32,7 @@ public class TrustEverythingTrustManager implements X509TrustManager {
      *
      * @return 实例
      */
-    public static TrustEverythingTrustManager getInstance() {
+    public static TrustAllX509TrustManager getInstance() {
         return SyncAvoid.INSTANCE;
     }
 
@@ -66,7 +66,7 @@ public class TrustEverythingTrustManager implements X509TrustManager {
      * 延迟加载
      */
     private static final class SyncAvoid {
-        private static final TrustEverythingTrustManager INSTANCE = new TrustEverythingTrustManager();
+        private static final TrustAllX509TrustManager INSTANCE = new TrustAllX509TrustManager();
     }
 
 }
