@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.3.1-2-SNAPSHOT</version>
+    <version>3.3.2-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-jackson</module>
@@ -105,7 +105,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.3.1</spring.boot.version>
+        <spring.boot.version>3.3.2-SNAPSHOT</spring.boot.version>
         <hutool.version>5.8.28</hutool.version>
         <curator.version>5.6.0</curator.version>
         <lombok.version>1.18.32</lombok.version>

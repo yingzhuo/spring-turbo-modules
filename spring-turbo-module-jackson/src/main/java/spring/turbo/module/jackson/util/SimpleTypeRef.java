@@ -6,27 +6,35 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.autoconfiguration;
+package spring.turbo.module.jackson.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.lang.Nullable;
+import com.jayway.jsonpath.TypeRef;
 
-import static spring.turbo.module.jackson.util.JacksonModuleUtils.loadAndRegisterModules;
+import java.lang.reflect.Type;
 
 /**
+ * 简单{@link TypeRef}实现
+ *
+ * @param <T> 泛型类型
  * @author 应卓
- * @since 3.3.1
+ * @since 3.3.2
  */
-@AutoConfiguration
-public class JacksonModuleAutoConfiguration {
+public final class SimpleTypeRef<T> extends TypeRef<T> {
 
-    @Autowired(required = false)
-    private void initModules(@Nullable ObjectMapper objectMapper) {
-        if (objectMapper != null) {
-            loadAndRegisterModules(objectMapper);
-        }
+    private final Class<T> clz;
+
+    public SimpleTypeRef(Class<T> clz) {
+        super();
+        this.clz = clz;
+    }
+
+    public static <T> TypeRef<T> of(Class<T> clazz) {
+        return new SimpleTypeRef<>(clazz);
+    }
+
+    @Override
+    public Type getType() {
+        return this.clz;
     }
 
 }

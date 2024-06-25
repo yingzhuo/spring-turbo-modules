@@ -24,9 +24,7 @@ import spring.turbo.core.SpringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.lang.reflect.Type;
 
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
 import static spring.turbo.io.IOExceptionUtils.toUnchecked;
 
 /**
@@ -77,7 +75,7 @@ public final class JsonUtils {
         try {
             return getObjectMapper()
                     .writer()
-                    .withoutFeatures(INDENT_OUTPUT)
+                    .withoutFeatures(SerializationFeature.INDENT_OUTPUT)
                     .writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
@@ -99,7 +97,7 @@ public final class JsonUtils {
         try {
             return getObjectMapper()
                     .writer()
-                    .withFeatures(INDENT_OUTPUT)
+                    .withFeatures(SerializationFeature.INDENT_OUTPUT)
                     .writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
@@ -146,7 +144,7 @@ public final class JsonUtils {
             return getObjectMapper()
                     .writer()
                     .withView(viewClass)
-                    .withoutFeatures(INDENT_OUTPUT)
+                    .withoutFeatures(SerializationFeature.INDENT_OUTPUT)
                     .writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
@@ -171,7 +169,7 @@ public final class JsonUtils {
             return getObjectMapper()
                     .writer()
                     .withView(viewClass)
-                    .withFeatures(INDENT_OUTPUT)
+                    .withFeatures(SerializationFeature.INDENT_OUTPUT)
                     .writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw toUnchecked(e);
@@ -206,12 +204,7 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(String json, String jsonPath, Class<T> objClass) {
-        return parseJson(json, jsonPath, new TypeRef<T>() {
-            @Override
-            public Type getType() {
-                return objClass;
-            }
-        });
+        return parseJson(json, jsonPath, SimpleTypeRef.of(objClass));
     }
 
     /**
@@ -225,7 +218,9 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(String json, String jsonPath, TypeRef<T> typeRef) {
-        return JsonPath.using(getJsonPathConf()).parse(json).read(jsonPath, typeRef);
+        return JsonPath.using(getJsonPathConf())
+                .parse(json)
+                .read(jsonPath, typeRef);
     }
 
     /**
@@ -255,13 +250,8 @@ public final class JsonUtils {
      * @return 实例
      * @throws java.io.UncheckedIOException 处理失败
      */
-    public static <T> T parseJson(InputStream json, String jsonPath, final Class<T> objClass) {
-        return parseJson(json, jsonPath, new TypeRef<T>() {
-            @Override
-            public Type getType() {
-                return objClass;
-            }
-        });
+    public static <T> T parseJson(InputStream json, String jsonPath, Class<T> objClass) {
+        return parseJson(json, jsonPath, SimpleTypeRef.of(objClass));
     }
 
     /**
@@ -275,7 +265,9 @@ public final class JsonUtils {
      * @throws java.io.UncheckedIOException 处理失败
      */
     public static <T> T parseJson(InputStream json, String jsonPath, TypeRef<T> typeRef) {
-        return JsonPath.using(getJsonPathConf()).parse(json).read(jsonPath, typeRef);
+        return JsonPath.using(getJsonPathConf())
+                .parse(json)
+                .read(jsonPath, typeRef);
     }
 
     /**
@@ -305,13 +297,8 @@ public final class JsonUtils {
      * @return 实例
      * @throws java.io.UncheckedIOException 处理失败
      */
-    public static <T> T parseJson(Reader json, String jsonPath, final Class<T> objClass) {
-        return parseJson(json, jsonPath, new TypeRef<T>() {
-            @Override
-            public Type getType() {
-                return objClass;
-            }
-        });
+    public static <T> T parseJson(Reader json, String jsonPath, Class<T> objClass) {
+        return parseJson(json, jsonPath, SimpleTypeRef.of(objClass));
     }
 
     /**
@@ -332,29 +319,32 @@ public final class JsonUtils {
 
     private static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
-                .orElseGet(ObjectMapperHolder::get);
+                .orElseGet(SyncAvoid::getObjectMapper);
     }
 
     private static Configuration getJsonPathConf() {
         return SpringUtils.getBean(Configuration.class)
-                .orElseGet(JsonPathConfHolder::get);
+                .orElseGet(SyncAvoid::getJsonPathConf);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
     // 延迟加载
-    private static class ObjectMapperHolder {
+    @SuppressWarnings("deprecation")
+    private static class SyncAvoid {
 
         private static final ObjectMapper OBJECT_MAPPER;
+        private static final Configuration JSON_PATH_CONF;
 
         static {
+            // 以下都是作者喜欢的配置，你如果不喜欢，作者表示那没什么好办法满足你。
             OBJECT_MAPPER = JsonMapper.builder()
                     .configure(SerializationFeature.INDENT_OUTPUT, true)
                     .configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, true)
                     .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true)
                     .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-//                    .configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true)
-//                    .configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, true)
+                    .configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true)
+                    .configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, true)
                     .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false)
                     .configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, false)
                     .configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true)
@@ -362,26 +352,18 @@ public final class JsonUtils {
                     .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, true)
                     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                     .build();
-        }
 
-        private static ObjectMapper get() {
-            return OBJECT_MAPPER;
-        }
-    }
-
-    // 延迟加载
-    private static class JsonPathConfHolder {
-
-        private static final Configuration JSON_PATH_CONF;
-
-        static {
             JSON_PATH_CONF = Configuration.builder()
-                    .jsonProvider(new JacksonJsonProvider(ObjectMapperHolder.get()))
-                    .mappingProvider(new JacksonMappingProvider(ObjectMapperHolder.get()))
+                    .jsonProvider(new JacksonJsonProvider(OBJECT_MAPPER))
+                    .mappingProvider(new JacksonMappingProvider(OBJECT_MAPPER))
                     .build();
         }
 
-        private static Configuration get() {
+        private static ObjectMapper getObjectMapper() {
+            return OBJECT_MAPPER;
+        }
+
+        private static Configuration getJsonPathConf() {
             return JSON_PATH_CONF;
         }
     }

@@ -6,27 +6,12 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.autoconfiguration;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.lang.Nullable;
-
-import static spring.turbo.module.jackson.util.JacksonModuleUtils.loadAndRegisterModules;
+package spring.turbo.module.jackson.view;
 
 /**
  * @author 应卓
- * @since 3.3.1
+ * @see com.fasterxml.jackson.annotation.JsonView
+ * @since 3.3.2
  */
-@AutoConfiguration
-public class JacksonModuleAutoConfiguration {
-
-    @Autowired(required = false)
-    private void initModules(@Nullable ObjectMapper objectMapper) {
-        if (objectMapper != null) {
-            loadAndRegisterModules(objectMapper);
-        }
-    }
-
+public interface HiddenView extends BaseView {
 }
