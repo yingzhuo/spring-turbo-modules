@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webcli.support;
+package spring.turbo.module.webcli.annotation;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.support.*;
@@ -17,7 +17,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.bean.classpath.ClassPathScanner;
-import spring.turbo.bean.classpath.PackageSetFactories;
+import spring.turbo.bean.classpath.PackageSet;
+import spring.turbo.util.ClassUtils;
 import spring.turbo.util.StringUtils;
 import spring.turbo.util.reflection.InstanceUtils;
 
@@ -28,7 +29,9 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
  * @since 3.3.1
  */
 @SuppressWarnings("unchecked")
-class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
+public class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
+
+    private static final Class<EnableRestClientInterfaces> IMPORTING_ANNOTATION_CLASS = EnableRestClientInterfaces.class;
 
     private final ClassLoader classLoader;
     private final Environment environment;
@@ -42,23 +45,26 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator ng) {
-        var annotationAttributes = AnnotationAttributes.fromMap(
-                importingClassMetadata.getAnnotationAttributes(EnableRestClientInterfaces.class.getName())
-        );
+        var importingAnnotationAttributes =
+                AnnotationAttributes.fromMap(
+                        importingClassMetadata.getAnnotationAttributes(IMPORTING_ANNOTATION_CLASS.getName())
+                );
 
-        if (annotationAttributes == null) {
+        if (importingAnnotationAttributes == null) {
+            // 这种情况实际不会发生
             return;
         }
 
         var globalArgumentResolversSupplierClass =
-                (Class<? extends ArgumentResolversSupplier>) annotationAttributes.getClass("globalArgumentResolversSupplier");
+                (Class<? extends ArgumentResolversSupplier>) importingAnnotationAttributes.getClass("globalArgumentResolversSupplier");
 
-        var packageSet = PackageSetFactories.create(
-                importingClassMetadata,
-                EnableRestClientInterfaces.class,
-                "basePackages",
-                "basePackageClasses"
-        );
+        var packageSet = PackageSet.newInstance()
+                .acceptPackages(importingAnnotationAttributes.getStringArray("basePackages"))
+                .acceptBaseClasses(importingAnnotationAttributes.getClassArray("basePackageClasses"));
+
+        if (packageSet.isEmpty()) {
+            packageSet.acceptPackages(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
+        }
 
         var classDefs = ClassPathScanner.builder()
                 .classLoader(classLoader)
@@ -111,7 +117,7 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
         registry.registerBeanDefinition(beanName, clientBeanDefinition);
     }
 
-    public void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {
+    private void addQualifiers(AbstractBeanDefinition beanDefinition, String... qualifiers) {
         for (var qualifier : qualifiers) {
             if (StringUtils.isNotBlank(qualifier)) {
                 beanDefinition.addQualifier(new AutowireCandidateQualifier(Qualifier.class, qualifier));

@@ -6,30 +6,31 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webcli.support;
+package spring.turbo.module.webcli.annotation;
 
-import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
+import org.springframework.web.client.RestClient;
+import spring.turbo.module.webcli.error.NoopResponseErrorHandler;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Set;
 import java.util.function.Supplier;
 
 /**
  * @author 应卓
  * @since 3.3.1
  */
-public interface ArgumentResolversSupplier extends Supplier<Collection<HttpServiceArgumentResolver>> {
+@FunctionalInterface
+public interface RestClientSupplier extends Supplier<RestClient> {
 
-    @Nullable
     @Override
-    public default Collection<HttpServiceArgumentResolver> get() {
-        return Set.of();
-    }
+    public RestClient get();
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public static class Default implements ArgumentResolversSupplier {
+    public static class Default implements RestClientSupplier {
+        public RestClient get() {
+            return RestClient.builder()
+                    .defaultStatusHandler(NoopResponseErrorHandler.getInstance())
+                    .build();
+        }
     }
 
 }

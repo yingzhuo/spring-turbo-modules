@@ -6,7 +6,7 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.webcli.support;
+package spring.turbo.module.webcli.annotation;
 
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.support.RestClientAdapter;
@@ -15,7 +15,8 @@ import spring.turbo.bean.classpath.ClassDef;
 import spring.turbo.util.function.GenericGenerator;
 
 /**
- * RestClientInterface 生成器
+ * RestClientInterface 生成器 <br>
+ * 这是一个内部工具
  *
  * @author 应卓
  * @since 3.3.1

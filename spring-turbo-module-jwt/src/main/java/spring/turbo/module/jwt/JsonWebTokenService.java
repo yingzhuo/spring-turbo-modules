@@ -27,7 +27,7 @@ public interface JsonWebTokenService extends JsonWebTokenFactory, JsonWebTokenVa
 
     @Override
     public default boolean validateAsBoolean(String token) {
-        return validate(token ) == ValidatingResult.NO_PROBLEM;
+        return validate(token) == ValidatingResult.NO_PROBLEM;
     }
 
 }
