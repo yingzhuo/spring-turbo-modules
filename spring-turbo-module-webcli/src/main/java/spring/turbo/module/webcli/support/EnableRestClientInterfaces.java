@@ -32,8 +32,6 @@ public @interface EnableRestClientInterfaces {
 
     public Class<?>[] basePackageClasses() default {};
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     public Class<? extends ArgumentResolversSupplier> globalArgumentResolversSupplier() default ArgumentResolversSupplier.Default.class;
 
 }
