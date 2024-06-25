@@ -19,8 +19,11 @@ import spring.turbo.SpringTurboVersion;
  */
 public class CommonModule extends SimpleModule {
 
-    private static final Version VERSION = VersionUtil.parseVersion(SpringTurboVersion.CURRENT, "com.github.yingzhuo",
-            "spring-turbo");
+    private static final Version VERSION = VersionUtil.parseVersion(
+            SpringTurboVersion.CURRENT,
+            "com.github.yingzhuo",
+            "spring-turbo-jackson"
+    );
 
     /**
      * 默认构造方法
@@ -32,6 +35,7 @@ public class CommonModule extends SimpleModule {
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
+        // 这个Module实际上也没有任何配置
     }
 
 }

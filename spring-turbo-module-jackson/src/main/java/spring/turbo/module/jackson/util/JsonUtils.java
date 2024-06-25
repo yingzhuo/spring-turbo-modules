@@ -9,7 +9,11 @@
 package spring.turbo.module.jackson.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.TypeRef;
@@ -328,28 +332,36 @@ public final class JsonUtils {
 
     private static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
-                .orElseGet(ObjectMapperSyncAvoid::get);
+                .orElseGet(ObjectMapperHolder::get);
     }
 
     private static Configuration getJsonPathConf() {
         return SpringUtils.getBean(Configuration.class)
-                .orElseGet(JsonPathConfSyncAvoid::get);
+                .orElseGet(JsonPathConfHolder::get);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
     // 延迟加载
-    private static class ObjectMapperSyncAvoid {
+    private static class ObjectMapperHolder {
 
         private static final ObjectMapper OBJECT_MAPPER;
 
         static {
-            OBJECT_MAPPER = new ObjectMapper();
-            try {
-                JacksonModuleUtils.loadAndRegisterModules(OBJECT_MAPPER);
-            } catch (Exception ignored) {
-                // noop
-            }
+            OBJECT_MAPPER = JsonMapper.builder()
+                    .configure(SerializationFeature.INDENT_OUTPUT, true)
+                    .configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, true)
+                    .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true)
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+//                    .configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true)
+//                    .configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, true)
+                    .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false)
+                    .configure(SerializationFeature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED, false)
+                    .configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true)
+                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+                    .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, true)
+                    .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                    .build();
         }
 
         private static ObjectMapper get() {
@@ -358,14 +370,14 @@ public final class JsonUtils {
     }
 
     // 延迟加载
-    private static class JsonPathConfSyncAvoid {
+    private static class JsonPathConfHolder {
 
         private static final Configuration JSON_PATH_CONF;
 
         static {
             JSON_PATH_CONF = Configuration.builder()
-                    .jsonProvider(new JacksonJsonProvider(ObjectMapperSyncAvoid.get()))
-                    .mappingProvider(new JacksonMappingProvider(ObjectMapperSyncAvoid.get()))
+                    .jsonProvider(new JacksonJsonProvider(ObjectMapperHolder.get()))
+                    .mappingProvider(new JacksonMappingProvider(ObjectMapperHolder.get()))
                     .build();
         }
 
