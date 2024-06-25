@@ -18,7 +18,7 @@ import spring.turbo.io.RichResource;
 
 import java.util.Arrays;
 
-import static spring.turbo.core.SpringApplicationUtils.getHomePath;
+import static spring.turbo.core.SpringApplicationUtils.getHomeDirAsString;
 import static spring.turbo.util.StringFormatter.format;
 
 /**
@@ -53,7 +53,7 @@ public enum LoadmeOption {
     @Nullable
     private Resource getApplicationHomeResource(final SpringApplication application) {
         var locations = Arrays.stream(this.suffixes)
-                .map(suffix -> format("file:{}/loadme{}", getHomePath(application), suffix)).toList();
+                .map(suffix -> format("file:{}/loadme{}", getHomeDirAsString(application), suffix)).toList();
 
         return RichResource.builder().resourceLoader(RESOURCE_LOADER).addLocations(locations).build().orElse(null);
     }
