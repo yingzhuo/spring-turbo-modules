@@ -9,19 +9,14 @@
 package spring.turbo.module.misc.mustache;
 
 import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import org.springframework.lang.Nullable;
-import spring.turbo.io.IOExceptionUtils;
-import spring.turbo.util.StringUtils;
+import spring.turbo.util.Asserts;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
+import java.util.HashMap;
 import java.util.Objects;
-
-import static spring.turbo.util.RandomStringUtils.randomAlphabetic;
 
 /**
  * {@link MustacheService} 默认实现类
@@ -31,25 +26,27 @@ import static spring.turbo.util.RandomStringUtils.randomAlphabetic;
  */
 public class MustacheServiceImpl implements MustacheService {
 
+    private final MustacheFactory mustacheFactory;
+
+    /**
+     * 默认构造方法
+     */
+    public MustacheServiceImpl() {
+        super();
+        this.mustacheFactory = new DefaultMustacheFactory();
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String render(String templateString, @Nullable String templateName, @Nullable Object module) {
-        if (StringUtils.isBlank(templateName)) {
-            templateName = randomAlphabetic(10);
-        }
+    public String render(String templateString, String templateName, @Nullable Object module) {
+        Asserts.hasText(templateName, "templateName is required");
 
-        try {
-            Writer writer = new StringWriter();
-            MustacheFactory mf = new DefaultMustacheFactory();
-            Mustache mustache = mf.compile(new StringReader(templateString), templateName);
-            mustache.execute(writer, Objects.requireNonNullElseGet(module, Object::new));
-            writer.flush();
-            return writer.toString();
-        } catch (IOException e) {
-            throw IOExceptionUtils.toUnchecked(e);
-        }
+        var writer = new StringWriter();
+        var mustache = mustacheFactory.compile(new StringReader(templateString), templateName);
+        mustache.execute(writer, Objects.requireNonNullElseGet(module, HashMap::new));
+        return writer.toString();
     }
 
 }

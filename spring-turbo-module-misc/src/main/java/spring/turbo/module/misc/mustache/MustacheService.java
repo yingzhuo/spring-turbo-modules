@@ -27,23 +27,12 @@ public interface MustacheService {
     /**
      * 渲染文本
      *
-     * @param template 模板
-     * @param module   数据
-     * @return 渲染结果
-     */
-    public default String render(Resource template, @Nullable Object module) {
-        return render(template, null, module);
-    }
-
-    /**
-     * 渲染文本
-     *
      * @param template     模板
-     * @param templateName 模板名称
+     * @param templateName 用于缓存的模板名称
      * @param module       数据
      * @return 渲染结果
      */
-    public default String render(Resource template, @Nullable String templateName, @Nullable Object module) {
+    public default String render(Resource template, String templateName, @Nullable Object module) {
         return render(ResourceUtils.readText(template, UTF_8), templateName, module);
     }
 
@@ -51,21 +40,10 @@ public interface MustacheService {
      * 渲染文本
      *
      * @param templateString 字符串模版
+     * @param templateName   用于缓存的模板名称
      * @param module         数据
      * @return 渲染结果
      */
-    public default String render(String templateString, @Nullable Object module) {
-        return render(templateString, null, module);
-    }
-
-    /**
-     * 渲染文本
-     *
-     * @param templateString 字符串模版
-     * @param templateName   模板名称
-     * @param module         数据
-     * @return 渲染结果
-     */
-    public String render(String templateString, @Nullable String templateName, @Nullable Object module);
+    public String render(String templateString, String templateName, @Nullable Object module);
 
 }
