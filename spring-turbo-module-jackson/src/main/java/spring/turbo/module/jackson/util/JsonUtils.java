@@ -24,6 +24,7 @@ import spring.turbo.core.SpringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Objects;
 
 import static spring.turbo.io.IOExceptionUtils.toUnchecked;
 
@@ -318,12 +319,12 @@ public final class JsonUtils {
                 .read(jsonPath, typeRef);
     }
 
-    private static ObjectMapper getObjectMapper() {
+    public static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
                 .orElseGet(SyncAvoid::getJsonMapper);
     }
 
-    private static Configuration getJsonPathConf() {
+    public static Configuration getJsonPathConf() {
         return SpringUtils.getBean(Configuration.class)
                 .orElseGet(SyncAvoid::getJsonPathConf);
     }
@@ -353,6 +354,9 @@ public final class JsonUtils {
                     .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, true)
                     .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                     .build();
+
+            // 尝试注册能发现的所有模块
+            JacksonModuleUtils.loadAndRegisterModules(JSON_MAPPER, Objects::nonNull);
 
             JSON_PATH_CONF = Configuration.builder()
                     .jsonProvider(new JacksonJsonProvider(JSON_MAPPER))
