@@ -10,6 +10,7 @@ package spring.turbo.module.misc.mustache;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
+import com.github.mustachejava.resolver.ClasspathResolver;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.Asserts;
 
@@ -33,19 +34,36 @@ public class MustacheServiceImpl implements MustacheService {
      */
     public MustacheServiceImpl() {
         super();
-        this.mustacheFactory = new DefaultMustacheFactory();
+        this.mustacheFactory = new DefaultMustacheFactory(new ClasspathResolver());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String render(String templateString, String templateName, @Nullable Object module) {
+    public String render(String classpathTemplateLocation, @Nullable Object data) {
+        Asserts.hasText(classpathTemplateLocation);
+
+        if (classpathTemplateLocation.startsWith("classpath:")) {
+            classpathTemplateLocation = classpathTemplateLocation.substring("classpath:".length());
+        }
+
+        var writer = new StringWriter();
+        var mustache = mustacheFactory.compile(classpathTemplateLocation);
+        mustache.execute(writer, Objects.requireNonNullElseGet(data, HashMap::new));
+        return writer.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String render(String templateString, String templateName, @Nullable Object data) {
         Asserts.hasText(templateName, "templateName is required");
 
         var writer = new StringWriter();
         var mustache = mustacheFactory.compile(new StringReader(templateString), templateName);
-        mustache.execute(writer, Objects.requireNonNullElseGet(module, HashMap::new));
+        mustache.execute(writer, Objects.requireNonNullElseGet(data, HashMap::new));
         return writer.toString();
     }
 
