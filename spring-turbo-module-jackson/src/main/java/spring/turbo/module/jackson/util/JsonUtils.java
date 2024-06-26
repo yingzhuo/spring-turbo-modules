@@ -34,6 +34,7 @@ import static spring.turbo.io.IOExceptionUtils.toUnchecked;
  * @see <a href="https://github.com/FasterXML/jackson">Jackson官方文档</a>
  * @see <a href="https://github.com/json-path/JsonPath">JsonPath官方文档</a>
  * @see ObjectMapper
+ * @see JsonMapper
  * @since 3.3.1
  */
 public final class JsonUtils {
@@ -319,7 +320,7 @@ public final class JsonUtils {
 
     private static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
-                .orElseGet(SyncAvoid::getObjectMapper);
+                .orElseGet(SyncAvoid::getJsonMapper);
     }
 
     private static Configuration getJsonPathConf() {
@@ -333,12 +334,12 @@ public final class JsonUtils {
     @SuppressWarnings("deprecation")
     private static class SyncAvoid {
 
-        private static final ObjectMapper OBJECT_MAPPER;
+        private static final JsonMapper JSON_MAPPER;
         private static final Configuration JSON_PATH_CONF;
 
         static {
             // 以下都是作者喜欢的配置，你如果不喜欢，作者表示那没什么好办法满足你。
-            OBJECT_MAPPER = JsonMapper.builder()
+            JSON_MAPPER = JsonMapper.builder()
                     .configure(SerializationFeature.INDENT_OUTPUT, true)
                     .configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, true)
                     .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, true)
@@ -354,13 +355,13 @@ public final class JsonUtils {
                     .build();
 
             JSON_PATH_CONF = Configuration.builder()
-                    .jsonProvider(new JacksonJsonProvider(OBJECT_MAPPER))
-                    .mappingProvider(new JacksonMappingProvider(OBJECT_MAPPER))
+                    .jsonProvider(new JacksonJsonProvider(JSON_MAPPER))
+                    .mappingProvider(new JacksonMappingProvider(JSON_MAPPER))
                     .build();
         }
 
-        private static ObjectMapper getObjectMapper() {
-            return OBJECT_MAPPER;
+        private static ObjectMapper getJsonMapper() {
+            return JSON_MAPPER;
         }
 
         private static Configuration getJsonPathConf() {
