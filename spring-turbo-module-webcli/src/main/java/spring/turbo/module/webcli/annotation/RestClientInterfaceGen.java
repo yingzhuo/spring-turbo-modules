@@ -11,7 +11,7 @@ package spring.turbo.module.webcli.annotation;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
-import spring.turbo.bean.classpath.ClassDef;
+import spring.turbo.bean.classpath.ClassDefinition;
 import spring.turbo.util.function.GenericGenerator;
 
 /**
@@ -23,14 +23,14 @@ import spring.turbo.util.function.GenericGenerator;
  */
 class RestClientInterfaceGen implements GenericGenerator {
 
-    private final ClassDef classDef;
+    private final ClassDefinition classDef;
     private final Environment environment;
     private final RestClientSupplier restClientSupplier;
     private final ArgumentResolversSupplier globalArgumentResolversSupplier;
     private final ArgumentResolversSupplier argumentResolversSupplier;
 
     public RestClientInterfaceGen(
-            ClassDef classDef,
+            ClassDefinition classDef,
             Environment environment,
             RestClientSupplier restClientSupplier,
             ArgumentResolversSupplier globalArgumentResolversSupplier,

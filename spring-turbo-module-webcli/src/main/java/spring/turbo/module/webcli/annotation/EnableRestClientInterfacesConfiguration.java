@@ -15,7 +15,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import spring.turbo.bean.classpath.ClassDef;
+import spring.turbo.bean.classpath.ClassDefinition;
 import spring.turbo.bean.classpath.ClassPathScanner;
 import spring.turbo.bean.classpath.PackageSet;
 import spring.turbo.util.ClassUtils;
@@ -29,7 +29,7 @@ import static spring.turbo.bean.classpath.TypeFilterFactories.*;
  * @since 3.3.1
  */
 @SuppressWarnings("unchecked")
-public class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
+class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionRegistrar {
 
     private static final Class<EnableRestClientInterfaces> IMPORTING_ANNOTATION_CLASS = EnableRestClientInterfaces.class;
 
@@ -55,9 +55,6 @@ public class EnableRestClientInterfacesConfiguration implements ImportBeanDefini
             return;
         }
 
-        var globalArgumentResolversSupplierClass =
-                (Class<? extends ArgumentResolversSupplier>) importingAnnotationAttributes.getClass("globalArgumentResolversSupplier");
-
         var packageSet = PackageSet.newInstance()
                 .acceptPackages(importingAnnotationAttributes.getStringArray("basePackages"))
                 .acceptBaseClasses(importingAnnotationAttributes.getClassArray("basePackageClasses"));
@@ -78,12 +75,19 @@ public class EnableRestClientInterfacesConfiguration implements ImportBeanDefini
                 .build()
                 .scan(packageSet);
 
-        for (var classDef : classDefs) {
-            registerOne(registry, ng, classDef, InstanceUtils.newInstanceElseThrow(globalArgumentResolversSupplierClass));
+        if (!classDefs.isEmpty()) {
+            var globalArgumentResolversSupplierClass =
+                    (Class<? extends ArgumentResolversSupplier>) importingAnnotationAttributes.getClass("globalArgumentResolversSupplier");
+
+            var globalArgumentResolversSupplier = InstanceUtils.newInstanceElseThrow(globalArgumentResolversSupplierClass);
+
+            for (var classDef : classDefs) {
+                registerOne(registry, ng, classDef, globalArgumentResolversSupplier);
+            }
         }
     }
 
-    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDef classDef, ArgumentResolversSupplier globalArgumentResolversSupplier) {
+    private void registerOne(BeanDefinitionRegistry registry, BeanNameGenerator nameGen, ClassDefinition classDef, ArgumentResolversSupplier globalArgumentResolversSupplier) {
 
         var metaAnnotation = classDef.getRequiredAnnotation(RestClientInterface.class);
         var clientSupplier = InstanceUtils.newInstanceElseThrow(metaAnnotation.clientSupplier());
