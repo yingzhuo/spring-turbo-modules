@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import spring.turbo.module.misc.tokenizer.TokenizerService;
-import spring.turbo.module.misc.tokenizer.TokenizerServiceImpl;
+import spring.turbo.module.misc.tokenizer.TokenizerServiceFactoryBean;
 
 /**
  * @author 应卓
@@ -25,8 +25,8 @@ import spring.turbo.module.misc.tokenizer.TokenizerServiceImpl;
 public class TokenizerServiceAutoConfiguration {
 
     @Bean
-    public TokenizerService tokenizerService() {
-        return new TokenizerServiceImpl();
+    public TokenizerServiceFactoryBean tokenizerService() {
+        return new TokenizerServiceFactoryBean();
     }
 
 }
