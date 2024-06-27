@@ -8,7 +8,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.filter;
 
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import spring.turbo.module.security.authentication.MapTokenToUserConverter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 
@@ -16,7 +15,7 @@ import spring.turbo.module.security.token.BearerTokenResolver;
  * @author 应卓
  * @see MapTokenToUserConverter
  * @see TokenAuthenticationFilter
- * @see RequestMatcher
+ * @see spring.turbo.module.security.filter.factory.JwtTokenAuthenticationFilterFactoryBean
  * @since 1.0.1
  */
 public final class JwtTokenAuthenticationFilter extends TokenAuthenticationFilter {

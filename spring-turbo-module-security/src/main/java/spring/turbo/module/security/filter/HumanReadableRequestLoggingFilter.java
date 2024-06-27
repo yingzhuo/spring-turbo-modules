@@ -32,6 +32,7 @@ import static spring.turbo.util.StringPool.LF;
  * @see SimpleRequestLoggingFilter
  * @see org.springframework.web.filter.CommonsRequestLoggingFilter
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
+ * @see spring.turbo.module.security.filter.factory.LoggingFilterFactoryBean
  * @see RequestMatcher
  * @since 1.1.3
  */

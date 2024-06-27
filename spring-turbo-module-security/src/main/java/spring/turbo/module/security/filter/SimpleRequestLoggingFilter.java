@@ -20,6 +20,7 @@ import org.springframework.web.filter.ServletContextRequestLoggingFilter;
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
  * @see HumanReadableRequestLoggingFilter
+ * @see spring.turbo.module.security.filter.factory.LoggingFilterFactoryBean
  * @since 1.0.0
  */
 public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter {

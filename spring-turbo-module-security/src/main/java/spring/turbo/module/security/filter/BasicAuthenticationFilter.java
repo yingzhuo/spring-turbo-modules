@@ -18,7 +18,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.NullUserDetailsFinder;
@@ -36,7 +35,7 @@ import java.io.IOException;
  *
  * @author 应卓
  * @see TokenAuthenticationFilter
- * @see RequestMatcher
+ * @see spring.turbo.module.security.filter.factory.BasicAuthenticationFilterFactoryBean
  * @since 1.2.3
  */
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {

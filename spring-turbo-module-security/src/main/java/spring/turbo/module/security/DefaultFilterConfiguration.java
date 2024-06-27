@@ -6,10 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter.factory;
+package spring.turbo.module.security;
 
 import jakarta.servlet.Filter;
-import spring.turbo.module.security.FilterConfiguration;
 
 /**
  * {@link FilterConfiguration} 默认实现

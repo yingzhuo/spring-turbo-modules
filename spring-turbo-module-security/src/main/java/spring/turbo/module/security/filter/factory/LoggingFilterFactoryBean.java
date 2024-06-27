@@ -13,6 +13,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.filter.HumanReadableRequestLoggingFilter;
 import spring.turbo.util.reflection.InstanceUtils;
@@ -25,6 +26,11 @@ public class LoggingFilterFactoryBean implements FactoryBean<FilterConfiguration
 
     private final Filter filter;
 
+    /**
+     * 构造方法
+     *
+     * @param filterClass 日志过滤器的类型
+     */
     public LoggingFilterFactoryBean(Class<? extends Filter> filterClass) {
         if (filterClass == HumanReadableRequestLoggingFilter.class ||
                 ClassUtils.isAssignable(AbstractRequestLoggingFilter.class, filterClass)) {

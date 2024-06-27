@@ -14,6 +14,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
@@ -39,6 +40,13 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     private AuthenticationEntryPoint authenticationEntryPoint = new SecurityExceptionHandlerImpl();
     private RememberMeServices rememberMeServices;
     private TokenBlacklistManager tokenBlacklistManager;
+
+    /**
+     * 默认构造方法
+     */
+    public JwtTokenAuthenticationFilterFactoryBean() {
+        super();
+    }
 
     @Override
     public FilterConfiguration<Filter> getObject() {

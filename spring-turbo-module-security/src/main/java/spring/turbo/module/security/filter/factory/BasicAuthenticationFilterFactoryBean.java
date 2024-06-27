@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsServiceUserDetailsFinder;
@@ -43,6 +44,9 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
     private RememberMeServices rememberMeServices;
     private TokenBlacklistManager tokenBlacklistManager;
 
+    /**
+     * 默认构造方法
+     */
     public BasicAuthenticationFilterFactoryBean() {
         super();
     }
