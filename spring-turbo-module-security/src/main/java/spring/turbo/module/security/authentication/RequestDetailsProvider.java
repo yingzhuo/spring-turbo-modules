@@ -55,6 +55,11 @@ public interface RequestDetailsProvider {
     public static final RequestDetailsProvider AUTHENTICATION_DETAILS_OBJ = AuthenticationDetailsImpl::new;
 
     /**
+     * NULL
+     */
+    public static final RequestDetailsProvider NULL = (request, token) -> null;
+
+    /**
      * 创建Details
      *
      * @param request HTTP请求

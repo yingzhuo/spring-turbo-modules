@@ -12,13 +12,13 @@ import jakarta.servlet.Filter;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.Nullable;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
-import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
 import spring.turbo.module.security.filter.JwtTokenAuthenticationFilter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
@@ -34,12 +34,12 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     private FilterConfiguration.Position position = FilterConfiguration.Position.AFTER;
     private Class<? extends Filter> positionInChain = org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     private TokenResolver tokenResolver = new BearerTokenResolver();
-    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SIMPLE_DESCRIPTION;
-    private TokenToUserConverter tokenToUserConverter;
-    private ApplicationEventPublisher applicationEventPublisher;
-    private AuthenticationEntryPoint authenticationEntryPoint = new SecurityExceptionHandlerImpl();
-    private RememberMeServices rememberMeServices;
-    private TokenBlacklistManager tokenBlacklistManager;
+    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
+    private @Nullable TokenToUserConverter tokenToUserConverter;
+    private @Nullable ApplicationEventPublisher applicationEventPublisher;
+    private @Nullable AuthenticationEntryPoint authenticationEntryPoint;
+    private @Nullable RememberMeServices rememberMeServices;
+    private @Nullable TokenBlacklistManager tokenBlacklistManager;
 
     /**
      * 默认构造方法
@@ -50,6 +50,8 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
 
     @Override
     public FilterConfiguration<Filter> getObject() {
+        Asserts.notNull(tokenToUserConverter);
+
         var filter = new JwtTokenAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
         filter.setRequestDetailsProvider(requestDetailsProvider);
@@ -106,4 +108,5 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     public void setTokenBlacklistManager(TokenBlacklistManager tokenBlacklistManager) {
         this.tokenBlacklistManager = tokenBlacklistManager;
     }
+
 }

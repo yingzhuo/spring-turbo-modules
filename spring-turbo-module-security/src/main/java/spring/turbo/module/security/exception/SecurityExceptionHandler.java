@@ -31,14 +31,23 @@ import java.io.IOException;
 public interface SecurityExceptionHandler
         extends AuthenticationEntryPoint, AccessDeniedHandler, RequestRejectedHandler {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        RequestRejectedException requestRejectedException) throws IOException, ServletException;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authenticationException) throws IOException, ServletException;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException;

@@ -12,6 +12,7 @@ import jakarta.servlet.Filter;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -20,7 +21,6 @@ import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsServiceUserDetailsFinder;
-import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
 import spring.turbo.module.security.filter.BasicAuthenticationFilter;
 import spring.turbo.module.security.token.BasicTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
@@ -36,13 +36,13 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
     private FilterConfiguration.Position position = FilterConfiguration.Position.REPLACE;
     private Class<? extends Filter> positionInChain = org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     private TokenResolver tokenResolver = new BasicTokenResolver();
-    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SIMPLE_DESCRIPTION;
-    private UserDetailsService userDetailsService;
-    private PasswordEncoder passwordEncoder;
-    private ApplicationEventPublisher applicationEventPublisher;
-    private AuthenticationEntryPoint authenticationEntryPoint = new SecurityExceptionHandlerImpl();
-    private RememberMeServices rememberMeServices;
-    private TokenBlacklistManager tokenBlacklistManager;
+    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
+    private @Nullable UserDetailsService userDetailsService;
+    private @Nullable PasswordEncoder passwordEncoder;
+    private @Nullable ApplicationEventPublisher applicationEventPublisher;
+    private @Nullable AuthenticationEntryPoint authenticationEntryPoint;
+    private @Nullable RememberMeServices rememberMeServices;
+    private @Nullable TokenBlacklistManager tokenBlacklistManager;
 
     /**
      * 默认构造方法
@@ -53,6 +53,9 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
     @Override
     public FilterConfiguration<Filter> getObject() {
+        Asserts.notNull(userDetailsService);
+        Asserts.notNull(passwordEncoder);
+
         var filter = new BasicAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
         filter.setRequestDetailsProvider(requestDetailsProvider);
