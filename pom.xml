@@ -9,13 +9,13 @@
     <version>3.3.2-SNAPSHOT</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
+        <module>spring-turbo-module-data-accessing</module>
         <module>spring-turbo-module-jackson</module>
         <module>spring-turbo-module-jwt</module>
-        <module>spring-turbo-module-webmvc</module>
-        <module>spring-turbo-module-webcli</module>
-        <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-misc</module>
-        <module>spring-turbo-module-data-accessing</module>
+        <module>spring-turbo-module-security</module>
+        <module>spring-turbo-module-webcli</module>
+        <module>spring-turbo-module-webmvc</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -218,13 +218,6 @@
                 <version>1.4.3</version>
             </dependency>
 
-            <!-- avatar-generator -->
-            <dependency>
-                <groupId>com.github.yingzhuo</groupId>
-                <artifactId>avatar-generator</artifactId>
-                <version>1.0.2</version>
-            </dependency>
-
             <!-- pinyin4j -->
             <dependency>
                 <groupId>com.belerweb</groupId>
@@ -317,7 +310,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.4.2</version>
                 <configuration>
                     <archive>
                         <index>false</index>
@@ -351,7 +344,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>3.7.0</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
                 </configuration>
@@ -405,7 +398,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.3.0</version>
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
@@ -413,7 +406,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
