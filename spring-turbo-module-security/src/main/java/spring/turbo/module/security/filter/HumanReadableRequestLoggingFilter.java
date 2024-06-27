@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import spring.turbo.module.security.util.RequestMatcherFactories;
 import spring.turbo.util.LogLevel;
 import spring.turbo.util.Logger;
 import spring.turbo.util.StringUtils;
@@ -33,15 +32,12 @@ import static spring.turbo.util.StringPool.LF;
  * @see SimpleRequestLoggingFilter
  * @see org.springframework.web.filter.CommonsRequestLoggingFilter
  * @see org.springframework.web.filter.AbstractRequestLoggingFilter
- * @see RequestLoggingFilterFactory
  * @see RequestMatcher
  * @since 1.1.3
  */
-public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter implements SkippableFilter {
+public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter {
 
     private final Logger log;
-
-    private RequestMatcher skipRequestMatcher = RequestMatcherFactories.alwaysFalse();
 
     /**
      * 构造方法
@@ -64,11 +60,6 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (shouldSkip(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
             doLog(request);
         } catch (Exception ignored) {
@@ -85,18 +76,6 @@ public class HumanReadableRequestLoggingFilter extends OncePerRequestFilter impl
                 log.log(text);
             }
         }
-    }
-
-    @Nullable
-    @Override
-    public RequestMatcher getSkipRequestMatcher() {
-        return this.skipRequestMatcher;
-    }
-
-    @Override
-    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
-                : RequestMatcherFactories.alwaysFalse();
     }
 
 }

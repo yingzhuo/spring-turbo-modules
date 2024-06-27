@@ -9,12 +9,9 @@
 package spring.turbo.module.security.filter;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.lang.Nullable;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ServletContextRequestLoggingFilter;
-import spring.turbo.module.security.util.RequestMatcherFactories;
 
 /**
  * @author 应卓
@@ -23,12 +20,9 @@ import spring.turbo.module.security.util.RequestMatcherFactories;
  * @see CommonsRequestLoggingFilter
  * @see ServletContextRequestLoggingFilter
  * @see HumanReadableRequestLoggingFilter
- * @see RequestLoggingFilterFactory
  * @since 1.0.0
  */
-public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter implements SkippableFilter {
-
-    private RequestMatcher skipRequestMatcher = RequestMatcherFactories.alwaysFalse();
+public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     /**
      * 默认构造方法
@@ -49,23 +43,6 @@ public class SimpleRequestLoggingFilter extends AbstractRequestLoggingFilter imp
     @Override
     protected void afterRequest(HttpServletRequest request, String message) {
         logger.debug(message);
-    }
-
-    @Nullable
-    @Override
-    public RequestMatcher getSkipRequestMatcher() {
-        return this.skipRequestMatcher;
-    }
-
-    @Override
-    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
-                : RequestMatcherFactories.alwaysFalse();
-    }
-
-    @Override
-    protected boolean shouldLog(HttpServletRequest request) {
-        return !shouldSkip(request);
     }
 
 }

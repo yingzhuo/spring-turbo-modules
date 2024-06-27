@@ -16,7 +16,6 @@ import spring.turbo.module.security.token.BearerTokenResolver;
  * @author 应卓
  * @see MapTokenToUserConverter
  * @see TokenAuthenticationFilter
- * @see TokenAuthenticationFilterFactory
  * @see RequestMatcher
  * @since 1.0.1
  */

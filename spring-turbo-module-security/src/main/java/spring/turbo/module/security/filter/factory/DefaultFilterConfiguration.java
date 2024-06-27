@@ -6,25 +6,42 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+package spring.turbo.module.security.filter.factory;
 
 import jakarta.servlet.Filter;
 import spring.turbo.module.security.FilterConfiguration;
 
 /**
+ * {@link FilterConfiguration} 默认实现
+ *
  * @author 应卓
- * @since 1.2.3
+ * @since 3.3.2
  */
-public interface BasicAuthenticationFilterFactory extends FilterConfiguration<BasicAuthenticationFilter> {
+public class DefaultFilterConfiguration implements FilterConfiguration<Filter> {
 
-    @Override
-    public default Class<? extends Filter> positionInChain() {
-        return org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
+    private final Filter filter;
+    private final Class<? extends Filter> positionInChain;
+    private final Position position;
+
+    public DefaultFilterConfiguration(Filter filter, Class<? extends Filter> positionInChain, Position position) {
+        this.filter = filter;
+        this.positionInChain = positionInChain;
+        this.position = position;
     }
 
     @Override
-    public default Position position() {
-        return Position.REPLACE;
+    public Filter create() {
+        return filter;
+    }
+
+    @Override
+    public Class<? extends Filter> positionInChain() {
+        return positionInChain;
+    }
+
+    @Override
+    public Position position() {
+        return this.position;
     }
 
 }

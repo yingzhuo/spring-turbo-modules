@@ -23,7 +23,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
-import spring.turbo.module.security.util.RequestMatcherFactories;
 import spring.turbo.util.Asserts;
 
 /**
@@ -33,7 +32,7 @@ import spring.turbo.util.Asserts;
  * @see RequestMatcher
  * @since 1.2.3
  */
-public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter implements SkippableFilter {
+public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
 
     @Nullable
     protected TokenResolver tokenResolver;
@@ -52,8 +51,6 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     @Nullable
     protected ApplicationEventPublisher applicationEventPublisher;
-
-    protected RequestMatcher skipRequestMatcher = RequestMatcherFactories.alwaysFalse();
 
     protected final boolean authenticationIsRequired() {
         final Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -96,18 +93,6 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     public void setApplicationEventPublisher(@Nullable ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
-    }
-
-    @Nullable
-    @Override
-    public RequestMatcher getSkipRequestMatcher() {
-        return this.skipRequestMatcher;
-    }
-
-    @Override
-    public void setSkipRequestMatcher(@Nullable RequestMatcher skipRequestMatcher) {
-        this.skipRequestMatcher = skipRequestMatcher != null ? skipRequestMatcher
-                : RequestMatcherFactories.alwaysFalse();
     }
 
 }

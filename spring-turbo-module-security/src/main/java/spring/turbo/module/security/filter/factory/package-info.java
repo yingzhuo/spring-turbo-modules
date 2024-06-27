@@ -6,15 +6,9 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.security.filter;
+@NonNullApi
+@NonNullFields
+package spring.turbo.module.security.filter.factory;
 
-import spring.turbo.module.security.FilterConfiguration;
-
-/**
- * @author 应卓
- * @see TokenAuthenticationFilter
- * @see JwtTokenAuthenticationFilter
- * @since 1.0.0
- */
-public interface TokenAuthenticationFilterFactory extends FilterConfiguration<TokenAuthenticationFilter> {
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

@@ -46,8 +46,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     @Nullable
     private UserDetailsFinder userDetailsFinder = NullUserDetailsFinder.getInstance();
 
-    private boolean ignoreExceptions = false;
-
     /**
      * 构造方法
      */
@@ -61,12 +59,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
         // 其他过滤器已经做完了认证工作则跳过
         if (!super.authenticationIsRequired()) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // 指定了跳过策略则跳过
-        if (shouldSkip(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -141,10 +133,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 authenticationEntryPoint.commence(request, response, e);
                 return;
             }
-        } catch (Exception e) {
-            if (!ignoreExceptions) {
-                throw e;
-            }
         }
 
         filterChain.doFilter(request, response);
@@ -153,10 +141,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
         Asserts.notNull(userDetailsFinder);
         this.userDetailsFinder = userDetailsFinder;
-    }
-
-    public void setIgnoreExceptions(boolean ignoreExceptions) {
-        this.ignoreExceptions = ignoreExceptions;
     }
 
 }

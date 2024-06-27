@@ -43,8 +43,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     @Nullable
     private TokenToUserConverter tokenToUserConverter;
 
-    private boolean ignoreExceptions;
-
     /**
      * 构造方法
      */
@@ -56,11 +54,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         if (!authenticationIsRequired()) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (shouldSkip(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -139,10 +132,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
                 authenticationEntryPoint.commence(request, response, e);
                 return;
             }
-        } catch (Exception e) {
-            if (!ignoreExceptions) {
-                throw e;
-            }
         }
 
         filterChain.doFilter(request, response);
@@ -156,10 +145,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     public void setTokenToUserConverter(TokenToUserConverter converter) {
         Asserts.notNull(converter);
         this.tokenToUserConverter = converter;
-    }
-
-    public void setIgnoreExceptions(boolean ignoreExceptions) {
-        this.ignoreExceptions = ignoreExceptions;
     }
 
 }

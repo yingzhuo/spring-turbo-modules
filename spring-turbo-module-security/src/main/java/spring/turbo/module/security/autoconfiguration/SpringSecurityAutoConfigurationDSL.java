@@ -9,7 +9,6 @@
 package spring.turbo.module.security.autoconfiguration;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -34,13 +33,6 @@ public class SpringSecurityAutoConfigurationDSL
 
         for (var configuration : configurations) {
 
-            // 如果没有启用则跳过
-            var env = ctx.getEnvironment();
-            var args = ctx.getBean(ApplicationArguments.class);
-            if (!configuration.isEnabled(env, args)) {
-                continue;
-            }
-
             // 获取过滤器实例
             var filter = configuration.create();
             if (filter == null) {
@@ -59,7 +51,6 @@ public class SpringSecurityAutoConfigurationDSL
                 case BEFORE -> http.addFilterBefore(filter, position);
                 case AFTER -> http.addFilterAfter(filter, position);
                 case REPLACE -> http.addFilterAt(filter, position);
-                default -> throw new AssertionError(); // 不可能运行到此处
             }
         }
     }
