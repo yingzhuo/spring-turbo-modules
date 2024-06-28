@@ -19,6 +19,7 @@ import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
+import spring.turbo.module.security.exception.SecurityExceptionHandler;
 import spring.turbo.module.security.filter.JwtTokenAuthenticationFilter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
@@ -69,6 +70,11 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     }
 
     @Override
+    public boolean isSingleton() {
+        return true;
+    }
+
+    @Override
     public void afterPropertiesSet() {
         Asserts.notNull(tokenToUserConverter, "tokenToUserConverter is required");
     }
@@ -99,6 +105,10 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
 
     public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
+    public void setSecurityExceptionHandler(SecurityExceptionHandler securityExceptionHandler) {
+        this.setAuthenticationEntryPoint((AuthenticationEntryPoint) securityExceptionHandler);
     }
 
     public void setRememberMeServices(RememberMeServices rememberMeServices) {

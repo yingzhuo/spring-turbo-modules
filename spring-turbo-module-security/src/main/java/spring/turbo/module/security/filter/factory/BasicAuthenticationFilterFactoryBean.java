@@ -20,7 +20,9 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
+import spring.turbo.module.security.authentication.UserDetailsFinder;
 import spring.turbo.module.security.authentication.UserDetailsServiceUserDetailsFinder;
+import spring.turbo.module.security.exception.SecurityExceptionHandler;
 import spring.turbo.module.security.filter.BasicAuthenticationFilter;
 import spring.turbo.module.security.token.BasicTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
@@ -37,8 +39,7 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
     private Class<? extends Filter> positionInChain = org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     private TokenResolver tokenResolver = new BasicTokenResolver();
     private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
-    private @Nullable UserDetailsService userDetailsService;
-    private @Nullable PasswordEncoder passwordEncoder;
+    private @Nullable UserDetailsFinder userDetailsFinder;
     private @Nullable ApplicationEventPublisher applicationEventPublisher;
     private @Nullable AuthenticationEntryPoint authenticationEntryPoint;
     private @Nullable RememberMeServices rememberMeServices;
@@ -53,13 +54,12 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
     @Override
     public FilterConfiguration<Filter> getObject() {
-        Asserts.notNull(userDetailsService);
-        Asserts.notNull(passwordEncoder);
+        Asserts.notNull(userDetailsFinder, "userDetailsFinder is required");
 
         var filter = new BasicAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
         filter.setRequestDetailsProvider(requestDetailsProvider);
-        filter.setUserDetailsFinder(new UserDetailsServiceUserDetailsFinder(userDetailsService, passwordEncoder));
+        filter.setUserDetailsFinder(userDetailsFinder);
         filter.setApplicationEventPublisher(applicationEventPublisher);
         filter.setAuthenticationEntryPoint(authenticationEntryPoint);
         filter.setRememberMeServices(rememberMeServices);
@@ -73,9 +73,13 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
     }
 
     @Override
+    public boolean isSingleton() {
+        return true;
+    }
+
+    @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(userDetailsService, "userDetailsService is required");
-        Asserts.notNull(passwordEncoder, "passwordEncoder is required");
+        Asserts.notNull(userDetailsFinder, "userDetails is required");
     }
 
     public void setPosition(FilterConfiguration.Position position) {
@@ -94,16 +98,20 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
         this.requestDetailsProvider = requestDetailsProvider;
     }
 
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
+        this.userDetailsFinder = userDetailsFinder;
     }
 
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public void setUserDetailsFinder(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsFinder = new UserDetailsServiceUserDetailsFinder(userDetailsService, passwordEncoder);
     }
 
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    public void setSecurityExceptionHandler(SecurityExceptionHandler securityExceptionHandler) {
+        this.setAuthenticationEntryPoint((AuthenticationEntryPoint) securityExceptionHandler);
     }
 
     public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {

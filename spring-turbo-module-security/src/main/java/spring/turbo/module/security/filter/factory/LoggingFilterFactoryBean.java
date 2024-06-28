@@ -13,6 +13,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.filter.HumanReadableRequestLoggingFilter;
@@ -24,7 +25,25 @@ import spring.turbo.util.reflection.InstanceUtils;
  */
 public class LoggingFilterFactoryBean implements FactoryBean<FilterConfiguration<Filter>> {
 
-    private final Filter filter;
+    private Filter filter;
+    private FilterConfiguration.Position position = FilterConfiguration.Position.BEFORE;
+    private Class<? extends Filter> positionInChain = DisableEncodeUrlFilter.class;
+
+    /**
+     * 默认构造方法
+     */
+    public LoggingFilterFactoryBean() {
+        this(new CommonsRequestLoggingFilter());
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param filter 日志过滤器
+     */
+    public LoggingFilterFactoryBean(Filter filter) {
+        this.filter = filter;
+    }
 
     /**
      * 构造方法
@@ -44,14 +63,31 @@ public class LoggingFilterFactoryBean implements FactoryBean<FilterConfiguration
     public FilterConfiguration<Filter> getObject() {
         return new DefaultFilterConfiguration(
                 filter,
-                DisableEncodeUrlFilter.class,
-                FilterConfiguration.Position.BEFORE
+                positionInChain,
+                position
         );
     }
 
     @Override
     public Class<?> getObjectType() {
         return FilterConfiguration.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return true;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public void setPosition(FilterConfiguration.Position position) {
+        this.position = position;
+    }
+
+    public void setPositionInChain(Class<? extends Filter> positionInChain) {
+        this.positionInChain = positionInChain;
     }
 
 }
