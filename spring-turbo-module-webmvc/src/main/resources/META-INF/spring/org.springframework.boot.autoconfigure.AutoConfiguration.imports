@@ -1,1 +1,2 @@
 spring.turbo.module.webmvc.autoconfiguration.WebMvcAutoConfiguration
+spring.turbo.module.webmvc.autoconfiguration.DataBinderInitializingAdviceAutoConfiguration
