@@ -20,9 +20,8 @@ import spring.turbo.module.security.FilterConfiguration;
  * @author 应卓
  * @since 1.3.0
  */
-@SuppressWarnings({"unchecked"})
-public class SpringSecurityAutoConfigurationDSL
-        extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
+@SuppressWarnings("unchecked")
+public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<SpringSecurityAutoConfigurationDSL, HttpSecurity> {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

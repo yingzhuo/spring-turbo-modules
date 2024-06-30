@@ -10,16 +10,14 @@ package spring.turbo.module.webmvc.autoconfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
+import spring.turbo.module.webmvc.databinding.DataBinderInitializingAdvice;
 import spring.turbo.module.webmvc.support.argument.RemoteAddressHandlerMethodArgumentResolver;
-import spring.turbo.module.webmvc.support.locale.SystemDefaultLocaleResolver;
 
 import java.util.List;
 
@@ -45,12 +43,12 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
+    /**
+     * @since 2024-06-30
+     */
     @Bean
-    @ConditionalOnMissingBean
-    public LocaleResolver localeResolver() {
-        return SystemDefaultLocaleResolver.getInstance();
+    public DataBinderInitializingAdvice dataBinderInitializingAdvice() {
+        return new DataBinderInitializingAdvice();
     }
 
 }
