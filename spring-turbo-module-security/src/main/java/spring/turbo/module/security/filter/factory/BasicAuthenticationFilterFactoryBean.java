@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
-import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
@@ -64,7 +63,7 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
         filter.setAuthenticationEntryPoint(authenticationEntryPoint);
         filter.setRememberMeServices(rememberMeServices);
         filter.setTokenBlacklistManager(tokenBlacklistManager);
-        return new DefaultFilterConfiguration(filter, positionInChain, position);
+        return new FilterConfiguration.Default(filter, positionInChain, position);
     }
 
     @Override

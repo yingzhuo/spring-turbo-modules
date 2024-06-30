@@ -14,7 +14,6 @@ import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.filter.HumanReadableRequestLoggingFilter;
 import spring.turbo.util.reflection.InstanceUtils;
@@ -61,11 +60,7 @@ public class LoggingFilterFactoryBean implements FactoryBean<FilterConfiguration
 
     @Override
     public FilterConfiguration<Filter> getObject() {
-        return new DefaultFilterConfiguration(
-                filter,
-                positionInChain,
-                position
-        );
+        return new FilterConfiguration.Default(filter, positionInChain, position);
     }
 
     @Override

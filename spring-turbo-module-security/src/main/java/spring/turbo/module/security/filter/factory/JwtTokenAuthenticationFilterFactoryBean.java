@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
-import spring.turbo.module.security.DefaultFilterConfiguration;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
@@ -61,7 +60,7 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
         filter.setAuthenticationEntryPoint(authenticationEntryPoint);
         filter.setRememberMeServices(rememberMeServices);
         filter.setTokenBlacklistManager(tokenBlacklistManager);
-        return new DefaultFilterConfiguration(filter, positionInChain, position);
+        return new FilterConfiguration.Default(filter, positionInChain, position);
     }
 
     @Override
