@@ -29,9 +29,6 @@ public interface Token extends Serializable {
 
     public String asString();
 
-    @Override
-    public String toString();
-
     default int length() {
         return asString().length();
     }

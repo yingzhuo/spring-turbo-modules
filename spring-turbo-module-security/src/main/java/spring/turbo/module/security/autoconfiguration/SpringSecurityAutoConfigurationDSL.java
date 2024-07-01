@@ -46,10 +46,14 @@ public class SpringSecurityAutoConfigurationDSL extends AbstractHttpConfigurer<S
             var position = configuration.positionInChain();
             var beforeOrAfter = configuration.position();
 
-            switch (beforeOrAfter) {
-                case BEFORE -> http.addFilterBefore(filter, position);
-                case AFTER -> http.addFilterAfter(filter, position);
-                case REPLACE -> http.addFilterAt(filter, position);
+            if (position == null || beforeOrAfter == null) {
+                continue;
+            } else {
+                switch (beforeOrAfter) {
+                    case BEFORE -> http.addFilterBefore(filter, position);
+                    case AFTER -> http.addFilterAfter(filter, position);
+                    case REPLACE -> http.addFilterAt(filter, position);
+                }
             }
         }
     }

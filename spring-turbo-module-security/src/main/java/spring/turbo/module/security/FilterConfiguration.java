@@ -12,7 +12,6 @@ import jakarta.servlet.Filter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import spring.turbo.module.security.filter.SimpleRequestLoggingFilter;
-import spring.turbo.util.Asserts;
 
 /**
  * {@link Filter} 配置单元
@@ -32,6 +31,7 @@ public interface FilterConfiguration<T extends Filter> {
     @Nullable
     public T create();
 
+    @Nullable
     public default Class<? extends Filter> positionInChain() {
         return BasicAuthenticationFilter.class;
     }
@@ -39,6 +39,7 @@ public interface FilterConfiguration<T extends Filter> {
     /**
      * 需要配置的{@link Filter}在{@link org.springframework.security.web.SecurityFilterChain}中的位置
      */
+    @Nullable
     public default Position position() {
         return Position.AFTER;
     }
@@ -53,14 +54,8 @@ public interface FilterConfiguration<T extends Filter> {
     // -----------------------------------------------------------------------------------------------------------------
 
     record Default(Filter filter,
-                   Class<? extends Filter> positionInChain,
-                   Position position) implements FilterConfiguration<Filter> {
-
-        public Default {
-            Asserts.notNull(filter, "filter is required");
-            Asserts.notNull(positionInChain, "positionInChain is required");
-            Asserts.notNull(position, "position is required");
-        }
+                   @Nullable Class<? extends Filter> positionInChain,
+                   @Nullable Position position) implements FilterConfiguration<Filter> {
 
         @Override
         public Filter create() {
