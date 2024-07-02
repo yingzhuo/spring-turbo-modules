@@ -22,7 +22,7 @@ import java.util.Optional;
  * @author 应卓
  * @since 3.3.1
  */
-public final class HutoolSM2Singer implements JWTSigner {
+public final class HutoolSM2Signer implements JWTSigner {
 
     private final SM2 sm2;
 
@@ -34,7 +34,7 @@ public final class HutoolSM2Singer implements JWTSigner {
      *
      * @param sm2 sm2加密器
      */
-    public HutoolSM2Singer(SM2 sm2) {
+    public HutoolSM2Signer(SM2 sm2) {
         this(sm2, null);
     }
 
@@ -44,7 +44,7 @@ public final class HutoolSM2Singer implements JWTSigner {
      * @param sm2    sm2加密器
      * @param withId ID
      */
-    public HutoolSM2Singer(SM2 sm2, @Nullable String withId) {
+    public HutoolSM2Signer(SM2 sm2, @Nullable String withId) {
         this.sm2 = sm2;
         this.withId = Optional.ofNullable(withId).map(String::getBytes).orElse(null);
     }
@@ -65,7 +65,8 @@ public final class HutoolSM2Singer implements JWTSigner {
     public boolean verify(String headerBase64, String payloadBase64, String signBase64) {
         return sm2.verify(
                 StrUtil.bytes(StrUtil.format("{}.{}", headerBase64, payloadBase64)),
-                Base64.decode(signBase64), withId
+                Base64.decode(signBase64),
+                withId
         );
     }
 

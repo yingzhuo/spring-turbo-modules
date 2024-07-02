@@ -16,7 +16,7 @@ import cn.hutool.jwt.signers.NoneJWTSigner;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.jwt.factory.JsonWebTokenData;
 import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
-import spring.turbo.module.jwt.misc.HutoolSM2Singer;
+import spring.turbo.module.jwt.misc.HutoolSM2Signer;
 import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
@@ -127,7 +127,7 @@ public class HutoolJsonWebTokenFactory implements JsonWebTokenFactory {
 
     public static HutoolJsonWebTokenFactory SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
         var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
-        return of(new HutoolSM2Singer(sm2, withId));
+        return of(new HutoolSM2Signer(sm2, withId));
     }
 
     public static HutoolJsonWebTokenFactory RSHA1(KeyPair keyPair) {

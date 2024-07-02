@@ -15,7 +15,7 @@ import cn.hutool.jwt.JWTValidator;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.springframework.lang.Nullable;
-import spring.turbo.module.jwt.misc.HutoolSM2Singer;
+import spring.turbo.module.jwt.misc.HutoolSM2Signer;
 import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.jwt.validator.ValidatingResult;
 import spring.turbo.util.Asserts;
@@ -122,7 +122,7 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
 
     public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
         var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
-        return of(new HutoolSM2Singer(sm2, withId));
+        return of(new HutoolSM2Signer(sm2, withId));
     }
 
     public static HutoolJsonWebTokenValidator RSHA1(KeyPair keyPair) {
