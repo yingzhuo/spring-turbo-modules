@@ -24,7 +24,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.keystore.KeyStoreFormat;
+import spring.turbo.util.crypto.KeyStoreFormat;
 
 import javax.net.ssl.SSLContext;
 import java.security.KeyStore;

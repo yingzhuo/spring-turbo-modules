@@ -10,7 +10,6 @@ package spring.turbo.module.security.filter.factory;
 
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -18,8 +17,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
-import spring.turbo.module.security.exception.SecurityExceptionHandler;
-import spring.turbo.module.security.filter.JwtTokenAuthenticationFilter;
+import spring.turbo.module.security.filter.BearerTokenAuthenticationFilter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
@@ -29,9 +27,9 @@ import spring.turbo.util.Asserts;
  * @author 应卓
  * @since 3.3.1
  */
-public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<FilterConfiguration<Filter>>, InitializingBean {
+public class BearerTokenAuthenticationFilterFactoryBean implements FactoryBean<FilterConfiguration<Filter>> {
 
-    private FilterConfiguration.Position position = FilterConfiguration.Position.AFTER;
+    private FilterConfiguration.Position position = FilterConfiguration.Position.BEFORE;
     private Class<? extends Filter> positionInChain = org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     private TokenResolver tokenResolver = new BearerTokenResolver();
     private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
@@ -41,18 +39,11 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     private @Nullable RememberMeServices rememberMeServices;
     private @Nullable TokenBlacklistManager tokenBlacklistManager;
 
-    /**
-     * 默认构造方法
-     */
-    public JwtTokenAuthenticationFilterFactoryBean() {
-        super();
-    }
-
     @Override
     public FilterConfiguration<Filter> getObject() {
         Asserts.notNull(tokenToUserConverter);
 
-        var filter = new JwtTokenAuthenticationFilter();
+        var filter = new BearerTokenAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
         filter.setRequestDetailsProvider(requestDetailsProvider);
         filter.setTokenToUserConverter(tokenToUserConverter);
@@ -66,16 +57,6 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     @Override
     public Class<?> getObjectType() {
         return FilterConfiguration.class;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return true;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        Asserts.notNull(tokenToUserConverter, "tokenToUserConverter is required");
     }
 
     public void setPosition(FilterConfiguration.Position position) {
@@ -94,27 +75,23 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
         this.requestDetailsProvider = requestDetailsProvider;
     }
 
-    public void setTokenToUserConverter(TokenToUserConverter tokenToUserConverter) {
+    public void setTokenToUserConverter(@Nullable TokenToUserConverter tokenToUserConverter) {
         this.tokenToUserConverter = tokenToUserConverter;
     }
 
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    public void setApplicationEventPublisher(@Nullable ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
+    public void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    public void setSecurityExceptionHandler(SecurityExceptionHandler securityExceptionHandler) {
-        this.setAuthenticationEntryPoint((AuthenticationEntryPoint) securityExceptionHandler);
-    }
-
-    public void setRememberMeServices(RememberMeServices rememberMeServices) {
+    public void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
         this.rememberMeServices = rememberMeServices;
     }
 
-    public void setTokenBlacklistManager(TokenBlacklistManager tokenBlacklistManager) {
+    public void setTokenBlacklistManager(@Nullable TokenBlacklistManager tokenBlacklistManager) {
         this.tokenBlacklistManager = tokenBlacklistManager;
     }
 

@@ -15,7 +15,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * @author 应卓
- * @since 3.3.2
+ * @since 3.3.1
  */
 public class TokenizerServiceFactoryBean implements SmartFactoryBean<TokenizerService> {
 

@@ -24,7 +24,7 @@ public final class JwtTokenAuthenticationFilter extends TokenAuthenticationFilte
      * 默认构造方法
      */
     public JwtTokenAuthenticationFilter() {
-        setTokenResolver(new BearerTokenResolver());
+        super.setTokenResolver(new BearerTokenResolver());
     }
 
 }

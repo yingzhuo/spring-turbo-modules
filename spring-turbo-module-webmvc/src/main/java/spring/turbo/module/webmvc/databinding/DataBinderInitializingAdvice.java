@@ -15,7 +15,7 @@ import spring.turbo.databinding.SmartBindingErrorProcessor;
 
 /**
  * @author 应卓
- * @since 3.3.2
+ * @since 3.3.1
  */
 @ControllerAdvice
 public class DataBinderInitializingAdvice {

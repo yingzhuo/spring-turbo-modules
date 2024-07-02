@@ -6,35 +6,21 @@
  *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
  *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package spring.turbo.module.jackson.util;
+package spring.turbo.module.security.filter;
 
-import com.jayway.jsonpath.TypeRef;
-
-import java.lang.reflect.Type;
+import spring.turbo.module.security.token.BearerTokenResolver;
 
 /**
- * 简单{@link TypeRef}实现
- *
- * @param <T> 泛型类型
  * @author 应卓
  * @since 3.3.1
  */
-public final class SimpleTypeRef<T> extends TypeRef<T> {
+public class BearerTokenAuthenticationFilter extends TokenAuthenticationFilter {
 
-    private final Class<T> clz;
-
-    public SimpleTypeRef(Class<T> clz) {
-        super();
-        this.clz = clz;
-    }
-
-    public static <T> TypeRef<T> of(Class<T> clazz) {
-        return new SimpleTypeRef<>(clazz);
-    }
-
-    @Override
-    public Type getType() {
-        return this.clz;
+    /**
+     * 默认构造方法
+     */
+    public BearerTokenAuthenticationFilter() {
+        super.setTokenResolver(new BearerTokenResolver());
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
 
 /**
  * @author 应卓
- * @since 3.3.2
+ * @since 3.3.1
  */
 public class CleanupFilterFactoryBean implements FactoryBean<FilterConfiguration<Filter>> {
 

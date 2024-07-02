@@ -24,7 +24,7 @@ import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
 
 /**
  * @author 应卓
- * @since 3.3.2
+ * @since 3.3.1
  */
 @AutoConfiguration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
