@@ -13,8 +13,8 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.RandomStringUtils;
 import spring.turbo.util.StringUtils;
+import spring.turbo.util.UUIDUtils;
 
 import java.io.IOException;
 
@@ -53,7 +53,7 @@ public abstract class AbstractPropertySourceFactory implements PropertySourceFac
         }
 
         if (StringUtils.isBlank(name)) {
-            return RandomStringUtils.randomUUID();
+            return UUIDUtils.uuid36();
         }
         return name;
     }
