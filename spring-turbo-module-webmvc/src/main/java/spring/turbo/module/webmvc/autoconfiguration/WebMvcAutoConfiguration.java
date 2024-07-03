@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import spring.turbo.module.webmvc.databinding.DataBinderInitializingAdvice;
 import spring.turbo.module.webmvc.support.argument.RemoteAddressHandlerMethodArgumentResolver;
+import spring.turbo.module.webmvc.support.argument.SharedObjectHandlerMethodArgumentResolver;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
+        resolvers.add(new SharedObjectHandlerMethodArgumentResolver());
     }
 
     /**

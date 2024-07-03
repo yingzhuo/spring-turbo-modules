@@ -13,7 +13,7 @@ import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
 import spring.turbo.util.Asserts;
 
-import static spring.turbo.util.CharsetPool.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * RabbitMQ 消息生成工具

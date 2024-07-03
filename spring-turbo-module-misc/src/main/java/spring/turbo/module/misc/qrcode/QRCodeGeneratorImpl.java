@@ -15,7 +15,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.CharsetPool;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -34,7 +33,7 @@ import java.util.Map;
  */
 public class QRCodeGeneratorImpl implements QRCodeGenerator {
 
-    private static final String CHARSET = CharsetPool.UTF_8_VALUE;
+    private static final String CHARSET = "UTF-8";
 
     private ErrorCorrectionLevel defaultErrorCorrectionLevel = ErrorCorrectionLevel.H;
     private int defaultSize = 200;

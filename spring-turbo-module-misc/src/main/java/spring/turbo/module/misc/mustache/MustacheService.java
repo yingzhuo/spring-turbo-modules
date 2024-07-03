@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 import spring.turbo.io.ResourceUtils;
 
-import static spring.turbo.util.CharsetPool.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * 集成 mustache.java 进行简易的模版渲染。

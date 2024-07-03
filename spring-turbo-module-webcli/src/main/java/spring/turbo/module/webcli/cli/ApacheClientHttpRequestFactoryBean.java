@@ -33,7 +33,7 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
- * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/"></a> 版本的实现
+ * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/">ApacheHttpComponents官方文档</a> 版本的实现
  *
  * @author 应卓
  * @see org.springframework.web.client.RestClient

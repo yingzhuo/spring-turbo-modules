@@ -22,8 +22,9 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
-import static spring.turbo.util.CharsetPool.ISO_8859_1;
-import static spring.turbo.util.CharsetPool.UTF_8;
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 /**
  * @author 应卓

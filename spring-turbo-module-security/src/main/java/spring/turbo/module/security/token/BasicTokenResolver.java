@@ -11,10 +11,11 @@ package spring.turbo.module.security.token;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.WebRequest;
 import spring.turbo.util.Base64Utils;
-import spring.turbo.util.CharsetPool;
 import spring.turbo.util.StringPool;
 
 import java.util.Optional;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * HTTP Basic 令牌解析器
@@ -46,7 +47,7 @@ public final class BasicTokenResolver extends HeaderTokenResolver {
 
         final String tokenValue = tokenOption.get().asString();
         String headerValue = tokenValue;
-        headerValue = new String(Base64Utils.decode(headerValue), CharsetPool.UTF_8);
+        headerValue = new String(Base64Utils.decode(headerValue), UTF_8);
 
         final String[] parts = headerValue.split(StringPool.COLON);
         if (parts.length != 2) {
