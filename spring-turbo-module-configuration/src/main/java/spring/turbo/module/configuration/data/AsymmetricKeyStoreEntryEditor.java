@@ -9,11 +9,7 @@
 package spring.turbo.module.configuration.data;
 
 import spring.turbo.core.ResourceLoaders;
-import spring.turbo.util.EnumUtils;
 import spring.turbo.util.StringFormatter;
-import spring.turbo.util.StringPool;
-import spring.turbo.util.StringUtils;
-import spring.turbo.util.crypto.KeyStoreFormat;
 import spring.turbo.util.crypto.KeyStoreHelper;
 
 import java.beans.PropertyEditor;
@@ -21,10 +17,19 @@ import java.beans.PropertyEditorSupport;
 import java.security.KeyPair;
 import java.security.cert.Certificate;
 
+import static spring.turbo.module.configuration.data.InternalKeyStoreEntryUtils.*;
+
 /**
+ * 支持多行或单行字符串转化成 {@link AsymmetricKeyStoreEntry}。
+ *
+ * <pre>
+ * location=classpath:/secret/key-store-123456.p12; format=PKCS#12; storepass=123456; alias=rsa; keypass=123456;
+ * </pre>
+ *
  * @author 应卓
  * @since 3.3.1
  */
+@SuppressWarnings("DuplicatedCode")
 public class AsymmetricKeyStoreEntryEditor extends PropertyEditorSupport implements PropertyEditor {
 
     @Override
@@ -38,18 +43,14 @@ public class AsymmetricKeyStoreEntryEditor extends PropertyEditorSupport impleme
     }
 
     private AsymmetricKeyStoreEntry doConvert(String text) throws Throwable {
-        var parts = text.split(StringPool.SEMICOLON);
 
-        if (parts.length != 5) {
-            throw new IllegalArgumentException();
-        }
+        var location = toResourceLocation(text);
+        var format = toFormat(text);
+        var storepass = toStorepass(text);
+        var alias = toAlias(text);
+        var keypass = toKeypass(text);
 
-        var resource = ResourceLoaders.getDefault().getResource(StringUtils.removeAllWhitespaces(parts[0]));
-        var format = toFormat(parts[1]);
-        var storepass = StringUtils.removeAllWhitespaces(parts[2]);
-        var alias = StringUtils.removeAllWhitespaces(parts[3]);
-        var keypass = StringUtils.removeAllWhitespaces(parts[4]);
-
+        var resource = ResourceLoaders.getDefault().getResource(location);
         var keyStore = KeyStoreHelper.loadKeyStore(resource.getInputStream(), format, storepass);
         var keyPair = KeyStoreHelper.getKeyPair(keyStore, alias, keypass);
         var cert = KeyStoreHelper.getCertificate(keyStore, alias);
@@ -59,19 +60,6 @@ public class AsymmetricKeyStoreEntryEditor extends PropertyEditorSupport impleme
                 cert,
                 alias
         );
-    }
-
-    private KeyStoreFormat toFormat(String s) {
-        s = StringUtils.removeAllWhitespaces(s);
-        if ("p12".equalsIgnoreCase(s) || "pfx".equalsIgnoreCase(s)) {
-            return KeyStoreFormat.PKCS12;
-        }
-
-        if ("jks".equalsIgnoreCase(s)) {
-            return KeyStoreFormat.JKS;
-        }
-
-        return EnumUtils.getEnumIgnoreCase(KeyStoreFormat.class, s);
     }
 
     private record AsymmetricKeyStoreEntryImpl(KeyPair keyPair, Certificate certificate,

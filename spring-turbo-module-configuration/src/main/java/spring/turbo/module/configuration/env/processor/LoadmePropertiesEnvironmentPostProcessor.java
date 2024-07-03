@@ -19,6 +19,7 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadPro
  * @author 应卓
  * @since 2.2.1
  */
+@SuppressWarnings("DuplicatedCode")
 public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
     public LoadmePropertiesEnvironmentPostProcessor(DeferredLogFactory logFactory,
@@ -44,6 +45,7 @@ public class LoadmePropertiesEnvironmentPostProcessor extends AbstractLoadmeEnvi
             var fromAppHome = loadPropertiesFormat(pair.getApplicationHomeResource(), LOADME + " (application home)");
 
             int addedCount = 0;
+
             if (fromAppHome != null) {
                 propertySources.addLast(fromAppHome);
                 addedCount++;

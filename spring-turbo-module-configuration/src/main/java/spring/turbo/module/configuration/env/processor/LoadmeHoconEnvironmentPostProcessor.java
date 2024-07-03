@@ -19,6 +19,7 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadHoc
  * @author 应卓
  * @since 2.2.1
  */
+@SuppressWarnings("DuplicatedCode")
 public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
     public LoadmeHoconEnvironmentPostProcessor(DeferredLogFactory logFactory,
@@ -44,6 +45,7 @@ public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironme
             var fromAppHome = loadHoconFormat(pair.getApplicationHomeResource(), LOADME + " (application home)");
 
             int addedCount = 0;
+
             if (fromAppHome != null) {
                 propertySources.addLast(fromAppHome);
                 addedCount++;

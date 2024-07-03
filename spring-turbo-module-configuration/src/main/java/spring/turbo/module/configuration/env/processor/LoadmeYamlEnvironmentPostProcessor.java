@@ -19,6 +19,7 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadYam
  * @author 应卓
  * @since 2.2.1
  */
+@SuppressWarnings("DuplicatedCode")
 public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
     public LoadmeYamlEnvironmentPostProcessor(DeferredLogFactory logFactory,
@@ -44,6 +45,7 @@ public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmen
             var fromAppHome = loadYamlFormat(pair.getApplicationHomeResource(), LOADME + " (application home)");
 
             int addedCount = 0;
+
             if (fromAppHome != null) {
                 propertySources.addLast(fromAppHome);
                 addedCount++;
