@@ -9,7 +9,6 @@
 package spring.turbo.module.configuration.data;
 
 import spring.turbo.module.configuration.util.ParameterExtractor;
-import spring.turbo.util.EnumUtils;
 import spring.turbo.util.crypto.KeyStoreFormat;
 
 import java.util.Optional;
@@ -24,25 +23,10 @@ abstract class InternalKeyStoreEntryUtils {
 
     public static KeyStoreFormat toFormat(String text) {
         text = ParameterExtractor.parameterValue(text, "format");
-
-        if (text == null) {
-            throw new IllegalArgumentException();
-        }
-
-        text = text.trim();
-        if ("p12".equalsIgnoreCase(text) || "pfx".equalsIgnoreCase(text) || "pkcs#12".equalsIgnoreCase(text) || "pkcs12".equalsIgnoreCase(text)) {
-            return KeyStoreFormat.PKCS12;
-        }
-
-        if ("jks".equalsIgnoreCase(text)) {
-            return KeyStoreFormat.JKS;
-        }
-
-        var format = EnumUtils.getEnumIgnoreCase(KeyStoreFormat.class, text);
-        if (format == null) {
-            throw new IllegalArgumentException();
-        }
-        return format;
+        return Optional.ofNullable(text)
+                .map(String::trim)
+                .map(KeyStoreFormat::fromValue)
+                .orElseGet(KeyStoreFormat::getDefault);
     }
 
     public static String toResourceLocation(String text) {

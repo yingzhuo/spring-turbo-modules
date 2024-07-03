@@ -47,7 +47,7 @@ public final class BasicTokenResolver extends HeaderTokenResolver {
 
         final String tokenValue = tokenOption.get().asString();
         String headerValue = tokenValue;
-        headerValue = new String(Base64Utils.decode(headerValue), UTF_8);
+        headerValue = new String(Base64Utils.decode(headerValue.getBytes(UTF_8)), UTF_8);
 
         final String[] parts = headerValue.split(StringPool.COLON);
         if (parts.length != 2) {
