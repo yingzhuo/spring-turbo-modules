@@ -11,7 +11,6 @@ package spring.turbo.module.security;
 import jakarta.servlet.Filter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import spring.turbo.module.security.filter.SimpleRequestLoggingFilter;
 
 /**
  * {@link Filter} 配置单元
@@ -20,8 +19,6 @@ import spring.turbo.module.security.filter.SimpleRequestLoggingFilter;
  *
  * @param <T> {@link Filter} 的类型
  * @author 应卓
- * @see spring.turbo.module.security.filter.TokenAuthenticationFilter
- * @see SimpleRequestLoggingFilter
  * @see org.springframework.security.web.SecurityFilterChain
  * @since 1.0.0
  */

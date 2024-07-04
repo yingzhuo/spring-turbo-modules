@@ -8,15 +8,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webmvc.support.argument;
 
-import spring.turbo.webmvc.RemoteAddressUtils;
-
 import java.lang.annotation.*;
 
 /**
  * 客户端IP地址
  *
  * @author 应卓
- * @see RemoteAddressUtils
  * @see RemoteAddressHandlerMethodArgumentResolver
  * @since 1.0.0
  */

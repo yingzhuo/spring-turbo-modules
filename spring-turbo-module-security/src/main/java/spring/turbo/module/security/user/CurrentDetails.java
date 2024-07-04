@@ -23,8 +23,6 @@ import java.lang.annotation.*;
  * @see AbstractAuthenticationToken#getDetails()
  * @see RequestDetailsProvider
  * @see RequestDetailsProvider#SPRING_SECURITY_DEFAULT
- * @see RequestDetailsProvider#SNAPSHOT
- * @see RequestDetailsProvider#SIMPLE_DESCRIPTION
  * @since 1.0.0
  */
 @Inherited

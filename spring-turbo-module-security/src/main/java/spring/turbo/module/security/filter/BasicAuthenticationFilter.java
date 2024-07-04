@@ -33,6 +33,11 @@ import java.io.IOException;
 /**
  * HttpBasic认证过滤器
  *
+ * <p>
+ * Spring Security 已经提供了此功能。但是笔者认为其严重设计过度，不是特别习惯使用 {@link org.springframework.security.web.authentication.www.BasicAuthenticationFilter}。
+ * 故此，设计了一个简化版本的过滤器。
+ * </p>
+ *
  * @author 应卓
  * @see TokenAuthenticationFilter
  * @see spring.turbo.module.security.filter.factory.BasicAuthenticationFilterFactoryBean
