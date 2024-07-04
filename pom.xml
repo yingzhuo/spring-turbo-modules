@@ -106,7 +106,7 @@
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.3.2-SNAPSHOT</spring.boot.version>
-        <hutool.version>5.8.28</hutool.version>
+        <hutool.version>5.8.29</hutool.version>
         <curator.version>5.6.0</curator.version>
         <lombok.version>1.18.32</lombok.version>
     </properties>
@@ -181,7 +181,7 @@
             <!-- bouncycastle -->
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15to18</artifactId>
+                <artifactId>bcprov-jdk18on</artifactId>
                 <version>1.78.1</version>
             </dependency>
 

@@ -20,6 +20,9 @@ import java.security.KeyPair;
  * 通用非对称加密算法签名器
  *
  * @author 应卓
+ * @see java.security.cert.Certificate
+ * @see java.security.PrivateKey
+ * @see java.security.PublicKey
  * @since 3.3.1
  */
 public class HutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner>, InitializingBean {

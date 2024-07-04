@@ -12,8 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.lang.Nullable;
-
-import static spring.turbo.module.jackson.util.JacksonModuleUtils.loadAndRegisterModules;
+import spring.turbo.module.jackson.util.JacksonModuleUtils;
 
 /**
  * @author 应卓
@@ -24,9 +23,7 @@ public class JacksonModuleAutoConfiguration {
 
     @Autowired(required = false)
     private void initModules(@Nullable ObjectMapper objectMapper) {
-        if (objectMapper != null) {
-            loadAndRegisterModules(objectMapper);
-        }
+        JacksonModuleUtils.loadAndRegisterModules(objectMapper);
     }
 
 }

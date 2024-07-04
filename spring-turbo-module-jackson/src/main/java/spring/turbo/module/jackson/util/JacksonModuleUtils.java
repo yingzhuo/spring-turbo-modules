@@ -11,11 +11,11 @@ package spring.turbo.module.jackson.util;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -62,7 +62,7 @@ public final class JacksonModuleUtils {
      *
      * @param objectMapper 要注册的{@link ObjectMapper} 实例
      */
-    public static void loadAndRegisterModules(ObjectMapper objectMapper) {
+    public static void loadAndRegisterModules(@Nullable ObjectMapper objectMapper) {
         loadAndRegisterModules(objectMapper, null);
     }
 
@@ -72,9 +72,9 @@ public final class JacksonModuleUtils {
      * @param objectMapper 要注册的{@link ObjectMapper} 实例
      * @param predicate    过滤用predicate
      */
-    public static void loadAndRegisterModules(ObjectMapper objectMapper, @Nullable Predicate<Module> predicate) {
-        Asserts.notNull(objectMapper);
-        objectMapper.registerModules(loadModules(predicate));
+    public static void loadAndRegisterModules(@Nullable ObjectMapper objectMapper, @Nullable Predicate<Module> predicate) {
+        Optional.ofNullable(objectMapper)
+                .ifPresent(om -> om.registerModules(loadModules(predicate)));
     }
 
 }
