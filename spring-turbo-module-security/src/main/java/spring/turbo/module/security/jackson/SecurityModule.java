@@ -8,9 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.security.jackson;
 
-import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import spring.turbo.SpringTurboVersion;
 import spring.turbo.module.security.token.BasicToken;
 import spring.turbo.module.security.token.StringToken;
 
@@ -24,8 +22,7 @@ public class SecurityModule extends SimpleModule {
      * 默认构造方法
      */
     public SecurityModule() {
-        super(SecurityModule.class.getName(), VersionUtil.parseVersion(SpringTurboVersion.CURRENT,
-                "com.github.yingzhuo", "spring-turbo-module-security"));
+        super(SecurityModule.class.getName());
     }
 
     @Override

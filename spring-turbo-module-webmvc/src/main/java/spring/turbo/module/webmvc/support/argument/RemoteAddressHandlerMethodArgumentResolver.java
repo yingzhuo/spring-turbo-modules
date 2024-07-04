@@ -27,11 +27,17 @@ import java.util.Optional;
  */
 public class RemoteAddressHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(RemoteAddress.class) && parameter.getParameterType() == String.class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public Object resolveArgument(MethodParameter parameter,

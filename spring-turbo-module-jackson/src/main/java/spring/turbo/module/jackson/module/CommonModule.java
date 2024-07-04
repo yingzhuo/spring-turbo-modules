@@ -8,10 +8,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.jackson.module;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.core.util.VersionUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import spring.turbo.SpringTurboVersion;
 
 /**
  * @author 应卓
@@ -19,17 +16,11 @@ import spring.turbo.SpringTurboVersion;
  */
 public class CommonModule extends SimpleModule {
 
-    private static final Version VERSION = VersionUtil.parseVersion(
-            SpringTurboVersion.CURRENT,
-            "com.github.yingzhuo",
-            "spring-turbo-jackson"
-    );
-
     /**
      * 默认构造方法
      */
     public CommonModule() {
-        super(CommonModule.class.getName(), VERSION);
+        super(CommonModule.class.getName());
     }
 
     @Override

@@ -21,11 +21,17 @@ import spring.turbo.util.TreadSharedObjects;
  */
 public class SharedObjectHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(SharedObject.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         var annotation = parameter.getParameterAnnotation(SharedObject.class);
