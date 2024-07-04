@@ -35,6 +35,7 @@ import java.util.Optional;
 /**
  * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/">ApacheHttpComponents官方文档</a> 版本的实现
  *
+ * @author 杨洋
  * @author 应卓
  * @see org.springframework.web.client.RestClient
  * @see org.springframework.web.client.RestTemplate
