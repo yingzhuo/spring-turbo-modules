@@ -2,8 +2,8 @@ package spring.turbo.module.misc.captcha.support;
 
 import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.bean.injection.ApplicationName;
-import spring.turbo.util.RandomStringUtils;
 import spring.turbo.util.StringUtils;
+import spring.turbo.util.UUIDUtils;
 
 import static spring.turbo.util.StringPool.EMPTY;
 
@@ -20,7 +20,7 @@ public class SimpleAccessKeyGenerator implements AccessKeyGenerator, Initializin
 
     @Override
     public String generate() {
-        return applicationName + "-captcha-access-key-" + RandomStringUtils.randomUUID(true);
+        return applicationName + "-captcha-access-key-" + UUIDUtils.uuid32();
     }
 
     @Override
