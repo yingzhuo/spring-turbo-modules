@@ -10,7 +10,6 @@ import java.security.cert.X509Certificate;
  * 非对称加密算法秘钥条目
  *
  * @author 应卓
- * @see AsymmetricKeyStoreEntryEditor
  * @since 3.3.1
  */
 public interface AsymmetricKeyStoreEntry extends KeyStoreEntry {

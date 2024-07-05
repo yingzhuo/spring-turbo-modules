@@ -6,7 +6,6 @@ import java.security.Key;
  * 对称加密算法秘钥条目
  *
  * @author 应卓
- * @see SymmetricKeyStoreEntryEditor
  * @since 3.3.1
  */
 public interface SymmetricKeyStoreEntry extends KeyStoreEntry {
