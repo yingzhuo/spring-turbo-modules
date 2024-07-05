@@ -1,11 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *    ____             _            _____           _
- *   / ___| _ __  _ __(_)_ __   __ |_   _|   _ _ __| |__   ___
- *   \___ \| '_ \| '__| | '_ \ / _` || || | | | '__| '_ \ / _ \
- *    ___) | |_) | |  | | | | | (_| || || |_| | |  | |_) | (_) |
- *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
- *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.captcha.google.filter.lib;
 
 import java.awt.*;
@@ -115,7 +107,6 @@ public abstract class AbstractImageOp implements BufferedImageOp {
     }
 
     protected void filter(int[] inPixels, int[] outPixels, int width, int height) {
-
     }
 
     @Override

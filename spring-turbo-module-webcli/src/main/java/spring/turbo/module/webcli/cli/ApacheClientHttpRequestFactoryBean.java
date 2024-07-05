@@ -1,11 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *    ____             _            _____           _
- *   / ___| _ __  _ __(_)_ __   __ |_   _|   _ _ __| |__   ___
- *   \___ \| '_ \| '__| | '_ \ / _` || || | | | '__| '_ \ / _ \
- *    ___) | |_) | |  | | | | | (_| || || |_| | |  | |_) | (_) |
- *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
- *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.webcli.cli;
 
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
@@ -57,7 +49,6 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
      * 默认构造方法
      */
     public ApacheClientHttpRequestFactoryBean() {
-        super();
     }
 
     public ApacheClientHttpRequestFactoryBean(
@@ -79,7 +70,7 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
             @Nullable String clientSideCertificatePassword,
             @Nullable Duration connectTimeout,
             @Nullable Duration requestTimeout) {
-        super();
+
         this.clientSideCertificate = clientSideCertificate;
         this.clientSideCertificateFormat = clientSideCertificateFormat;
         this.clientSideCertificatePassword = clientSideCertificatePassword;
@@ -188,7 +179,6 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
     private static class TrustEverythingTrustStrategy implements TrustStrategy {
 
         private TrustEverythingTrustStrategy() {
-            super();
         }
 
         public static TrustEverythingTrustStrategy getInstance() {

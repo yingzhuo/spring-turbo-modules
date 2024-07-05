@@ -1,11 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *    ____             _            _____           _
- *   / ___| _ __  _ __(_)_ __   __ |_   _|   _ _ __| |__   ___
- *   \___ \| '_ \| '__| | '_ \ / _` || || | | | '__| '_ \ / _ \
- *    ___) | |_) | |  | | | | | (_| || || |_| | |  | |_) | (_) |
- *   |____/| .__/|_|  |_|_| |_|\__, ||_| \__,_|_|  |_.__/ \___/
- *         |_|                 |___/   https://github.com/yingzhuo/spring-turbo
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package spring.turbo.module.misc.qrcode;
 
 import jakarta.annotation.Nullable;
@@ -41,7 +33,6 @@ public final class Logo implements Serializable {
      * 私有构造方法
      */
     private Logo() {
-        super();
     }
 
     public static Builder builder() {
@@ -68,7 +59,6 @@ public final class Logo implements Serializable {
         private boolean compress = true;
 
         private Builder() {
-            super();
         }
 
         public Builder image(Image image) {
