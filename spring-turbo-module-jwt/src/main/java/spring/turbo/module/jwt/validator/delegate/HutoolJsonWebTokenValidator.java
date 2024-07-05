@@ -1,13 +1,10 @@
 package spring.turbo.module.jwt.validator.delegate;
 
 import cn.hutool.core.exceptions.ValidateException;
-import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTValidator;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import org.springframework.lang.Nullable;
-import spring.turbo.module.jwt.misc.HutoolSM2Signer;
 import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.jwt.validator.ValidatingResult;
 import spring.turbo.util.Asserts;
@@ -108,14 +105,14 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64) {
-        return SM2(publicKeyBase64, privateKeyBase64, null);
-    }
-
-    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
-        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
-        return of(new HutoolSM2Signer(sm2, withId));
-    }
+//    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64) {
+//        return SM2(publicKeyBase64, privateKeyBase64, null);
+//    }
+//
+//    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
+//        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
+//        return of(new HutoolSM2Signer(sm2, withId));
+//    }
 
     public static HutoolJsonWebTokenValidator RSHA1(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");

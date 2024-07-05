@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author 应卓
  * @since 3.3.1
  */
-public final class HutoolSM2Signer implements JWTSigner {
+public class HutoolSM2Signer implements JWTSigner {
 
     private final SM2 sm2;
 

@@ -1,14 +1,11 @@
 package spring.turbo.module.jwt.factory.delegate;
 
-import cn.hutool.crypto.SmUtil;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import cn.hutool.jwt.signers.NoneJWTSigner;
-import org.springframework.lang.Nullable;
 import spring.turbo.module.jwt.factory.JsonWebTokenData;
 import spring.turbo.module.jwt.factory.JsonWebTokenFactory;
-import spring.turbo.module.jwt.misc.HutoolSM2Signer;
 import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
@@ -113,14 +110,14 @@ public class HutoolJsonWebTokenFactory implements JsonWebTokenFactory {
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-    public static HutoolJsonWebTokenFactory SM2(String publicKeyBase64, String privateKeyBase64) {
-        return SM2(publicKeyBase64, privateKeyBase64, null);
-    }
-
-    public static HutoolJsonWebTokenFactory SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
-        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
-        return of(new HutoolSM2Signer(sm2, withId));
-    }
+//    public static HutoolJsonWebTokenFactory SM2(String publicKeyBase64, String privateKeyBase64) {
+//        return SM2(publicKeyBase64, privateKeyBase64, null);
+//    }
+//
+//    public static HutoolJsonWebTokenFactory SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
+//        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
+//        return of(new HutoolSM2Signer(sm2, withId));
+//    }
 
     public static HutoolJsonWebTokenFactory RSHA1(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
