@@ -39,7 +39,7 @@ class EnableRestClientInterfacesConfiguration implements ImportBeanDefinitionReg
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator ng) {
         var importingAnnotationAttributes =
                 AnnotationAttributes.fromMap(
-                        importingClassMetadata.getAnnotationAttributes(IMPORTING_ANNOTATION_CLASS.getName())
+                        importingClassMetadata.getAnnotationAttributes(IMPORTING_ANNOTATION_CLASS.getName(), false)
                 );
 
         if (importingAnnotationAttributes == null) {
