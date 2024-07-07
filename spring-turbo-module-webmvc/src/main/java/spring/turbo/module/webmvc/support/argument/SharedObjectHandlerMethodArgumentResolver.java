@@ -5,7 +5,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import spring.turbo.util.TreadSharedObjects;
+import spring.turbo.util.ThreadSharedObjects;
 
 /**
  * @author 应卓
@@ -32,12 +32,12 @@ public class SharedObjectHandlerMethodArgumentResolver implements HandlerMethodA
             return null;
         }
 
-        if (annotation.byType() != void.class) {
-            return TreadSharedObjects.get(annotation.byType());
+        if (annotation.type() != void.class) {
+            return ThreadSharedObjects.get(annotation.type());
         }
 
-        if (!"".equals(annotation.byName())) {
-            return TreadSharedObjects.get(annotation.byName());
+        if (!"".equals(annotation.name())) {
+            return ThreadSharedObjects.get(annotation.name());
         }
 
         return null;

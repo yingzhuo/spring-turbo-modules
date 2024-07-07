@@ -4,8 +4,9 @@ import java.lang.annotation.*;
 
 /**
  * @author 应卓
- * @see spring.turbo.util.TreadSharedObjects
+ * @see spring.turbo.util.ThreadSharedObjects
  * @see SharedObjectHandlerMethodArgumentResolver
+ * @see spring.turbo.util.ThreadSharedObjects
  * @since 3.3.1
  */
 @Inherited
@@ -14,8 +15,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SharedObject {
 
-    public String byName() default "";
+    public String name() default "";
 
-    public Class<?> byType() default void.class;
+    public Class<?> type() default void.class;
 
 }
