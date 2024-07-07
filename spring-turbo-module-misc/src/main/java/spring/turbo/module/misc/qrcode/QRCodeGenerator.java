@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * QRCode生成器默认实现
  *
  * @author 应卓
- * @see spring.turbo.io.ImageUtils
+ * @see spring.turbo.util.io.ImageUtils
  * @since 1.0.0
  */
 public interface QRCodeGenerator {

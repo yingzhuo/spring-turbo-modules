@@ -6,7 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 import spring.turbo.core.ResourceLoaders;
-import spring.turbo.io.RichResource;
+import spring.turbo.util.io.RichResource;
 
 import java.util.Arrays;
 

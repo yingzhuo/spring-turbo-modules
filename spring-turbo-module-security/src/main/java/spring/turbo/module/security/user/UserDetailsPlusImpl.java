@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.util.Attributes;
+import spring.turbo.util.collection.Attributes;
 
 import java.io.Serializable;
 import java.util.Collection;

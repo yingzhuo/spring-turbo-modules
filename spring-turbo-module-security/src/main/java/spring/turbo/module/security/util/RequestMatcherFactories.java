@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.*;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-import spring.turbo.util.ArrayUtils;
 import spring.turbo.util.Asserts;
+import spring.turbo.util.collection.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;

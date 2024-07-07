@@ -2,9 +2,9 @@ package spring.turbo.module.misc.captcha.hutool;
 
 import cn.hutool.captcha.ICaptcha;
 import org.springframework.lang.NonNull;
-import spring.turbo.io.CloseUtils;
 import spring.turbo.module.misc.captcha.Captcha;
 import spring.turbo.module.misc.captcha.CaptchaService;
+import spring.turbo.util.io.CloseUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

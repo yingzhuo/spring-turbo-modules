@@ -5,16 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
-import spring.turbo.io.ImageUtils;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.ImageFormatPool;
+import spring.turbo.util.io.ImageUtils;
 
 import java.awt.image.BufferedImage;
 
 /**
  * @author 应卓
  * @see #builder()
- * @see spring.turbo.util.ImageFormatPool#PNG
  * @since 1.0.1
  */
 public final class ImageResponseEntity extends ResponseEntity<byte[]> {
@@ -39,7 +37,7 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
 
         private HttpStatus status = HttpStatus.OK;
 
-        private String format = ImageFormatPool.PNG;
+        private String format = "png";
 
         @Nullable
         private BufferedImage image;

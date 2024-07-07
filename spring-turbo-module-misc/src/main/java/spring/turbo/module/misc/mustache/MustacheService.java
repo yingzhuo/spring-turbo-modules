@@ -2,7 +2,7 @@ package spring.turbo.module.misc.mustache;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
-import spring.turbo.io.ResourceUtils;
+import spring.turbo.util.io.ResourceUtils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 

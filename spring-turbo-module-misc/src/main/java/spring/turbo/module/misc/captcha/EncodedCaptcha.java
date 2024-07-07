@@ -1,8 +1,7 @@
 package spring.turbo.module.misc.captcha;
 
-import spring.turbo.io.ImageUtils;
 import spring.turbo.util.Asserts;
-import spring.turbo.util.ImageFormatPool;
+import spring.turbo.util.io.ImageUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -28,7 +27,7 @@ public final class EncodedCaptcha implements Serializable {
      */
     private EncodedCaptcha(Captcha captcha) {
         this.captcha = captcha;
-        this.encodedImage = ImageUtils.encodeToBase64(captcha.getImage(), ImageFormatPool.PNG);
+        this.encodedImage = ImageUtils.encodeToBase64(captcha.getImage(), "png");
     }
 
     public static EncodedCaptcha of(Captcha captcha) {
