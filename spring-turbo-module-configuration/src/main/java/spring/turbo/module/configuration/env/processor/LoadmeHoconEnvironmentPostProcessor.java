@@ -2,7 +2,6 @@ package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import static spring.turbo.module.configuration.util.PropertySourceUtils.loadHoconFormat;
@@ -14,15 +13,13 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadHoc
 @SuppressWarnings("DuplicatedCode")
 public class LoadmeHoconEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
-    public LoadmeHoconEnvironmentPostProcessor(DeferredLogFactory logFactory,
-                                               ConfigurableBootstrapContext bootstrapContext) {
-        super(logFactory, bootstrapContext);
+    public LoadmeHoconEnvironmentPostProcessor(ConfigurableBootstrapContext bootstrapContext) {
+        super(bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE + 102);
     }
 
     @Override
-    protected void execute(ConfigurableEnvironment environment, SpringApplication application) {
-
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         final var option = LoadmeOption.HOCON;
 
         if (super.isNotHandled()) {

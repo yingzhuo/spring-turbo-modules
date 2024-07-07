@@ -2,7 +2,6 @@ package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.logging.DeferredLogFactory;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import static spring.turbo.module.configuration.util.PropertySourceUtils.loadYamlFormat;
@@ -14,14 +13,13 @@ import static spring.turbo.module.configuration.util.PropertySourceUtils.loadYam
 @SuppressWarnings("DuplicatedCode")
 public class LoadmeYamlEnvironmentPostProcessor extends AbstractLoadmeEnvironmentPostProcessor {
 
-    public LoadmeYamlEnvironmentPostProcessor(DeferredLogFactory logFactory,
-                                              ConfigurableBootstrapContext bootstrapContext) {
-        super(logFactory, bootstrapContext);
+    public LoadmeYamlEnvironmentPostProcessor(ConfigurableBootstrapContext bootstrapContext) {
+        super(bootstrapContext);
         super.setOrder(HIGHEST_PRECEDENCE + 101);
     }
 
     @Override
-    protected void execute(ConfigurableEnvironment environment, SpringApplication application) {
+    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 
         final var option = LoadmeOption.YAML;
 

@@ -1,31 +1,39 @@
 package spring.turbo.module.configuration.env.processor;
 
 import org.springframework.boot.ConfigurableBootstrapContext;
-import org.springframework.boot.logging.DeferredLogFactory;
-import spring.turbo.core.env.EnvironmentPostProcessorSupport;
+import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.core.Ordered;
 
 /**
  * @author 应卓
  * @since 2.2.1
  */
-abstract class AbstractLoadmeEnvironmentPostProcessor extends EnvironmentPostProcessorSupport {
+abstract class AbstractLoadmeEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     protected static final String LOADME = "loadme";
 
-    public AbstractLoadmeEnvironmentPostProcessor(DeferredLogFactory logFactory,
-                                                  ConfigurableBootstrapContext bootstrapContext) {
-        super(logFactory, bootstrapContext);
-        super.setOrder(LOWEST_PRECEDENCE);
+    private final ConfigurableBootstrapContext boot;
+    private int order = 0;
+
+    public AbstractLoadmeEnvironmentPostProcessor(ConfigurableBootstrapContext boot) {
+        this.boot = boot;
     }
 
     protected final boolean isNotHandled() {
-        var boot = super.getBootstrapContext();
         return !boot.isRegistered(LoadmeOption.class);
     }
 
     protected final void setHandled(LoadmeOption option) {
-        var boot = super.getBootstrapContext();
         boot.registerIfAbsent(LoadmeOption.class, context -> option);
+    }
+
+    @Override
+    public int getOrder() {
+        return this.order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
 }
