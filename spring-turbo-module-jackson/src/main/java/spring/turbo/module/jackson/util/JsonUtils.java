@@ -310,11 +310,21 @@ public final class JsonUtils {
                 .read(jsonPath, typeRef);
     }
 
+    /**
+     * 获取 {@link ObjectMapper} 实例
+     *
+     * @return {@link ObjectMapper} 实例
+     */
     public static ObjectMapper getObjectMapper() {
         return SpringUtils.getBean(ObjectMapper.class)
                 .orElseGet(SyncAvoid::getJsonMapper);
     }
 
+    /**
+     * 获取 {@link Configuration} 实例
+     *
+     * @return {@link Configuration} 实例
+     */
     public static Configuration getJsonPathConf() {
         return SpringUtils.getBean(Configuration.class)
                 .orElseGet(SyncAvoid::getJsonPathConf);
