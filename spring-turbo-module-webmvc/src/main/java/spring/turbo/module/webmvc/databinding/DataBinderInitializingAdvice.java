@@ -3,6 +3,7 @@ package spring.turbo.module.webmvc.databinding;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
+import spring.turbo.databinding.DirectMessageCodeResolver;
 import spring.turbo.databinding.SmartBindingErrorProcessor;
 
 /**
@@ -14,6 +15,7 @@ public class DataBinderInitializingAdvice {
 
     @InitBinder
     public void init(WebDataBinder dataBinder) {
+        dataBinder.setMessageCodesResolver(DirectMessageCodeResolver.getInstance());
         dataBinder.setBindingErrorProcessor(SmartBindingErrorProcessor.getInstance());
     }
 

@@ -2,8 +2,10 @@ package spring.turbo.module.webmvc.autoconfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,8 +15,6 @@ import spring.turbo.module.webmvc.support.argument.RemoteAddressHandlerMethodArg
 import spring.turbo.module.webmvc.support.argument.SharedObjectHandlerMethodArgumentResolver;
 
 import java.util.List;
-
-import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 /**
  * @author 应卓
@@ -27,7 +27,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Autowired(required = false)
     public void config(@Nullable BeanNameViewResolver resolver) {
         if (resolver != null) {
-            resolver.setOrder(HIGHEST_PRECEDENCE);
+            resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         }
     }
 
@@ -41,6 +41,12 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      * @since 2024-06-30
      */
     @Bean
+    @ConditionalOnProperty(
+            prefix = "springboot.mvc",
+            name = "data-binder-initializing-advice",
+            havingValue = "true",
+            matchIfMissing = true
+    )
     public DataBinderInitializingAdvice dataBinderInitializingAdvice() {
         return new DataBinderInitializingAdvice();
     }
