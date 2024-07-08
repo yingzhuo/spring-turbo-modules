@@ -3,7 +3,7 @@ package spring.turbo.module.jackson.util;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.ServiceLoaderUtils;
+import spring.turbo.util.spi.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Objects;

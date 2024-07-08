@@ -44,7 +44,6 @@ public final class JsonWebTokenData implements Serializable {
      * 构造方法
      */
     public JsonWebTokenData() {
-
         this.headerMap.put(HEADER_TYPE, "JWT");
     }
 

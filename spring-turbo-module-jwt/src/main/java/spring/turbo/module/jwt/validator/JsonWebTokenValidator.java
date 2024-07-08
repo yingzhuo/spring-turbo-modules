@@ -9,6 +9,7 @@ package spring.turbo.module.jwt.validator;
  * </ul>
  *
  * @author 应卓
+ * @see spring.turbo.module.jwt.factory.JsonWebTokenFactory
  * @since 3.3.1
  */
 @FunctionalInterface

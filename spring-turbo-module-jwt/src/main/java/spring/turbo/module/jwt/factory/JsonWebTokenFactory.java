@@ -4,6 +4,7 @@ package spring.turbo.module.jwt.factory;
  * JWT令牌生成器
  *
  * @author 应卓
+ * @see spring.turbo.module.jwt.validator.JsonWebTokenValidator
  * @since 3.1.1
  */
 @FunctionalInterface

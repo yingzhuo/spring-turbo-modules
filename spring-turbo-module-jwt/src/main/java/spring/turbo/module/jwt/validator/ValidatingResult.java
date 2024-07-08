@@ -28,6 +28,6 @@ public enum ValidatingResult implements Serializable {
     /**
      * 令牌相关事件不合法
      */
-    INVALID_TIME;
+    INVALID_TIME
 
 }
