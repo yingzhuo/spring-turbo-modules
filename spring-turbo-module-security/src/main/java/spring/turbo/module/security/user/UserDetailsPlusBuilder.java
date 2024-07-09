@@ -5,7 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import spring.turbo.module.security.util.AuthorityUtils;
 import spring.turbo.util.collection.Attributes;
+import spring.turbo.util.time.LocalDateUtils;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -32,12 +34,6 @@ public final class UserDetailsPlusBuilder {
     private Object id;
 
     @Nullable
-    private String nickname;
-
-    @Nullable
-    private Object gender;
-
-    @Nullable
     private Object avatar;
 
     @Nullable
@@ -50,7 +46,7 @@ public final class UserDetailsPlusBuilder {
     private String phoneNumber;
 
     @Nullable
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Nullable
     private String biography;
@@ -135,11 +131,6 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
-    public UserDetailsPlusBuilder nickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
     public UserDetailsPlusBuilder avatar(Object avatar) {
         this.avatar = avatar;
         return this;
@@ -160,9 +151,17 @@ public final class UserDetailsPlusBuilder {
         return this;
     }
 
-    public UserDetailsPlusBuilder dateOfBirth(Date dateOfBirth) {
+    public UserDetailsPlusBuilder dateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
+    }
+
+    public UserDetailsPlusBuilder dateOfBirth(Date dateOfBirth) {
+        return dateOfBirth(LocalDateUtils.toLocalDate(dateOfBirth));
+    }
+
+    public UserDetailsPlusBuilder dateOfBirth(String dateOfBirth) {
+        return dateOfBirth(LocalDate.parse(dateOfBirth));
     }
 
     public UserDetailsPlusBuilder biography(String bioInfo) {
@@ -200,7 +199,7 @@ public final class UserDetailsPlusBuilder {
             userBuilder.password(DEFAULT_PASSWORD);
         }
 
-        return new UserDetailsPlusImpl(userBuilder.build(), this.id, this.nickname, this.avatar, this.nativeUser,
+        return new UserDetailsPlusImpl(userBuilder.build(), this.id, this.avatar, this.nativeUser,
                 this.email, this.phoneNumber, this.dateOfBirth, this.biography, this.nationality, this.location,
                 this.url, this.attributes);
     }

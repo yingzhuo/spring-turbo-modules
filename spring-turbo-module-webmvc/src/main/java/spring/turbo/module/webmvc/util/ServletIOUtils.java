@@ -16,6 +16,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author 应卓
  * @since 3.3.1
  */
+@Deprecated(since = "3.3.1")
 public final class ServletIOUtils {
 
     /**

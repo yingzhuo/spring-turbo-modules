@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.util.collection.Attributes;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,9 +26,6 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     private final Object id;
 
     @Nullable
-    private final String nickname;
-
-    @Nullable
     private final Object avatar;
 
     @Nullable
@@ -41,7 +38,7 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     private final String phoneNumber;
 
     @Nullable
-    private final Date dateOfBirth;
+    private final LocalDate dateOfBirth;
 
     @Nullable
     private final String bioInfo;
@@ -58,13 +55,12 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     @NonNull
     private final Attributes attributes;
 
-    UserDetailsPlusImpl(UserDetails delegate, @Nullable Object id, @Nullable String nickname, @Nullable Object avatar,
+    UserDetailsPlusImpl(UserDetails delegate, @Nullable Object id, @Nullable Object avatar,
                         @Nullable Object nativeUser, @Nullable String email, @Nullable String phoneNumber,
-                        @Nullable Date dateOfBirth, @Nullable String bioInfo, @Nullable String nationality,
+                        @Nullable LocalDate dateOfBirth, @Nullable String bioInfo, @Nullable String nationality,
                         @Nullable String location, @Nullable String url, @Nullable Attributes attributes) {
         this.delegate = Objects.requireNonNull(delegate);
         this.id = id;
-        this.nickname = nickname;
         this.avatar = avatar;
         this.nativeUser = nativeUser;
         this.email = email;
@@ -81,12 +77,6 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     @Nullable
     public <T> T getId() {
         return (T) id;
-    }
-
-    @Override
-    @Nullable
-    public String getNickname() {
-        return nickname;
     }
 
     @Override
@@ -115,7 +105,7 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
 
     @Override
     @Nullable
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

@@ -5,8 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.util.Asserts;
 import spring.turbo.util.collection.Attributes;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * 增强型 {@link UserDetails}
@@ -19,7 +18,7 @@ import java.util.Date;
  * @see spring.turbo.module.security.authentication.TokenToUserConverter
  * @since 1.0.0
  */
-public interface UserDetailsPlus extends UserDetails, Serializable {
+public interface UserDetailsPlus extends UserDetails {
 
     /**
      * 获取创建器
@@ -49,25 +48,6 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
         T id = getId();
         Asserts.notNull(id);
         return id;
-    }
-
-    /**
-     * 获取绰号
-     *
-     * @return 绰号或{@code null}
-     */
-    @Nullable
-    public String getNickname();
-
-    /**
-     * 获取绰号
-     *
-     * @return 绰号
-     */
-    public default String getRequiredNickname() {
-        String nickname = getNickname();
-        Asserts.notNull(nickname);
-        return nickname;
     }
 
     /**
@@ -105,7 +85,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
      * @return 电子邮件地址
      */
     public default String getRequiredEmail() {
-        String email = getEmail();
+        var email = getEmail();
         Asserts.notNull(email);
         return email;
     }
@@ -124,7 +104,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
      * @return 电话号码
      */
     public default String getRequiredPhoneNumber() {
-        String phoneNumber = getPhoneNumber();
+        var phoneNumber = getPhoneNumber();
         Asserts.notNull(phoneNumber);
         return phoneNumber;
     }
@@ -135,15 +115,15 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
      * @return 出生日期或{@code null}
      */
     @Nullable
-    public Date getDateOfBirth();
+    public LocalDate getDateOfBirth();
 
     /**
      * 出生日期
      *
      * @return 出生日期
      */
-    public default Date getRequiredDateOfBirth() {
-        Date dob = getDateOfBirth();
+    public default LocalDate getRequiredDateOfBirth() {
+        var dob = getDateOfBirth();
         Asserts.notNull(dob);
         return dob;
     }
@@ -162,7 +142,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
      * @return bio
      */
     public default String getRequiredBiography() {
-        String bio = getBiography();
+        var bio = getBiography();
         Asserts.notNull(bio);
         return bio;
     }
@@ -218,7 +198,7 @@ public interface UserDetailsPlus extends UserDetails, Serializable {
      * @return URL
      */
     public default String getRequiredUrl() {
-        String url = getUrl();
+        var url = getUrl();
         Asserts.notNull(url);
         return url;
     }
