@@ -44,7 +44,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnProperty(
-            prefix = "springboot.webmvc",
+            prefix = "springturbo.webmvc",
             name = "data-binder-initializing-advice",
             havingValue = "true",
             matchIfMissing = true

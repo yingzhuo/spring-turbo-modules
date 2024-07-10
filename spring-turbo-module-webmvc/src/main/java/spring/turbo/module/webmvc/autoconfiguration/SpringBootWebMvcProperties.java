@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @since 2024-07-10
  */
 @Data
-@ConfigurationProperties(prefix = "springboot.webmvc")
+@ConfigurationProperties(prefix = "springturbo.webmvc")
 public class SpringBootWebMvcProperties implements Serializable {
 
     private boolean dataBinderInitializingAdvice = true;
