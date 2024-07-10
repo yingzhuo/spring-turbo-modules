@@ -12,15 +12,15 @@ import java.time.Duration;
  * {@link HttpComponentsClientHttpRequestFactory} 生成工具
  *
  * @author 应卓
- * @see ApacheClientHttpRequestFactoryBean
+ * @see Apache5ClientHttpRequestFactoryBean
  * @since 3.3.1
  */
-public final class ApacheClientHttpRequestFactoryFactories {
+public final class Apache5ClientHttpRequestFactoryFactories {
 
     /**
      * 私有构造方法
      */
-    private ApacheClientHttpRequestFactoryFactories() {
+    private Apache5ClientHttpRequestFactoryFactories() {
     }
 
     /**
@@ -79,7 +79,7 @@ public final class ApacheClientHttpRequestFactoryFactories {
             @Nullable Duration requestTimeout) {
 
         try {
-            var factoryBean = new ApacheClientHttpRequestFactoryBean();
+            var factoryBean = new Apache5ClientHttpRequestFactoryBean();
             factoryBean.setClientSideCertificate(clientSideCertificate);
             factoryBean.setClientSideCertificateFormat(clientSideCertificateFormat);
             factoryBean.setClientSideCertificatePassword(clientSideCertificatePassword);

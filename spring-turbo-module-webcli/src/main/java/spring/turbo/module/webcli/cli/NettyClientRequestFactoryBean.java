@@ -31,7 +31,7 @@ public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequ
     private @Nullable Duration connectTimeout = null;
     private @Nullable Duration exchangeTimeout = null;
     private @Nullable Duration readTimeout = null;
-    private ReactorNettyClientRequestFactory factory;
+    private ReactorNettyClientRequestFactory factory = null;
 
     /**
      * 默认构造方法

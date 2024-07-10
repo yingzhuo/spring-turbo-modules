@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 1.3.0
  */
 @AutoConfiguration
+@EnableConfigurationProperties(SpringBootWebMvcProperties.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
@@ -42,7 +44,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnProperty(
-            prefix = "springboot.mvc",
+            prefix = "springboot.webmvc",
             name = "data-binder-initializing-advice",
             havingValue = "true",
             matchIfMissing = true

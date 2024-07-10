@@ -183,6 +183,13 @@
                 <version>4.4.0</version>
             </dependency>
 
+            <!-- ssl-context-kickstart (http-client tool) -->
+            <dependency>
+                <groupId>io.github.hakky54</groupId>
+                <artifactId>sslcontext-kickstart</artifactId>
+                <version>8.3.6</version>
+            </dependency>
+
             <!-- zookeeper-client (high level) -->
             <dependency>
                 <groupId>org.apache.curator</groupId>
@@ -307,9 +314,9 @@
                         <manifest>
                             <addClasspath>false</addClasspath>
                             <addDefaultEntries>true</addDefaultEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
+                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+                            <addBuildEnvironmentEntries>false</addBuildEnvironmentEntries>
                             <addExtensions>false</addExtensions>
                         </manifest>
                         <manifestEntries/>

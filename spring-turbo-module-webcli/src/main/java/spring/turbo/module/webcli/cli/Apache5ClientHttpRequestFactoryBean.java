@@ -33,7 +33,7 @@ import java.util.Optional;
  * @see org.springframework.web.client.RestTemplate
  * @since 3.3.1
  */
-public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
+public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private static final String HTTPS = URIScheme.HTTPS.getId();
     private static final String HTTP = URIScheme.HTTP.getId();
@@ -43,28 +43,28 @@ public class ApacheClientHttpRequestFactoryBean implements FactoryBean<ClientHtt
     private @Nullable String clientSideCertificatePassword;
     private @Nullable Duration connectTimeout;
     private @Nullable Duration requestTimeout;
-    private HttpComponentsClientHttpRequestFactory factory;
+    private HttpComponentsClientHttpRequestFactory factory = null;
 
     /**
      * 默认构造方法
      */
-    public ApacheClientHttpRequestFactoryBean() {
+    public Apache5ClientHttpRequestFactoryBean() {
     }
 
-    public ApacheClientHttpRequestFactoryBean(
+    public Apache5ClientHttpRequestFactoryBean(
             @Nullable Duration connectTimeout,
             @Nullable Duration requestTimeout) {
         this(null, null, null, connectTimeout, requestTimeout);
     }
 
-    public ApacheClientHttpRequestFactoryBean(
+    public Apache5ClientHttpRequestFactoryBean(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword) {
         this(clientSideCertificate, clientSideCertificateFormat, clientSideCertificatePassword, null, null);
     }
 
-    public ApacheClientHttpRequestFactoryBean(
+    public Apache5ClientHttpRequestFactoryBean(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword,
