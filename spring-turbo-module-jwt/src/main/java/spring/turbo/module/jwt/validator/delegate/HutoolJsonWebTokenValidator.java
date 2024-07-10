@@ -105,15 +105,6 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
-//    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64) {
-//        return SM2(publicKeyBase64, privateKeyBase64, null);
-//    }
-//
-//    public static HutoolJsonWebTokenValidator SM2(String publicKeyBase64, String privateKeyBase64, @Nullable String withId) {
-//        var sm2 = SmUtil.sm2(privateKeyBase64, publicKeyBase64);
-//        return of(new HutoolSM2Signer(sm2, withId));
-//    }
-
     public static HutoolJsonWebTokenValidator RSHA1(KeyPair keyPair) {
         Asserts.notNull(keyPair, "keyPair is null");
         var algId = "RSHA1";

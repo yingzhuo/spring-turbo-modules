@@ -3,7 +3,6 @@ package spring.turbo.module.jwt.misc;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 import java.security.KeyPair;
@@ -21,7 +20,7 @@ import java.security.cert.X509Certificate;
  * @see java.security.PublicKey
  * @since 3.3.1
  */
-public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner>, InitializingBean {
+public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
 
     @Nullable
     private String sigAlgName;
@@ -49,13 +48,6 @@ public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<J
     @Override
     public final Class<?> getObjectType() {
         return JWTSigner.class;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet() throws Exception {
     }
 
     /**
