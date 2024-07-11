@@ -29,6 +29,11 @@ public class PropertiesUserDetailsService implements UserDetailsService {
 
     private final Map<String, UserDetails> delegate = new HashMap<>();
 
+    /**
+     * 构造方法
+     *
+     * @param users 用户数据
+     */
     public PropertiesUserDetailsService(@Nullable Properties users) {
         if (users == null) {
             return;
@@ -40,10 +45,10 @@ public class PropertiesUserDetailsService implements UserDetailsService {
             var username = (String) usernames.nextElement();
             editor.setAsText(users.getProperty(username));
 
-            UserAttribute attr = (UserAttribute) editor.getValue();
+            var attr = (UserAttribute) editor.getValue();
             Assert.notNull(attr, () -> "The entry with username '" + username + "' could not be converted to an UserDetails");
             var user = createUserDetails(username, attr);
-            this.delegate.put(username, user);
+            delegate.put(username, user);
         }
     }
 
@@ -52,7 +57,7 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = this.delegate.get(username);
+        var user = delegate.get(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

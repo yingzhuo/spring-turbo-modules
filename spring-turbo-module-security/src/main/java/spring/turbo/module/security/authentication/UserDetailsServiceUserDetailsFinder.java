@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spring.turbo.util.Asserts;
@@ -41,11 +42,15 @@ public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
     @Nullable
     @Override
     public UserDetails loadUserByUsernameAndPassword(String username, String password) throws AuthenticationException {
-        UserDetails ud = userDetailsService.loadUserByUsername(username);
-        if (ud == null || ud.getPassword() == null) {
+        try {
+            var ud = userDetailsService.loadUserByUsername(username);
+            if (ud == null || ud.getPassword() == null) {
+                return null;
+            }
+            return passwordEncoder.matches(password, ud.getPassword()) ? ud : null;
+        } catch (UsernameNotFoundException e) {
             return null;
         }
-        return passwordEncoder.matches(password, ud.getPassword()) ? ud : null;
     }
 
     public UserDetailsService getUserDetailsService() {

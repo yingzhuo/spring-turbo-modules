@@ -33,6 +33,9 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
@@ -43,12 +46,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
      * @since 2024-06-30
      */
     @Bean
-    @ConditionalOnProperty(
-            prefix = "springturbo.webmvc",
-            name = "data-binder-initializing-advice",
-            havingValue = "true",
-            matchIfMissing = true
-    )
+    @ConditionalOnProperty(prefix = "springturbo.webmvc", name = "data-binder-initializing-advice", havingValue = "true", matchIfMissing = true)
     public DataBinderInitializingAdvice dataBinderInitializingAdvice() {
         return new DataBinderInitializingAdvice();
     }
