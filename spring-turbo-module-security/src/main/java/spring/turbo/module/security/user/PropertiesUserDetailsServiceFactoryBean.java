@@ -5,7 +5,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.util.StringUtils;
 
 import java.util.Properties;
@@ -19,10 +18,10 @@ import java.util.Properties;
  * </pre>
  *
  * @author 应卓
- * @see InMemoryUserDetailsManager
+ * @see PropertiesUserDetailsService
  * @since 3.3.1
  */
-public class PropertiesUserDetailsServiceFactoryBean implements FactoryBean<UserDetailsService>, ResourceLoaderAware, InitializingBean {
+public class PropertiesUserDetailsServiceFactoryBean implements FactoryBean<PropertiesUserDetailsService>, ResourceLoaderAware, InitializingBean {
 
     private final Properties properties = new Properties();
     private String location;
@@ -32,8 +31,8 @@ public class PropertiesUserDetailsServiceFactoryBean implements FactoryBean<User
      * {@inheritDoc}
      */
     @Override
-    public UserDetailsService getObject() {
-        return new InMemoryUserDetailsManager(properties);
+    public PropertiesUserDetailsService getObject() {
+        return new PropertiesUserDetailsService(properties);
     }
 
     /**
@@ -41,7 +40,7 @@ public class PropertiesUserDetailsServiceFactoryBean implements FactoryBean<User
      */
     @Override
     public Class<?> getObjectType() {
-        return UserDetailsService.class;
+        return PropertiesUserDetailsService.class;
     }
 
     /**

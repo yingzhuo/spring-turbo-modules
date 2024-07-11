@@ -21,6 +21,10 @@ public class SubjectDnX509PrincipalExtractor implements X509PrincipalExtractor {
 
     private final String subjectAlternativeName;
 
+    public SubjectDnX509PrincipalExtractor() {
+        this(SubjectAlternativeName.CN);
+    }
+
     public SubjectDnX509PrincipalExtractor(@Nullable SubjectAlternativeName subjectAlternativeName) {
         this.subjectAlternativeName =
                 Objects.requireNonNullElse(subjectAlternativeName, SubjectAlternativeName.CN).toString();
