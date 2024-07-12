@@ -58,19 +58,19 @@ public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<J
         return true;
     }
 
-    public final void setSigAlgName(String sigAlgName) {
+    protected final void setSigAlgName(String sigAlgName) {
         this.sigAlgName = sigAlgName;
     }
 
-    public final void setKeyPair(KeyPair keyPair) {
+    protected final void setKeyPair(KeyPair keyPair) {
         this.keyPair = keyPair;
     }
 
-    public final void setKeyPair(PublicKey publicKey, PrivateKey privateKey) {
+    protected final void setKeyPair(PublicKey publicKey, PrivateKey privateKey) {
         this.keyPair = new KeyPair(publicKey, privateKey);
     }
 
-    public final void setKeyPairAndSigAlgName(Certificate certificate, PrivateKey privateKey) {
+    protected final void setKeyPairAndSigAlgName(Certificate certificate, PrivateKey privateKey) {
         this.keyPair = new KeyPair(certificate.getPublicKey(), privateKey);
         this.sigAlgName = ((X509Certificate) certificate).getSigAlgName();
     }
