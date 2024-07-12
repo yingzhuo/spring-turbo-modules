@@ -6,11 +6,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
-import spring.turbo.util.crypto.KeyStoreFormat;
+import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
 import java.security.cert.X509Certificate;
 
-import static spring.turbo.util.crypto.KeyStoreHelper.*;
+import static spring.turbo.util.crypto.keystore.KeyStoreHelper.*;
 
 /**
  * @author 应卓
@@ -22,8 +22,8 @@ public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricS
     private static final Logger logger = LoggerFactory.getLogger(KeyStoreHutoolAsymmetricSignerFactoryBean.class);
 
     private ResourceLoader resourceLoader;
-    private String keyStoreLocation;
-    private KeyStoreFormat keyStoreFormat = KeyStoreFormat.PKCS12;
+    private String location;
+    private KeyStoreFormat format = KeyStoreFormat.PKCS12;
     private String storepass;
     private String alias;
     private String keypass;
@@ -39,22 +39,18 @@ public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricS
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(keyStoreLocation, () -> "keyStoreLocation is required");
-        Assert.notNull(keyStoreFormat, () -> "keyStoreFormat is required");
+        Assert.notNull(location, () -> "location is required");
+        Assert.notNull(format, () -> "format is required");
         Assert.notNull(storepass, () -> "storepass is required");
         Assert.notNull(alias, () -> "alias is required");
         Assert.notNull(keypass, () -> "keypass is required");
 
-        var keyStoreResource = resourceLoader.getResource(keyStoreLocation);
-
-        try (var keyStoreInputStream = keyStoreResource.getInputStream()) {
-            var ks = loadKeyStore(keyStoreInputStream, keyStoreFormat, storepass);
-
-            var cert = getCertificate(ks, alias);
-            var privateKey = getPrivateKey(ks, alias, keypass);
-
+        var resource = resourceLoader.getResource(location);
+        try (var inputStream = resource.getInputStream()) {
+            var store = loadKeyStore(inputStream, format, storepass);
+            var cert = getCertificate(store, alias);
+            var privateKey = getPrivateKey(store, alias, keypass);
             logger.debug("asymmetric signer: {} ({})", privateKey.getAlgorithm(), ((X509Certificate) cert).getSigAlgName());
-
             super.setKeyPairAndSigAlgName(cert, privateKey);
         }
     }
@@ -67,12 +63,12 @@ public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricS
         this.resourceLoader = resourceLoader;
     }
 
-    public void setKeyStoreLocation(String keyStoreLocation) {
-        this.keyStoreLocation = keyStoreLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setKeyStoreFormat(KeyStoreFormat keyStoreFormat) {
-        this.keyStoreFormat = keyStoreFormat;
+    public void setFormat(KeyStoreFormat format) {
+        this.format = format;
     }
 
     public void setStorepass(String storepass) {

@@ -10,7 +10,7 @@ import org.springframework.http.client.ReactorNettyClientRequestFactory;
 import org.springframework.lang.Nullable;
 import reactor.netty.http.client.HttpClient;
 import spring.turbo.module.webcli.x509.TrustAllX509TrustManager;
-import spring.turbo.util.crypto.KeyStoreFormat;
+import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
 import javax.net.ssl.KeyManagerFactory;
 import java.security.KeyStore;
