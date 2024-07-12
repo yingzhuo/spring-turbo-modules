@@ -18,7 +18,7 @@ import java.util.Properties;
  * <p>
  * 格式如下:
  * <pre>
- * bob={noop}bob,enabled,ROLE_USER,ROLE_ADMIN
+ * root={bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
  * </pre>
  *
  * @author 应卓

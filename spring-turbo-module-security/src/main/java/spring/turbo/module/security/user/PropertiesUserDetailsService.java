@@ -18,7 +18,7 @@ import java.util.Properties;
  * <p>
  * 格式如下:
  * <pre>
- * bob={noop}bob,enabled,ROLE_USER,ROLE_ADMIN
+ * root={bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
  * </pre>
  *
  * @author 应卓
@@ -67,6 +67,26 @@ public class PropertiesUserDetailsService implements UserDetailsService {
 
     private User createUserDetails(String name, UserAttribute attr) {
         return new User(name, attr.getPassword(), attr.isEnabled(), true, true, true, attr.getAuthorities());
+    }
+
+    /**
+     * 获取用户的数量
+     *
+     * @return 用户的数量
+     * @see Map#size()
+     */
+    public int size() {
+        return delegate.size();
+    }
+
+    /**
+     * 判断包含的用户量是否为空
+     *
+     * @return 为空时返回 {@code true}
+     * @see Map#isEmpty()
+     */
+    public boolean isEmpty() {
+        return delegate.isEmpty();
     }
 
 }
