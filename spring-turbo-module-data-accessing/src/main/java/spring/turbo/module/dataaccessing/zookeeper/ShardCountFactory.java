@@ -7,7 +7,6 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -18,8 +17,6 @@ public class ShardCountFactory implements FactoryBean<SharedCount>, Initializing
     private final SharedCount count;
 
     public ShardCountFactory(CuratorFramework zkCli, String path, int seedValue) {
-        Asserts.notNull(zkCli);
-        Asserts.notNull(path);
         this.count = new SharedCount(zkCli, path, seedValue);
     }
 

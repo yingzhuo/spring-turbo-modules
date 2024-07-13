@@ -18,7 +18,6 @@ import spring.turbo.module.security.event.AuthenticationFailureEvent;
 import spring.turbo.module.security.event.AuthenticationSuccessEvent;
 import spring.turbo.module.security.token.BasicToken;
 import spring.turbo.module.security.token.BasicTokenResolver;
-import spring.turbo.util.Asserts;
 
 import java.io.IOException;
 
@@ -59,8 +58,8 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
-        Asserts.notNull(this.tokenResolver);
-        Asserts.notNull(this.userDetailsFinder);
+//        Asserts.notNull(this.tokenResolver);
+//        Asserts.notNull(this.userDetailsFinder);
 
         try {
             var token = tokenResolver.resolve(new ServletWebRequest(request, response)).orElse(null);
@@ -135,7 +134,6 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {
-        Asserts.notNull(userDetailsFinder);
         this.userDetailsFinder = userDetailsFinder;
     }
 

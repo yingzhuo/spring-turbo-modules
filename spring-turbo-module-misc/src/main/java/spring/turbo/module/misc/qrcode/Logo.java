@@ -2,7 +2,7 @@ package spring.turbo.module.misc.qrcode;
 
 import jakarta.annotation.Nullable;
 import org.springframework.core.io.Resource;
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 import spring.turbo.util.io.IOExceptionUtils;
 
 import javax.imageio.ImageIO;
@@ -40,8 +40,7 @@ public final class Logo implements Serializable {
     }
 
     public Image getImage() {
-        Asserts.notNull(image);
-        return image;
+        return Objects.requireNonNull(image);
     }
 
     public boolean isCompress() {
@@ -107,7 +106,7 @@ public final class Logo implements Serializable {
         }
 
         public Logo build() {
-            Asserts.notNull(this.image);
+            Assert.notNull(this.image, "image is not set");
             Logo logo = new Logo();
             logo.image = Objects.requireNonNull(image);
             logo.compress = this.compress;

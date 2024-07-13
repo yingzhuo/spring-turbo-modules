@@ -3,7 +3,6 @@ package spring.turbo.module.dataaccessing.datasource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -66,21 +65,16 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Init
         }
 
         public Builder defaultTargetDataSource(DataSource defaultTargetDataSource) {
-            Asserts.notNull(defaultTargetDataSource);
             this.defaultTargetDataSource = defaultTargetDataSource;
             return this;
         }
 
         public Builder addTargetDataSources(String name, DataSource targetDataSource) {
-            Asserts.hasText(name);
-            Asserts.notNull(targetDataSource);
             this.targetDataSources.put(name, targetDataSource);
             return this;
         }
 
         public DynamicDataSource build() {
-            Asserts.notNull(defaultTargetDataSource);
-            Asserts.notEmpty(targetDataSources);
             return new DynamicDataSource(defaultTargetDataSource, targetDataSources);
         }
     }

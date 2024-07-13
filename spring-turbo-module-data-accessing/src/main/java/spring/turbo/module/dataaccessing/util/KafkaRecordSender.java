@@ -2,7 +2,6 @@ package spring.turbo.module.dataaccessing.util;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import spring.turbo.core.SpringUtils;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -17,20 +16,16 @@ public final class KafkaRecordSender {
     }
 
     public static void send(String topic, String record) {
-        Asserts.notNull(record);
         final KafkaTemplate<String, String> template = getTemplate();
         template.send(topic, record);
     }
 
     public static void send(String topic, String key, String record) {
-        Asserts.notNull(record);
         final KafkaTemplate<String, String> template = getTemplate();
         template.send(topic, key, record);
     }
 
     public static void send(String topic, int partition, String key, String record) {
-        Asserts.isTrue(partition >= 0);
-        Asserts.notNull(record);
         final KafkaTemplate<String, String> template = getTemplate();
         template.send(topic, partition, key, record);
     }

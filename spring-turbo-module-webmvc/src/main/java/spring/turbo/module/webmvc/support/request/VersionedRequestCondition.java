@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import spring.turbo.module.webmvc.util.version.VersionResolver;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -17,8 +16,6 @@ public class VersionedRequestCondition implements RequestCondition<VersionedRequ
     private final boolean ignoreCase;
 
     public VersionedRequestCondition(VersionResolver versionResolver, String acceptVersion, boolean ignoreCase) {
-        Asserts.hasText(acceptVersion);
-        Asserts.notNull(versionResolver);
         this.versionResolver = versionResolver;
         this.acceptVersion = acceptVersion.trim();
         this.ignoreCase = ignoreCase;

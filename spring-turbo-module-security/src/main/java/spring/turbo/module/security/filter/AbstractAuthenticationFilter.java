@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -63,7 +62,6 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     }
 
     public final void setTokenResolver(TokenResolver tokenResolver) {
-        Asserts.notNull(tokenResolver);
         this.tokenResolver = tokenResolver;
     }
 

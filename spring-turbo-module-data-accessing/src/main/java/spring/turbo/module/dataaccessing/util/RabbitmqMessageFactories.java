@@ -3,7 +3,6 @@ package spring.turbo.module.dataaccessing.util;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
-import spring.turbo.util.Asserts;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -52,8 +51,6 @@ public final class RabbitmqMessageFactories {
      * @return 消息实例
      */
     public static Message create(String messageContent, long ttlInMillis, int priority) {
-        Asserts.notNull(messageContent);
-
         final MessageProperties props = new MessageProperties();
 
         // 内容类型: byte[]

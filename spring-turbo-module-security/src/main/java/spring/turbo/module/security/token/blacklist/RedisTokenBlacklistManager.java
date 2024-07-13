@@ -4,7 +4,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.security.exception.BlacklistTokenException;
 import spring.turbo.module.security.token.Token;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.StringFormatter;
 import spring.turbo.util.StringPool;
 
@@ -25,14 +24,12 @@ public class RedisTokenBlacklistManager implements TokenBlacklistManager {
     private String keySuffix = StringPool.EMPTY;
 
     public RedisTokenBlacklistManager(StringRedisTemplate redisTemplate, @Nullable Duration ttl) {
-        Asserts.notNull(redisTemplate);
         this.redisTemplate = redisTemplate;
         this.ttl = ttl;
     }
 
     @Override
     public void save(Token token) {
-        Asserts.notNull(token);
         final var key = getKey(token);
         final var value = getValue(token);
         if (ttl == null) {
@@ -44,7 +41,6 @@ public class RedisTokenBlacklistManager implements TokenBlacklistManager {
 
     @Override
     public void verify(Token token) throws BlacklistTokenException {
-        Asserts.notNull(token);
         final var key = getKey(token);
         if (redisTemplate.opsForValue().get(key) != null) {
             var msg = StringFormatter.format("token \"{}\" is blacklisted", token.asString());

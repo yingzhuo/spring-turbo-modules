@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 
 import java.util.Objects;
 
@@ -28,7 +28,7 @@ public class UserDetailsServiceUserDetailsFinder implements UserDetailsFinder {
 
     public UserDetailsServiceUserDetailsFinder(UserDetailsService userDetailsService,
                                                @Nullable PasswordEncoder passwordEncoder) {
-        Asserts.notNull(userDetailsService);
+        Assert.notNull(userDetailsService, "userDetailsService is required");
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = Objects.requireNonNullElseGet(passwordEncoder, NoOpPasswordEncoder::getInstance);
     }

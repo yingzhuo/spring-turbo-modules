@@ -6,7 +6,6 @@ import org.springframework.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.io.CloseUtils;
 
 import java.io.File;
@@ -95,11 +94,6 @@ public class AttachmentResponseEntity extends ResponseEntity<byte[]> {
         }
 
         public AttachmentResponseEntity build() {
-            Asserts.notNull(content);
-            Asserts.notNull(attachmentName);
-            Asserts.notNull(status);
-            Asserts.notNull(mediaType);
-
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentDisposition(ContentDisposition.attachment()
                     .filename(new String(attachmentName.getBytes(UTF_8), ISO_8859_1)).build());

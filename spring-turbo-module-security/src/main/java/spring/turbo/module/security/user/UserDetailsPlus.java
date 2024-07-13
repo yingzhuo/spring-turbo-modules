@@ -2,10 +2,10 @@ package spring.turbo.module.security.user;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.collection.Attributes;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * 增强型 {@link UserDetails}
@@ -46,8 +46,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default <T> T getRequiredId() {
         T id = getId();
-        Asserts.notNull(id);
-        return id;
+        return Objects.requireNonNull(id);
     }
 
     /**
@@ -67,8 +66,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default <T> T getRequiredAvatar() {
         T avatar = getAvatar();
-        Asserts.notNull(avatar);
-        return avatar;
+        return Objects.requireNonNull(avatar);
     }
 
     /**
@@ -86,8 +84,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default String getRequiredEmail() {
         var email = getEmail();
-        Asserts.notNull(email);
-        return email;
+        return Objects.requireNonNull(email);
     }
 
     /**
@@ -105,8 +102,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default String getRequiredPhoneNumber() {
         var phoneNumber = getPhoneNumber();
-        Asserts.notNull(phoneNumber);
-        return phoneNumber;
+        return Objects.requireNonNull(phoneNumber);
     }
 
     /**
@@ -124,8 +120,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default LocalDate getRequiredDateOfBirth() {
         var dob = getDateOfBirth();
-        Asserts.notNull(dob);
-        return dob;
+        return Objects.requireNonNull(dob);
     }
 
     /**
@@ -143,8 +138,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default String getRequiredBiography() {
         var bio = getBiography();
-        Asserts.notNull(bio);
-        return bio;
+        return Objects.requireNonNull(bio);
     }
 
     /**
@@ -155,14 +149,13 @@ public interface UserDetailsPlus extends UserDetails {
     public String getNationality();
 
     /**
-     * 国际
+     * 国籍
      *
-     * @return 国际
+     * @return 国籍
      */
     public default String getRequiredNationality() {
         String nationality = getNationality();
-        Asserts.notNull(nationality);
-        return nationality;
+        return Objects.requireNonNull(nationality);
     }
 
     /**
@@ -180,8 +173,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default String getRequiredLocation() {
         String location = getLocation();
-        Asserts.notNull(location);
-        return location;
+        return Objects.requireNonNull(location);
     }
 
     /**
@@ -199,8 +191,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default String getRequiredUrl() {
         var url = getUrl();
-        Asserts.notNull(url);
-        return url;
+        return Objects.requireNonNull(url);
     }
 
     /**
@@ -227,8 +218,7 @@ public interface UserDetailsPlus extends UserDetails {
      */
     public default <T> T getRequiredNativeUser() {
         T user = getNativeUser();
-        Asserts.notNull(user);
-        return user;
+        return Objects.requireNonNull(user);
     }
 
 }

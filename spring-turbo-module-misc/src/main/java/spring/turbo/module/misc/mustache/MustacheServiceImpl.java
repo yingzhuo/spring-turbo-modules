@@ -4,7 +4,7 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
 import com.github.mustachejava.resolver.ClasspathResolver;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -34,7 +34,7 @@ public class MustacheServiceImpl implements MustacheService {
      */
     @Override
     public String render(String classpathTemplateLocation, @Nullable Object data) {
-        Asserts.hasText(classpathTemplateLocation);
+        Assert.hasText(classpathTemplateLocation, "classpathTemplateLocation is requuired");
 
         if (classpathTemplateLocation.startsWith("classpath:")) {
             classpathTemplateLocation = classpathTemplateLocation.substring("classpath:".length());
@@ -51,7 +51,7 @@ public class MustacheServiceImpl implements MustacheService {
      */
     @Override
     public String render(String templateString, String templateName, @Nullable Object data) {
-        Asserts.hasText(templateName, "templateName is required");
+        Assert.hasText(templateName, "templateName is required");
 
         var writer = new StringWriter();
         var mustache = mustacheFactory.compile(new StringReader(templateString), templateName);

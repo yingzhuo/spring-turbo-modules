@@ -5,9 +5,9 @@ import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTValidator;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import org.springframework.util.Assert;
 import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.jwt.validator.ValidatingResult;
-import spring.turbo.util.Asserts;
 
 import java.security.KeyPair;
 
@@ -28,7 +28,7 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
     private final JWTSigner signer;
 
     private HutoolJsonWebTokenValidator(JWTSigner signer) {
-        Asserts.notNull(signer, "signer is required");
+        Assert.notNull(signer, "signer is required");
         this.signer = signer;
     }
 
@@ -37,88 +37,88 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
     }
 
     public static HutoolJsonWebTokenValidator HS256(String key) {
-        Asserts.hasText(key, "key is null or blank");
+        Assert.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs256(key.getBytes()));
     }
 
     public static HutoolJsonWebTokenValidator HS384(String key) {
-        Asserts.hasText(key, "key is null or blank");
+        Assert.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs384(key.getBytes()));
     }
 
     public static HutoolJsonWebTokenValidator H512(String key) {
-        Asserts.hasText(key, "key is null or blank");
+        Assert.hasText(key, "key is null or blank");
         return of(JWTSignerUtil.hs512(key.getBytes()));
     }
 
     public static HutoolJsonWebTokenValidator RS256(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RS256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator RS384(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RS384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator RS512(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RS512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator ES256(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "ES256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator ES384(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "ES384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator ES512(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "ES512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator PS256(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "PS256";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator PS384(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "PS384";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator PS512(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "PS512";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator RSHA1(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RSHA1";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator RMD2(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RMD2";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
 
     public static HutoolJsonWebTokenValidator RMD5(KeyPair keyPair) {
-        Asserts.notNull(keyPair, "keyPair is null");
+        Assert.notNull(keyPair, "keyPair is null");
         var algId = "RMD5";
         return of(JWTSignerUtil.createSigner(algId, keyPair));
     }
@@ -128,7 +128,7 @@ public class HutoolJsonWebTokenValidator implements JsonWebTokenValidator {
      */
     @Override
     public ValidatingResult validate(String token) {
-        Asserts.hasText("token", "token is null or blank");
+        Assert.hasText("token", "token is null or blank");
 
         JWT jwt;
 

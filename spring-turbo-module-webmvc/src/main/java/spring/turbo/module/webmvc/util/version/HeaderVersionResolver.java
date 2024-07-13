@@ -2,7 +2,6 @@ package spring.turbo.module.webmvc.util.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 
 import static spring.turbo.util.StringUtils.isNotBlank;
 
@@ -24,7 +23,6 @@ public class HeaderVersionResolver implements VersionResolver {
     }
 
     public HeaderVersionResolver(String headerName) {
-        Asserts.hasText(headerName);
         this.headerName = headerName;
     }
 

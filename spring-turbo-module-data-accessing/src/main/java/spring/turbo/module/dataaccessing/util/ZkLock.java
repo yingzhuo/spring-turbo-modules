@@ -3,7 +3,6 @@ package spring.turbo.module.dataaccessing.util;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import spring.turbo.core.SpringUtils;
-import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
@@ -31,14 +30,10 @@ public final class ZkLock implements Serializable {
 
     public static ZkLock newInstance(String zkPath) {
         final CuratorFramework zkClient = SpringUtils.getRequiredBean(CuratorFramework.class);
-        Asserts.notNull(zkClient);
         return new ZkLock(zkClient, zkPath);
     }
 
     public boolean lock(long ttl, TimeUnit ttlUnit) {
-        Asserts.isTrue(ttl > 0);
-        Asserts.notNull(ttlUnit);
-
         try {
             return mutex.acquire(ttl, ttlUnit);
         } catch (Exception e) {

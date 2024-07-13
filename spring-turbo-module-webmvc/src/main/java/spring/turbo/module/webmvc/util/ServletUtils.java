@@ -5,7 +5,8 @@ import jakarta.servlet.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import spring.turbo.util.Asserts;
+
+import java.util.Objects;
 
 /**
  * Servlet相关工具
@@ -33,8 +34,7 @@ public final class ServletUtils {
 
     public static HttpServletRequest getRequiredRequest() {
         var request = getRequest();
-        Asserts.notNull(request);
-        return request;
+        return Objects.requireNonNull(request);
     }
 
     public static HttpServletRequest getUnwrappedRequest() {
@@ -58,8 +58,7 @@ public final class ServletUtils {
 
     public static HttpServletResponse getRequiredResponse() {
         final HttpServletResponse response = getResponse();
-        Asserts.notNull(response);
-        return response;
+        return Objects.requireNonNull(response);
     }
 
     public static HttpServletResponse getUnwrappedResponse() {

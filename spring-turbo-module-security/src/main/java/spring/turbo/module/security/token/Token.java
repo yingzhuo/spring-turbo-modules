@@ -1,7 +1,5 @@
 package spring.turbo.module.security.token;
 
-import spring.turbo.util.Asserts;
-
 import java.io.Serializable;
 
 /**
@@ -15,7 +13,6 @@ import java.io.Serializable;
 public interface Token extends Serializable {
 
     public static Token ofString(String stringValue) {
-        Asserts.notNull(stringValue, "stringValue is null");
         return StringToken.of(stringValue);
     }
 

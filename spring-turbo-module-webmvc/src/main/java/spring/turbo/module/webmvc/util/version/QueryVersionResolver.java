@@ -2,7 +2,6 @@ package spring.turbo.module.webmvc.util.version;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 
 import static spring.turbo.util.StringUtils.isNotBlank;
 
@@ -24,7 +23,6 @@ public class QueryVersionResolver implements VersionResolver {
     }
 
     public QueryVersionResolver(String parameterName) {
-        Asserts.hasText(parameterName);
         this.parameterName = parameterName;
     }
 

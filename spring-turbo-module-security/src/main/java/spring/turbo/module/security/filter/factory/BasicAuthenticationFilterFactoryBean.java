@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.util.Assert;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
@@ -18,7 +19,6 @@ import spring.turbo.module.security.filter.BasicAuthenticationFilter;
 import spring.turbo.module.security.token.BasicTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -44,7 +44,7 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
     @Override
     public FilterConfiguration<Filter> getObject() {
-        Asserts.notNull(userDetailsFinder, "userDetailsFinder is required");
+        Assert.notNull(userDetailsFinder, "userDetailsFinder is required");
 
         var filter = new BasicAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
@@ -69,7 +69,7 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
     @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(userDetailsFinder, "userDetails is required");
+        Assert.notNull(userDetailsFinder, "userDetails is required");
     }
 
     public void setPosition(FilterConfiguration.Position position) {

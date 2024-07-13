@@ -4,7 +4,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import spring.turbo.core.SpringUtils;
 import spring.turbo.module.dataaccessing.redis.RedisLockKeyCustomizer;
-import spring.turbo.util.Asserts;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,10 +35,6 @@ public final class RedisLockUtils {
      * @return true时表示成功
      */
     public static boolean lock(String key, String uuid, int ttlInSeconds) {
-        Asserts.hasText(key);
-        Asserts.hasText(uuid);
-        Asserts.isTrue(ttlInSeconds >= 1);
-
         final RedisLockKeyCustomizer keyFunc = SpringUtils.getBean(RedisLockKeyCustomizer.class)
                 .orElse(LOCK_KEY_CUSTOMIZER);
         key = keyFunc.customize(key);
@@ -58,9 +53,6 @@ public final class RedisLockUtils {
      * @return true时表示成功
      */
     public static boolean release(String key, String uuid) {
-        Asserts.hasText(key);
-        Asserts.hasText(uuid);
-
         final RedisLockKeyCustomizer keyFunc = SpringUtils.getBean(RedisLockKeyCustomizer.class)
                 .orElse(LOCK_KEY_CUSTOMIZER);
         key = keyFunc.customize(key);

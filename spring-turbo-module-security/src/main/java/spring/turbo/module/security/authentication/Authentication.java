@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.module.security.token.Token;
 import spring.turbo.module.security.util.AuthorityUtils;
-import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -104,8 +103,7 @@ public final class Authentication extends AbstractAuthenticationToken
 
     public UserDetails getRequiredUserDetails() {
         var ud = getUserDetails();
-        Asserts.notNull(ud);
-        return ud;
+        return Objects.requireNonNull(ud);
     }
 
     @Nullable
@@ -115,8 +113,7 @@ public final class Authentication extends AbstractAuthenticationToken
 
     public Token getRequiredToken() {
         var token = getToken();
-        Asserts.notNull(token);
-        return token;
+        return Objects.requireNonNull(token);
     }
 
 }

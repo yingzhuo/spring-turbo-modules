@@ -9,7 +9,6 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.dataaccessing.zookeeper.properties.ZookeeperProps;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -23,7 +22,6 @@ public class ZkClientFactory implements FactoryBean<CuratorFramework>, Initializ
     private CuratorFramework zkCli;
 
     public ZkClientFactory(ZookeeperProps zkProps) {
-        Asserts.notNull(zkProps);
         this.zkProps = zkProps;
     }
 

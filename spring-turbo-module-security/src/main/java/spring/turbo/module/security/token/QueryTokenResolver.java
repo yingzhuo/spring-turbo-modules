@@ -3,7 +3,6 @@ package spring.turbo.module.security.token;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.WebRequest;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.StringUtils;
 
 import java.util.Optional;
@@ -38,7 +37,6 @@ public class QueryTokenResolver implements TokenResolver {
      * @param prefix    前缀
      */
     public QueryTokenResolver(@NonNull String paramName, @Nullable String prefix) {
-        Asserts.hasText(paramName);
         if (prefix == null)
             prefix = EMPTY;
         this.paramName = paramName;

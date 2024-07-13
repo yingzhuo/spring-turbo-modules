@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.*;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.collection.ArrayUtils;
 
 import java.util.ArrayList;
@@ -35,21 +34,14 @@ public final class RequestMatcherFactories {
     // ------------------------------------------------------------------------------------------------------------------
 
     public static RequestMatcher or(RequestMatcher... matchers) {
-        Asserts.notNull(matchers);
-        Asserts.notEmpty(matchers);
-        Asserts.noNullElements(matchers);
         return new OrRequestMatcher(matchers);
     }
 
     public static RequestMatcher and(RequestMatcher... matchers) {
-        Asserts.notNull(matchers);
-        Asserts.notEmpty(matchers);
-        Asserts.noNullElements(matchers);
         return new AndRequestMatcher(matchers);
     }
 
     public static RequestMatcher not(RequestMatcher matcher) {
-        Asserts.notNull(matcher);
         return new NegatedRequestMatcher(matcher);
     }
 
@@ -66,7 +58,6 @@ public final class RequestMatcherFactories {
     // ------------------------------------------------------------------------------------------------------------------
 
     public static RequestMatcher fromPredicate(Predicate<HttpServletRequest> predicate) {
-        Asserts.notNull(predicate);
         return predicate::test;
     }
 
@@ -77,10 +68,6 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher antPaths(HttpMethod method, boolean caseSensitive, String... patterns) {
-        Asserts.notNull(patterns);
-        Asserts.notEmpty(patterns);
-        Asserts.noNullElements(patterns);
-
         if (ArrayUtils.length(patterns) == 1) {
             return new AntPathRequestMatcher(patterns[0], method.name(), caseSensitive);
         } else {
@@ -93,11 +80,6 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher mvcPatterns(HandlerMappingIntrospector introspector, String... patterns) {
-        Asserts.notNull(introspector);
-        Asserts.notNull(patterns);
-        Asserts.notEmpty(patterns);
-        Asserts.noNullElements(patterns);
-
         if (ArrayUtils.length(patterns) == 1) {
             return new MvcRequestMatcher.Builder(introspector).pattern(patterns[0]);
         } else {
@@ -111,12 +93,6 @@ public final class RequestMatcherFactories {
 
     public static RequestMatcher mvcPatterns(HandlerMappingIntrospector introspector, HttpMethod method,
                                              String... patterns) {
-        Asserts.notNull(introspector);
-        Asserts.notNull(method);
-        Asserts.notNull(patterns);
-        Asserts.notEmpty(patterns);
-        Asserts.noNullElements(patterns);
-
         if (ArrayUtils.length(patterns) == 1) {
             return new MvcRequestMatcher.Builder(introspector).pattern(method, patterns[0]);
         } else {
@@ -129,10 +105,6 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher regexPatterns(String... patterns) {
-        Asserts.notNull(patterns);
-        Asserts.notEmpty(patterns);
-        Asserts.noNullElements(patterns);
-
         if (ArrayUtils.length(patterns) == 1) {
             return RegexRequestMatcher.regexMatcher(patterns[0]);
         } else {
@@ -149,11 +121,6 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher regexPatterns(HttpMethod method, boolean caseInsensitive, String... patterns) {
-        Asserts.notNull(method);
-        Asserts.notNull(patterns);
-        Asserts.notEmpty(patterns);
-        Asserts.noNullElements(patterns);
-
         if (ArrayUtils.length(patterns) == 1) {
             return new RegexRequestMatcher(patterns[0], method.name(), caseInsensitive);
         } else {
@@ -166,30 +133,22 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher ipAddress(String ipAddress) {
-        Asserts.hasText(ipAddress);
         return new IpAddressMatcher(ipAddress);
     }
 
     public static RequestMatcher mediaType(MediaType... mediaTypes) {
-        Asserts.notNull(mediaTypes);
-        Asserts.noNullElements(mediaTypes);
         return new MediaTypeRequestMatcher(mediaTypes);
     }
 
     public static RequestMatcher dispatcherType(DispatcherType dispatcherType) {
-        Asserts.notNull(dispatcherType);
         return new DispatcherTypeRequestMatcher(dispatcherType);
     }
 
     public static RequestMatcher dispatcherType(DispatcherType dispatcherType, HttpMethod method) {
-        Asserts.notNull(dispatcherType);
-        Asserts.notNull(method);
         return new DispatcherTypeRequestMatcher(dispatcherType, method);
     }
 
     public static RequestMatcher header(String headerName, String regex) {
-        Asserts.hasText(headerName);
-        Asserts.hasText(regex);
         return request -> {
             final String headerValue = request.getHeader(headerName);
             if (headerValue == null) {
@@ -200,8 +159,6 @@ public final class RequestMatcherFactories {
     }
 
     public static RequestMatcher query(String parameterName, String regex) {
-        Asserts.hasText(parameterName);
-        Asserts.hasText(regex);
         return request -> {
             final String parameterValue = request.getParameter(parameterName);
             if (parameterValue == null) {

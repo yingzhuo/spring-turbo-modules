@@ -3,13 +3,13 @@ package spring.turbo.module.security.jwt;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 import spring.turbo.module.jwt.validator.JsonWebTokenValidator;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.jwt.exception.BadJwtAlgorithmTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtFormatTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtTimeTokenException;
 import spring.turbo.module.security.token.Token;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.StringFormatter;
 
 import java.util.Base64;
@@ -30,7 +30,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
      * @param validator JWT验证器
      */
     protected AbstractJwtTokenToUserConverter(JsonWebTokenValidator validator) {
-        Asserts.notNull(validator, "validator is required");
+        Assert.notNull(validator, "validator is required");
         this.validator = validator;
     }
 

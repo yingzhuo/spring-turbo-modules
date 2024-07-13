@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.Asserts;
 
 import java.io.Serializable;
 
@@ -24,12 +23,7 @@ public class ZookeeperProps implements InitializingBean, Serializable {
 
     @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(connectString);
-        Asserts.notNull(backoffRetryPolicy);
-        Asserts.notNull(leaderElection);
-
         if (leaderElection.enabled) {
-            Asserts.notNull(leaderElection.zkPath);
         }
     }
 

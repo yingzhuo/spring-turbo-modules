@@ -3,7 +3,8 @@ package spring.turbo.module.webmvc.util;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
-import spring.turbo.util.Asserts;
+
+import java.util.Objects;
 
 /**
  * 远程IP地址工具
@@ -27,7 +28,6 @@ public final class RemoteAddressUtils {
      */
     @Nullable
     public static String getIpAddress(HttpServletRequest request) {
-        Asserts.notNull(request);
         String ip = request.getHeader("X-Forwarded-For");
 
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -65,9 +65,8 @@ public final class RemoteAddressUtils {
      * @return ip地址
      */
     public static String getRequiredIpAddress(HttpServletRequest request) {
-        String ip = getIpAddress(request);
-        Asserts.notNull(ip);
-        return ip;
+        var ip = getIpAddress(request);
+        return Objects.requireNonNull(ip);
     }
 
     /**
@@ -78,9 +77,7 @@ public final class RemoteAddressUtils {
      */
     @Nullable
     public static String getIpAddress(NativeWebRequest request) {
-        Asserts.notNull(request);
         final HttpServletRequest httpServletRequest = request.getNativeRequest(HttpServletRequest.class);
-        Asserts.notNull(httpServletRequest);
         return getIpAddress(httpServletRequest);
     }
 
@@ -91,9 +88,8 @@ public final class RemoteAddressUtils {
      * @return ip地址
      */
     public static String getRequiredIpAddress(NativeWebRequest request) {
-        String ip = getIpAddress(request);
-        Asserts.notNull(ip);
-        return ip;
+        var ip = getIpAddress(request);
+        return Objects.requireNonNull(ip);
     }
 
 }

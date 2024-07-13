@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-import spring.turbo.util.Asserts;
 
 import static spring.turbo.util.StringUtils.isNotBlank;
 
@@ -26,8 +25,6 @@ public class ServletPathVersionResolver implements VersionResolver {
     }
 
     public ServletPathVersionResolver(String antStylePattern, String variable) {
-        Asserts.hasText(antStylePattern);
-        Asserts.hasText(variable);
         this.antStylePattern = antStylePattern;
         this.variable = variable;
     }

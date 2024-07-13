@@ -1,6 +1,6 @@
 package spring.turbo.module.misc.captcha;
 
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -18,8 +18,8 @@ public final class Captcha implements Serializable {
     private final BufferedImage image;
 
     public Captcha(String word, BufferedImage image) {
-        Asserts.hasLength(word);
-        Asserts.notNull(image);
+        Assert.hasLength(word, "word is required");
+        Assert.notNull(image, "image is required");
         this.word = word;
         this.image = image;
     }

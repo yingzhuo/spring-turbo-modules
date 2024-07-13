@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
-import spring.turbo.util.Asserts;
 import spring.turbo.util.io.ImageUtils;
 
 import java.awt.image.BufferedImage;
@@ -61,10 +60,6 @@ public final class ImageResponseEntity extends ResponseEntity<byte[]> {
         }
 
         public ImageResponseEntity build() {
-            Asserts.notNull(status);
-            Asserts.notNull(image);
-            Asserts.hasText(format);
-
             final byte[] bytes = ImageUtils.toByteArray(image, format);
             final int size = bytes.length;
 

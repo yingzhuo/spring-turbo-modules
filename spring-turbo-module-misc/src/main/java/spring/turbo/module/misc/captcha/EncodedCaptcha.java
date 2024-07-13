@@ -1,6 +1,6 @@
 package spring.turbo.module.misc.captcha;
 
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 import spring.turbo.util.io.ImageUtils;
 
 import java.awt.image.BufferedImage;
@@ -31,9 +31,7 @@ public final class EncodedCaptcha implements Serializable {
     }
 
     public static EncodedCaptcha of(Captcha captcha) {
-        Asserts.notNull(captcha);
-        Asserts.notNull(captcha.getWord());
-        Asserts.notNull(captcha.getImage());
+        Assert.notNull(captcha, "captcha is required");
         return new EncodedCaptcha(captcha);
     }
 

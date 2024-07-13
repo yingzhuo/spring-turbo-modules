@@ -17,7 +17,6 @@ import spring.turbo.module.security.event.AuthenticationFailureEvent;
 import spring.turbo.module.security.event.AuthenticationSuccessEvent;
 import spring.turbo.module.security.token.BearerTokenResolver;
 import spring.turbo.module.security.token.Token;
-import spring.turbo.util.Asserts;
 
 import java.io.IOException;
 
@@ -50,8 +49,8 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
-        Asserts.notNull(this.tokenResolver);
-        Asserts.notNull(this.tokenToUserConverter);
+//        Asserts.notNull(this.tokenResolver);
+//        Asserts.notNull(this.tokenToUserConverter);
 
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
@@ -135,7 +134,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     public void setTokenToUserConverter(TokenToUserConverter converter) {
-        Asserts.notNull(converter);
         this.tokenToUserConverter = converter;
     }
 

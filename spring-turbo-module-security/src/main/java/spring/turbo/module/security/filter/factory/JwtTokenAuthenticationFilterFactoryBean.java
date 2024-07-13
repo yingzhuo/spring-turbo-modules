@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.Nullable;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.util.Assert;
 import spring.turbo.module.security.FilterConfiguration;
 import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
@@ -15,7 +16,6 @@ import spring.turbo.module.security.filter.JwtTokenAuthenticationFilter;
 import spring.turbo.module.security.token.BearerTokenResolver;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
-import spring.turbo.util.Asserts;
 
 /**
  * @author 应卓
@@ -41,7 +41,7 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
 
     @Override
     public FilterConfiguration<Filter> getObject() {
-        Asserts.notNull(tokenToUserConverter);
+        Assert.notNull(tokenToUserConverter, "tokenToUserConverter is required");
 
         var filter = new JwtTokenAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
@@ -66,7 +66,7 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
 
     @Override
     public void afterPropertiesSet() {
-        Asserts.notNull(tokenToUserConverter, "tokenToUserConverter is required");
+        Assert.notNull(tokenToUserConverter, "tokenToUserConverter is required");
     }
 
     public void setPosition(FilterConfiguration.Position position) {

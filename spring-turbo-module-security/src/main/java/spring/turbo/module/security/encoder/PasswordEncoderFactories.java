@@ -7,7 +7,7 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import spring.turbo.util.Asserts;
+import org.springframework.util.Assert;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public final class PasswordEncoderFactories {
             String encodingId,
             @Nullable String defaultPasswordEncoderForMatches) {
 
-        Asserts.hasText(encodingId);
+        Assert.hasText(encodingId, "encodingId is required");
 
         var encodersMap = getEncoders();
         var ret = new DelegatingPasswordEncoder(encodingId, encodersMap);
