@@ -22,12 +22,19 @@ import java.util.Properties;
  * </pre>
  *
  * @author 应卓
- * @see PropertiesUserDetailsServiceFactoryBean
+ * @see Properties
+ * @see UserDetails
  * @since 3.3.1
  */
 public class PropertiesUserDetailsService implements UserDetailsService {
 
-    private final Map<String, UserDetails> delegate = new HashMap<>();
+    private final Map<String, UserDetails> map = new HashMap<>();
+
+    /**
+     * 默认构造方法
+     */
+    public PropertiesUserDetailsService() {
+    }
 
     /**
      * 构造方法
@@ -35,21 +42,7 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      * @param users 用户数据
      */
     public PropertiesUserDetailsService(@Nullable Properties users) {
-        if (users == null) {
-            return;
-        }
-
-        var usernames = users.propertyNames();
-        var editor = new UserAttributeEditor();
-        while (usernames.hasMoreElements()) {
-            var username = (String) usernames.nextElement();
-            editor.setAsText(users.getProperty(username));
-
-            var attr = (UserAttribute) editor.getValue();
-            Assert.notNull(attr, () -> "The entry with username '" + username + "' could not be converted to an UserDetails");
-            var user = createUserDetails(username, attr);
-            delegate.put(username, user);
-        }
+        loadData(users);
     }
 
     /**
@@ -57,12 +50,36 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = delegate.get(username);
+        var user = map.get(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
         return new User(user.getUsername(), user.getPassword(), user.isEnabled(), user.isAccountNonExpired(),
                 user.isCredentialsNonExpired(), user.isAccountNonLocked(), user.getAuthorities());
+    }
+
+    public void addProperties(@Nullable Properties properties) {
+        loadData(properties);
+    }
+
+    public void addProperties(@Nullable Map<?, ?> properties) {
+        loadData(properties);
+    }
+
+    private void loadData(@Nullable Map<?, ?> users) {
+        if (users != null) {
+            var editor = new UserAttributeEditor();
+            for (Object key : users.keySet()) {
+                Object value = users.get(key);
+
+                var username = key.toString();
+                editor.setAsText(value.toString());
+                var attr = (UserAttribute) editor.getValue();
+                Assert.notNull(attr, () -> "The entry with username '" + username + "' could not be converted to an UserDetails");
+                var user = createUserDetails(username, attr);
+                map.put(username, user);
+            }
+        }
     }
 
     private User createUserDetails(String name, UserAttribute attr) {
@@ -76,7 +93,7 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      * @see Map#size()
      */
     public int size() {
-        return delegate.size();
+        return map.size();
     }
 
     /**
@@ -86,7 +103,7 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      * @see Map#isEmpty()
      */
     public boolean isEmpty() {
-        return delegate.isEmpty();
+        return map.isEmpty();
     }
 
 }
