@@ -1,5 +1,6 @@
 package spring.turbo.module.security.user;
 
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
+public class UserDetailsPlusImpl implements UserDetailsPlus, UserDetails, Serializable {
 
     @NonNull
     private final UserDetails delegate;
@@ -171,6 +172,14 @@ public class UserDetailsPlusImpl implements UserDetailsPlus, Serializable {
     @Override
     public boolean isEnabled() {
         return delegate.isEnabled();
+    }
+
+    @Override
+    public String toString() {
+        var creator = new ToStringCreator(this);
+        creator.append("username", getUsername());
+        creator.append("password", "[PROTECTED]");
+        return creator.toString();
     }
 
 }
