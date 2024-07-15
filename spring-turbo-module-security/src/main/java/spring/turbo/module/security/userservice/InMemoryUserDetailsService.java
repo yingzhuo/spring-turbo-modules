@@ -1,4 +1,4 @@
-package spring.turbo.module.security.user;
+package spring.turbo.module.security.userservice;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.User;
@@ -14,26 +14,26 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * {@link UserDetailsService} 简单实现。 用户一旦生成则不能修改。
+ * {@link UserDetailsService} 简单实现。显而易见地，用户数据保存在内存中
  * <p>
  * 格式如下:
  * <pre>
- * root={bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
+ * root = {bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
  * </pre>
  *
  * @author 应卓
- * @see Properties
  * @see UserDetails
+ * @see Properties
  * @since 3.3.1
  */
-public class PropertiesUserDetailsService implements UserDetailsService {
+public class InMemoryUserDetailsService implements UserDetailsService {
 
     private final Map<String, UserDetails> map = new HashMap<>();
 
     /**
      * 默认构造方法
      */
-    public PropertiesUserDetailsService() {
+    public InMemoryUserDetailsService() {
     }
 
     /**
@@ -41,7 +41,7 @@ public class PropertiesUserDetailsService implements UserDetailsService {
      *
      * @param users 用户数据
      */
-    public PropertiesUserDetailsService(@Nullable Properties users) {
+    public InMemoryUserDetailsService(@Nullable Properties users) {
         loadData(users);
     }
 
