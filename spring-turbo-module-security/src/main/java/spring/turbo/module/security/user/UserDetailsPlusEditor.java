@@ -37,6 +37,7 @@ public class UserDetailsPlusEditor extends AbstractPropertyEditor<UserDetailsPlu
     @Override
     protected UserDetailsPlus convert(String text) throws DataBindingException {
         var variables = new TextVariables(text, StringMatcher.charSetMatcher(SEMICOLON, LF));
+        variables.put("createdTime", String.valueOf(System.currentTimeMillis()));
 
         var builder = UserDetailsPlus.builder();
 

@@ -22,12 +22,18 @@ public final class SHA384PasswordEncoder implements PasswordEncoder {
     public SHA384PasswordEncoder() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String encode(CharSequence rawPassword) {
         final Digester digester = new Digester(DigestAlgorithm.SHA384);
         return digester.digestHex(rawPassword.toString());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return encode(rawPassword).equals(encodedPassword);

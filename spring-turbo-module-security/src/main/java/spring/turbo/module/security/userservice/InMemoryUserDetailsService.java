@@ -42,7 +42,7 @@ public class InMemoryUserDetailsService implements UserDetailsService {
      * @param users 用户数据
      */
     public InMemoryUserDetailsService(@Nullable Properties users) {
-        loadData(users);
+        doAddUsers(users);
     }
 
     /**
@@ -58,32 +58,40 @@ public class InMemoryUserDetailsService implements UserDetailsService {
                 user.isCredentialsNonExpired(), user.isAccountNonLocked(), user.getAuthorities());
     }
 
-    public void addProperties(@Nullable Properties properties) {
-        loadData(properties);
+    /**
+     * 添加多个用户
+     * 格式如下:
+     * <pre>
+     * root = {bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
+     * </pre>
+     *
+     * @param users 用户信息
+     */
+    public void addUsers(@Nullable Properties users) {
+        doAddUsers(users);
     }
 
-    public void addProperties(@Nullable Map<?, ?> properties) {
-        loadData(properties);
+    /**
+     * 添加多个用户
+     * 格式如下:
+     * <pre>
+     * root = {bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
+     * </pre>
+     *
+     * @param users 用户信息
+     */
+    public void addUsers(@Nullable Map<?, ?> users) {
+        doAddUsers(users);
     }
 
-    private void loadData(@Nullable Map<?, ?> users) {
-        if (users != null) {
-            var editor = new UserAttributeEditor();
-            for (Object key : users.keySet()) {
-                Object value = users.get(key);
-
-                var username = key.toString();
-                editor.setAsText(value.toString());
-                var attr = (UserAttribute) editor.getValue();
-                Assert.notNull(attr, () -> "The entry with username '" + username + "' could not be converted to an UserDetails");
-                var user = createUserDetails(username, attr);
-                map.put(username, user);
-            }
-        }
-    }
-
-    private User createUserDetails(String name, UserAttribute attr) {
-        return new User(name, attr.getPassword(), attr.isEnabled(), true, true, true, attr.getAuthorities());
+    /**
+     * 添加单个用户
+     *
+     * @param username 用户名
+     * @param userInfo 其他信息 如: {bcrypt}$2a$10$zs3L/xHDTjxZw6KO/n/q1e4WV27Lh8o/NzBTytwSK14xY5NGrAkwm,enabled,ROLE_USER,ROLE_ADMIN
+     */
+    public void addUser(String username, String userInfo) {
+        doAddUsers(Map.of(username, userInfo));
     }
 
     /**
@@ -104,6 +112,35 @@ public class InMemoryUserDetailsService implements UserDetailsService {
      */
     public boolean isEmpty() {
         return map.isEmpty();
+    }
+
+    /**
+     * 获取所有用户
+     *
+     * @return 用户(多个)
+     */
+    public Map<String, UserDetails> getUsersAsMap() {
+        return this.map;
+    }
+
+    private void doAddUsers(@Nullable Map<?, ?> users) {
+        if (users != null) {
+            var editor = new UserAttributeEditor();
+            for (Object key : users.keySet()) {
+                Object value = users.get(key);
+
+                var username = key.toString();
+                editor.setAsText(value.toString());
+                var attr = (UserAttribute) editor.getValue();
+                Assert.notNull(attr, () -> "The entry with username '" + username + "' could not be converted to an UserDetails");
+                var user = createUserDetails(username, attr);
+                map.put(username, user);
+            }
+        }
+    }
+
+    private User createUserDetails(String name, UserAttribute attr) {
+        return new User(name, attr.getPassword(), attr.isEnabled(), true, true, true, attr.getAuthorities());
     }
 
 }

@@ -22,12 +22,18 @@ public final class SHA512PasswordEncoder implements PasswordEncoder {
     public SHA512PasswordEncoder() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String encode(CharSequence rawPassword) {
         final Digester digester = new Digester(DigestAlgorithm.SHA512);
         return digester.digestHex(rawPassword.toString());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return encode(rawPassword).equals(encodedPassword);

@@ -3,12 +3,14 @@ package spring.turbo.module.security.x509;
 import org.springframework.security.web.authentication.preauth.x509.X509PrincipalExtractor;
 
 /**
+ * Subject Distinguished Name
+ *
  * @author 应卓
  * @see X509PrincipalExtractor
  * @see SubjectDnX509PrincipalExtractor
  * @since 3.3.1
  */
-public enum SubjectAlternativeName {
+public enum SubjectDN {
 
     /**
      * 通用名 (Common Name)
@@ -16,7 +18,7 @@ public enum SubjectAlternativeName {
     CN,
 
     /**
-     * 国家 (Country)
+     * 国家 / 地区 (Country)
      */
     C,
 
