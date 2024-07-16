@@ -11,7 +11,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.util.Assert;
 import spring.turbo.module.security.FilterConfiguration;
-import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.authentication.UserDetailsFinder;
 import spring.turbo.module.security.authentication.UserDetailsServiceUserDetailsFinder;
 import spring.turbo.module.security.exception.SecurityExceptionHandler;
@@ -29,7 +28,6 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
     private FilterConfiguration.Position position = FilterConfiguration.Position.REPLACE;
     private Class<? extends Filter> positionInChain = org.springframework.security.web.authentication.www.BasicAuthenticationFilter.class;
     private TokenResolver tokenResolver = new BasicTokenResolver();
-    private RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
     private @Nullable UserDetailsFinder userDetailsFinder;
     private @Nullable ApplicationEventPublisher applicationEventPublisher;
     private @Nullable AuthenticationEntryPoint authenticationEntryPoint;
@@ -48,7 +46,6 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
         var filter = new BasicAuthenticationFilter();
         filter.setTokenResolver(tokenResolver);
-        filter.setRequestDetailsProvider(requestDetailsProvider);
         filter.setUserDetailsFinder(userDetailsFinder);
         filter.setApplicationEventPublisher(applicationEventPublisher);
         filter.setAuthenticationEntryPoint(authenticationEntryPoint);
@@ -82,10 +79,6 @@ public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterC
 
     public void setTokenResolver(TokenResolver tokenResolver) {
         this.tokenResolver = tokenResolver;
-    }
-
-    public void setRequestDetailsProvider(RequestDetailsProvider requestDetailsProvider) {
-        this.requestDetailsProvider = requestDetailsProvider;
     }
 
     public void setUserDetailsFinder(UserDetailsFinder userDetailsFinder) {

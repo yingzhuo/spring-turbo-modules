@@ -14,6 +14,7 @@ import spring.turbo.module.security.token.Token;
  * @since 1.0.4
  */
 @FunctionalInterface
+@Deprecated(forRemoval = true, since = "3.3.1")
 public interface RequestDetailsProvider {
 
     /**

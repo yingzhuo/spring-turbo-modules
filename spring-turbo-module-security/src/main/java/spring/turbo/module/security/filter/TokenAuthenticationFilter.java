@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.context.request.ServletWebRequest;
 import spring.turbo.module.security.authentication.Authentication;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
@@ -49,9 +50,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
-//        Asserts.notNull(this.tokenResolver);
-//        Asserts.notNull(this.tokenToUserConverter);
-
         try {
             final Token token = tokenResolver.resolve(new ServletWebRequest(request)).orElse(null);
 
@@ -78,10 +76,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
 
             final Authentication auth = new Authentication(user, token);
             auth.setAuthenticated(true);
-
-            if (requestDetailsProvider != null) {
-                auth.setDetails(requestDetailsProvider.getDetails(request, token));
-            }
+            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(auth);
 

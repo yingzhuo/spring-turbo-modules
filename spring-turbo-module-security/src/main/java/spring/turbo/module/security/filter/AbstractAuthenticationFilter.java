@@ -12,7 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import spring.turbo.module.security.authentication.RequestDetailsProvider;
 import spring.turbo.module.security.token.TokenResolver;
 import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
 
@@ -34,8 +33,8 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Nullable
     protected RememberMeServices rememberMeServices;
 
-    @Nullable
-    protected RequestDetailsProvider requestDetailsProvider;
+//    @Nullable
+//    protected RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
 
     @Nullable
     protected AuthenticationEntryPoint authenticationEntryPoint;
@@ -53,12 +52,12 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
 
     protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               Authentication authResult) {
-        // nop
+        // noop
     }
 
     protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                                 AuthenticationException failed) {
-        // nop
+        // noop
     }
 
     public final void setTokenResolver(TokenResolver tokenResolver) {
@@ -73,9 +72,9 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         this.rememberMeServices = rememberMeServices;
     }
 
-    public final void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
-        this.requestDetailsProvider = requestDetailsProvider;
-    }
+//    public final void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
+//        this.requestDetailsProvider = requestDetailsProvider;
+//    }
 
     public final void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
