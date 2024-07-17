@@ -4,13 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import spring.turbo.util.crypto.pem.CertificatePemHelper;
-import spring.turbo.util.crypto.pem.PemHelper;
+import spring.turbo.util.crypto.pem.PemReadingUtils;
 
-import java.security.KeyFactory;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.PrivateKey;
 
 /**
  * @author 应卓
@@ -21,9 +22,17 @@ public class PemHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricSigner
 
     private static final Logger logger = LoggerFactory.getLogger(PemHutoolAsymmetricSignerFactoryBean.class);
 
-    private ResourceLoader resourceLoader;
+    @NonNull
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+
+    @NonNull
     private String certificateLocation;
+
+    @NonNull
     private String keyLocation;
+
+    @Nullable
+    private String keyPassword;
 
     /**
      * 默认构造方法
@@ -35,30 +44,19 @@ public class PemHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricSigner
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         Assert.notNull(certificateLocation, () -> "certificateLocation is required");
         Assert.notNull(keyLocation, () -> "keyLocation is required");
 
         var certResource = resourceLoader.getResource(certificateLocation);
         var keyResource = resourceLoader.getResource(keyLocation);
-
-        try (var certInputStream = certResource.getInputStream();
-             var keyInputStream = keyResource.getInputStream()) {
-
-            var cert = CertificatePemHelper.readX509PemCertificate(certInputStream);
-            var publicKey = cert.getPublicKey();
-            var alg = publicKey.getAlgorithm();
-
-            var factory = KeyFactory.getInstance(alg);
-            var spec = new PKCS8EncodedKeySpec(PemHelper.readPemBytes(keyInputStream));
-            var privateKey = factory.generatePrivate(spec);
-            var sigAlgName = cert.getSigAlgName();
-
-            logger.debug("asymmetric signer: {} ({})", alg, sigAlgName);
-
-            super.setKeyPair(publicKey, privateKey);
-            super.setSigAlgName(sigAlgName);
-        }
+        var cert = PemReadingUtils.readX509PemCertificate(certResource);
+        var privateKey = (PrivateKey) PemReadingUtils.readPkcs8Key(keyResource, keyPassword);
+        var alg = privateKey.getAlgorithm();
+        var sigAlgName = cert.getSigAlgName();
+        logger.debug("asymmetric signer: {} ({})", alg, sigAlgName);
+        super.setKeyPair(cert.getPublicKey(), privateKey);
+        super.setSigAlgName(sigAlgName);
     }
 
     /**
@@ -75,6 +73,10 @@ public class PemHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricSigner
 
     public void setKeyLocation(String keyLocation) {
         this.keyLocation = keyLocation;
+    }
+
+    public void setKeyPassword(String keyPassword) {
+        this.keyPassword = keyPassword;
     }
 
 }

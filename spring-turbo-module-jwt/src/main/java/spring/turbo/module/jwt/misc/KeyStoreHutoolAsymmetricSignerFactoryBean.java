@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
@@ -21,7 +22,7 @@ public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricS
 
     private static final Logger logger = LoggerFactory.getLogger(KeyStoreHutoolAsymmetricSignerFactoryBean.class);
 
-    private ResourceLoader resourceLoader;
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private String location;
     private KeyStoreFormat format = KeyStoreFormat.PKCS12;
     private String storepass;
