@@ -29,12 +29,6 @@ public abstract class AbstractHutoolAsymmetricSignerFactoryBean implements Facto
     private KeyPair keyPair;
 
     /**
-     * 默认构造方法
-     */
-    public AbstractHutoolAsymmetricSignerFactoryBean() {
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
