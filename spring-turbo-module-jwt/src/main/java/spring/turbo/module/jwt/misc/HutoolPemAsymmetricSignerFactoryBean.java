@@ -17,6 +17,9 @@ public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetr
 
     private final PemAsymmetricKeyBundleFactoryBean delegatingFactory = new PemAsymmetricKeyBundleFactoryBean();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         delegatingFactory.afterPropertiesSet();
