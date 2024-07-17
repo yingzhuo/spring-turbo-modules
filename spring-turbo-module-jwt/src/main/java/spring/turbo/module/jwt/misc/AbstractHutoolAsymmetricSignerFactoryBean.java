@@ -20,7 +20,7 @@ import java.security.cert.X509Certificate;
  * @see java.security.PublicKey
  * @since 3.3.1
  */
-public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
+public abstract class AbstractHutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
 
     @Nullable
     private String sigAlgName;
@@ -31,7 +31,7 @@ public abstract class HutoolAsymmetricSignerFactoryBean implements FactoryBean<J
     /**
      * 默认构造方法
      */
-    public HutoolAsymmetricSignerFactoryBean() {
+    public AbstractHutoolAsymmetricSignerFactoryBean() {
     }
 
     /**

@@ -17,7 +17,7 @@ import static spring.turbo.util.crypto.keystore.KeyStoreHelper.*;
  * @author 应卓
  * @since 3.3.1
  */
-public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricSignerFactoryBean
+public class KeyStoreHutoolAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
         implements InitializingBean, ResourceLoaderAware {
 
     private static final Logger logger = LoggerFactory.getLogger(KeyStoreHutoolAsymmetricSignerFactoryBean.class);
@@ -28,12 +28,6 @@ public class KeyStoreHutoolAsymmetricSignerFactoryBean extends HutoolAsymmetricS
     private String storepass;
     private String alias;
     private String keypass;
-
-    /**
-     * 默认构造方法
-     */
-    public KeyStoreHutoolAsymmetricSignerFactoryBean() {
-    }
 
     /**
      * {@inheritDoc}
