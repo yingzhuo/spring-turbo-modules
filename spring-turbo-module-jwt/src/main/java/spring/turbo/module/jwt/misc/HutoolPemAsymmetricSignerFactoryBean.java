@@ -6,10 +6,13 @@ import org.springframework.core.io.ResourceLoader;
 import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
 
 /**
+ * {@link AbstractHutoolAsymmetricSignerFactoryBean} 的子类型，从PEM文件中加载秘钥。
+ *
  * @author 应卓
+ * @see org.springframework.boot.ssl.pem.PemContent
  * @since 3.3.1
  */
-public class PemHutoolAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
+public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
         implements InitializingBean, ResourceLoaderAware {
 
     private final PemAsymmetricKeyBundleFactoryBean delegatingFactory = new PemAsymmetricKeyBundleFactoryBean();
@@ -23,8 +26,7 @@ public class PemHutoolAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetr
             throw new IllegalStateException("cannot load bundle");
         }
 
-        super.setKeyPair(bundle.getKeyPair());
-        super.setSigAlgName(bundle.getSigAlgName());
+        super.setKeyPairAndSigAlgName(bundle.getCertificate(), bundle.getPrivateKey());
     }
 
     /**
