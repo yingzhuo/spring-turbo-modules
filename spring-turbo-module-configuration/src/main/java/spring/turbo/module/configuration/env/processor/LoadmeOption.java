@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.io.ResourceUtils;
+import spring.turbo.core.ResourceUtils;
 
 import java.util.Arrays;
 

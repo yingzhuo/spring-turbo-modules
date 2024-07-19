@@ -1,8 +1,6 @@
 package spring.turbo.module.jwt.misc;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.ResourceLoader;
 import spring.turbo.util.crypto.bundle.KeyStoreAsymmetricKeyBundleFactoryBean;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
@@ -15,8 +13,7 @@ import java.security.KeyStore;
  * @see KeyStore
  * @since 3.3.1
  */
-public class HutoolKeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
-        implements InitializingBean, ResourceLoaderAware {
+public class HutoolKeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean implements InitializingBean {
 
     private final KeyStoreAsymmetricKeyBundleFactoryBean delegatingFactory = new KeyStoreAsymmetricKeyBundleFactoryBean();
 
@@ -33,14 +30,6 @@ public class HutoolKeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsy
         }
 
         super.setKeyPairAndSigAlgName(bundle.getCertificate(), bundle.getPrivateKey());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        delegatingFactory.setResourceLoader(resourceLoader);
     }
 
     public void setLocation(String location) {

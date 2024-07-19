@@ -1,8 +1,6 @@
 package spring.turbo.module.jwt.misc;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.ResourceLoader;
 import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
 
 /**
@@ -12,8 +10,7 @@ import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
  * @see org.springframework.boot.ssl.pem.PemContent
  * @since 3.3.1
  */
-public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
-        implements InitializingBean, ResourceLoaderAware {
+public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean implements InitializingBean {
 
     private final PemAsymmetricKeyBundleFactoryBean delegatingFactory = new PemAsymmetricKeyBundleFactoryBean();
 
@@ -30,14 +27,6 @@ public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetr
         }
 
         super.setKeyPairAndSigAlgName(bundle.getCertificate(), bundle.getPrivateKey());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        delegatingFactory.setResourceLoader(resourceLoader);
     }
 
     public void setCertificateLocation(String certificateLocation) {
