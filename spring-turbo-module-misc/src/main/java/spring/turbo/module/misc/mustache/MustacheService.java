@@ -2,7 +2,9 @@ package spring.turbo.module.misc.mustache;
 
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.io.ResourceUtils;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -33,7 +35,11 @@ public interface MustacheService {
      * @return 渲染结果
      */
     public default String render(Resource template, String templateName, @Nullable Object data) {
-        return render(ResourceUtils.readText(template, UTF_8), templateName, data);
+        try {
+            return render(template.getContentAsString(UTF_8), templateName, data);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     /**

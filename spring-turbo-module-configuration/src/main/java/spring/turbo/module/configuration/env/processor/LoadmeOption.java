@@ -2,12 +2,10 @@ package spring.turbo.module.configuration.env.processor;
 
 import lombok.*;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.io.ApplicationResourceLoader;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
-import org.springframework.util.ClassUtils;
+import spring.turbo.util.io.ResourceUtils;
 
 import java.util.Arrays;
 
@@ -23,8 +21,6 @@ public enum LoadmeOption {
     PROPERTIES(".properties", ".xml"),
     YAML(".yaml", ".yml"),
     HOCON(".conf");
-
-    private final static ResourceLoader LOADER = new ApplicationResourceLoader(ClassUtils.getDefaultClassLoader());
 
     private final String[] suffixes;
 
@@ -43,7 +39,7 @@ public enum LoadmeOption {
         var locations = Arrays.stream(this.suffixes)
                 .map(suffix -> format("classpath:loadme{}", suffix))
                 .toList();
-        return loadFirst(locations);
+        return ResourceUtils.loadFirstExists(locations);
     }
 
     @Nullable
@@ -51,7 +47,7 @@ public enum LoadmeOption {
         var locations = Arrays.stream(this.suffixes)
                 .map(suffix -> format("file:{}/loadme{}", getAppHomeDir(application), suffix))
                 .toList();
-        return loadFirst(locations);
+        return ResourceUtils.loadFirstExists(locations);
     }
 
     private String getAppHomeDir(SpringApplication springApplication) {
@@ -66,21 +62,6 @@ public enum LoadmeOption {
                 new ApplicationHome().getDir();
 
         return file.toPath().toAbsolutePath().toString();
-    }
-
-    @Nullable
-    private Resource loadFirst(Iterable<String> locations) {
-        for (var location : locations) {
-            try {
-                var resource = LOADER.getResource(location);
-                if (resource.exists()) {
-                    return resource;
-                }
-            } catch (Exception ignored) {
-                // noop
-            }
-        }
-        return null;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
