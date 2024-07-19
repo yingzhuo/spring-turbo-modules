@@ -2,6 +2,8 @@ package spring.turbo.module.security.x509;
 
 import org.springframework.security.web.authentication.preauth.x509.X509PrincipalExtractor;
 
+import java.io.Serializable;
+
 /**
  * Subject Distinguished Name
  *
@@ -10,7 +12,7 @@ import org.springframework.security.web.authentication.preauth.x509.X509Principa
  * @see SubjectDnX509PrincipalExtractor
  * @since 3.3.1
  */
-public enum SubjectDN {
+public enum SubjectDN implements Serializable {
 
     /**
      * 通用名 (Common Name)
