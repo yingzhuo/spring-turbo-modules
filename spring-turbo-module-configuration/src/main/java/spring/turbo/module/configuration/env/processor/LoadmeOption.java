@@ -2,12 +2,12 @@ package spring.turbo.module.configuration.env.processor;
 
 import lombok.*;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.io.ApplicationResourceLoader;
 import org.springframework.boot.system.ApplicationHome;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
-import spring.turbo.util.io.RichResource;
+import org.springframework.util.ClassUtils;
 
 import java.util.Arrays;
 
@@ -24,7 +24,7 @@ public enum LoadmeOption {
     YAML(".yaml", ".yml"),
     HOCON(".conf");
 
-    private final static ResourceLoader RESOURCE_LOADER = new DefaultResourceLoader();
+    private final static ResourceLoader LOADER = new ApplicationResourceLoader(ClassUtils.getDefaultClassLoader());
 
     private final String[] suffixes;
 
@@ -40,17 +40,18 @@ public enum LoadmeOption {
 
     @Nullable
     private Resource getClassPathResource() {
-        var locations = Arrays.stream(this.suffixes).map(suffix -> format("classpath:loadme{}", suffix)).toList();
-
-        return RichResource.builder().resourceLoader(RESOURCE_LOADER).addLocations(locations).build().orElse(null);
+        var locations = Arrays.stream(this.suffixes)
+                .map(suffix -> format("classpath:loadme{}", suffix))
+                .toList();
+        return loadFirst(locations);
     }
 
     @Nullable
     private Resource getApplicationHomeResource(final SpringApplication application) {
         var locations = Arrays.stream(this.suffixes)
-                .map(suffix -> format("file:{}/loadme{}", getAppHomeDir(application), suffix)).toList();
-
-        return RichResource.builder().resourceLoader(RESOURCE_LOADER).addLocations(locations).build().orElse(null);
+                .map(suffix -> format("file:{}/loadme{}", getAppHomeDir(application), suffix))
+                .toList();
+        return loadFirst(locations);
     }
 
     private String getAppHomeDir(SpringApplication springApplication) {
@@ -65,6 +66,21 @@ public enum LoadmeOption {
                 new ApplicationHome().getDir();
 
         return file.toPath().toAbsolutePath().toString();
+    }
+
+    @Nullable
+    private Resource loadFirst(Iterable<String> locations) {
+        for (var location : locations) {
+            try {
+                var resource = LOADER.getResource(location);
+                if (resource.exists()) {
+                    return resource;
+                }
+            } catch (Exception ignored) {
+                // noop
+            }
+        }
+        return null;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

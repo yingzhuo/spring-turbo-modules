@@ -2,4 +2,4 @@
 # SpringSecurity
 # ----------------------------------------------------------------------------------------------------------------------
 org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer=\
-    spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL
+spring.turbo.module.security.autoconfiguration.SpringSecurityAutoConfigurationDSL

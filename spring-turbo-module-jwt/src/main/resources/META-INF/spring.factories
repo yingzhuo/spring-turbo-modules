@@ -2,6 +2,6 @@
 # Spring
 # ----------------------------------------------------------------------------------------------------------------------
 org.springframework.boot.env.EnvironmentPostProcessor=\
-    spring.turbo.module.jwt.env.DependenciesCheckingComponent
+spring.turbo.module.jwt.env.DependenciesCheckingComponent
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-    spring.turbo.module.jwt.env.DependenciesCheckingComponent
+spring.turbo.module.jwt.env.DependenciesCheckingComponent
