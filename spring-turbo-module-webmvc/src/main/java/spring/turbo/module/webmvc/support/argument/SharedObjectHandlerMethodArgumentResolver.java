@@ -9,6 +9,8 @@ import spring.turbo.util.ThreadSharedObjects;
 
 /**
  * @author 应卓
+ * @see SharedObject
+ * @see ThreadSharedObjects
  * @since 2024-07-03
  */
 public class SharedObjectHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {

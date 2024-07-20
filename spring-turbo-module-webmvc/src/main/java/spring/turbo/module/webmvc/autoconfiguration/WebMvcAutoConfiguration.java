@@ -27,7 +27,7 @@ import java.util.List;
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     @Autowired(required = false)
-    public void config(@Nullable BeanNameViewResolver resolver) {
+    public void configBeanNameViewResolver(@Nullable BeanNameViewResolver resolver) {
         if (resolver != null) {
             resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
         }

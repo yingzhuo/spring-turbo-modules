@@ -35,6 +35,7 @@ import java.io.IOException;
  * @see spring.turbo.module.security.filter.factory.BasicAuthenticationFilterFactoryBean
  * @since 1.2.3
  */
+@Deprecated(since = "3.3.2")
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
