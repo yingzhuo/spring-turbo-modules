@@ -1,2 +1,2 @@
-spring.turbo.module.jwt.autoconfiguration.HutoolAutoConfiguration
 spring.turbo.module.jwt.autoconfiguration.JavaJwtAutoConfiguration
+spring.turbo.module.jwt.autoconfiguration.HutoolAutoConfiguration

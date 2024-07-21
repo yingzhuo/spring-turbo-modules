@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc.hutool;
+package spring.turbo.module.jwt.alg.hutool;
 
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;

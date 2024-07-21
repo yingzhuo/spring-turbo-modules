@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc.javajwt;
+package spring.turbo.module.jwt.alg.javajwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.FactoryBean;

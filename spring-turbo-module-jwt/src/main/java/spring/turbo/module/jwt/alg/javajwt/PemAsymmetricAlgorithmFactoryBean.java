@@ -1,16 +1,16 @@
-package spring.turbo.module.jwt.misc.hutool;
+package spring.turbo.module.jwt.alg.javajwt;
 
 import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
 
 /**
- * {@link AbstractAsymmetricSignerFactoryBean} 的子类型，从PEM文件中加载秘钥。
+ * {@link AbstractAsymmetricAlgorithmFactoryBean} 的子类型，从PEM文件中加载秘钥。
  *
  * @author 应卓
- * @see org.springframework.boot.ssl.pem.PemContent
- * @since 3.3.1
+ * @since 3.3.2
  */
-public class PemAsymmetricSignerFactoryBean extends AbstractAsymmetricSignerFactoryBean implements InitializingBean {
+public class PemAsymmetricAlgorithmFactoryBean extends AbstractAsymmetricAlgorithmFactoryBean
+        implements InitializingBean {
 
     private final PemAsymmetricKeyBundleFactoryBean delegatingFactory = new PemAsymmetricKeyBundleFactoryBean();
 

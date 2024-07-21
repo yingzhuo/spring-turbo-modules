@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc.hutool;
+package spring.turbo.module.jwt.alg.hutool;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;

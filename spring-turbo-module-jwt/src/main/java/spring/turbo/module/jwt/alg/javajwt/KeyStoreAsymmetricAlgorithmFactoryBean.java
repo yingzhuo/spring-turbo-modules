@@ -1,19 +1,16 @@
-package spring.turbo.module.jwt.misc.hutool;
+package spring.turbo.module.jwt.alg.javajwt;
 
 import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.util.crypto.bundle.KeyStoreAsymmetricKeyBundleFactoryBean;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
-import java.security.KeyStore;
-
 /**
- * {@link AbstractAsymmetricSignerFactoryBean} 的子类型，从KeyStore加载秘钥等。建议使用 PKCS#12 格式。
+ * {@link AbstractAsymmetricAlgorithmFactoryBean} 的子类型，从KeyStore文件中加载秘钥。
  *
  * @author 应卓
- * @see KeyStore
- * @since 3.3.1
+ * @since 3.3.2
  */
-public class KeyStoreAsymmetricSignerFactoryBean extends AbstractAsymmetricSignerFactoryBean
+public class KeyStoreAsymmetricAlgorithmFactoryBean extends AbstractAsymmetricAlgorithmFactoryBean
         implements InitializingBean {
 
     private final KeyStoreAsymmetricKeyBundleFactoryBean delegatingFactory = new KeyStoreAsymmetricKeyBundleFactoryBean();
