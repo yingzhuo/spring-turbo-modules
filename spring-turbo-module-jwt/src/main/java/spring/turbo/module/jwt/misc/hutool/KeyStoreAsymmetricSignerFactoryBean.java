@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc;
+package spring.turbo.module.jwt.misc.hutool;
 
 import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.util.crypto.bundle.KeyStoreAsymmetricKeyBundleFactoryBean;
@@ -13,7 +13,8 @@ import java.security.KeyStore;
  * @see KeyStore
  * @since 3.3.1
  */
-public class HutoolKeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean implements InitializingBean {
+public class KeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
+        implements InitializingBean {
 
     private final KeyStoreAsymmetricKeyBundleFactoryBean delegatingFactory = new KeyStoreAsymmetricKeyBundleFactoryBean();
 
@@ -23,13 +24,14 @@ public class HutoolKeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsy
     @Override
     public void afterPropertiesSet() throws Exception {
         delegatingFactory.afterPropertiesSet();
-
         var bundle = delegatingFactory.getObject();
+
         if (bundle == null) {
             throw new IllegalStateException("cannot load bundle");
         }
 
-        super.setKeyPairAndSigAlgName(bundle.getCertificate(), bundle.getPrivateKey());
+        super.setKeyPair(bundle.getKeyPair());
+        super.setSigAlgName(bundle.getSigAlgName());
     }
 
     public void setLocation(String location) {

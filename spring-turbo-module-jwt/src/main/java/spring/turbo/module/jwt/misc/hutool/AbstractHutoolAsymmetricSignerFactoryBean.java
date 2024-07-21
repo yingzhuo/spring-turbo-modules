@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc;
+package spring.turbo.module.jwt.misc.hutool;
 
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
@@ -7,10 +7,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
 
 /**
  * 通用非对称加密算法签名器，生成{@link JWTSigner}实例
@@ -21,7 +17,7 @@ import java.security.cert.X509Certificate;
  * @see java.security.PublicKey
  * @since 3.3.1
  */
-public abstract class AbstractHutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
+abstract class AbstractHutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
 
     @Nullable
     private String sigAlgName;
@@ -62,15 +58,6 @@ public abstract class AbstractHutoolAsymmetricSignerFactoryBean implements Facto
 
     protected final void setKeyPair(KeyPair keyPair) {
         this.keyPair = keyPair;
-    }
-
-    protected final void setKeyPair(PublicKey publicKey, PrivateKey privateKey) {
-        this.keyPair = new KeyPair(publicKey, privateKey);
-    }
-
-    protected final void setKeyPairAndSigAlgName(Certificate certificate, PrivateKey privateKey) {
-        this.keyPair = new KeyPair(certificate.getPublicKey(), privateKey);
-        this.sigAlgName = ((X509Certificate) certificate).getSigAlgName();
     }
 
 }

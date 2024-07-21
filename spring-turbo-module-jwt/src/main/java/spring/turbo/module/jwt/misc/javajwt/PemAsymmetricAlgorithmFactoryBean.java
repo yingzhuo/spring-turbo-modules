@@ -1,16 +1,16 @@
-package spring.turbo.module.jwt.misc;
+package spring.turbo.module.jwt.misc.javajwt;
 
 import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
 
 /**
- * {@link AbstractHutoolAsymmetricSignerFactoryBean} 的子类型，从PEM文件中加载秘钥。
+ * {@link AbstractAsymmetricAlgorithmFactoryBean} 的子类型，从PEM文件中加载秘钥。
  *
  * @author 应卓
- * @see org.springframework.boot.ssl.pem.PemContent
- * @since 3.3.1
+ * @since 3.3.2
  */
-public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean implements InitializingBean {
+public class PemAsymmetricAlgorithmFactoryBean extends AbstractAsymmetricAlgorithmFactoryBean
+        implements InitializingBean {
 
     private final PemAsymmetricKeyBundleFactoryBean delegatingFactory = new PemAsymmetricKeyBundleFactoryBean();
 
@@ -20,13 +20,14 @@ public class HutoolPemAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetr
     @Override
     public void afterPropertiesSet() throws Exception {
         delegatingFactory.afterPropertiesSet();
-
         var bundle = delegatingFactory.getObject();
+
         if (bundle == null) {
             throw new IllegalStateException("cannot load bundle");
         }
 
-        super.setKeyPairAndSigAlgName(bundle.getCertificate(), bundle.getPrivateKey());
+        super.setKeyPair(bundle.getKeyPair());
+        super.setSigAlgName(bundle.getSigAlgName());
     }
 
     public void setCertificateLocation(String certificateLocation) {

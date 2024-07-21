@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.misc;
+package spring.turbo.module.jwt.misc.hutool;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author 应卓
  * @since 3.3.1
  */
-public class HutoolSM2Signer implements JWTSigner {
+public class SM2Signer implements JWTSigner {
 
     private final SM2 sm2;
 
@@ -26,7 +26,7 @@ public class HutoolSM2Signer implements JWTSigner {
      *
      * @param sm2 sm2加密器
      */
-    public HutoolSM2Signer(SM2 sm2) {
+    public SM2Signer(SM2 sm2) {
         this(sm2, null);
     }
 
@@ -36,7 +36,7 @@ public class HutoolSM2Signer implements JWTSigner {
      * @param sm2    sm2加密器
      * @param withId ID
      */
-    public HutoolSM2Signer(SM2 sm2, @Nullable String withId) {
+    public SM2Signer(SM2 sm2, @Nullable String withId) {
         this.sm2 = sm2;
         this.withId = Optional.ofNullable(withId).map(String::getBytes).orElse(null);
     }
