@@ -17,7 +17,7 @@ import java.security.KeyPair;
  * @see java.security.PublicKey
  * @since 3.3.1
  */
-abstract class AbstractHutoolAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
+abstract class AbstractAsymmetricSignerFactoryBean implements FactoryBean<JWTSigner> {
 
     @Nullable
     private String sigAlgName;

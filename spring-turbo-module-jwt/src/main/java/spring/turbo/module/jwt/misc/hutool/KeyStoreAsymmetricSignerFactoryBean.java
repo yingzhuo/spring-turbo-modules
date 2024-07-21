@@ -7,13 +7,13 @@ import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 import java.security.KeyStore;
 
 /**
- * {@link AbstractHutoolAsymmetricSignerFactoryBean} 的子类型，从KeyStore加载秘钥等。建议使用 PKCS#12 格式。
+ * {@link AbstractAsymmetricSignerFactoryBean} 的子类型，从KeyStore加载秘钥等。建议使用 PKCS#12 格式。
  *
  * @author 应卓
  * @see KeyStore
  * @since 3.3.1
  */
-public class KeyStoreAsymmetricSignerFactoryBean extends AbstractHutoolAsymmetricSignerFactoryBean
+public class KeyStoreAsymmetricSignerFactoryBean extends AbstractAsymmetricSignerFactoryBean
         implements InitializingBean {
 
     private final KeyStoreAsymmetricKeyBundleFactoryBean delegatingFactory = new KeyStoreAsymmetricKeyBundleFactoryBean();
