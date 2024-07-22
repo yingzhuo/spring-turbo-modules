@@ -39,7 +39,7 @@ public enum LoadmeOption {
         var locations = Arrays.stream(this.suffixes)
                 .map(suffix -> format("classpath:loadme{}", suffix))
                 .toList();
-        return ResourceUtils.loadFirstExists(locations);
+        return ResourceUtils.loadFirstExistsResource(locations);
     }
 
     @Nullable
@@ -47,7 +47,7 @@ public enum LoadmeOption {
         var locations = Arrays.stream(this.suffixes)
                 .map(suffix -> format("file:{}/loadme{}", getAppHomeDir(application), suffix))
                 .toList();
-        return ResourceUtils.loadFirstExists(locations);
+        return ResourceUtils.loadFirstExistsResource(locations);
     }
 
     private String getAppHomeDir(SpringApplication springApplication) {
