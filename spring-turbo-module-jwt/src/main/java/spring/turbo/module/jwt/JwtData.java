@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.factory;
+package spring.turbo.module.jwt;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * @see #newInstance()
  * @since 3.1.1
  */
-public final class JsonWebTokenData implements Serializable {
+public final class JwtData implements Serializable {
 
     // headers
     // -----------------------------------------------------------------------------------------------------------------
@@ -43,97 +43,97 @@ public final class JsonWebTokenData implements Serializable {
     /**
      * 构造方法
      */
-    public JsonWebTokenData() {
+    public JwtData() {
         this.headerMap.put(HEADER_TYPE, "JWT");
     }
 
-    public static JsonWebTokenData newInstance() {
-        return new JsonWebTokenData();
+    public static JwtData newInstance() {
+        return new JwtData();
     }
 
-    public JsonWebTokenData headerType(String type) {
+    public JwtData headerType(String type) {
         headerMap.put(HEADER_TYPE, type);
         return this;
     }
 
-    public JsonWebTokenData headerKeyId(String id) {
+    public JwtData headerKeyId(String id) {
         headerMap.put(HEADER_KEY_ID, id);
         return this;
     }
 
-    public JsonWebTokenData headerKeyId(Supplier<String> idSupplier) {
+    public JwtData headerKeyId(Supplier<String> idSupplier) {
         return headerKeyId(idSupplier.get());
     }
 
-    public JsonWebTokenData headerContentType(String contentType) {
+    public JwtData headerContentType(String contentType) {
         headerMap.put(HEADER_CONTENT_TYPE, contentType);
         return this;
     }
 
-    public JsonWebTokenData headerAlgorithm(String algorithm) {
+    public JwtData headerAlgorithm(String algorithm) {
         headerMap.put(HEADER_ALGORITHM, algorithm);
         return this;
     }
 
-    public JsonWebTokenData payloadIssuer(String issuer) {
+    public JwtData payloadIssuer(String issuer) {
         payloadMap.put(PAYLOAD_ISSUER, issuer);
         return this;
     }
 
-    public JsonWebTokenData payloadSubject(String subject) {
+    public JwtData payloadSubject(String subject) {
         payloadMap.put(PAYLOAD_SUBJECT, subject);
         return this;
     }
 
-    public JsonWebTokenData payloadAudience(String... audience) {
+    public JwtData payloadAudience(String... audience) {
         payloadMap.put(PAYLOAD_AUDIENCE, audience);
         return this;
     }
 
-    public JsonWebTokenData payloadExpiresAt(LocalDateTime time) {
+    public JwtData payloadExpiresAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_EXPIRES, toDate(time));
         return this;
     }
 
-    public JsonWebTokenData payloadExpiresAtFuture(Duration duration) {
+    public JwtData payloadExpiresAtFuture(Duration duration) {
         payloadMap.put(PAYLOAD_EXPIRES, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
-    public JsonWebTokenData payloadNotBefore(LocalDateTime time) {
+    public JwtData payloadNotBefore(LocalDateTime time) {
         payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(time));
         return this;
     }
 
-    public JsonWebTokenData payloadNotBeforeAtFuture(Duration duration) {
+    public JwtData payloadNotBeforeAtFuture(Duration duration) {
         payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
-    public JsonWebTokenData payloadIssuedAt(LocalDateTime time) {
+    public JwtData payloadIssuedAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_ISSUED_AT, toDate(time));
         return this;
     }
 
-    public JsonWebTokenData payloadIssuedAtNow() {
+    public JwtData payloadIssuedAtNow() {
         return payloadIssuedAt(LocalDateTime.now());
     }
 
-    public JsonWebTokenData payloadJwtId(Object jwtId) {
+    public JwtData payloadJwtId(Object jwtId) {
         payloadMap.put(PAYLOAD_JWT_ID, jwtId);
         return this;
     }
 
-    public JsonWebTokenData payloadJwtId(Supplier<Object> jwtIdSupplier) {
+    public JwtData payloadJwtId(Supplier<Object> jwtIdSupplier) {
         return payloadJwtId(jwtIdSupplier.get());
     }
 
-    public JsonWebTokenData addHeader(String name, Object value) {
+    public JwtData addHeader(String name, Object value) {
         headerMap.put(name, value);
         return this;
     }
 
-    public JsonWebTokenData addPayload(String name, Object value) {
+    public JwtData addPayload(String name, Object value) {
         payloadMap.put(name, value);
         return this;
     }

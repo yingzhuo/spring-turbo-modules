@@ -1,4 +1,4 @@
-package spring.turbo.module.jwt.validator;
+package spring.turbo.module.jwt;
 
 import java.io.Serializable;
 
@@ -6,14 +6,14 @@ import java.io.Serializable;
  * 验证结果
  *
  * @author 应卓
- * @since 3.1.1
+ * @since 3.3.2
  */
 public enum ValidatingResult implements Serializable {
 
     /**
      * 没有错误
      */
-    NO_PROBLEM,
+    OK,
 
     /**
      * 令牌格式不合法
@@ -26,7 +26,7 @@ public enum ValidatingResult implements Serializable {
     INVALID_SIGNATURE,
 
     /**
-     * 令牌相关事件不合法
+     * 令牌相关时间不合法
      */
     INVALID_TIME
 
