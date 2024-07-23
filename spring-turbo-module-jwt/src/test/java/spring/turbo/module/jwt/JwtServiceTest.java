@@ -1,5 +1,6 @@
 package spring.turbo.module.jwt;
 
+import io.jsonwebtoken.security.Jwks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import spring.turbo.module.jwt.alg.JwtSignerFactories;
@@ -22,4 +23,15 @@ public class JwtServiceTest {
         Assertions.assertEquals(ValidatingResult.OK, result);
     }
 
+    @Test
+    void test1() {
+        var o = JwtSignerFactories.createFromBase64EncodedString("3mDk7egxOtYe3oDEiZAhdZ2+ZdfPu8zsYtSl500l004=");
+        var sk = o.secretKey();
+
+        var jwk = Jwks.builder().key(sk) // (1) and (2)
+                .id("default")            // (3)
+                .build();
+
+        System.out.println(jwk.thumbprint().toString());
+    }
 }

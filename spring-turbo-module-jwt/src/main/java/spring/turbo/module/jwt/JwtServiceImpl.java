@@ -70,7 +70,7 @@ public class JwtServiceImpl implements JwtService {
 
     private Key getSignerKey() {
         if (signer instanceof KeyPairJwtSigner keyPairJwtSigner) {
-            return keyPairJwtSigner.keyPair().getPrivate();
+            return keyPairJwtSigner.keyPair().getPrivate();     // 签名用私钥，验证用公钥
         }
 
         if (signer instanceof SecretKeyJwtSigner secretKeyJwtSigner) {
