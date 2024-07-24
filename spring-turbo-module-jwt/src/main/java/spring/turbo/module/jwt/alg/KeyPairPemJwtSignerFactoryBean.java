@@ -11,7 +11,7 @@ import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemResour
  * @author 应卓
  * @since 3.3.2
  */
-public class KeyPairJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner> {
+public class KeyPairPemJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner> {
 
     @Nullable
     private String certificateLocation;

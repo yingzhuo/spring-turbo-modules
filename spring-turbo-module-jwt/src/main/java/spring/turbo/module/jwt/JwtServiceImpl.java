@@ -3,6 +3,7 @@ package spring.turbo.module.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SecurityException;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 import spring.turbo.module.jwt.alg.JwtSigner;
 import spring.turbo.module.jwt.alg.KeyPairJwtSigner;
 import spring.turbo.module.jwt.alg.SecretKeyJwtSigner;
@@ -43,6 +44,11 @@ public class JwtServiceImpl implements JwtService {
      */
     @Override
     public ValidatingResult validateToken(String token, @Nullable JwtAssertions jwtAssertions) {
+
+        if (!StringUtils.hasText(token)) {
+            return ValidatingResult.INVALID_JWT_FORMAT;
+        }
+
         var builder = Jwts.parser();
 
         Optional.ofNullable(jwtAssertions)
