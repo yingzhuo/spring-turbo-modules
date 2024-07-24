@@ -4,16 +4,14 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
 
 import static org.springframework.util.StringUtils.hasText;
-import static spring.turbo.module.jwt.alg.JwtSignerFactories.*;
+import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemContent;
+import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemResource;
 
 /**
  * @author 应卓
  * @since 3.3.2
  */
-public class JwtSignerFactoryBean implements FactoryBean<JwtSigner> {
-
-    @Nullable
-    private String base64EncodedString;
+public class KeyPairJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner> {
 
     @Nullable
     private String certificateLocation;
@@ -30,12 +28,11 @@ public class JwtSignerFactoryBean implements FactoryBean<JwtSigner> {
     @Nullable
     private String privateKeyPassword;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public JwtSigner getObject() {
-        if (hasText(base64EncodedString)) {
-            return createFromBase64EncodedString(base64EncodedString);
-        }
-
+    public KeyPairJwtSigner getObject() {
         if (hasText(certificateLocation) && hasText(privateKeyLocation)) {
             return createFromPemResource(certificateLocation, privateKeyLocation, privateKeyPassword);
         }
@@ -47,13 +44,12 @@ public class JwtSignerFactoryBean implements FactoryBean<JwtSigner> {
         throw new IllegalStateException("invalid configuration");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<?> getObjectType() {
-        return JwtSigner.class;
-    }
-
-    public void setBase64EncodedString(@Nullable String base64EncodedString) {
-        this.base64EncodedString = base64EncodedString;
+        return KeyPairJwtSigner.class;
     }
 
     public void setCertificateLocation(@Nullable String certificateLocation) {
@@ -75,5 +71,4 @@ public class JwtSignerFactoryBean implements FactoryBean<JwtSigner> {
     public void setPrivateKeyPassword(@Nullable String privateKeyPassword) {
         this.privateKeyPassword = privateKeyPassword;
     }
-
 }

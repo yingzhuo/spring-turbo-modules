@@ -4,9 +4,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
+import spring.turbo.module.jwt.JwtAssertions;
 import spring.turbo.module.jwt.JwtService;
 import spring.turbo.module.security.authentication.TokenToUserConverter;
 import spring.turbo.module.security.jwt.exception.BadJwtAlgorithmTokenException;
+import spring.turbo.module.security.jwt.exception.BadJwtClaimTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtFormatTokenException;
 import spring.turbo.module.security.jwt.exception.BadJwtTimeTokenException;
 import spring.turbo.module.security.token.Token;
@@ -49,7 +51,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
             throw new BadJwtFormatTokenException(StringFormatter.format("invalid toke: {}", rawToken));
         }
 
-        var result = jwtService.validateToken(token.asString());
+        var result = jwtService.validateToken(token.asString(), this.getJwtAssertions());
 
         switch (result) {
             case INVALID_JWT_FORMAT:
@@ -58,6 +60,8 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
                 throw new BadJwtAlgorithmTokenException(StringFormatter.format("invalid signature: {}", rawToken));
             case INVALID_TIME:
                 throw new BadJwtTimeTokenException(StringFormatter.format("invalid time: {}", rawToken));
+            case INVALID_CLAIM:
+                throw new BadJwtClaimTokenException(StringFormatter.format("invalid claim: {}", rawToken));
             case OK:
                 break;
         }
@@ -72,6 +76,9 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
                 payloadJson
         );
     }
+
+    @Nullable
+    protected abstract JwtAssertions getJwtAssertions();
 
     @Nullable
     protected abstract UserDetails doAuthenticate(

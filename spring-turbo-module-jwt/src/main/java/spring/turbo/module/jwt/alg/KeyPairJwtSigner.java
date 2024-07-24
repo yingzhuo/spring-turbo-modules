@@ -1,5 +1,7 @@
 package spring.turbo.module.jwt.alg;
 
+import org.springframework.core.style.ToStringCreator;
+
 import java.security.KeyPair;
 
 /**
@@ -10,4 +12,11 @@ import java.security.KeyPair;
  * @since 3.3.2
  */
 public record KeyPairJwtSigner(KeyPair keyPair) implements JwtSigner {
+
+    @Override
+    public String toString() {
+        var creator = new ToStringCreator(this);
+        return creator.toString();
+    }
+
 }

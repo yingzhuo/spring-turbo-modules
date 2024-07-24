@@ -1,5 +1,7 @@
 package spring.turbo.module.jwt;
 
+import org.springframework.lang.Nullable;
+
 /**
  * Json Web Token 服务
  *
@@ -19,11 +21,35 @@ public interface JwtService {
     /**
      * 验证令牌是否合法
      *
+     * @param token         令牌
+     * @param jwtAssertions Claim验证
+     * @return 验证结果
+     * @see ValidatingResult
+     */
+    public ValidatingResult validateToken(String token, @Nullable JwtAssertions jwtAssertions);
+
+    /**
+     * 验证令牌是否合法
+     *
      * @param token 令牌
      * @return 验证结果
      * @see ValidatingResult
      */
-    public ValidatingResult validateToken(String token);
+    public default ValidatingResult validateToken(String token) {
+        return validateToken(token, null);
+    }
+
+    /**
+     * 验证令牌是否合法
+     *
+     * @param token         令牌
+     * @param jwtAssertions Claim验证
+     * @return 合法时返回true
+     * @see ValidatingResult
+     */
+    public default boolean validateTokenAsBoolean(String token, @Nullable JwtAssertions jwtAssertions) {
+        return validateToken(token, jwtAssertions) == ValidatingResult.OK;
+    }
 
     /**
      * 验证令牌是否合法
@@ -33,7 +59,6 @@ public interface JwtService {
      * @see ValidatingResult
      */
     public default boolean validateTokenAsBoolean(String token) {
-        return validateToken(token) == ValidatingResult.OK;
+        return validateTokenAsBoolean(token, null);
     }
-
 }

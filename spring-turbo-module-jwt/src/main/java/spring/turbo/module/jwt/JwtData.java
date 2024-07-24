@@ -5,8 +5,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -37,8 +37,8 @@ public final class JwtData implements Serializable {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private final SortedMap<String, Object> headerMap = new TreeMap<>();
-    private final SortedMap<String, Object> payloadMap = new TreeMap<>();
+    private final Map<String, Object> headerMap = new HashMap<>();
+    private final Map<String, Object> payloadMap = new HashMap<>();
 
     /**
      * 构造方法
@@ -51,81 +51,81 @@ public final class JwtData implements Serializable {
         return new JwtData();
     }
 
-    public JwtData headerType(String type) {
+    public JwtData addHeaderType(String type) {
         headerMap.put(HEADER_TYPE, type);
         return this;
     }
 
-    public JwtData headerKeyId(String id) {
+    public JwtData addHeaderKeyId(String id) {
         headerMap.put(HEADER_KEY_ID, id);
         return this;
     }
 
-    public JwtData headerKeyId(Supplier<String> idSupplier) {
-        return headerKeyId(idSupplier.get());
+    public JwtData addHeaderKeyId(Supplier<String> idSupplier) {
+        return addHeaderKeyId(idSupplier.get());
     }
 
-    public JwtData headerContentType(String contentType) {
+    public JwtData addHeaderContentType(String contentType) {
         headerMap.put(HEADER_CONTENT_TYPE, contentType);
         return this;
     }
 
-    public JwtData headerAlgorithm(String algorithm) {
+    public JwtData addHeaderAlgorithm(String algorithm) {
         headerMap.put(HEADER_ALGORITHM, algorithm);
         return this;
     }
 
-    public JwtData payloadIssuer(String issuer) {
+    public JwtData addPayloadIssuer(String issuer) {
         payloadMap.put(PAYLOAD_ISSUER, issuer);
         return this;
     }
 
-    public JwtData payloadSubject(String subject) {
+    public JwtData addPayloadSubject(String subject) {
         payloadMap.put(PAYLOAD_SUBJECT, subject);
         return this;
     }
 
-    public JwtData payloadAudience(String... audience) {
+    public JwtData addPayloadAudience(String... audience) {
         payloadMap.put(PAYLOAD_AUDIENCE, audience);
         return this;
     }
 
-    public JwtData payloadExpiresAt(LocalDateTime time) {
+    public JwtData addPayloadExpiresAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_EXPIRES, toDate(time));
         return this;
     }
 
-    public JwtData payloadExpiresAtFuture(Duration duration) {
+    public JwtData addPayloadExpiresAtFuture(Duration duration) {
         payloadMap.put(PAYLOAD_EXPIRES, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
-    public JwtData payloadNotBefore(LocalDateTime time) {
+    public JwtData addPayloadNotBefore(LocalDateTime time) {
         payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(time));
         return this;
     }
 
-    public JwtData payloadNotBeforeAtFuture(Duration duration) {
+    public JwtData addPayloadNotBeforeAtFuture(Duration duration) {
         payloadMap.put(PAYLOAD_NOT_BEFORE, toDate(LocalDateTime.now().plus(duration)));
         return this;
     }
 
-    public JwtData payloadIssuedAt(LocalDateTime time) {
+    public JwtData addPayloadIssuedAt(LocalDateTime time) {
         payloadMap.put(PAYLOAD_ISSUED_AT, toDate(time));
         return this;
     }
 
-    public JwtData payloadIssuedAtNow() {
-        return payloadIssuedAt(LocalDateTime.now());
+    public JwtData addPayloadIssuedAtNow() {
+        return addPayloadIssuedAt(LocalDateTime.now());
     }
 
-    public JwtData payloadJwtId(Object jwtId) {
+    public JwtData addPayloadJwtId(Object jwtId) {
         payloadMap.put(PAYLOAD_JWT_ID, jwtId);
         return this;
     }
 
-    public JwtData payloadJwtId(Supplier<Object> jwtIdSupplier) {
-        return payloadJwtId(jwtIdSupplier.get());
+    public JwtData addPayloadJwtId(Supplier<Object> jwtIdSupplier) {
+        return addPayloadJwtId(jwtIdSupplier.get());
     }
 
     public JwtData addHeader(String name, Object value) {
@@ -138,19 +138,11 @@ public final class JwtData implements Serializable {
         return this;
     }
 
-    public boolean containsHeader(String headerName) {
-        return headerMap.containsKey(headerName);
-    }
-
-    public boolean containsPayload(String payloadAttribute) {
-        return payloadMap.containsKey(payloadAttribute);
-    }
-
-    public SortedMap<String, Object> getHeaderMap() {
+    public Map<String, Object> getHeaderMap() {
         return this.headerMap;
     }
 
-    public SortedMap<String, Object> getPayloadMap() {
+    public Map<String, Object> getPayloadMap() {
         return this.payloadMap;
     }
 

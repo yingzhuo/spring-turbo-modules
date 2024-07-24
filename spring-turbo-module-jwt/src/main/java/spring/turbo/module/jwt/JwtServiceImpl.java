@@ -1,9 +1,6 @@
 package spring.turbo.module.jwt;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.PrematureJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SecurityException;
 import org.springframework.lang.Nullable;
 import spring.turbo.module.jwt.alg.JwtSigner;
@@ -45,8 +42,18 @@ public class JwtServiceImpl implements JwtService {
      * {@inheritDoc}
      */
     @Override
-    public ValidatingResult validateToken(String token) {
+    public ValidatingResult validateToken(String token, @Nullable JwtAssertions jwtAssertions) {
         var builder = Jwts.parser();
+
+        Optional.ofNullable(jwtAssertions)
+                .ifPresent(assertions -> {
+                    if (!assertions.isEmpty()) {
+                        for (var key : assertions.keySet()) {
+                            var value = assertions.get(key);
+                            builder.require(key, value);
+                        }
+                    }
+                });
 
         Optional.ofNullable(getVerifyPublicKey())
                 .ifPresent(builder::verifyWith);
@@ -63,6 +70,8 @@ public class JwtServiceImpl implements JwtService {
             return ValidatingResult.INVALID_SIGNATURE;
         } catch (MalformedJwtException | IllegalArgumentException e) {
             return ValidatingResult.INVALID_JWT_FORMAT;
+        } catch (MissingClaimException | IncorrectClaimException e) {
+            return ValidatingResult.INVALID_CLAIM;
         }
 
         return ValidatingResult.OK;
