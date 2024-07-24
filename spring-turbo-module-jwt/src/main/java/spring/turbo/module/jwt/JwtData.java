@@ -9,33 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static spring.turbo.module.jwt.JwtConstants.*;
+
 /**
  * JWT签名所包含的信息
  *
  * @author 应卓
  * @see #newInstance()
+ * @see JwtConstants
  * @since 3.1.1
  */
 public final class JwtData implements Serializable {
-
-    // headers
-    // -----------------------------------------------------------------------------------------------------------------
-    public static final String HEADER_TYPE = "typ";
-    public static final String HEADER_KEY_ID = "kid";
-    public static final String HEADER_ALGORITHM = "alg";
-    public static final String HEADER_CONTENT_TYPE = "cty";
-
-    // payload
-    // -----------------------------------------------------------------------------------------------------------------
-    public static final String PAYLOAD_ISSUER = "iss";
-    public static final String PAYLOAD_SUBJECT = "sub";
-    public static final String PAYLOAD_AUDIENCE = "aud";
-    public static final String PAYLOAD_EXPIRES = "exp";
-    public static final String PAYLOAD_NOT_BEFORE = "nbf";
-    public static final String PAYLOAD_ISSUED_AT = "iat";
-    public static final String PAYLOAD_JWT_ID = "jti";
-
-    // -----------------------------------------------------------------------------------------------------------------
 
     private final Map<String, Object> headerMap = new HashMap<>();
     private final Map<String, Object> payloadMap = new HashMap<>();
