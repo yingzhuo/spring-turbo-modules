@@ -1,11 +1,7 @@
 package spring.turbo.module.jwt.alg;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.lang.Nullable;
-
-import static org.springframework.util.StringUtils.hasText;
-import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemContent;
-import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemResource;
+import spring.turbo.util.crypto.bundle.PemAsymmetricKeyBundleFactoryBean;
 
 /**
  * @author 应卓
@@ -13,35 +9,16 @@ import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromPemResour
  */
 public class KeyPairPemJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner> {
 
-    @Nullable
-    private String certificateLocation;
-
-    @Nullable
-    private String privateKeyLocation;
-
-    @Nullable
-    private String certificateContent;
-
-    @Nullable
-    private String privateKeyContent;
-
-    @Nullable
-    private String privateKeyPassword;
+    private final PemAsymmetricKeyBundleFactoryBean innerFactory = new PemAsymmetricKeyBundleFactoryBean();
 
     /**
      * {@inheritDoc}
      */
     @Override
     public KeyPairJwtSigner getObject() {
-        if (hasText(certificateLocation) && hasText(privateKeyLocation)) {
-            return createFromPemResource(certificateLocation, privateKeyLocation, privateKeyPassword);
-        }
-
-        if (hasText(certificateContent) && hasText(privateKeyContent)) {
-            return createFromPemContent(certificateContent, privateKeyContent, privateKeyPassword);
-        }
-
-        throw new IllegalStateException("invalid configuration");
+        innerFactory.afterPropertiesSet();
+        var bundle = innerFactory.getObject();
+        return new KeyPairJwtSigner(bundle.getKeyPair());
     }
 
     /**
@@ -52,23 +29,24 @@ public class KeyPairPemJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSig
         return KeyPairJwtSigner.class;
     }
 
-    public void setCertificateLocation(@Nullable String certificateLocation) {
-        this.certificateLocation = certificateLocation;
+    public void setCertificateLocation(String certificateLocation) {
+        innerFactory.setCertificateLocation(certificateLocation);
     }
 
-    public void setPrivateKeyLocation(@Nullable String privateKeyLocation) {
-        this.privateKeyLocation = privateKeyLocation;
+    public void setPrivateKeyLocation(String privateKeyLocation) {
+        innerFactory.setPrivateKeyLocation(privateKeyLocation);
     }
 
-    public void setCertificateContent(@Nullable String certificateContent) {
-        this.certificateContent = certificateContent;
+    public void setCertificateContent(String certificateContent) {
+        innerFactory.setCertificateContent(certificateContent);
     }
 
-    public void setPrivateKeyContent(@Nullable String privateKeyContent) {
-        this.privateKeyContent = privateKeyContent;
+    public void setPrivateKeyContent(String privateKeyContent) {
+        innerFactory.setPrivateKeyContent(privateKeyContent);
     }
 
-    public void setPrivateKeyPassword(@Nullable String privateKeyPassword) {
-        this.privateKeyPassword = privateKeyPassword;
+    public void setPrivateKeyPassword(String privateKeyPassword) {
+        innerFactory.setPrivateKeyPassword(privateKeyPassword);
     }
+
 }

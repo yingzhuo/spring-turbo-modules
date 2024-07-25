@@ -43,6 +43,17 @@ public final class JwtSignerFactories {
     }
 
     /**
+     * 从Base64URL编码的数据中加载秘钥
+     *
+     * @param encodedString Base64编码的数据
+     * @return 签名器实例
+     */
+    public static SecretKeyJwtSigner createFromBase64URlEncodedString(String encodedString) {
+        var sk = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(encodedString));
+        return new SecretKeyJwtSigner(sk);
+    }
+
+    /**
      * 从PEM文件中加载
      *
      * @param certificateLocation 证书

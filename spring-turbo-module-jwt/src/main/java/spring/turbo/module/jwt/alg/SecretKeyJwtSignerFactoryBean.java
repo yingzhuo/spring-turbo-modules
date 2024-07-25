@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import static org.springframework.util.StringUtils.hasText;
 import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromBase64EncodedString;
+import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromBase64URlEncodedString;
 
 /**
  * @author 应卓
@@ -15,6 +16,9 @@ public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSi
     @Nullable
     private String base64EncodedString;
 
+    @Nullable
+    private String base64URLEncodedString;
+
     /**
      * {@inheritDoc}
      */
@@ -22,6 +26,10 @@ public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSi
     public SecretKeyJwtSigner getObject() {
         if (hasText(base64EncodedString)) {
             return createFromBase64EncodedString(base64EncodedString);
+        }
+
+        if (hasText(base64URLEncodedString)) {
+            return createFromBase64URlEncodedString(base64URLEncodedString);
         }
 
         throw new IllegalStateException("invalid configuration");
@@ -37,6 +45,10 @@ public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSi
 
     public void setBase64EncodedString(@Nullable String base64EncodedString) {
         this.base64EncodedString = base64EncodedString;
+    }
+
+    public void setBase64URLEncodedString(@Nullable String base64URLEncodedString) {
+        this.base64URLEncodedString = base64URLEncodedString;
     }
 
 }

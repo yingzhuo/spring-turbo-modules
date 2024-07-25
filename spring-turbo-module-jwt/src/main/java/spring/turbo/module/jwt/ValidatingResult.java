@@ -1,6 +1,8 @@
 package spring.turbo.module.jwt;
 
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 /**
  * 验证结果
@@ -27,12 +29,19 @@ public enum ValidatingResult implements Serializable {
 
     /**
      * 令牌相关时间不合法
+     *
+     * @see JwtData#addPayloadExpiresAt(LocalDateTime)
+     * @see JwtData#addPayloadExpiresAtFuture(Duration)
+     * @see JwtData#addPayloadNotBefore(LocalDateTime)
+     * @see JwtData#addPayloadNotBeforeAtFuture(Duration)
      */
     INVALID_TIME,
 
     /**
-     * 重要的Claim缺失或不正确
+     * 被断言的Claim缺失或不正确
+     *
+     * @see JwtAssertions
      */
-    INVALID_CLAIM;
+    INVALID_CLAIM
 
 }
