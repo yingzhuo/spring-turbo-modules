@@ -52,33 +52,6 @@ public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHt
     public Apache5ClientHttpRequestFactoryBean() {
     }
 
-    public Apache5ClientHttpRequestFactoryBean(
-            @Nullable Duration connectTimeout,
-            @Nullable Duration requestTimeout) {
-        this(null, null, null, connectTimeout, requestTimeout);
-    }
-
-    public Apache5ClientHttpRequestFactoryBean(
-            @Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreFormat clientSideCertificateFormat,
-            @Nullable String clientSideCertificatePassword) {
-        this(clientSideCertificate, clientSideCertificateFormat, clientSideCertificatePassword, null, null);
-    }
-
-    public Apache5ClientHttpRequestFactoryBean(
-            @Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreFormat clientSideCertificateFormat,
-            @Nullable String clientSideCertificatePassword,
-            @Nullable Duration connectTimeout,
-            @Nullable Duration requestTimeout) {
-
-        this.clientSideCertificate = clientSideCertificate;
-        this.clientSideCertificateFormat = clientSideCertificateFormat;
-        this.clientSideCertificatePassword = clientSideCertificatePassword;
-        this.connectTimeout = connectTimeout;
-        this.requestTimeout = requestTimeout;
-    }
-
     /**
      * {@inheritDoc}
      */

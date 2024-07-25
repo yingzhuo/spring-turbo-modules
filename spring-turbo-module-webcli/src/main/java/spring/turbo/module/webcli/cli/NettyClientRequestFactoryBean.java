@@ -40,38 +40,6 @@ public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequ
     public NettyClientRequestFactoryBean() {
     }
 
-    public NettyClientRequestFactoryBean(
-            @Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreFormat clientSideCertificateFormat,
-            @Nullable String clientSideCertificatePassword) {
-
-        this(
-                clientSideCertificate,
-                clientSideCertificateFormat,
-                clientSideCertificatePassword,
-                null,
-                null,
-                null
-        );
-    }
-
-    public NettyClientRequestFactoryBean(
-            @Nullable Resource clientSideCertificate,
-            @Nullable KeyStoreFormat clientSideCertificateFormat,
-            @Nullable String clientSideCertificatePassword,
-            @Nullable Duration connectTimeout,
-            @Nullable Duration exchangeTimeout,
-            @Nullable Duration readTimeout) {
-
-
-        this.clientSideCertificate = clientSideCertificate;
-        this.clientSideCertificateFormat = clientSideCertificateFormat;
-        this.clientSideCertificatePassword = clientSideCertificatePassword;
-        this.connectTimeout = connectTimeout;
-        this.exchangeTimeout = exchangeTimeout;
-        this.readTimeout = readTimeout;
-    }
-
     /**
      * {@inheritDoc}
      */
