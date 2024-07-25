@@ -4,8 +4,8 @@ import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 
 /**
- * {@link X509TrustManager} 实现，这种实现不会检查任何证书信息。
- * <em>注意: </em> 使用本类不安全
+ * {@link X509TrustManager} 实现，这种实现不会检查任何证书信息。<br>
+ * <em>注意: 使用本类不安全</em>
  *
  * @author 应卓
  * @see #getInstance()

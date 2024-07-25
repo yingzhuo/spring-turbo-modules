@@ -25,7 +25,8 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
- * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/">ApacheHttpComponents官方文档</a> 版本的实现
+ * {@link ClientHttpRequestFactory} 的 <a href="https://hc.apache.org/httpcomponents-client-ga/">ApacheHttpComponents官方文档</a> 版本的实现 <br>
+ * <em>注意: 使用本类产生的 ClientHttpRequestFactory 默认使用 {@link spring.turbo.module.webcli.x509.TrustAllX509TrustManager}。自担风险</em>
  *
  * @author 杨洋
  * @author 应卓
@@ -39,7 +40,7 @@ public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHt
     private static final String HTTP = URIScheme.HTTP.getId();
 
     private @Nullable Resource clientSideCertificate;
-    private @Nullable KeyStoreFormat clientSideCertificateFormat;
+    private @Nullable KeyStoreFormat clientSideCertificateFormat = KeyStoreFormat.PKCS12;
     private @Nullable String clientSideCertificatePassword;
     private @Nullable Duration connectTimeout;
     private @Nullable Duration requestTimeout;
@@ -145,7 +146,7 @@ public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHt
 
         var contextBuilder =
                 SSLContextBuilder.create()
-                        .loadTrustMaterial(TrustEverythingTrustStrategy.getInstance());
+                        .loadTrustMaterial(new TrustEverythingTrustStrategy());
 
         if (keyStore != null) {
             contextBuilder.loadKeyMaterial(keyStore, clientSideCertificatePassword.toCharArray());
@@ -177,23 +178,9 @@ public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHt
     // -----------------------------------------------------------------------------------------------------------------
 
     private static class TrustEverythingTrustStrategy implements TrustStrategy {
-
-        private TrustEverythingTrustStrategy() {
-        }
-
-        public static TrustEverythingTrustStrategy getInstance() {
-            return SyncAvoid.INSTANCE;
-        }
-
+        @Override
         public boolean isTrusted(X509Certificate[] chain, String authType) {
             return true;
-        }
-
-        /**
-         * 延迟加载
-         */
-        private static class SyncAvoid {
-            private static final TrustEverythingTrustStrategy INSTANCE = new TrustEverythingTrustStrategy();
         }
     }
 

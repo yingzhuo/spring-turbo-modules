@@ -18,7 +18,8 @@ import java.time.Duration;
 import java.util.Optional;
 
 /**
- * {@link ClientHttpRequestFactory} Netty 版本实现
+ * {@link ClientHttpRequestFactory} Netty 版本实现 <br>
+ * <em>注意: 使用本类产生的 ClientHttpRequestFactory 默认使用 {@link spring.turbo.module.webcli.x509.TrustAllX509TrustManager}。自担风险</em>
  *
  * @author 应卓
  * @since 3.3.0
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private @Nullable Resource clientSideCertificate;
-    private @Nullable KeyStoreFormat clientSideCertificateFormat;
+    private @Nullable KeyStoreFormat clientSideCertificateFormat = KeyStoreFormat.PKCS12;
     private @Nullable String clientSideCertificatePassword;
     private @Nullable Duration connectTimeout = null;
     private @Nullable Duration exchangeTimeout = null;
