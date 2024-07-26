@@ -33,7 +33,9 @@ import java.util.Optional;
  * @see org.springframework.web.client.RestClient
  * @see org.springframework.web.client.RestTemplate
  * @since 3.3.1
+ * @deprecated 请使用 <a href="https://github.com/Hakky54/sslcontext-kickstart">sslcontext-kickstart</a>
  */
+@Deprecated(since = "3.3.2")
 public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private static final String HTTPS = URIScheme.HTTPS.getId();
@@ -89,7 +91,8 @@ public class Apache5ClientHttpRequestFactoryBean implements FactoryBean<ClientHt
 
         var socketRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register(HTTPS, new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE))
-                .register(HTTP, new PlainConnectionSocketFactory()).build();
+                .register(HTTP, new PlainConnectionSocketFactory())
+                .build();
 
         var httpClient = HttpClientBuilder.create()
                 .setConnectionManager(new PoolingHttpClientConnectionManager(socketRegistry))
