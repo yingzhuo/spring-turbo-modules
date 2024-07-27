@@ -22,11 +22,6 @@
 </dependency>
 <dependency>
      <groupId>com.github.yingzhuo</groupId>
-     <artifactId>spring-turbo-module-data-accessing</artifactId>
-     <version>LATEST</version>
-</dependency>
-<dependency>
-     <groupId>com.github.yingzhuo</groupId>
      <artifactId>spring-turbo-module-configuration</artifactId>
      <version>LATEST</version>
 </dependency>
@@ -66,8 +61,8 @@
 
 ```bash
 # main分支就是开发分支
-git clone git@github.com:yingzhuo/spring-turbo.git
-cd spring-turbo/
+git clone git@github.com:yingzhuo/spring-turbo-modules.git
+cd spring-turbo-modules/
 mvn install
 ```
 
