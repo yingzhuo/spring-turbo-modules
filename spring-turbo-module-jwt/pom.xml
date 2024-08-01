@@ -64,12 +64,6 @@
             <artifactId>jjwt-jackson</artifactId>
         </dependency>
 
-        <!-- bouncycastle -->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk18on</artifactId>
-        </dependency>
-
         <!-- jsr305 -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
