@@ -13,6 +13,7 @@ import spring.turbo.module.security.authentication.UserDetailsFinder;
 import spring.turbo.module.security.authentication.UserDetailsServiceUserDetailsFinder;
 import spring.turbo.module.security.exception.SecurityExceptionHandler;
 import spring.turbo.module.security.exception.SecurityExceptionHandlerImpl;
+import spring.turbo.module.security.misc.GrantedAuthorityConverter;
 
 /**
  * @author 应卓
@@ -49,6 +50,12 @@ public class SpringSecurityAutoConfiguration {
             UserDetailsService userDetailsService, PasswordEncoder passwordEncoder
     ) {
         return new UserDetailsServiceUserDetailsFinder(userDetailsService, passwordEncoder);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GrantedAuthorityConverter grantedAuthorityConverter() {
+        return new GrantedAuthorityConverter();
     }
 
 }
