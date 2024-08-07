@@ -15,7 +15,6 @@ import java.util.Objects;
  * @author 应卓
  * @see UserDetails
  * @see #builder()
- * @see UserDetailsPlusEditor
  * @see spring.turbo.module.security.authentication.TokenToUserConverter
  * @since 1.0.0
  */
