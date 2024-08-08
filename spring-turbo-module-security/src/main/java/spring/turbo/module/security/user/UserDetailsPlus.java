@@ -4,6 +4,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 import spring.turbo.util.collection.Attributes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
  * @see spring.turbo.module.security.authentication.TokenToUserConverter
  * @since 1.0.0
  */
-public interface UserDetailsPlus extends UserDetails {
+public interface UserDetailsPlus extends UserDetails, Serializable {
 
     /**
      * 获取创建器
