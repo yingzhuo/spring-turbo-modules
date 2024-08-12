@@ -119,7 +119,6 @@ public final class PasswordEncoderFactories {
             // 加载失败的主要原因:
             // 1. 没有默认构造方法
             // 2. 缺少依赖
-            log.debug("PasswordEncoding loading NG: '{}'", classname);
             return null;
         }
     }
