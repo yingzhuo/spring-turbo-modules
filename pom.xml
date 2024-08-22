@@ -101,7 +101,7 @@
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.4.0-SNAPSHOT</spring.boot.version>
-        <hutool.version>5.8.30</hutool.version>
+        <hutool.version>5.8.31</hutool.version>
         <lombok.version>1.18.34</lombok.version>
         <jjwt.version>0.12.6</jjwt.version>
     </properties>
