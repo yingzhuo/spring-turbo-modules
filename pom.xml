@@ -102,8 +102,8 @@
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.4.0-SNAPSHOT</spring.boot.version>
         <hutool.version>5.8.32</hutool.version>
-        <lombok.version>1.18.34</lombok.version>
         <jjwt.version>0.12.6</jjwt.version>
+        <lombok.version>1.18.34</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -320,6 +320,7 @@
                 <version>3.10.0</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
@@ -415,7 +416,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.5</version>
+                        <version>3.2.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
