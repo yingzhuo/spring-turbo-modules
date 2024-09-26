@@ -14,8 +14,8 @@ import static spring.turbo.core.ResourceUtils.loadResource;
 import static spring.turbo.util.crypto.keystore.KeyStoreFormat.PKCS12;
 import static spring.turbo.util.crypto.keystore.KeyStoreHelper.getCertificate;
 import static spring.turbo.util.crypto.keystore.KeyStoreHelper.loadKeyStore;
-import static spring.turbo.util.crypto.pem.PemReadingUtils.readPkcs8PrivateKey;
-import static spring.turbo.util.crypto.pem.PemReadingUtils.readX509Certificate;
+import static spring.turbo.util.crypto.pem.PemUtils.readPkcs8PrivateKey;
+import static spring.turbo.util.crypto.pem.PemUtils.readX509Certificate;
 
 /**
  * {@link JwtSigner} 生成工具
