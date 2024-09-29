@@ -1,7 +1,7 @@
 package spring.turbo.module.webcli.cli;
 
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.ReactorNettyClientRequestFactory;
+import org.springframework.http.client.ReactorClientHttpRequestFactory;
 import spring.turbo.util.CastUtils;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 
 /**
- * {@link ReactorNettyClientRequestFactory} 生成工具
+ * {@link ReactorClientHttpRequestFactory} 生成工具
  *
  * @author 应卓
  * @since 3.3.0
@@ -26,23 +26,23 @@ public final class NettyClientRequestFactoryFactories {
     }
 
     /**
-     * 创建 {@link ReactorNettyClientRequestFactory} 对象
+     * 创建 {@link ReactorClientHttpRequestFactory} 对象
      *
-     * @return {@link ReactorNettyClientRequestFactory} 对象
+     * @return {@link ReactorClientHttpRequestFactory} 对象
      */
-    public static ReactorNettyClientRequestFactory create() {
+    public static ReactorClientHttpRequestFactory create() {
         return create(null, null, null, null, null, null);
     }
 
     /**
-     * 创建 {@link ReactorNettyClientRequestFactory} 对象
+     * 创建 {@link ReactorClientHttpRequestFactory} 对象
      *
      * @param clientSideCertificate         SSL客户端证书
      * @param clientSideCertificateFormat   SSL客户端证书类型
      * @param clientSideCertificatePassword SSL客户端证书密码
-     * @return {@link ReactorNettyClientRequestFactory} 对象
+     * @return {@link ReactorClientHttpRequestFactory} 对象
      */
-    public static ReactorNettyClientRequestFactory create(
+    public static ReactorClientHttpRequestFactory create(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword) {
@@ -58,14 +58,14 @@ public final class NettyClientRequestFactoryFactories {
     }
 
     /**
-     * 创建 {@link ReactorNettyClientRequestFactory} 对象
+     * 创建 {@link ReactorClientHttpRequestFactory} 对象
      *
      * @param connectTimeout  连接超时时间
      * @param exchangeTimeout 请求超时时间
      * @param readTimout      读取应答超时时间
-     * @return {@link ReactorNettyClientRequestFactory} 对象
+     * @return {@link ReactorClientHttpRequestFactory} 对象
      */
-    public static ReactorNettyClientRequestFactory create(
+    public static ReactorClientHttpRequestFactory create(
             @Nullable Duration connectTimeout,
             @Nullable Duration exchangeTimeout,
             @Nullable Duration readTimout
@@ -76,7 +76,7 @@ public final class NettyClientRequestFactoryFactories {
     }
 
     /**
-     * 创建 {@link ReactorNettyClientRequestFactory} 对象
+     * 创建 {@link ReactorClientHttpRequestFactory} 对象
      *
      * @param clientSideCertificate         SSL客户端证书
      * @param clientSideCertificateFormat   SSL客户端证书类型
@@ -84,9 +84,9 @@ public final class NettyClientRequestFactoryFactories {
      * @param connectTimeout                连接超时时间
      * @param exchangeTimeout               请求超时时间
      * @param readTimout                    读取应答超时时间
-     * @return {@link ReactorNettyClientRequestFactory} 对象
+     * @return {@link ReactorClientHttpRequestFactory} 对象
      */
-    public static ReactorNettyClientRequestFactory create(
+    public static ReactorClientHttpRequestFactory create(
             @Nullable Resource clientSideCertificate,
             @Nullable KeyStoreFormat clientSideCertificateFormat,
             @Nullable String clientSideCertificatePassword,

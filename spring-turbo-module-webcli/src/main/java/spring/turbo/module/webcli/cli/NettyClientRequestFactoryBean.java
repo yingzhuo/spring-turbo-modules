@@ -6,7 +6,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.ReactorNettyClientRequestFactory;
+import org.springframework.http.client.ReactorClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import reactor.netty.http.client.HttpClient;
 import spring.turbo.module.webcli.x509.TrustAllX509TrustManager;
@@ -25,7 +25,6 @@ import java.util.Optional;
  * @since 3.3.0
  * @deprecated 请使用 <a href="https://github.com/Hakky54/sslcontext-kickstart">sslcontext-kickstart</a>
  */
-@SuppressWarnings("removal")
 @Deprecated(since = "3.3.2", forRemoval = true)
 public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
@@ -35,7 +34,7 @@ public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequ
     private @Nullable Duration connectTimeout = null;
     private @Nullable Duration exchangeTimeout = null;
     private @Nullable Duration readTimeout = null;
-    private ReactorNettyClientRequestFactory factory = null;
+    private ReactorClientHttpRequestFactory factory = null;
 
     /**
      * 默认构造方法
@@ -79,7 +78,7 @@ public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequ
                         )
                 );
 
-        this.factory = new ReactorNettyClientRequestFactory(httpClient);
+        this.factory = new ReactorClientHttpRequestFactory(httpClient);
         Optional.ofNullable(connectTimeout).ifPresent(timeout -> this.factory.setConnectTimeout(timeout));
         Optional.ofNullable(readTimeout).ifPresent(timeout -> this.factory.setReadTimeout(timeout));
         Optional.ofNullable(exchangeTimeout).ifPresent(timeout -> this.factory.setExchangeTimeout(timeout));
