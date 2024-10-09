@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 /**
+ * 初始化 {@link spring.turbo.module.jackson.util.JsonUtils}
+ *
  * @author 应卓
  * @since 3.3.1
  */

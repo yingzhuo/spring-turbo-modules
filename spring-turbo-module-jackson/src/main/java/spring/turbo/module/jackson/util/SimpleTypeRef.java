@@ -16,7 +16,6 @@ public final class SimpleTypeRef<T> extends TypeRef<T> {
     private final Class<T> clz;
 
     public SimpleTypeRef(Class<T> clz) {
-
         this.clz = clz;
     }
 
