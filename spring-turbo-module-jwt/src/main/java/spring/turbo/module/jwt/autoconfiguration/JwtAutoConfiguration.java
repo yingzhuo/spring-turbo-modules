@@ -9,6 +9,8 @@ import spring.turbo.module.jwt.JwtServiceImpl;
 import spring.turbo.module.jwt.alg.JwtSigner;
 
 /**
+ * 自动配置类
+ *
  * @author 应卓
  * @since 3.3.2
  */

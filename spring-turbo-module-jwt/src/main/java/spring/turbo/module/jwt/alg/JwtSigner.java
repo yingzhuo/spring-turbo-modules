@@ -3,7 +3,7 @@ package spring.turbo.module.jwt.alg;
 import java.io.Serializable;
 
 /**
- * JWT签名算法 <br>
+ * JWT签名算法 (抽象) <br>
  * 标记型接口
  *
  * @author 应卓
@@ -11,5 +11,5 @@ import java.io.Serializable;
  * @see SecretKeyJwtSigner
  * @since 3.3.2
  */
-public sealed interface JwtSigner extends Serializable permits KeyPairJwtSigner, SecretKeyJwtSigner {
+public interface JwtSigner extends Serializable {
 }

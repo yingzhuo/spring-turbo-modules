@@ -3,7 +3,8 @@ package spring.turbo.module.jwt;
 import org.springframework.lang.Nullable;
 
 /**
- * Json Web Token 服务
+ * Json Web Token 服务 <br>
+ * 核心服务
  *
  * @author 应卓
  * @since 3.1.1
