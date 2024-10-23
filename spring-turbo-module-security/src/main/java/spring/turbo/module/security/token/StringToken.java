@@ -1,5 +1,7 @@
 package spring.turbo.module.security.token;
 
+import org.springframework.util.Assert;
+
 import java.util.Objects;
 
 /**
@@ -17,6 +19,7 @@ public final class StringToken implements Token {
     }
 
     public static StringToken of(String token) {
+        Assert.hasText("token", "token is null or blank");
         return new StringToken(token);
     }
 

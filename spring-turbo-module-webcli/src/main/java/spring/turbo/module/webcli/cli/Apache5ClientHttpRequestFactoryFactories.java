@@ -14,9 +14,7 @@ import java.time.Duration;
  * @author 应卓
  * @see Apache5ClientHttpRequestFactoryBean
  * @since 3.3.1
- * @deprecated 请使用 <a href="https://github.com/Hakky54/sslcontext-kickstart">sslcontext-kickstart</a>
  */
-@Deprecated(since = "3.3.2")
 public final class Apache5ClientHttpRequestFactoryFactories {
 
     /**

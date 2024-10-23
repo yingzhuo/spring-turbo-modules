@@ -23,9 +23,7 @@ import java.util.Optional;
  *
  * @author 应卓
  * @since 3.3.0
- * @deprecated 请使用 <a href="https://github.com/Hakky54/sslcontext-kickstart">sslcontext-kickstart</a>
  */
-@Deprecated(since = "3.3.2", forRemoval = true)
 public class NettyClientRequestFactoryBean implements FactoryBean<ClientHttpRequestFactory>, InitializingBean {
 
     private @Nullable Resource clientSideCertificate;

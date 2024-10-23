@@ -13,10 +13,7 @@ import java.time.Duration;
  *
  * @author 应卓
  * @since 3.3.0
- * @deprecated 请使用 <a href="https://github.com/Hakky54/sslcontext-kickstart">sslcontext-kickstart</a>
  */
-@SuppressWarnings("removal")
-@Deprecated(since = "3.3.2", forRemoval = true)
 public final class NettyClientRequestFactoryFactories {
 
     /**
