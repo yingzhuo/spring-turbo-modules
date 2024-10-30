@@ -32,7 +32,7 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
      * @param jwtService JWT验证器
      */
     protected AbstractJwtTokenToUserConverter(JwtService jwtService) {
-        Assert.notNull(jwtService, "validator is required");
+        Assert.notNull(jwtService, "jwtService is required");
         this.jwtService = jwtService;
     }
 
@@ -78,7 +78,9 @@ public abstract class AbstractJwtTokenToUserConverter implements TokenToUserConv
     }
 
     @Nullable
-    protected abstract JwtAssertions getJwtAssertions();
+    protected JwtAssertions getJwtAssertions() {
+        return JwtAssertions.newInstance();
+    }
 
     @Nullable
     protected abstract UserDetails doAuthenticate(

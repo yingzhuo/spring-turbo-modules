@@ -23,7 +23,6 @@ import spring.turbo.module.security.token.blacklist.TokenBlacklistManager;
  * @author 应卓
  * @since 3.3.1
  */
-@Deprecated(since = "3.3.2")
 public class BasicAuthenticationFilterFactoryBean implements FactoryBean<FilterConfiguration<Filter>>, InitializingBean {
 
     private FilterConfiguration.Position position = FilterConfiguration.Position.REPLACE;

@@ -33,9 +33,6 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Nullable
     protected RememberMeServices rememberMeServices;
 
-//    @Nullable
-//    protected RequestDetailsProvider requestDetailsProvider = RequestDetailsProvider.SPRING_SECURITY_DEFAULT;
-
     @Nullable
     protected AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -71,10 +68,6 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     public final void setRememberMeServices(@Nullable RememberMeServices rememberMeServices) {
         this.rememberMeServices = rememberMeServices;
     }
-
-//    public final void setRequestDetailsProvider(@Nullable RequestDetailsProvider requestDetailsProvider) {
-//        this.requestDetailsProvider = requestDetailsProvider;
-//    }
 
     public final void setAuthenticationEntryPoint(@Nullable AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationEntryPoint = authenticationEntryPoint;
