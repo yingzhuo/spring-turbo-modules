@@ -38,6 +38,7 @@ public class JwtTokenAuthenticationFilterFactoryBean implements FactoryBean<Filt
     }
 
     @Override
+    @SuppressWarnings("DuplicatedCode")
     public FilterConfiguration<Filter> getObject() {
         Assert.notNull(tokenToUserConverter, "tokenToUserConverter is required");
 

@@ -30,6 +30,7 @@ public class BearerTokenAuthenticationFilterFactoryBean implements FactoryBean<F
     private @Nullable TokenBlacklistManager tokenBlacklistManager;
 
     @Override
+    @SuppressWarnings("DuplicatedCode")
     public FilterConfiguration<Filter> getObject() {
         Assert.notNull(tokenToUserConverter, "tokenToUserConverter is required");
 
