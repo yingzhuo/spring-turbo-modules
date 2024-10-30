@@ -35,7 +35,6 @@ import java.io.IOException;
  * @see spring.turbo.module.security.filter.factory.BasicAuthenticationFilterFactoryBean
  * @since 1.2.3
  */
-@Deprecated(since = "3.3.2")
 public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private static final Logger log = LoggerFactory.getLogger(BasicAuthenticationFilter.class);
@@ -51,6 +50,7 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
+    @SuppressWarnings("DuplicatedCode")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
@@ -81,20 +81,19 @@ public class BasicAuthenticationFilter extends AbstractAuthenticationFilter {
                 return;
             }
 
-            final Authentication auth = new Authentication(user, token);
-            auth.setAuthenticated(true);
-            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            var authentication = new Authentication(user, token);
+            authentication.setAuthenticated(true);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             if (this.rememberMeServices != null) {
-                rememberMeServices.loginSuccess(request, response, auth);
+                rememberMeServices.loginSuccess(request, response, authentication);
             }
 
-            onSuccessfulAuthentication(request, response, auth);
+            onSuccessfulAuthentication(request, response, authentication);
 
             if (this.applicationEventPublisher != null) {
-                final var event = new AuthenticationSuccessEvent(auth, token);
+                final var event = new AuthenticationSuccessEvent(authentication, token);
                 event.setRequest(request);
                 event.setResponse(response);
                 this.applicationEventPublisher.publishEvent(event);

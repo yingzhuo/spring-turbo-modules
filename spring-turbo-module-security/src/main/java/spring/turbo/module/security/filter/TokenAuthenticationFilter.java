@@ -43,8 +43,10 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
     }
 
     @Override
+    @SuppressWarnings("DuplicatedCode")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         if (!authenticationIsRequired()) {
             filterChain.doFilter(request, response);
             return;
@@ -74,20 +76,19 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationFilter {
                 }
             }
 
-            final Authentication auth = new Authentication(user, token);
-            auth.setAuthenticated(true);
-            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            var authentication = new Authentication(user, token);
+            authentication.setAuthenticated(true);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             if (this.rememberMeServices != null) {
-                rememberMeServices.loginSuccess(request, response, auth);
+                rememberMeServices.loginSuccess(request, response, authentication);
             }
 
-            onSuccessfulAuthentication(request, response, auth);
+            onSuccessfulAuthentication(request, response, authentication);
 
             if (this.applicationEventPublisher != null) {
-                final var event = new AuthenticationSuccessEvent(auth, token);
+                final var event = new AuthenticationSuccessEvent(authentication, token);
                 event.setRequest(request);
                 event.setResponse(response);
                 this.applicationEventPublisher.publishEvent(event);
