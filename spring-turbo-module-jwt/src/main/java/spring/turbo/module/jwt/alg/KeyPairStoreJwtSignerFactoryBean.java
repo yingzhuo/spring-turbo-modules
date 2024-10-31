@@ -1,14 +1,16 @@
 package spring.turbo.module.jwt.alg;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 import spring.turbo.util.crypto.bundle.KeyStoreAsymmetricKeyBundleFactoryBean;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
 /**
  * @author 应卓
+ * @see KeyPairJwtSigner
  * @since 3.3.2
  */
-public class KeyPairStoreJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner> {
+public class KeyPairStoreJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSigner>, InitializingBean {
 
     private final KeyStoreAsymmetricKeyBundleFactoryBean innerFactory = new KeyStoreAsymmetricKeyBundleFactoryBean();
 
@@ -27,6 +29,14 @@ public class KeyPairStoreJwtSignerFactoryBean implements FactoryBean<KeyPairJwtS
         innerFactory.afterPropertiesSet();
         var bundle = innerFactory.getObject();
         return new KeyPairJwtSigner(bundle.getKeyPair());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.innerFactory.afterPropertiesSet();
     }
 
     /**

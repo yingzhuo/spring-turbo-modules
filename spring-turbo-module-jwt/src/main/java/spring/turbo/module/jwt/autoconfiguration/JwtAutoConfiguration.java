@@ -19,9 +19,9 @@ import spring.turbo.module.jwt.alg.JwtSigner;
 @ConditionalOnMissingBean(JwtService.class)
 public class JwtAutoConfiguration {
 
-    @Bean
-    public JwtService jsonWebTokenService(JwtSigner signer) {
-        return new JwtServiceImpl(signer);
+    @Bean(name = "jsonWebTokenService")
+    public JwtService jsonWebTokenService(JwtSigner jwtSigner) {
+        return new JwtServiceImpl(jwtSigner);
     }
 
 }

@@ -1,6 +1,7 @@
 package spring.turbo.module.jwt.alg;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -9,9 +10,12 @@ import static spring.turbo.module.jwt.alg.JwtSignerFactories.createFromBase64URl
 
 /**
  * @author 应卓
+ * @see SecretKeyJwtSigner
+ * @see KeyPairPemJwtSignerFactoryBean
+ * @see KeyPairStoreJwtSignerFactoryBean
  * @since 3.3.2
  */
-public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSigner> {
+public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSigner>, InitializingBean {
 
     @Nullable
     private String base64EncodedString;
@@ -41,6 +45,14 @@ public class SecretKeyJwtSignerFactoryBean implements FactoryBean<SecretKeyJwtSi
     @Override
     public Class<?> getObjectType() {
         return SecretKeyJwtSigner.class;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // noop
     }
 
     public void setBase64EncodedString(@Nullable String base64EncodedString) {
