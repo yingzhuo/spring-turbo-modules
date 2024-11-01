@@ -27,7 +27,7 @@ public class KeyPairPemJwtSignerFactoryBean implements FactoryBean<KeyPairJwtSig
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         this.innerFactory.afterPropertiesSet();
     }
 
