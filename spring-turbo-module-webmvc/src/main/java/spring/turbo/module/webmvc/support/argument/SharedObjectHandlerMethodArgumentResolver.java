@@ -5,7 +5,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import spring.turbo.util.ThreadSharedObjects;
+import spring.turbo.util.concurrent.ThreadSharedObjects;
 
 /**
  * @author 应卓
@@ -13,6 +13,7 @@ import spring.turbo.util.ThreadSharedObjects;
  * @see ThreadSharedObjects
  * @since 2024-07-03
  */
+@Deprecated(since = "3.4.0", forRemoval = true)
 public class SharedObjectHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     /**

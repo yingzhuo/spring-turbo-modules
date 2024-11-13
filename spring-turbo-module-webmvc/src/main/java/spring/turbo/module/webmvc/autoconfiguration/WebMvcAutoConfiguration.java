@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import spring.turbo.module.webmvc.databinding.DataBinderInitializingAdvice;
 import spring.turbo.module.webmvc.support.argument.RemoteAddressHandlerMethodArgumentResolver;
-import spring.turbo.module.webmvc.support.argument.SharedObjectHandlerMethodArgumentResolver;
 
 import java.util.List;
 
@@ -39,7 +38,10 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
-        resolvers.add(new SharedObjectHandlerMethodArgumentResolver());
+
+        // 对ThreadLocal使用不当有可能产生资源泄露问题
+        // 从3.4.0开始，不再自动注册此组件
+        // resolvers.add(new SharedObjectHandlerMethodArgumentResolver());
     }
 
     /**
