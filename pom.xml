@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.4.0-SNAPSHOT</version>
+    <version>3.3.5-1</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-jackson</module>
@@ -81,11 +81,13 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
+        <!--
         <repository>
             <id>spring-ga</id>
             <name>Spring GA</name>
             <url>https://repo.spring.io/release</url>
         </repository>
+        -->
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
@@ -117,11 +119,13 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </pluginRepository>
+        <!--
         <pluginRepository>
             <id>spring-ga</id>
             <name>Spring GA</name>
             <url>https://repo.spring.io/release</url>
         </pluginRepository>
+        -->
         <pluginRepository>
             <id>spring-snapshots</id>
             <name>Spring Snapshots</name>
@@ -143,7 +147,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.4.0-SNAPSHOT</spring.boot.version>
+        <spring.boot.version>3.3.5</spring.boot.version>
         <hutool.version>5.8.33</hutool.version>
         <jjwt.version>0.12.6</jjwt.version>
         <lombok.version>1.18.34</lombok.version>
