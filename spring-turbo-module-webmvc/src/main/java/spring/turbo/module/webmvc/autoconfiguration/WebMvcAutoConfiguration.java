@@ -38,10 +38,6 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new RemoteAddressHandlerMethodArgumentResolver());
-
-        // 对ThreadLocal使用不当有可能产生资源泄露问题
-        // 从3.4.0开始，不再自动注册此组件
-        // resolvers.add(new SharedObjectHandlerMethodArgumentResolver());
     }
 
     /**
