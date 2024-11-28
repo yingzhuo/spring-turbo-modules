@@ -55,6 +55,11 @@
     <artifactId>spring-turbo-module-jackson</artifactId>
     <version>LATEST</version>
 </dependency>
+<dependency>
+    <groupId>com.github.yingzhuo</groupId>
+    <artifactId>spring-turbo-module-redis</artifactId>
+    <version>LATEST</version>
+</dependency>
 ```
 
 ### 安装 (Source Code)

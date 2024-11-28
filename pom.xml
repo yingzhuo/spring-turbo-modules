@@ -15,6 +15,7 @@
         <module>spring-turbo-module-security</module>
         <module>spring-turbo-module-webcli</module>
         <module>spring-turbo-module-webmvc</module>
+        <module>spring-turbo-module-redis</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -151,7 +152,7 @@
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.4.0</spring.boot.version>
-        <hutool.version>5.8.33</hutool.version>
+        <hutool.version>5.8.34</hutool.version>
         <jjwt.version>0.12.6</jjwt.version>
         <lombok.version>1.18.36</lombok.version>
     </properties>
