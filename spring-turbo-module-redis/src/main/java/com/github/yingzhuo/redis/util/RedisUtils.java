@@ -46,7 +46,7 @@ public final class RedisUtils {
      * @return 删除的数据数
      */
     public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int cursorCount) {
-        Assert.notNull(redisOperations, "redisTemplate is null");
+        Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(pattern, "pattern is null or blank");
         Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
 
@@ -67,6 +67,149 @@ public final class RedisUtils {
             }
         }
         return result;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 删除HASH类型BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigHash(RedisOperations<String, V> redisOperations, String key) {
+        deleteBigHash(redisOperations, key, DEFAULT_CURSOR_COUNT);
+    }
+
+    /**
+     * 删除HASH类型BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param cursorCount     游标每一页的数据数
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigHash(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+        Assert.notNull(redisOperations, "redisOperations is null");
+        Assert.hasText(key, "key is null or blank");
+        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+
+        var hashOp = redisOperations.opsForHash();
+
+        // @formatter:off
+        var scanOptions = ScanOptions.scanOptions()
+                .count(cursorCount)
+                .match("*")
+                .build();
+        // @formatter:on
+
+        try (var c = hashOp.scan(key, scanOptions)) {
+            while (c.hasNext()) {
+                var entryKey = c.next().getKey();
+                hashOp.delete(key, entryKey);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 删除LIST类型的BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigList(RedisOperations<String, V> redisOperations, String key) {
+        Assert.notNull(redisOperations, "redisOperations is null");
+        redisOperations.unlink(key);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 删除SET类型的BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigSet(RedisOperations<String, V> redisOperations, String key) {
+        deleteBigSet(redisOperations, key, DEFAULT_CURSOR_COUNT);
+    }
+
+    /**
+     * 删除SET类型的BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param cursorCount     游标每一页的数据数
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigSet(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+        Assert.notNull(redisOperations, "redisOperations is null");
+        Assert.hasText(key, "key is null or blank");
+        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+
+        var setOp = redisOperations.opsForSet();
+
+        // @formatter:off
+        var scanOptions = ScanOptions.scanOptions()
+                .count(cursorCount)
+                .match("*")
+                .build();
+        // @formatter:on
+
+        try (var c = setOp.scan(key, scanOptions)) {
+            while (c.hasNext()) {
+                var item = c.next();
+                setOp.remove(key, item);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 删除ZSET类型的BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigZset(RedisOperations<String, V> redisOperations, String key) {
+        deleteBigSet(redisOperations, key, DEFAULT_CURSOR_COUNT);
+    }
+
+    /**
+     * 删除ZSET类型的BigKey
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             要删除的键
+     * @param cursorCount     游标每一页的数据数
+     * @param <V>             Value的泛型
+     */
+    public static <V> void deleteBigZset(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+        Assert.notNull(redisOperations, "redisOperations is null");
+        Assert.hasText(key, "key is null or blank");
+        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+
+        var zsetOp = redisOperations.opsForZSet();
+
+        // @formatter:off
+        var scanOptions = ScanOptions.scanOptions()
+                .count(cursorCount)
+                .match("*")
+                .build();
+        // @formatter:on
+
+        try (var c = zsetOp.scan(key, scanOptions)) {
+            while (c.hasNext()) {
+                var item = c.next();
+                zsetOp.remove(key, item.getValue());
+            }
+        }
     }
 
 }
