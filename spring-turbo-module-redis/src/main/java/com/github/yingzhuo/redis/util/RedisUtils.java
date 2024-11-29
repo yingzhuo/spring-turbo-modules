@@ -32,10 +32,9 @@ public final class RedisUtils {
      * @param pattern         要匹配的模式
      * @param <K>             Key的泛型
      * @param <V>             Value的泛型
-     * @return 删除的数据数
      */
-    public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern) {
-        return deleteValuesByPattern(redisOperations, pattern, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
+    public static <K, V> void deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern) {
+        deleteValuesByPattern(redisOperations, pattern, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
     /**
@@ -46,9 +45,8 @@ public final class RedisUtils {
      * @param deleteElementCountPerStep 每次删除的元素个数
      * @param <K>                       Key的泛型
      * @param <V>                       Value的泛型
-     * @return 删除的数据数
      */
-    public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int deleteElementCountPerStep) {
+    public static <K, V> void deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(pattern, "pattern is null or blank");
         Assert.isTrue(deleteElementCountPerStep >= 10, "deleteElementCountPerStep should >= 10");
@@ -61,15 +59,12 @@ public final class RedisUtils {
                 .build();
         // @formatter:on
 
-        long result = 0L;
         try (var c = redisOperations.scan(scanOptions)) {
             while (c.hasNext()) {
                 var key = c.next();
                 redisOperations.delete(key);
-                result++;
             }
         }
-        return result;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
