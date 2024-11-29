@@ -14,7 +14,10 @@ import org.springframework.util.Assert;
  */
 public final class RedisUtils {
 
-    private static final int DEFAULT_CURSOR_COUNT = 15;
+    // 参考资料1: https://cloud.tencent.com/developer/article/2410509
+    // 参考资料2: B站尚硅谷周阳老师视频资料
+
+    private static final int DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP = 100;
 
     /**
      * 私有构造方法
@@ -32,23 +35,23 @@ public final class RedisUtils {
      * @return 删除的数据数
      */
     public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern) {
-        return deleteValuesByPattern(redisOperations, pattern, DEFAULT_CURSOR_COUNT);
+        return deleteValuesByPattern(redisOperations, pattern, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
     /**
      * 按照匹配模式删除 string 类型的数据
      *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param pattern         要匹配的模式
-     * @param cursorCount     游标每一页的数据数
-     * @param <K>             Key的泛型
-     * @param <V>             Value的泛型
+     * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param pattern                   要匹配的模式
+     * @param deleteElementCountPerStep 每次删除的元素个数
+     * @param <K>                       Key的泛型
+     * @param <V>                       Value的泛型
      * @return 删除的数据数
      */
-    public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int cursorCount) {
+    public static <K, V> long deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(pattern, "pattern is null or blank");
-        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+        Assert.isTrue(deleteElementCountPerStep >= 10, "deleteElementCountPerStep should >= 10");
 
         // @formatter:off
         var scanOptions = ScanOptions.scanOptions()
@@ -79,27 +82,27 @@ public final class RedisUtils {
      * @param <V>             Value的泛型
      */
     public static <V> void deleteBigHash(RedisOperations<String, V> redisOperations, String key) {
-        deleteBigHash(redisOperations, key, DEFAULT_CURSOR_COUNT);
+        deleteBigHash(redisOperations, key, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
     /**
      * 删除HASH类型BigKey
      *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param key             要删除的键
-     * @param cursorCount     游标每一页的数据数
-     * @param <V>             Value的泛型
+     * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key                       要删除的键
+     * @param deleteElementCountPerStep 每次删除的元素个数
+     * @param <V>                       Value的泛型
      */
-    public static <V> void deleteBigHash(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+    public static <V> void deleteBigHash(RedisOperations<String, V> redisOperations, String key, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(key, "key is null or blank");
-        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+        Assert.isTrue(deleteElementCountPerStep >= 10, "cursorCount should >= 10");
 
         var hashOp = redisOperations.opsForHash();
 
         // @formatter:off
         var scanOptions = ScanOptions.scanOptions()
-                .count(cursorCount)
+                .count(deleteElementCountPerStep)
                 .match("*")
                 .build();
         // @formatter:on
@@ -122,8 +125,36 @@ public final class RedisUtils {
      * @param <V>             Value的泛型
      */
     public static <V> void deleteBigList(RedisOperations<String, V> redisOperations, String key) {
+        deleteBigList(redisOperations, key, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
+    }
+
+    /**
+     * 删除LIST类型的BigKey
+     *
+     * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key                       要删除的键
+     * @param deleteElementCountPerStep 每次删除的元素个数
+     * @param <V>                       Value的泛型
+     */
+    public static <V> void deleteBigList(RedisOperations<String, V> redisOperations, String key, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
-        redisOperations.unlink(key);
+        Assert.notNull(key, "key is null or blank");
+        Assert.isTrue(deleteElementCountPerStep >= 10, "deleteElementCountPerStep should >= 10");
+
+        var listOp = redisOperations.opsForList();
+        var size = listOp.size(key);
+        var count = 0L;
+
+        if (size == null || size.equals(0L)) {
+            return;
+        }
+
+        while (count < size) {
+            listOp.trim(key, 0, deleteElementCountPerStep);
+            count += deleteElementCountPerStep;
+        }
+
+        redisOperations.delete(key);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -136,27 +167,27 @@ public final class RedisUtils {
      * @param <V>             Value的泛型
      */
     public static <V> void deleteBigSet(RedisOperations<String, V> redisOperations, String key) {
-        deleteBigSet(redisOperations, key, DEFAULT_CURSOR_COUNT);
+        deleteBigSet(redisOperations, key, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
     /**
      * 删除SET类型的BigKey
      *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param key             要删除的键
-     * @param cursorCount     游标每一页的数据数
-     * @param <V>             Value的泛型
+     * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key                       要删除的键
+     * @param deleteElementCountPerStep 每次删除的元素个数
+     * @param <V>                       Value的泛型
      */
-    public static <V> void deleteBigSet(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+    public static <V> void deleteBigSet(RedisOperations<String, V> redisOperations, String key, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(key, "key is null or blank");
-        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+        Assert.isTrue(deleteElementCountPerStep >= 10, "cursorCount should >= 10");
 
         var setOp = redisOperations.opsForSet();
 
         // @formatter:off
         var scanOptions = ScanOptions.scanOptions()
-                .count(cursorCount)
+                .count(deleteElementCountPerStep)
                 .match("*")
                 .build();
         // @formatter:on
@@ -179,27 +210,27 @@ public final class RedisUtils {
      * @param <V>             Value的泛型
      */
     public static <V> void deleteBigZset(RedisOperations<String, V> redisOperations, String key) {
-        deleteBigSet(redisOperations, key, DEFAULT_CURSOR_COUNT);
+        deleteBigSet(redisOperations, key, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
     /**
      * 删除ZSET类型的BigKey
      *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param key             要删除的键
-     * @param cursorCount     游标每一页的数据数
-     * @param <V>             Value的泛型
+     * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key                       要删除的键
+     * @param deleteElementCountPerStep 每次删除的元素个数
+     * @param <V>                       Value的泛型
      */
-    public static <V> void deleteBigZset(RedisOperations<String, V> redisOperations, String key, int cursorCount) {
+    public static <V> void deleteBigZset(RedisOperations<String, V> redisOperations, String key, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(key, "key is null or blank");
-        Assert.isTrue(cursorCount >= 10, "cursorCount should >= 10");
+        Assert.isTrue(deleteElementCountPerStep >= 10, "cursorCount should >= 10");
 
         var zsetOp = redisOperations.opsForZSet();
 
         // @formatter:off
         var scanOptions = ScanOptions.scanOptions()
-                .count(cursorCount)
+                .count(deleteElementCountPerStep)
                 .match("*")
                 .build();
         // @formatter:on
