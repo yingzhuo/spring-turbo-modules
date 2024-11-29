@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
-import spring.turbo.util.hash.DigestHashFunction;
+import spring.turbo.util.hash.DigestHashFunctions;
 import spring.turbo.util.hash.HashFunction;
 
 /**
@@ -65,18 +65,18 @@ public final class RedisUtils {
      * @param key             Redis键
      * @return 布隆过滤器实例
      * @see HashFunction
-     * @see DigestHashFunction
+     * @see DigestHashFunctions
      */
     public static RedisBloomFilter createDefaultBloomFilter(
             RedisOperations<String, String> redisOperations,
             String key) {
         return new RedisBloomFilter(redisOperations, key, 10_0000_0000)
                 .addHashFunctions(
-                        new DigestHashFunction(DigestHashFunction.Algorithm.MD5),
-                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA1),
-                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA256),
-                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA384),
-                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA512)
+                        DigestHashFunctions.md5(),
+                        DigestHashFunctions.sha1(),
+                        DigestHashFunctions.sha256(),
+                        DigestHashFunctions.sha384(),
+                        DigestHashFunctions.sha512()
                 );
     }
 

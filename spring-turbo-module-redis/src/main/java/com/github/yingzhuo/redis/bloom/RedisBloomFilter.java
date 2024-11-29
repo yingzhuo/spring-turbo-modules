@@ -1,16 +1,15 @@
 package com.github.yingzhuo.redis.bloom;
 
 import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import spring.turbo.util.collection.CollectionUtils;
 import spring.turbo.util.hash.BloomFilter;
 import spring.turbo.util.hash.HashFunction;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static spring.turbo.util.collection.CollectionUtils.nullSafeAdd;
-import static spring.turbo.util.collection.CollectionUtils.nullSafeAddAll;
 
 /**
  * 基于BITMAP实现的布隆过滤器
@@ -50,11 +49,14 @@ public class RedisBloomFilter implements BloomFilter {
     }
 
     public RedisBloomFilter addHashFunctions(HashFunction first, HashFunction... moreFunctions) {
-        nullSafeAdd(hashFunctions, first);
-        nullSafeAddAll(hashFunctions, moreFunctions);
+        CollectionUtils.nullSafeAdd(hashFunctions, first);
+        CollectionUtils.nullSafeAddAll(hashFunctions, moreFunctions);
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void add(String element) {
         Assert.notNull(element, "element is null");
@@ -68,12 +70,19 @@ public class RedisBloomFilter implements BloomFilter {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean exists(String element) {
-        Assert.notNull(element, "element is null");
+    public boolean mightContain(@Nullable String element) {
+        // null认为不存在
+        if (element == null) {
+            return false;
+        }
+
         Assert.notEmpty(hashFunctions, "hashFunctions is empty");
 
-        for (HashFunction func : hashFunctions) {
+        for (var func : hashFunctions) {
             var offset = func.apply(element) % length;
             offset = Math.abs(offset);
             var b = redisOperations.opsForValue()
@@ -85,6 +94,14 @@ public class RedisBloomFilter implements BloomFilter {
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean notContain(String element) {
+        return !mightContain(element);
     }
 
 }
