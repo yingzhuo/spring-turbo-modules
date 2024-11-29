@@ -1,10 +1,13 @@
 package com.github.yingzhuo.redis.util;
 
+import com.github.yingzhuo.redis.bloom.RedisBloomFilter;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
+import spring.turbo.util.hash.DigestHashFunction;
+import spring.turbo.util.hash.HashFunction;
 
 /**
  * Redis相关工具
@@ -25,15 +28,68 @@ public final class RedisUtils {
     private RedisUtils() {
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 创建布隆过滤器
+     *
+     * @param redisOperations   RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key               Redis键
+     * @param length            布隆过滤器长度
+     * @param firstHashFunction 哈希函数
+     * @param moreHashFunctions 其他哈希函数
+     * @return 布隆过滤器实例
+     */
+    public static RedisBloomFilter createBloomFilter(
+            RedisOperations<String, String> redisOperations,
+            String key,
+            int length,
+            HashFunction firstHashFunction,
+            HashFunction... moreHashFunctions) {
+        return new RedisBloomFilter(redisOperations, key, length)
+                .addHashFunctions(firstHashFunction, moreHashFunctions);
+    }
+
+    /**
+     * 创建默认配置的布隆过滤器 <br>
+     * <ul>
+     *     <li>长度: 10_0000_0000</li>
+     *     <li>哈希函数1: MD5</li>
+     *     <li>哈希函数2: SHA-1</li>
+     *     <li>哈希函数3: SHA-256</li>
+     *     <li>哈希函数4: SHA-384</li>
+     *     <li>哈希函数5: SHA-512</li>
+     * </ul>
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             Redis键
+     * @return 布隆过滤器实例
+     * @see HashFunction
+     * @see DigestHashFunction
+     */
+    public static RedisBloomFilter createDefaultBloomFilter(
+            RedisOperations<String, String> redisOperations,
+            String key) {
+        return new RedisBloomFilter(redisOperations, key, 10_0000_0000)
+                .addHashFunctions(
+                        new DigestHashFunction(DigestHashFunction.Algorithm.MD5),
+                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA1),
+                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA256),
+                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA384),
+                        new DigestHashFunction(DigestHashFunction.Algorithm.SHA512)
+                );
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * 按照匹配模式删除 string 类型的数据
      *
      * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
      * @param pattern         要匹配的模式
-     * @param <K>             Key的泛型
      * @param <V>             Value的泛型
      */
-    public static <K, V> void deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern) {
+    public static <V> void deleteValuesByPattern(RedisOperations<String, V> redisOperations, String pattern) {
         deleteValuesByPattern(redisOperations, pattern, DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP);
     }
 
@@ -43,10 +99,9 @@ public final class RedisUtils {
      * @param redisOperations           RedisOperations实例，通常是 {@link StringRedisTemplate}
      * @param pattern                   要匹配的模式
      * @param deleteElementCountPerStep 每次删除的元素个数
-     * @param <K>                       Key的泛型
      * @param <V>                       Value的泛型
      */
-    public static <K, V> void deleteValuesByPattern(RedisOperations<K, V> redisOperations, String pattern, int deleteElementCountPerStep) {
+    public static <V> void deleteValuesByPattern(RedisOperations<String, V> redisOperations, String pattern, int deleteElementCountPerStep) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(pattern, "pattern is null or blank");
         Assert.isTrue(deleteElementCountPerStep >= 10, "deleteElementCountPerStep should >= 10");
@@ -108,6 +163,8 @@ public final class RedisUtils {
                 hashOp.delete(key, entryKey);
             }
         }
+
+        redisOperations.delete(key);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -193,6 +250,8 @@ public final class RedisUtils {
                 setOp.remove(key, item);
             }
         }
+
+        redisOperations.delete(key);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -236,6 +295,8 @@ public final class RedisUtils {
                 zsetOp.remove(key, item.getValue());
             }
         }
+
+        redisOperations.delete(key);
     }
 
 }
