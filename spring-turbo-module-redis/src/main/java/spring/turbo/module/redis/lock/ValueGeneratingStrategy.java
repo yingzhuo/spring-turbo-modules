@@ -24,6 +24,16 @@ public interface ValueGeneratingStrategy extends Function<String, String> {
     }
 
     /**
+     * 获取UUID简易实现策略器
+     *
+     * @return UUID简易实现策略器
+     * @see java.util.UUID
+     */
+    public static ValueGeneratingStrategy uuid() {
+        return __ -> UUIDUtils.uuid32();
+    }
+
+    /**
      * 生成lock-value
      *
      * @param lockKey lock-key

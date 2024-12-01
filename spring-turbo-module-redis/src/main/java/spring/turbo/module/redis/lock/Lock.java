@@ -1,5 +1,9 @@
 package spring.turbo.module.redis.lock;
 
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.lang.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +13,27 @@ import java.io.Serializable;
  * @since 3.4.0
  */
 public interface Lock extends Serializable {
+
+    /**
+     * 创建可重入锁
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @return 可重入锁
+     */
+    public static Lock reentrantLock(RedisOperations<String, String> redisOperations) {
+        return new ReentrantLock(redisOperations, null);
+    }
+
+    /**
+     * 创建可重入锁
+     *
+     * @param redisOperations         RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param valueGeneratingStrategy value生成策略
+     * @return 可重入锁
+     */
+    public static Lock reentrantLock(RedisOperations<String, String> redisOperations, @Nullable ValueGeneratingStrategy valueGeneratingStrategy) {
+        return new ReentrantLock(redisOperations, valueGeneratingStrategy);
+    }
 
     /**
      * 加锁
@@ -26,6 +51,5 @@ public interface Lock extends Serializable {
      * @return 返回true时表示成功解锁
      */
     public boolean unlock();
-
 
 }
