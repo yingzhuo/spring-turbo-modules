@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Objects;
  * @author 应卓
  * @since 3.4.0
  */
-public abstract class AbstractLock implements Lock, Serializable {
+public abstract class AbstractLock implements Lock {
 
     @NonNull
     protected final RedisOperations<String, String> redisOperations;

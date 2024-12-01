@@ -1,12 +1,12 @@
 package spring.turbo.module.redis.lock;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,33 +43,21 @@ public final class ReentrantLock extends AbstractLock {
      * {@inheritDoc}
      */
     @Override
-    public LockStamp lock(String lockKey, Duration lockTimeToLive) {
+    public LockStamp lock(String lockKey, long ttlInSeconds) {
         Assert.hasText(lockKey, "localKey is null or blank");
-        Assert.notNull(lockTimeToLive, "lockTimeToLive is null");
+        Assert.isTrue(ttlInSeconds > 0, "ttlInSeconds should > 0");
 
         var lockField = getLockField(lockKey);
 
-        var lua = """
-                if redis.call('EXISTS', ARGV[1]) == 1 then
-                    if redis.call('HEXISTS', ARGV[1], ARGV[2]) == 0 then
-                        return 0
-                    end
-                end
-                                
-                local n = redis.call('HINCRBY', ARGV[1], ARGV[2], 1)
-                redis.call('EXPIRE', ARGV[1], ARGV[3])
-                return n > 0
-                """;
-
         var success = redisOperations.execute(
-                RedisScript.of(lua, Boolean.class),
+                SyncAvoid.LUA_LOCK,
                 List.of(),
                 lockKey,
                 lockField,
-                String.valueOf(lockTimeToLive.toSeconds())
+                String.valueOf(ttlInSeconds)
         );
 
-        var stamp = new LockStamp(success, lockKey, lockField, System.currentTimeMillis() + lockTimeToLive.toMillis());
+        var stamp = new LockStamp(success, lockKey, lockField, System.currentTimeMillis() + ttlInSeconds * 1000);
         if (stamp.isSuccess()) {
             super.lastSuccessLockStamp = stamp;
         }
@@ -89,23 +77,8 @@ public final class ReentrantLock extends AbstractLock {
         var lockKey = last.getLockKey();
         var lockField = last.getLockValue();
 
-        var lua = """
-                if redis.call('EXISTS', ARGV[1]) == 1 then
-                    if redis.call('HEXISTS', ARGV[1], ARGV[2]) == 0 then
-                        return false
-                    end
-                end
-                                
-                local n = redis.call('HINCRBY', ARGV[1], ARGV[2], -1)
-                if n <= 0 then
-                    redis.call('DEL', ARGV[1])
-                end
-                       
-                return true
-                """;
-
         return redisOperations.execute(
-                RedisScript.of(lua, Boolean.class),
+                SyncAvoid.LUA_UNLOCK,
                 List.of(),
                 lockKey,
                 lockField
@@ -116,6 +89,14 @@ public final class ReentrantLock extends AbstractLock {
         return Optional.ofNullable(getLastSuccessLockStamp())
                 .map(LockStamp::getLockValue)
                 .orElse(valueGeneratingStrategy.apply(lockKey));
+    }
+
+    // 延迟加载
+    private static class SyncAvoid {
+        private static final RedisScript<Boolean> LUA_LOCK =
+                RedisScript.of(new ClassPathResource("META-INF/script/spring.turbo.module.redis.lock.ReentrantLock#lock.lua"), Boolean.class);
+        private static final RedisScript<Boolean> LUA_UNLOCK =
+                RedisScript.of(new ClassPathResource("META-INF/script/spring.turbo.module.redis.lock.ReentrantLock#unlock.lua"), Boolean.class);
     }
 
 }

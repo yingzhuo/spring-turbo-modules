@@ -19,9 +19,7 @@ import java.util.List;
  * @see LockStamp
  * @see ValueGeneratingStrategy
  * @since 3.4.0
- * @deprecated 此锁不可重入，不怎么靠谱
  */
-@Deprecated
 public final class NonReentrantLock extends AbstractLock {
 
     /**
@@ -46,18 +44,18 @@ public final class NonReentrantLock extends AbstractLock {
     /**
      * 加锁
      *
-     * @param lockKey        键
-     * @param lockTimeToLive ttl
+     * @param lockKey      键
+     * @param ttlInSeconds ttl
      * @return 加锁戳记
      * @see LockStamp#isSuccess()
      */
-    public LockStamp lock(String lockKey, Duration lockTimeToLive) {
+    public LockStamp lock(String lockKey, long ttlInSeconds) {
         Assert.hasText(lockKey, "localKey is null or blank");
-        Assert.notNull(lockTimeToLive, "lockTimeToLive is null");
+        Assert.isTrue(ttlInSeconds > 0, "ttlInSeconds should > 0");
 
         var lockValue = valueGeneratingStrategy.apply(lockKey);
-        var success = redisOperations.opsForValue().setIfAbsent(lockKey, lockValue, lockTimeToLive);
-        var stamp = new LockStamp(success, lockKey, lockValue, System.currentTimeMillis() + lockTimeToLive.toMillis());
+        var success = redisOperations.opsForValue().setIfAbsent(lockKey, lockValue, Duration.ofSeconds(ttlInSeconds));
+        var stamp = new LockStamp(success, lockKey, lockValue, System.currentTimeMillis() + ttlInSeconds * 1000);
         if (stamp.isSuccess()) {
             this.lastSuccessLockStamp = stamp;
         }
