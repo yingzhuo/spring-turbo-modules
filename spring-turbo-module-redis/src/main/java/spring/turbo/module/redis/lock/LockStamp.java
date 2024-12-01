@@ -14,24 +14,24 @@ import java.io.Serializable;
 public final class LockStamp implements Serializable {
 
     private final long timestamp = System.currentTimeMillis();
+    private final boolean success;
     private final String lockKey;
     private final String lockValue;
-    private final boolean success;
     private final long ttl;
 
     /**
      * 构造方法
      *
+     * @param success   成功标志位
      * @param lockKey   锁的键
      * @param lockValue 锁的值
      * @param ttl       过期时的时间戳
-     * @param success   成功标志位
      */
-    public LockStamp(String lockKey, String lockValue, long ttl, boolean success) {
+    public LockStamp(boolean success, String lockKey, String lockValue, long ttl) {
+        this.success = success;
         this.lockKey = lockKey;
         this.lockValue = lockValue;
         this.ttl = ttl;
-        this.success = success;
     }
 
     /**
@@ -41,8 +41,8 @@ public final class LockStamp implements Serializable {
     public String toString() {
         return new ToStringCreator(this)
                 .append("success", success)
-                .append("key", lockKey)
-                .append("value", lockValue)
+                .append("lock-key", lockKey)
+                .append("lock-value", lockValue)
                 .append("ttl", LocalDateTimeUtils.toLocalDateTime(ttl, null))
                 .append("timestamp", LocalDateTimeUtils.toLocalDateTime(timestamp, null))
                 .toString();

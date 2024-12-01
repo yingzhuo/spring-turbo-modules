@@ -17,8 +17,7 @@ import spring.turbo.util.hash.HashFunction;
  */
 public final class RedisUtils {
 
-    // 参考资料1: https://cloud.tencent.com/developer/article/2410509
-    // 参考资料2: B站尚硅谷周阳老师视频资料
+    // 参考资料: https://cloud.tencent.com/developer/article/2410509
 
     private static final int DEFAULT_DELETE_ELEMENT_COUNT_PER_STEP = 100;
 
