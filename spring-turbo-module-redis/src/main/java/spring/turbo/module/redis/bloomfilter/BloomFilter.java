@@ -1,11 +1,10 @@
-package spring.turbo.module.redis.bloom;
+package spring.turbo.module.redis.bloomfilter;
 
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import spring.turbo.util.collection.CollectionUtils;
-import spring.turbo.util.hash.BloomFilter;
 import spring.turbo.util.hash.HashFunction;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author 应卓
  * @since 3.4.0
  */
-public class RedisBloomFilter implements BloomFilter {
+public class BloomFilter implements spring.turbo.util.hash.BloomFilter {
 
     private static final int DEFAULT_BITMAP_SIZE = 10_0000_0000; // 十亿
 
@@ -33,7 +32,7 @@ public class RedisBloomFilter implements BloomFilter {
      * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
      * @param redisKey        redis的键
      */
-    public RedisBloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
+    public BloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
         this(redisOperations, redisKey, DEFAULT_BITMAP_SIZE);
     }
 
@@ -44,7 +43,7 @@ public class RedisBloomFilter implements BloomFilter {
      * @param redisKey        redis的键
      * @param bitmapSize      底层bitmap长度
      */
-    public RedisBloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
+    public BloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(redisKey, "redisKey is null or empty");
         Assert.isTrue(bitmapSize >= 1000_0000, "bitmapSize should >= 10000000");
@@ -79,7 +78,7 @@ public class RedisBloomFilter implements BloomFilter {
      * @param moreFunctions 多个其他哈希函数器
      * @return this
      */
-    public RedisBloomFilter addHashFunctions(HashFunction first, HashFunction... moreFunctions) {
+    public BloomFilter addHashFunctions(HashFunction first, HashFunction... moreFunctions) {
         CollectionUtils.nullSafeAdd(hashFunctions, first);
         CollectionUtils.nullSafeAddAll(hashFunctions, moreFunctions);
         return this;
