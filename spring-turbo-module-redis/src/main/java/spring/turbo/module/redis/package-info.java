@@ -1,6 +1,6 @@
 @NonNullApi
 @NonNullFields
-package com.github.yingzhuo.redis.util;
+package spring.turbo.module.redis;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

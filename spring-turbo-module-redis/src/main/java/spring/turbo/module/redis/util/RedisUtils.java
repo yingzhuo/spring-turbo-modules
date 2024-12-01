@@ -1,11 +1,11 @@
-package com.github.yingzhuo.redis.util;
+package spring.turbo.module.redis.util;
 
-import com.github.yingzhuo.redis.bloom.RedisBloomFilter;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
+import spring.turbo.module.redis.bloom.RedisBloomFilter;
 import spring.turbo.util.hash.DigestHashFunction;
 import spring.turbo.util.hash.HashFunction;
 

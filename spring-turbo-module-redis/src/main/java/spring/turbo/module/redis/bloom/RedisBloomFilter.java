@@ -1,4 +1,4 @@
-package com.github.yingzhuo.redis.bloom;
+package spring.turbo.module.redis.bloom;
 
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
