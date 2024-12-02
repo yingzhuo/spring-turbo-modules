@@ -1,7 +1,5 @@
 package spring.turbo.module.redis.lock;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.time.LocalDateTimeUtils;
@@ -18,8 +16,6 @@ import java.util.Timer;
  * @author 应卓
  * @since 3.4.0
  */
-@Getter
-@RequiredArgsConstructor
 public final class LockFrame implements Serializable {
 
     private static final DateTimeFormatter DEFAULT_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -35,9 +31,28 @@ public final class LockFrame implements Serializable {
     private final long threadId;
     private final String threadName;
 
+    public LockFrame(long creationTimestamp, String lockKey, String lockField, long ttlInSeconds, long reentrantCount, long threadId, String threadName) {
+        this.creationTimestamp = creationTimestamp;
+        this.lockKey = lockKey;
+        this.lockField = lockField;
+        this.ttlInSeconds = ttlInSeconds;
+        this.reentrantCount = reentrantCount;
+        this.threadId = threadId;
+        this.threadName = threadName;
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
+
     @Nullable
     private Timer timer = null;
+
+    Optional<Timer> getNullableTimer() {
+        return Optional.ofNullable(timer);
+    }
+
+    void setTimer(Timer timer) {
+        this.timer = timer;
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -54,12 +69,32 @@ public final class LockFrame implements Serializable {
                 .toString();
     }
 
-    Optional<Timer> getNullableTimer() {
-        return Optional.ofNullable(timer);
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
-    void setTimer(Timer timer) {
-        this.timer = timer;
+    public String getLockKey() {
+        return lockKey;
+    }
+
+    public String getLockField() {
+        return lockField;
+    }
+
+    public long getTtlInSeconds() {
+        return ttlInSeconds;
+    }
+
+    public long getReentrantCount() {
+        return reentrantCount;
+    }
+
+    public long getThreadId() {
+        return threadId;
+    }
+
+    public String getThreadName() {
+        return threadName;
     }
 
 }

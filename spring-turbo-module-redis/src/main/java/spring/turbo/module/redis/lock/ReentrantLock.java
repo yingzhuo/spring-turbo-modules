@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Timer;
 
 /**
- * 分布式锁
+ * 基于Redis的可重入分布式锁
  *
  * @author 应卓
  * @since 3.4.0

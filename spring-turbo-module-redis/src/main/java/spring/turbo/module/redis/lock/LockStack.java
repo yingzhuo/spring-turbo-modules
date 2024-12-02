@@ -3,16 +3,16 @@ package spring.turbo.module.redis.lock;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
  * 锁栈
  *
  * @author 应卓
+ * @see ReentrantLock
  * @since 3.4.0
  */
-final class LockStack implements Serializable {
+public final class LockStack implements Serializable {
 
     private final Stack<LockFrame> frames = new Stack<>();
 
@@ -23,26 +23,18 @@ final class LockStack implements Serializable {
         super();
     }
 
-    @Nullable
-    public LockFrame pop() {
-        try {
-            return frames.pop();
-        } catch (EmptyStackException e) {
-            return null;
-        }
-    }
-
     public void push(LockFrame lockFrame) {
         frames.push(lockFrame);
     }
 
     @Nullable
+    public LockFrame pop() {
+        return isEmpty() ? null : frames.pop();
+    }
+
+    @Nullable
     public LockFrame peek() {
-        try {
-            return frames.peek();
-        } catch (EmptyStackException e) {
-            return null;
-        }
+        return isEmpty() ? null : frames.peek();
     }
 
     public boolean isEmpty() {
