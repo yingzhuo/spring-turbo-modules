@@ -13,12 +13,21 @@ import java.util.List;
 import java.util.Timer;
 
 /**
- * 基于Redis的可重入分布式锁
+ * 基于Redis的可重入分布式锁 <br>
+ * <em>特色</em>
+ * <ul>
+ *     <li>可重入</li>
+ *     <li>实现了自动续期功能</li>
+ * </ul>
  *
  * @author 应卓
  * @since 3.4.0
  */
 public final class ReentrantLock implements Serializable {
+
+    /*
+     * 本工具没有在高并发下严格测试，作者只为了自学与教学。请谨慎在生产环境上使用。
+     */
 
     /**
      * 加锁脚本
