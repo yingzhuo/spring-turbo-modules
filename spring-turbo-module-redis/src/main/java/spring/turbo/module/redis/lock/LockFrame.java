@@ -30,6 +30,10 @@ public final class LockFrame implements Serializable {
     private final long reentrantCount;
     private final long threadId;
     private final String threadName;
+    @Nullable
+    private Timer timer = null;
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     public LockFrame(long creationTimestamp, String lockKey, String lockField, long ttlInSeconds, long reentrantCount, long threadId, String threadName) {
         this.creationTimestamp = creationTimestamp;
@@ -40,11 +44,6 @@ public final class LockFrame implements Serializable {
         this.threadId = threadId;
         this.threadName = threadName;
     }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    @Nullable
-    private Timer timer = null;
 
     Optional<Timer> getNullableTimer() {
         return Optional.ofNullable(timer);

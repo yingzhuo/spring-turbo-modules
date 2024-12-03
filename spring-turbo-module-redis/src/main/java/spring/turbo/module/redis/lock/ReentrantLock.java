@@ -6,8 +6,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import spring.turbo.util.StringPool;
-import spring.turbo.util.VM;
 import spring.turbo.util.concurrent.CurrentThreadUtils;
 
 import java.io.Serializable;
@@ -64,7 +62,7 @@ public final class ReentrantLock implements Serializable {
      */
     public boolean tryLock() {
         var now = System.currentTimeMillis();
-        var lockField = getLockField();
+        var lockField = CurrentThreadUtils.getTrait();
 
         long reentrantCount = redisOperations.execute(
                 TRY_LOCK,
@@ -95,7 +93,7 @@ public final class ReentrantLock implements Serializable {
      * @return 解锁结果
      */
     public boolean unlock() {
-        var lockField = getLockField();
+        var lockField = CurrentThreadUtils.getTrait();
 
         var success = redisOperations.execute(
                 UNLOCK,
@@ -121,7 +119,8 @@ public final class ReentrantLock implements Serializable {
      */
     public void renewTtl() {
         var timer = new Timer(true);
-        timer.schedule(new RenewTask(redisOperations, lockKey, getLockField(), ttlInSeconds), ttlInSeconds * 1000 * 2 / 3);
+        var lockField = CurrentThreadUtils.getTrait();
+        timer.schedule(new RenewTask(redisOperations, lockKey, lockField, ttlInSeconds), ttlInSeconds * 1000 * 2 / 3);
 
         var frame = lockStack.peek();
         frame.setTimer(timer);
@@ -135,10 +134,6 @@ public final class ReentrantLock implements Serializable {
     @Nullable
     public LockFrame getCurrentFrame() {
         return lockStack.peek();
-    }
-
-    private String getLockField() {
-        return VM.PSEUDO_VM_ID + StringPool.SHARP + CurrentThreadUtils.getId();
     }
 
 }
