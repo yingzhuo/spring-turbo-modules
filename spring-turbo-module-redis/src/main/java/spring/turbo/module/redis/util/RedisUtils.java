@@ -5,9 +5,6 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
-import spring.turbo.module.redis.bloomfilter.BloomFilter;
-import spring.turbo.util.hash.DigestHashFunction;
-import spring.turbo.util.hash.HashFunction;
 
 /**
  * Redis相关工具
@@ -25,58 +22,6 @@ public final class RedisUtils {
      * 私有构造方法
      */
     private RedisUtils() {
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * 创建布隆过滤器
-     *
-     * @param redisOperations   RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param key               Redis键
-     * @param length            布隆过滤器长度
-     * @param firstHashFunction 哈希函数
-     * @param moreHashFunctions 其他哈希函数
-     * @return 布隆过滤器实例
-     */
-    public static BloomFilter createBloomFilter(
-            RedisOperations<String, String> redisOperations,
-            String key,
-            int length,
-            HashFunction firstHashFunction,
-            HashFunction... moreHashFunctions) {
-        return new BloomFilter(redisOperations, key, length)
-                .addHashFunctions(firstHashFunction, moreHashFunctions);
-    }
-
-    /**
-     * 创建默认配置的布隆过滤器 <br>
-     * <ul>
-     *     <li>长度: 10_0000_0000</li>
-     *     <li>哈希函数1: MD5</li>
-     *     <li>哈希函数2: SHA-1</li>
-     *     <li>哈希函数3: SHA-256</li>
-     *     <li>哈希函数4: SHA-384</li>
-     *     <li>哈希函数5: SHA-512</li>
-     * </ul>
-     *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param key             Redis键
-     * @return 布隆过滤器实例
-     * @see HashFunction
-     * @see DigestHashFunction
-     */
-    public static BloomFilter createDefaultBloomFilter(
-            RedisOperations<String, String> redisOperations,
-            String key) {
-        return new BloomFilter(redisOperations, key, 10_0000_0000)
-                .addHashFunctions(
-                        DigestHashFunction.md5(),
-                        DigestHashFunction.sha1(),
-                        DigestHashFunction.sha256(),
-                        DigestHashFunction.sha384(),
-                        DigestHashFunction.sha512()
-                );
     }
 
     // -----------------------------------------------------------------------------------------------------------------

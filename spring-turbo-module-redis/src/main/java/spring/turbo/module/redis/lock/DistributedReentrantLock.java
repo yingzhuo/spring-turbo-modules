@@ -23,7 +23,7 @@ import java.util.Timer;
  * @author 应卓
  * @since 3.4.0
  */
-public final class ReentrantLock implements Serializable {
+public final class DistributedReentrantLock implements Serializable {
 
     /*
      * 本工具没有在高并发下严格测试，作者只为了自学与教学。请谨慎在生产环境上使用。
@@ -53,7 +53,7 @@ public final class ReentrantLock implements Serializable {
      * @param lockKey         作为锁的键
      * @param ttlInSeconds    锁自动过期时间(秒)
      */
-    public ReentrantLock(RedisOperations<String, String> redisOperations, String lockKey, long ttlInSeconds) {
+    public DistributedReentrantLock(RedisOperations<String, String> redisOperations, String lockKey, long ttlInSeconds) {
         Assert.notNull(redisOperations, "redisOperations is required");
         Assert.hasText(lockKey, "lockKey is required");
         Assert.isTrue(ttlInSeconds > 0, "ttlInSeconds must greater than 0");

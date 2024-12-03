@@ -13,10 +13,10 @@ import java.util.TimerTask;
  *
  * @author 应卓
  * @see java.util.Timer
- * @see ReentrantLock
+ * @see DistributedReentrantLock
  * @since 3.4.0
  */
-public final class RenewTask extends TimerTask {
+final class RenewTask extends TimerTask {
 
     private static final RedisScript<Boolean> RENEW_TTL =
             RedisScript.of(new ClassPathResource("META-INF/Lock#renew-ttl.lua"), Boolean.class);

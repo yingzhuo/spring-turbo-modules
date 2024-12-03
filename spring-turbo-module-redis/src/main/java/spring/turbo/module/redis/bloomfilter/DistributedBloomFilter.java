@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import spring.turbo.util.collection.CollectionUtils;
+import spring.turbo.util.hash.BloomFilter;
+import spring.turbo.util.hash.DigestHashFunction;
 import spring.turbo.util.hash.HashFunction;
 
 import java.util.ArrayList;
@@ -12,12 +14,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 基于BITMAP实现的布隆过滤器
+ * 分布式布隆过滤器
  *
  * @author 应卓
  * @since 3.4.0
  */
-public class BloomFilter implements spring.turbo.util.hash.BloomFilter {
+public class DistributedBloomFilter implements BloomFilter {
 
     private static final int DEFAULT_BITMAP_SIZE = 10_0000_0000; // 十亿
 
@@ -27,12 +29,42 @@ public class BloomFilter implements spring.turbo.util.hash.BloomFilter {
     private final int bitmapSize;
 
     /**
+     * 创建默认配置的布隆过滤器 <br>
+     * <ul>
+     *     <li>长度: 10_0000_0000</li>
+     *     <li>哈希函数1: MD5</li>
+     *     <li>哈希函数2: SHA-1</li>
+     *     <li>哈希函数3: SHA-256</li>
+     *     <li>哈希函数4: SHA-384</li>
+     *     <li>哈希函数5: SHA-512</li>
+     * </ul>
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param key             Redis键
+     * @return 布隆过滤器实例
+     * @see HashFunction
+     * @see DigestHashFunction
+     */
+    public static DistributedBloomFilter createDefault(
+            RedisOperations<String, String> redisOperations,
+            String key) {
+        return new DistributedBloomFilter(redisOperations, key, DEFAULT_BITMAP_SIZE)
+                .addHashFunctions(
+                        DigestHashFunction.md5(),
+                        DigestHashFunction.sha1(),
+                        DigestHashFunction.sha256(),
+                        DigestHashFunction.sha384(),
+                        DigestHashFunction.sha512()
+                );
+    }
+
+    /**
      * 构造方法
      *
      * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
      * @param redisKey        redis的键
      */
-    public BloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
+    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
         this(redisOperations, redisKey, DEFAULT_BITMAP_SIZE);
     }
 
@@ -43,7 +75,7 @@ public class BloomFilter implements spring.turbo.util.hash.BloomFilter {
      * @param redisKey        redis的键
      * @param bitmapSize      底层bitmap长度
      */
-    public BloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
+    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
         Assert.notNull(redisOperations, "redisOperations is null");
         Assert.hasText(redisKey, "redisKey is null or empty");
         Assert.isTrue(bitmapSize >= 1000_0000, "bitmapSize should >= 10000000");
@@ -78,7 +110,7 @@ public class BloomFilter implements spring.turbo.util.hash.BloomFilter {
      * @param moreFunctions 多个其他哈希函数器
      * @return this
      */
-    public BloomFilter addHashFunctions(HashFunction first, HashFunction... moreFunctions) {
+    public DistributedBloomFilter addHashFunctions(HashFunction first, HashFunction... moreFunctions) {
         CollectionUtils.nullSafeAdd(hashFunctions, first);
         CollectionUtils.nullSafeAddAll(hashFunctions, moreFunctions);
         return this;

@@ -9,7 +9,7 @@ import java.util.Stack;
  * 锁栈
  *
  * @author 应卓
- * @see ReentrantLock
+ * @see DistributedReentrantLock
  * @since 3.4.0
  */
 public final class LockStack implements Serializable {
