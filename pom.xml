@@ -393,6 +393,7 @@
                         <extension>p12</extension>
                         <extension>pfx</extension>
                         <extension>pem</extension>
+                        <extension>lua</extension>
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
