@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
 import spring.turbo.core.AspectUtils;
-import spring.turbo.core.StringSpELResolvable;
+import spring.turbo.core.SpEL;
 import spring.turbo.exception.RuntimeExceptionSupplier;
 
 import java.util.Map;
@@ -19,6 +19,10 @@ import java.util.Map;
  */
 @Aspect
 public class AvoidRepeatedInvocationAdvice implements Ordered {
+
+    /*
+     * 本切面逻辑需要手工注册
+     */
 
     private final RedisOperations<String, String> redisOperations;
     private final RuntimeExceptionSupplier exceptionSupplier;
@@ -49,20 +53,15 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
 
         var method = AspectUtils.getMethod(joinPoint);
 
-        var redisKey = new StringSpELResolvable() {
-            @Override
-            public String getExpression() {
-                return annotation.value();
-            }
-
-            @Override
-            public Map<String, ?> getVariables() {
-                return Map.of(
+        var redisKey = (String) SpEL.getValue(
+                annotation.value(),
+                null,
+                Map.of(
                         "args", joinPoint.getArgs(),
-                        "methodName", method.getName()
-                );
-            }
-        }.getValue();
+                        "method", method,
+                        "target", joinPoint.getTarget()
+                )
+        );
 
         var success = redisOperations.opsForValue()
                 .setIfAbsent(redisKey, "1", annotation.leaseTime(), annotation.leaseTimeUnit());
