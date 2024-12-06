@@ -29,6 +29,33 @@ public class DistributedBloomFilter implements BloomFilter {
     private final int bitmapSize;
 
     /**
+     * 构造方法
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param redisKey        redis的键
+     */
+    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
+        this(redisOperations, redisKey, DEFAULT_BITMAP_SIZE);
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param redisKey        redis的键
+     * @param bitmapSize      底层bitmap长度
+     */
+    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
+        Assert.notNull(redisOperations, "redisOperations is null");
+        Assert.hasText(redisKey, "redisKey is null or empty");
+        Assert.isTrue(bitmapSize >= 1000_0000, "bitmapSize should >= 10000000");
+
+        this.redisOperations = redisOperations;
+        this.redisKey = redisKey;
+        this.bitmapSize = bitmapSize;
+    }
+
+    /**
      * 创建默认配置的布隆过滤器 <br>
      * <ul>
      *     <li>长度: 10_0000_0000</li>
@@ -56,33 +83,6 @@ public class DistributedBloomFilter implements BloomFilter {
                         DigestHashFunction.sha384(),
                         DigestHashFunction.sha512()
                 );
-    }
-
-    /**
-     * 构造方法
-     *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param redisKey        redis的键
-     */
-    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey) {
-        this(redisOperations, redisKey, DEFAULT_BITMAP_SIZE);
-    }
-
-    /**
-     * 构造方法
-     *
-     * @param redisOperations RedisOperations实例，通常是 {@link StringRedisTemplate}
-     * @param redisKey        redis的键
-     * @param bitmapSize      底层bitmap长度
-     */
-    public DistributedBloomFilter(RedisOperations<String, String> redisOperations, String redisKey, int bitmapSize) {
-        Assert.notNull(redisOperations, "redisOperations is null");
-        Assert.hasText(redisKey, "redisKey is null or empty");
-        Assert.isTrue(bitmapSize >= 1000_0000, "bitmapSize should >= 10000000");
-
-        this.redisOperations = redisOperations;
-        this.redisKey = redisKey;
-        this.bitmapSize = bitmapSize;
     }
 
     /**

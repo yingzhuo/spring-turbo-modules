@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * @author 应卓
+ * @see AvoidRepeatedInvocation
  * @since 3.4.0
  */
 @Aspect
@@ -55,7 +56,7 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
 
         var redisKey = (String) SpEL.getValue(
                 annotation.value(),
-                null,
+                (Object) null,
                 Map.of(
                         "args", joinPoint.getArgs(),
                         "method", method,

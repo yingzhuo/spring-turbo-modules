@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
  * 防重复调用
  *
  * @author 应卓
+ * @see AvoidRepeatedInvocationAdvice
  * @since 3.4.0
  */
 @Inherited
@@ -27,7 +28,7 @@ public @interface AvoidRepeatedInvocation {
      *
      * @return 自动释放时间
      */
-    public long leaseTime() default 3L;
+    public long leaseTime() default 5L;
 
     /**
      * 锁自动释放时间单位
