@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @Data
 @ConfigurationProperties(prefix = "springturbo.webmvc")
-public class SpringBootWebMvcProperties implements Serializable {
+public class SpringTurboWebMvcProperties implements Serializable {
 
     private boolean dataBinderInitializingAdvice = true;
 

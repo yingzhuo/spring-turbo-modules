@@ -8,10 +8,8 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
 import spring.turbo.core.AspectUtils;
-import spring.turbo.core.SpEL;
+import spring.turbo.core.SpELForAspectAround;
 import spring.turbo.exception.RuntimeExceptionSupplier;
-
-import java.util.Map;
 
 /**
  * @author 应卓
@@ -21,13 +19,19 @@ import java.util.Map;
 @Aspect
 public class AvoidRepeatedInvocationAdvice implements Ordered {
 
-    /*
-     * 本切面逻辑需要手工注册
-     */
-
     private final RedisOperations<String, String> redisOperations;
     private final RuntimeExceptionSupplier exceptionSupplier;
     private final int order;
+
+    /**
+     * 构造方法
+     *
+     * @param redisOperations   RedisOperations实例，通常是 {@link StringRedisTemplate}
+     * @param exceptionSupplier 异常提供器，如果判断为重复调用。使用这个东西产生异常并抛出
+     */
+    public AvoidRepeatedInvocationAdvice(RedisOperations<String, String> redisOperations, RuntimeExceptionSupplier exceptionSupplier) {
+        this(redisOperations, exceptionSupplier, HIGHEST_PRECEDENCE);
+    }
 
     /**
      * 构造方法
@@ -52,17 +56,8 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
             return joinPoint.proceed();
         }
 
-        var method = AspectUtils.getMethod(joinPoint);
-
-        var redisKey = (String) SpEL.getValue(
-                annotation.value(),
-                (Object) null,
-                Map.of(
-                        "args", joinPoint.getArgs(),
-                        "method", method,
-                        "target", joinPoint.getTarget()
-                )
-        );
+        var redisKey = SpELForAspectAround.newInstance(annotation.value(), joinPoint)
+                .getValue();
 
         var success = redisOperations.opsForValue()
                 .setIfAbsent(redisKey, "1", annotation.leaseTime(), annotation.leaseTimeUnit());

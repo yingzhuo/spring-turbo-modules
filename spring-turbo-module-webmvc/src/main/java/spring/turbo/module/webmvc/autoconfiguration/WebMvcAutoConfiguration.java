@@ -21,7 +21,7 @@ import java.util.List;
  * @since 1.3.0
  */
 @AutoConfiguration
-@EnableConfigurationProperties(SpringBootWebMvcProperties.class)
+@EnableConfigurationProperties(SpringTurboWebMvcProperties.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
