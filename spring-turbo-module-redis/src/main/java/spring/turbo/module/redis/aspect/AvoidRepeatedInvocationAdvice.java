@@ -7,8 +7,8 @@ import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.Assert;
+import spring.turbo.core.AspectSpELTemplate;
 import spring.turbo.core.AspectUtils;
-import spring.turbo.core.SpELForAspectAround;
 import spring.turbo.exception.RuntimeExceptionSupplier;
 
 /**
@@ -56,7 +56,7 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
             return joinPoint.proceed();
         }
 
-        var redisKey = SpELForAspectAround.newInstance(annotation.value(), joinPoint)
+        var redisKey = AspectSpELTemplate.<String>newInstance(annotation.value(), joinPoint)
                 .getValue();
 
         var success = redisOperations.opsForValue()
