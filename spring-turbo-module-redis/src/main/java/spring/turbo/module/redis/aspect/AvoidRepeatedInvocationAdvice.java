@@ -57,6 +57,7 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
         }
 
         var redisKey = AspectSpELTemplate.<String>newInstance(annotation.value(), joinPoint)
+                .setRootObject(null)
                 .getValue();
 
         var success = redisOperations.opsForValue()
