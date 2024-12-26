@@ -6,7 +6,7 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
 import org.springframework.lang.Nullable;
 import spring.turbo.util.StringUtils;
-import spring.turbo.util.UUIDUtils;
+import spring.turbo.util.UUIDGenerators;
 
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public abstract class AbstractPropertySourceFactory implements PropertySourceFac
         }
 
         if (StringUtils.isBlank(name)) {
-            return UUIDUtils.uuid36();
+            return UUIDGenerators.classic36();
         }
         return name;
     }

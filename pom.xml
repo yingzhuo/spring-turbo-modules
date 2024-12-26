@@ -152,7 +152,7 @@
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
         <spring.boot.version>3.4.1</spring.boot.version>
-        <hutool.version>5.8.34</hutool.version>
+        <hutool.version>5.8.35</hutool.version>
         <jjwt.version>0.12.6</jjwt.version>
         <lombok.version>1.18.36</lombok.version>
     </properties>
@@ -368,7 +368,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.11.2</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
                     <doclint>none</doclint>
@@ -425,7 +425,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
