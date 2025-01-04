@@ -41,7 +41,7 @@ public interface TokenResolver extends Ordered {
      *
      * @return 排序值
      * @see CompositeTokenResolver
-     * @see Ordered#getOrder()
+     * @see Ordered#order()
      * @see Ordered#LOWEST_PRECEDENCE
      * @see Ordered#HIGHEST_PRECEDENCE
      * @see org.springframework.core.OrderComparator
