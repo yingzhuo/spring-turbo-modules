@@ -1,4 +1,4 @@
-package spring.turbo.module.jdbc.ds.hikari;
+package spring.turbo.module.jdbc.ds;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcConnectionDetails;
 
 import java.io.Serializable;
 
+/**
+ * @author 应卓
+ * @since 3.4.1
+ */
 @Getter
 @Setter
 public class HikariProperties implements JdbcConnectionDetails, Serializable {
@@ -22,7 +26,9 @@ public class HikariProperties implements JdbcConnectionDetails, Serializable {
     private long idleTimeout = 30000L;
     private long maxLifetime = 900000L;
     private long connectionTimeout = 10000;
-    private String connectionTestQuery = "SELECT 1 FROM DUAL";
+    private String connectionTestQuery = null;
     private long validationTimeout = 1000L;
+    private String connectionInitSql = null;
+    private long initializationFailTimeout = 1000L;
 
 }

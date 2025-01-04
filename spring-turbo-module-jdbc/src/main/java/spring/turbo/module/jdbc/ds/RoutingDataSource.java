@@ -20,15 +20,6 @@ import java.util.Map;
  */
 public class RoutingDataSource extends AbstractRoutingDataSource implements DataSource, InitializingBean {
 
-    public RoutingDataSource(String defaultDataSourceName, Map<String, DataSource> targetDataSources) {
-        Assert.hasText(defaultDataSourceName, "defaultDataSourceName is required");
-        Assert.notEmpty(targetDataSources, "targetDataSources is null or empty");
-
-        super.setDefaultTargetDataSource(defaultDataSourceName);
-        super.setTargetDataSources(new HashMap<>(targetDataSources));
-        super.setDataSourceLookup(new MapDataSourceLookup());
-    }
-
     public RoutingDataSource(DataSource defaultDataSource, Map<String, DataSource> targetDataSources) {
         Assert.notNull(defaultDataSource, "defaultDataSource is required");
         Assert.notEmpty(targetDataSources, "targetDataSources is null or empty");
