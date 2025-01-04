@@ -3,8 +3,8 @@ package spring.turbo.module.jdbc.ds;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+import spring.turbo.core.AspectUtils;
 
 /**
  * @author 应卓
@@ -12,22 +12,35 @@ import org.springframework.core.Ordered;
  * @since 3.4.1
  */
 @Aspect
-public record DataSourceSwitchAdvice(int order) implements Ordered {
+public class DataSourceSwitchAdvice implements Ordered {
+
+    private final int order;
+
+    public DataSourceSwitchAdvice() {
+        this(HIGHEST_PRECEDENCE);
+    }
+
+    public DataSourceSwitchAdvice(int order) {
+        this.order = order;
+    }
 
     @Around("@annotation(spring.turbo.module.jdbc.ds.DataSourceSwitch)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        var signature = joinPoint.getSignature();
-        if (signature instanceof MethodSignature methodSignature) {
-            var annotation = methodSignature.getMethod().getAnnotation(DataSourceSwitch.class);
-            var dataSourceName = annotation.value();
-            RoutingDataSourceLookup.set(dataSourceName);
-            try {
-                return joinPoint.proceed();
-            } finally {
-                RoutingDataSourceLookup.remove();
-            }
-        } else {
+        var annotation = AspectUtils.getMethodAnnotation(joinPoint, DataSourceSwitch.class);
+
+        if (annotation == null) {
+            annotation = AspectUtils.getObjectTypeAnnotation(joinPoint, DataSourceSwitch.class);
+        }
+
+        if (annotation == null) {
             return joinPoint.proceed();
+        }
+
+        try {
+            RoutingDataSourceLookup.set(annotation.value());
+            return joinPoint.proceed();
+        } finally {
+            RoutingDataSourceLookup.remove();
         }
     }
 

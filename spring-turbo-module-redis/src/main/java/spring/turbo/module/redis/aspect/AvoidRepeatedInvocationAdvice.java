@@ -52,11 +52,16 @@ public class AvoidRepeatedInvocationAdvice implements Ordered {
     @Around("@annotation(spring.turbo.module.redis.aspect.AvoidRepeatedInvocation)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         var annotation = AspectUtils.getMethodAnnotation(joinPoint, AvoidRepeatedInvocation.class);
+
+        if (annotation == null) {
+            annotation = AspectUtils.getObjectTypeAnnotation(joinPoint, AvoidRepeatedInvocation.class);
+        }
+
         if (annotation == null) {
             return joinPoint.proceed();
         }
 
-        var redisKey = AspectSpELTemplate.<String>newInstance(annotation.value(), joinPoint)
+        var redisKey = AspectSpELTemplate.newInstance(annotation.value(), joinPoint)
                 .setRootObject(null)
                 .getValue();
 

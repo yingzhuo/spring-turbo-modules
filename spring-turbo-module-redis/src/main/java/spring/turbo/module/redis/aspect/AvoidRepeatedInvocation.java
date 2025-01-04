@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Inherited
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface AvoidRepeatedInvocation {
 
     /**
