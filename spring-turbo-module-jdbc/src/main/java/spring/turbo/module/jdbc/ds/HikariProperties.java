@@ -2,6 +2,7 @@ package spring.turbo.module.jdbc.ds;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.boot.autoconfigure.jdbc.JdbcConnectionDetails;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@ToString
 public class HikariProperties implements JdbcConnectionDetails, Serializable {
 
     private String jdbcUrl;
