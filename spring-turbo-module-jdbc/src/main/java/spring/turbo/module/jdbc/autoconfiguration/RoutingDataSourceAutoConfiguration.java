@@ -1,6 +1,5 @@
 package spring.turbo.module.jdbc.autoconfiguration;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,20 +29,7 @@ public class RoutingDataSourceAutoConfiguration {
         final var targetDataSources = new HashMap<String, DataSource>();
 
         props.getHikariDataSources().forEach((dataSourceName, dataSourceConfig) -> {
-            var dataSource = (HikariDataSource) DataSourceFactories.createDataSource(dataSourceConfig, HikariDataSource.class);
-
-            dataSource.setPoolName(dataSourceConfig.getPoolName());
-            dataSource.setMinimumIdle(dataSourceConfig.getMinimumIdle());
-            dataSource.setMaximumPoolSize(dataSourceConfig.getMaximumPoolSize());
-            dataSource.setAutoCommit(dataSourceConfig.isAutoCommit());
-            dataSource.setIdleTimeout(dataSourceConfig.getIdleTimeout());
-            dataSource.setMaxLifetime(dataSourceConfig.getMaxLifetime());
-            dataSource.setConnectionTimeout(dataSourceConfig.getConnectionTimeout());
-            dataSource.setConnectionTestQuery(dataSourceConfig.getConnectionTestQuery());
-            dataSource.setValidationTimeout(dataSourceConfig.getValidationTimeout());
-            dataSource.setConnectionInitSql(dataSourceConfig.getConnectionInitSql());
-            dataSource.setInitializationFailTimeout(dataSourceConfig.getInitializationFailTimeout());
-
+            var dataSource = DataSourceFactories.createHikariDataSource(dataSourceConfig, null);
             targetDataSources.put(dataSourceName, dataSource);
         });
 

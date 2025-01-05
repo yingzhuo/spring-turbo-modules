@@ -16,12 +16,11 @@ import java.io.Serializable;
 @ToString
 public class HikariProperties implements JdbcConnectionDetails, Serializable {
 
+    private String driverClassName;
     private String jdbcUrl;
     private String username;
     private String password;
-    private String driverClassName;
-
-    private String poolName = null;
+    private String poolName = "Hikari";
     private int minimumIdle = 10;
     private int maximumPoolSize = 30;
     private boolean autoCommit = true;
