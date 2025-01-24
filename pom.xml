@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.yingzhuo</groupId>
     <artifactId>spring-turbo-modules</artifactId>
-    <version>3.4.2-SNAPSHOT</version>
+    <version>3.4.2</version>
     <modules>
         <module>spring-turbo-module-configuration</module>
         <module>spring-turbo-module-jackson</module>
@@ -138,7 +138,7 @@
         <java.version>17</java.version>
 
         <spring.turbo.version>${project.version}</spring.turbo.version>
-        <spring.boot.version>3.4.2-SNAPSHOT</spring.boot.version>
+        <spring.boot.version>3.4.2</spring.boot.version>
         <hutool.version>5.8.35</hutool.version>
         <jjwt.version>0.12.6</jjwt.version>
         <lombok.version>1.18.36</lombok.version>
@@ -202,11 +202,13 @@
             </dependency>
 
             <!-- bouncycastle -->
+            <!--
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
-                <version>1.79</version>
+                <version>1.80</version>
             </dependency>
+            -->
 
             <!-- j-jwt -->
             <dependency>
