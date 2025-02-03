@@ -1,8 +1,8 @@
 package spring.turbo.module.webcli.annotation;
 
+import org.springframework.lang.Nullable;
 import org.springframework.web.service.invoker.HttpServiceArgumentResolver;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Supplier;

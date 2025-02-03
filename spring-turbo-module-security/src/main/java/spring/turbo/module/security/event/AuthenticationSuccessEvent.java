@@ -3,10 +3,10 @@ package spring.turbo.module.security.event;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import spring.turbo.module.security.token.Token;
 
-import javax.annotation.Nullable;
 
 /**
  * 认证成功事件

@@ -2,10 +2,10 @@ package spring.turbo.module.webcli.cli;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.lang.Nullable;
 import spring.turbo.util.CastUtils;
 import spring.turbo.util.crypto.keystore.KeyStoreFormat;
 
-import javax.annotation.Nullable;
 import java.time.Duration;
 
 /**
